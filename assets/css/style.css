@@ -89,3 +89,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .page-kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
 .btn-light{background:#fff;color:var(--blue-deep);border:1px solid #fff}
 .btn-light:hover{background:var(--blue-soft)}
+
+.faq-list{margin-top:1.6rem;display:grid;gap:.8rem;max-width:780px}
+.faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1rem 1.25rem}
+.faq-list summary{cursor:pointer;font-weight:700;color:var(--ink);font-size:1.02rem}
+.faq-list details p{margin:.7rem 0 0;color:var(--muted);line-height:1.65}
+
+.quote-card blockquote{margin:0;color:var(--ink-soft);line-height:1.65;font-size:.98rem}
+.quote-card cite{display:block;margin-top:.8rem;font-style:normal;font-weight:700;color:var(--blue-deep);font-size:.9rem}
+.rating-line strong{color:var(--blue-deep)}
+.footer-social{margin:.9rem 0 0}
+.footer-social a{margin-right:.9rem}
+.team-card .role{display:inline-block;margin:0 0 .55rem;color:var(--green);font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
+.post-meta{color:var(--muted);font-size:.85rem;font-weight:600;margin:0 0 .5rem}
+.article-body{max-width:760px}
+.article-body h2{margin:2rem 0 .6rem;font-family:var(--font-heading);font-weight:800;font-size:1.5rem}
+.article-body p{color:var(--ink-soft);line-height:1.75;margin:.9rem 0}
+.article-body ul{color:var(--ink-soft);line-height:1.7}
+.course-meta{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+.course-meta span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.45rem 1rem;font-weight:700;font-size:.85rem;color:var(--blue-deep)}
+
+.learn-list{list-style:none;margin:0;padding:0;max-width:760px}
+.learn-list li{position:relative;padding:.55rem 0 .55rem 1.9rem;color:var(--ink-soft);line-height:1.6;border-bottom:1px solid var(--line)}
+.learn-list li::before{content:"\2713";position:absolute;left:0;top:.55rem;color:var(--green);font-weight:800}
