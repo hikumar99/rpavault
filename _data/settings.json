@@ -29,6 +29,13 @@
           "autocomplete": "name"
         },
         {
+          "name": "email",
+          "label": "Email Address",
+          "type": "email",
+          "required": true,
+          "autocomplete": "email"
+        },
+        {
           "name": "phone",
           "label": "Phone / WhatsApp",
           "type": "tel",
@@ -52,19 +59,8 @@
         {
           "name": "course",
           "label": "Which course?",
-          "type": "select",
-          "required": false,
-          "options": [
-            "RPA Agentic (UiPath + Power Automate)",
-            "Advance Agentic RPA UiPath",
-            "UiPath Test Suite",
-            "MSBI Masterclass",
-            "SQL Server Masterclass",
-            "Power BI",
-            "Playwright with TypeScript",
-            "Data Analytics (Power BI + SQL)",
-            "Other / not sure yet"
-          ]
+          "type": "text",
+          "required": false
         },
         {
           "name": "message",

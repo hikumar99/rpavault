@@ -17,120 +17,467 @@ schema_ld: |
         "@type": "ListItem",
         "position": 2,
         "name": "IT Courses",
-        "item": "https://rpavault.com/courses.html"
+        "item": "https://rpavault.com/courses/"
       }
     ]
   }
 ---
-<section class="page-hero"><div class="container">
-  <p class="eyebrow">IT Courses</p>
-  <h1>Current batches</h1>
-  <p class="lead">Every course below is a live, mentor-led program with projects and recordings. Fees and batch dates are kept current on this page.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="#" data-open-callback>Ask about a batch</a><a class="btn btn-ghost" href="/trainings.html">Browse by category</a></div>
-</div></section>
+<style>
+  /* Page Specific Overrides to match Option 1 Minimalist Theme */
+  .page-hero {
+    padding: 6.5rem 0 5rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+    text-align: center !important;
+  }
+  .page-hero .container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .page-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(2.4rem, 4.2vw, 3.4rem) !important;
+    line-height: 1.15 !important;
+    margin: 0 auto 1.5rem auto !important;
+    max-width: 850px !important;
+    color: #1d1d1f !important;
+  }
+  .page-hero h1 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+  .page-hero .lead {
+    font-size: 1.2rem !important;
+    line-height: 1.65 !important;
+    color: #86868b !important;
+    max-width: 780px !important;
+    margin: 0 auto 2rem auto !important;
+  }
+  .hero-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 
-<section class="content-section"><div class="container">
-  <div class="course-grid"><article class="course-card reveal is-live" data-course-card="rpa-agentic-uipath-power-automate">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge>Live now</span><span class="pill-soft">RPA</span></div>
-        <a href="/course/rpa-agentic-uipath-power-automate/" aria-label="RPA Agentic (UiPath + Power Automate)"><img src="/assets/images/courses/rpa-agentic-uipath-power-automate.svg" alt="RPA Agentic (UiPath + Power Automate) — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/rpa-agentic-uipath-power-automate/">RPA Agentic (UiPath + Power Automate)</a></h3>
-        <p class="course-desc">Flagship job-ready program: UiPath + Power Automate + agentic automation with 15–25 mini projects and placement support.</p>
-        <div class="course-meta"><span>⏱ 45 days</span><span>🎓 33 live classes</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>New batch enrolling — weekday mornings</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>₹16,999</span><a class="course-link" href="/course/rpa-agentic-uipath-power-automate/">View course →</a></div>
-      </div>
-    </article><article class="course-card reveal is-live" data-course-card="advance-agentic-rpa-uipath">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge>Live now</span><span class="pill-soft">RPA</span></div>
-        <a href="/course/advance-agentic-rpa-uipath/" aria-label="Advance Agentic RPA UiPath"><img src="/assets/images/courses/advance-agentic-rpa-uipath.webp" alt="Advance Agentic RPA UiPath — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/advance-agentic-rpa-uipath/">Advance Agentic RPA UiPath</a></h3>
-        <p class="course-desc">Advanced program for RPA developers with 2+ years experience — IDP, AI Center, agentic automation, MCP and Maestro.</p>
-        <div class="course-meta"><span>⏱ ~5–7 weeks</span><span>🎓 35 live sessions · 12 modules</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>Open for enrollment — 15% off for RPAVault alumni</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>₹22,000</span><a class="course-link" href="/course/advance-agentic-rpa-uipath/">View course →</a></div>
-      </div>
-    </article><article class="course-card reveal is-live" data-course-card="data-analytics-power-bi-sql">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge>Live now</span><span class="pill-soft">Data</span></div>
-        <a href="/course/data-analytics-power-bi-sql/" aria-label="Data Analytics (Power BI + SQL)"><img src="/assets/images/courses/data-analytics-power-bi-sql.webp" alt="Data Analytics (Power BI + SQL) — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/data-analytics-power-bi-sql/">Data Analytics (Power BI + SQL)</a></h3>
-        <p class="course-desc">Complete data-analyst path — SQL, SSIS, SSAS/SSRS and Power BI in 37 live sessions. Enrollment started.</p>
-        <div class="course-meta"><span>⏱ 37 sessions</span><span>🎓 4 tracks</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>Enrollment started — 37 sessions</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>Contact for fees</span><a class="course-link" href="/course/data-analytics-power-bi-sql/">View course →</a></div>
-      </div>
-    </article><article class="course-card reveal" data-course-card="uipath-test-suite">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge style="display:none">Live now</span><span class="pill-soft">Testing</span></div>
-        <a href="/course/uipath-test-suite/" aria-label="UiPath Test Suite"><img src="/assets/images/courses/uipath-test-suite.webp" alt="UiPath Test Suite — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/uipath-test-suite/">UiPath Test Suite</a></h3>
-        <p class="course-desc">Hands-on UiPath Test Suite program — Test Manager, automation tracks and 3 real use cases for QA-focused careers.</p>
-        <div class="course-meta"><span>⏱ 14-module roadmap</span><span>🎓 Live online sessions</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>New batch planned — enroll now</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>₹8,000</span><a class="course-link" href="/course/uipath-test-suite/">View course →</a></div>
-      </div>
-    </article><article class="course-card reveal" data-course-card="power-bi">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge style="display:none">Live now</span><span class="pill-soft">Data</span></div>
-        <a href="/course/power-bi/" aria-label="Power BI"><img src="/assets/images/courses/power-bi.svg" alt="Power BI — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/power-bi/">Power BI</a></h3>
-        <p class="course-desc">Power BI Desktop to Service — Power Query, modelling, basic to advanced DAX and 4 portfolio projects. PL-300 aligned.</p>
-        <div class="course-meta"><span>⏱ 5 modules</span><span>🎓 Live online sessions</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>Open for interest — contact us for dates</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>Contact for fees</span><a class="course-link" href="/course/power-bi/">View course →</a></div>
-      </div>
-    </article><article class="course-card reveal" data-course-card="playwright-typescript-automation">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge style="display:none">Live now</span><span class="pill-soft">Testing</span></div>
-        <a href="/course/playwright-typescript-automation/" aria-label="Playwright with TypeScript Automation Masterclass"><img src="/assets/images/courses/playwright-typescript-automation.svg" alt="Playwright with TypeScript Automation Masterclass — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/playwright-typescript-automation/">Playwright with TypeScript Automation Masterclass</a></h3>
-        <p class="course-desc">SDET-track masterclass — Playwright with TypeScript, Page Object Model, GitHub + Jenkins CI and 5 projects over 5 weeks.</p>
-        <div class="course-meta"><span>⏱ 5 weeks</span><span>🎓 6 learning tracks</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>Open for interest — contact us for dates</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>Contact for fees</span><a class="course-link" href="/course/playwright-typescript-automation/">View course →</a></div>
-      </div>
-    </article><article class="course-card reveal" data-course-card="sql-server-masterclass">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge style="display:none">Live now</span><span class="pill-soft">Data</span></div>
-        <a href="/course/sql-server-masterclass/" aria-label="SQL Server Masterclass"><img src="/assets/images/courses/sql-server-masterclass.svg" alt="SQL Server Masterclass — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/sql-server-masterclass/">SQL Server Masterclass</a></h3>
-        <p class="course-desc">Complete SQL Server program — SSMS, T-SQL, joins, CTEs, indexes, views, stored procedures and triggers.</p>
-        <div class="course-meta"><span>⏱ Live batch program</span><span>🎓 Live online sessions</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>Open for interest — contact us for dates</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>Contact for fees</span><a class="course-link" href="/course/sql-server-masterclass/">View course →</a></div>
-      </div>
-    </article><article class="course-card reveal" data-course-card="msbi-masterclass">
-      <div class="course-media">
-        <div class="course-flags"><span class="badge-live" data-live-badge style="display:none">Live now</span><span class="pill-soft">Data</span></div>
-        <a href="/course/msbi-masterclass/" aria-label="MSBI Masterclass"><img src="/assets/images/courses/msbi-masterclass.svg" alt="MSBI Masterclass — RPAVault course" loading="lazy"></a>
-      </div>
-      <div class="course-body">
-        <h3><a href="/course/msbi-masterclass/">MSBI Masterclass</a></h3>
-        <p class="course-desc">Complete Microsoft BI stack — SSIS ETL packages, SSAS cubes and SSRS reporting on SQL Server.</p>
-        <div class="course-meta"><span>⏱ Live batch program</span><span>🎓 Live online sessions</span></div>
-        <p class="course-meta" style="color:var(--muted);font-weight:600" data-batch-text>Open for interest — contact us for dates</p>
-        <div class="course-foot"><span class="course-fee" data-fee-text>Contact for fees</span><a class="course-link" href="/course/msbi-masterclass/">View course →</a></div>
-      </div>
-    </article></div>
-  <p class="section-intro" style="margin-top:1.8rem">More courses are being added regularly. Can’t find what you need? <a href="#" data-open-callback>Request a callback</a> and we’ll point you to the right batch — or run one.</p>
-</div></section>
+  .content-section {
+    padding: 6rem 0 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
 
-<section class="cta-band"><div class="container"><div class="cta-inner">
-  <div><h2>Confused between two courses?</h2><p>Tell us your background — we’ll recommend the track that actually fits, honestly.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="/contact.html">Get guidance</a><a class="btn btn-ghost" href="/request-callback.html">Request Callback</a></div>
-</div></div></section>
+  /* Course Cards Grid */
+  .course-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+  }
+  .course-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  }
+  .course-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: #d2d2d7 !important;
+  }
+  .course-card:before {
+    display: none !important;
+  }
+  .course-media {
+    position: relative !important;
+    background: #f5f5f7 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+    padding: 2rem 1.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .course-media img {
+    max-height: 110px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+  .course-flags {
+    position: absolute !important;
+    top: 15px !important;
+    left: 15px !important;
+    display: flex !important;
+    gap: 0.5rem !important;
+  }
+  .badge-live {
+    background: #34c759 !important; /* iOS Green */
+    color: #ffffff !important;
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    text-transform: uppercase !important;
+  }
+  .pill-soft {
+    background: #e5e5e7 !important;
+    color: #1d1d1f !important;
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+  }
+  .course-body {
+    padding: 2rem 1.8rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+  }
+  .course-body h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .course-body h3 a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  .course-desc {
+    color: #86868b !important;
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin: 0 0 1.5rem 0 !important;
+  }
+  .course-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .course-meta span {
+    font-size: 0.82rem !important;
+    color: #515154 !important;
+    font-weight: 500 !important;
+    background: #f5f5f7 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+  }
+  .course-foot {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: auto !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid #f5f5f7 !important;
+  }
+  .course-fee {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #1d1d1f !important;
+  }
+  .course-link {
+    font-size: 0.9rem !important;
+    color: #0058b0 !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+  }
+  .course-link:hover {
+    text-decoration: underline !important;
+  }
+
+  /* CTA Band */
+  .cta-band {
+    padding: 6rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+  .cta-inner {
+    display: grid !important;
+    grid-template-columns: 1.2fr 0.8fr !important;
+    gap: 4rem !important;
+    align-items: center !important;
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 24px !important;
+    padding: 3.5rem 3rem !important;
+  }
+  .cta-inner h2 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 2.2rem !important;
+    margin: 0 0 1rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .cta-inner p {
+    margin: 0 !important;
+    color: #515154 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+  }
+  .cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: flex-end !important;
+  }
+  
+  .btn-primary {
+    background: #1d1d1f !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 14px 28px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-primary:hover {
+    background: #333336 !important;
+  }
+  .btn-ghost {
+    background: #ffffff !important;
+    border: 1px solid #d2d2d7 !important;
+    color: #1d1d1f !important;
+    font-weight: 500 !important;
+    padding: 13px 26px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-ghost:hover {
+    border-color: #86868b !important;
+    background-color: #f5f5f7 !important;
+  }
+
+  @media(max-width: 1024px) {
+    .course-grid, .cta-inner {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+    .cta-actions {
+      justify-content: flex-start !important;
+    }
+  }
+</style>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">IT Courses</span>
+    <h1>Current Batches &amp; Enrolling <em>Programs</em></h1>
+    <p class="lead">Every course below is a live, mentor-led program with projects and recordings. Fees and batch dates are kept current on this page.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#" data-open-callback>Ask about a batch</a>
+      <a class="btn btn-ghost" href="/training/">Browse by category</a>
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <div class="course-grid">
+      <!-- Course 1 -->
+      <article class="course-card reveal" data-course-card="rpa-agentic-uipath-power-automate">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="badge-live">Live now</span>
+            <span class="pill-soft">RPA</span>
+          </div>
+          <a href="/course/rpa-agentic-uipath-power-automate/"><img src="/assets/images/courses/rpa-agentic-uipath-power-automate.svg" alt="RPA Agentic" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/rpa-agentic-uipath-power-automate/">RPA Agentic (UiPath + Power Automate)</a></h3>
+          <p class="course-desc">Flagship job-ready program: UiPath + Power Automate + agentic automation with 15–25 mini projects and placement support.</p>
+          <div class="course-meta">
+            <span>⏱ 45 days</span>
+            <span>🎓 33 live classes</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">New batch enrolling — weekday mornings</p>
+          <div class="course-foot">
+            <span class="course-fee">₹16,999</span>
+            <a class="course-link" href="/course/rpa-agentic-uipath-power-automate/">View course →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 2 -->
+      <article class="course-card reveal" data-course-card="advance-agentic-rpa-uipath">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="badge-live">Live now</span>
+            <span class="pill-soft">RPA</span>
+          </div>
+          <a href="/course/advance-agentic-rpa-uipath/"><img src="/assets/images/courses/advance-agentic-rpa-uipath.webp" alt="Advanced RPA" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/advance-agentic-rpa-uipath/">Advance Agentic RPA UiPath</a></h3>
+          <p class="course-desc">Advanced program for RPA developers with 2+ years experience — IDP, AI Center, agentic automation, MCP and Maestro.</p>
+          <div class="course-meta">
+            <span>⏱ ~5–7 weeks</span>
+            <span>🎓 35 live sessions</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">Open for enrollment — 15% off for alumni</p>
+          <div class="course-foot">
+            <span class="course-fee">₹22,000</span>
+            <a class="course-link" href="/course/advance-agentic-rpa-uipath/">View course →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 3 -->
+      <article class="course-card reveal" data-course-card="data-analytics-power-bi-sql">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="badge-live">Live now</span>
+            <span class="pill-soft">Data</span>
+          </div>
+          <a href="/course/data-analytics-power-bi-sql/"><img src="/assets/images/courses/data-analytics-power-bi-sql.webp" alt="Data Analytics" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/data-analytics-power-bi-sql/">Data Analytics (Power BI + SQL)</a></h3>
+          <p class="course-desc">Complete data-analyst path — SQL, SSIS, SSAS/SSRS and Power BI in 37 live sessions. Enrollment started.</p>
+          <div class="course-meta">
+            <span>⏱ 37 sessions</span>
+            <span>🎓 4 tracks</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">Enrollment started — 37 sessions</p>
+          <div class="course-foot">
+            <span class="course-fee">Contact Us</span>
+            <a class="course-link" href="/course/data-analytics-power-bi-sql/">View course →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 4 -->
+      <article class="course-card reveal" data-course-card="uipath-test-suite">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="pill-soft">Testing</span>
+          </div>
+          <a href="/course/uipath-test-suite/"><img src="/assets/images/courses/uipath-test-suite.webp" alt="UiPath Test Suite" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/uipath-test-suite/">UiPath Test Suite</a></h3>
+          <p class="course-desc">Hands-on UiPath Test Suite program — Test Manager, automation tracks and 3 real use cases for QA-focused careers.</p>
+          <div class="course-meta">
+            <span>⏱ 14 modules</span>
+            <span>🎓 Live online sessions</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">New batch planned — enroll now</p>
+          <div class="course-foot">
+            <span class="course-fee">₹8,000</span>
+            <a class="course-link" href="/course/uipath-test-suite/">View course →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 5 -->
+      <article class="course-card reveal" data-course-card="power-bi">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="pill-soft">Data</span>
+          </div>
+          <a href="/course/power-bi/"><img src="/assets/images/courses/power-bi.svg" alt="Power BI" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/power-bi/">Power BI Desktop to Service</a></h3>
+          <p class="course-desc">Power BI Desktop to Service — Power Query, modelling, basic to advanced DAX and 4 portfolio projects. PL-300 aligned.</p>
+          <div class="course-meta">
+            <span>⏱ 5 modules</span>
+            <span>🎓 Live online sessions</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">Open for interest — contact us for dates</p>
+          <div class="course-foot">
+            <span class="course-fee">Contact Us</span>
+            <a class="course-link" href="/course/power-bi/">View course →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 6 -->
+      <article class="course-card reveal" data-course-card="playwright-typescript-automation">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="pill-soft">Testing</span>
+          </div>
+          <a href="/course/playwright-typescript-automation/"><img src="/assets/images/courses/playwright-typescript-automation.svg" alt="Playwright" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/playwright-typescript-automation/">Playwright TypeScript Masterclass</a></h3>
+          <p class="course-desc">SDET-track masterclass — Playwright with TypeScript, Page Object Model, GitHub + Jenkins CI and 5 projects over 5 weeks.</p>
+          <div class="course-meta">
+            <span>⏱ 5 weeks</span>
+            <span>🎓 6 learning tracks</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">Open for interest — contact us for dates</p>
+          <div class="course-foot">
+            <span class="course-fee">Contact Us</span>
+            <a class="course-link" href="/course/playwright-typescript-automation/">View course →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 7 -->
+      <article class="course-card reveal" data-course-card="sql-server-masterclass">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="pill-soft">Data</span>
+          </div>
+          <a href="/course/sql-server-masterclass/"><img src="/assets/images/courses/sql-server-masterclass.svg" alt="SQL Server" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/sql-server-masterclass/">SQL Server Masterclass</a></h3>
+          <p class="course-desc">Complete SQL Server program — SSMS, T-SQL, joins, CTEs, indexes, views, stored procedures and triggers.</p>
+          <div class="course-meta">
+            <span>⏱ Live batch</span>
+            <span>🎓 Live online sessions</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">Open for interest — contact us for dates</p>
+          <div class="course-foot">
+            <span class="course-fee">Contact Us</span>
+            <a class="course-link" href="/course/sql-server-masterclass/">View course →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 8 -->
+      <article class="course-card reveal" data-course-card="msbi-masterclass">
+        <div class="course-media">
+          <div class="course-flags">
+            <span class="pill-soft">Data</span>
+          </div>
+          <a href="/course/msbi-masterclass/"><img src="/assets/images/courses/msbi-masterclass.svg" alt="MSBI" loading="lazy"></a>
+        </div>
+        <div class="course-body">
+          <h3><a href="/course/msbi-masterclass/">MSBI Masterclass</a></h3>
+          <p class="course-desc">Complete Microsoft BI stack — SSIS ETL packages, SSAS cubes and SSRS reporting on SQL Server.</p>
+          <div class="course-meta">
+            <span>⏱ Live batch</span>
+            <span>🎓 Live online sessions</span>
+          </div>
+          <p class="course-meta" style="color:#515154;font-weight:600;font-size:0.85rem;">Open for interest — contact us for dates</p>
+          <div class="course-foot">
+            <span class="course-fee">Contact Us</span>
+            <a class="course-link" href="/course/msbi-masterclass/">View course →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+    
+    <p class="section-intro" style="margin-top:2.5rem; text-align: center; color: #86868b;">More courses are being added regularly. Can’t find what you need? <a href="#" data-open-callback style="color: #0058b0; font-weight: 600; text-decoration: none;">Request a callback</a> and we’ll point you to the right batch — or run one.</p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-inner">
+      <div>
+        <h2>Confused between two courses?</h2>
+        <p>Tell us your background — we’ll recommend the track that actually fits, honestly.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="/contact/">Get guidance</a>
+        <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+      </div>
+    </div>
+  </div>
+</section>

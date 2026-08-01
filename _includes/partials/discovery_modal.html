@@ -1,0 +1,85 @@
+<div class="rpv-modal" data-discovery-modal role="dialog" aria-modal="true" aria-label="Schedule a Technical Discovery Call">
+  <div class="rpv-modal-card">
+    <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
+    <h2>Schedule a Technical Discovery Call</h2>
+    <p class="modal-sub">Briefly share your automation requirements, and our principal architect will connect with you to review feasibility and structure a plan.</p>
+    <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
+      <input type="hidden" name="_subject" value="Automation Discovery Request — {{ settings.header.brand_name }}">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="form_type" value="Automation Discovery request (popup)">
+      <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/contact/?sent=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-d-name">Name *</label>
+          <input id="m-d-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="m-d-email">Corporate Email *</label>
+          <input id="m-d-email" name="email" type="email" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-d-phone">Phone / WhatsApp *</label>
+          <input id="m-d-phone" name="phone" type="tel" required autocomplete="tel">
+        </div>
+        <div class="form-field">
+          <label for="m-d-platform">Primary RPA Platform *</label>
+          <select id="m-d-platform" name="primary_platform" required>
+            <option value="" disabled selected hidden>-- Select RPA Platform --</option>
+            <option>UiPath</option>
+            <option>Microsoft Power Automate</option>
+            <option>Blue Prism</option>
+            <option>Multiple / Evaluation Phase</option>
+            <option>Custom Python / API Automation</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-d-service">Core Service Required *</label>
+          <select id="m-d-service" name="service_required" required>
+            <option value="" disabled selected hidden>-- Select Core Service --</option>
+            <option>End-to-End RPA Development</option>
+            <option>Production Support &amp; Maintenance</option>
+            <option>Process Mapping &amp; Feasibility Discovery</option>
+            <option>Bot Migration &amp; Upgrades</option>
+            <option>AI Agent / Cognitive Integration</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="m-d-bots">Active Production Bots *</label>
+          <select id="m-d-bots" name="active_bots_count" required>
+            <option value="" disabled selected hidden>-- Select Bot Count --</option>
+            <option>0 (Starting automation journey)</option>
+            <option>1 - 5 Bots</option>
+            <option>6 - 20 Bots</option>
+            <option>20+ Bots (Established CoE)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="m-d-timeline">Target Start Timeline *</label>
+        <select id="m-d-timeline" name="timeline" required>
+          <option value="" disabled selected hidden>-- Select Onboarding Timeline --</option>
+          <option>Immediate (less than 2 weeks)</option>
+          <option>Within 30 Days</option>
+          <option>Flexible / Planning Phase</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="m-d-msg">Process Details / Goals</label>
+        <textarea id="m-d-msg" name="message" rows="3" placeholder="Describe the manual process steps, source applications, or current paint points..."></textarea>
+      </div>
+      
+      <div class="section-cta"><button class="btn btn-primary" type="submit" style="width: 100% !important;">Schedule Discovery Call</button></div>
+    </form>
+  </div>
+</div>

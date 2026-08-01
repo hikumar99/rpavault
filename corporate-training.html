@@ -17,59 +17,399 @@ schema_ld: |
         "@type": "ListItem",
         "position": 2,
         "name": "Corporate Training",
-        "item": "https://rpavault.com/corporate-training.html"
+        "item": "https://rpavault.com/corporate-training/"
       }
     ]
   }
 ---
-<section class="page-hero"><div class="container">
-  <p class="eyebrow">Corporate Training</p>
-  <h1>Upskill your team on the stack they’ll use on Monday</h1>
-  <p class="lead">Custom programs in RPA, agentic automation, Power Platform, data/BI and QA automation — designed around your projects and delivered by practitioners who build these systems for a living.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="/contact.html">Plan a program</a><a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a></div>
-</div></section>
+<style>
+  /* Page Specific Overrides to match Option 1 Minimalist Theme */
+  .page-hero {
+    padding: 6.5rem 0 5rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+    text-align: center !important;
+  }
+  .page-hero .container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .page-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(2.4rem, 4.2vw, 3.4rem) !important;
+    line-height: 1.15 !important;
+    margin: 0 auto 1.5rem auto !important;
+    max-width: 850px !important;
+    color: #1d1d1f !important;
+  }
+  .page-hero h1 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+  .page-hero .lead {
+    font-size: 1.2rem !important;
+    line-height: 1.65 !important;
+    color: #86868b !important;
+    max-width: 780px !important;
+    margin: 0 auto 2rem auto !important;
+  }
+  .hero-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 
-<section class="content-section"><div class="container">
-  <span class="num-label">IN THE ROOM</span><h2>Delivery your team will actually enjoy</h2>
-  <div class="photo-grid">
-    <figure class="photo-card reveal"><img src="/assets/images/classroom-training.webp" alt="RPAVault trainer delivering a corporate classroom session" loading="lazy"><figcaption>Instructor-led sessions, on-site or online</figcaption></figure>
-    <figure class="photo-card reveal"><img src="/assets/images/hands-on-mentoring.webp" alt="Hands-on mentoring during a corporate training workshop" loading="lazy"><figcaption>Hands-on labs with real mentoring</figcaption></figure>
-    <figure class="photo-card reveal"><img src="/assets/images/community-meetup.webp" alt="RPAVault team at an industry training event" loading="lazy"><figcaption>An active practitioner community</figcaption></figure>
+  .section-title-wrap {
+    text-align: center !important;
+    max-width: 750px !important;
+    margin: 0 auto 3.5rem auto !important;
+  }
+  .section-title-wrap h2 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(1.8rem, 3vw, 2.4rem) !important;
+    margin-top: 0.5rem !important;
+    color: #1d1d1f !important;
+  }
+  .section-title-wrap h2 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+  .num-label {
+    display: inline-block !important;
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    color: #515154 !important;
+    padding: 4px 12px !important;
+    border-radius: 100px !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+  }
+
+  .content-section {
+    padding: 6rem 0 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+
+  /* Photo Grid */
+  .photo-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+  }
+  .photo-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 18px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
+    margin: 0 !important;
+  }
+  .photo-card img {
+    width: 100% !important;
+    height: 220px !important;
+    object-fit: cover !important;
+    display: block !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+  .photo-card figcaption {
+    padding: 1.2rem 1.5rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+  }
+
+  /* Cards Grid */
+  .card-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+  }
+  .card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 18px !important;
+    padding: 2.2rem !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  }
+  .card:hover {
+    transform: translateY(-4px) !important;
+    border-color: #d2d2d7 !important;
+  }
+  .card h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin: 0 0 1rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .card p {
+    color: #86868b !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+
+  /* Process Steps Timeline */
+  .process-steps {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+  .process-step {
+    border-top: 2px solid #1d1d1f !important;
+    padding-top: 1.5rem !important;
+  }
+  .process-step b {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.35rem !important;
+    font-style: italic !important;
+    color: #0058b0 !important;
+    display: block !important;
+    margin-bottom: 0.6rem !important;
+  }
+  .process-step p {
+    color: #86868b !important;
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+  }
+
+  /* Why Grid */
+  .why-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+  }
+  .why-item {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 18px !important;
+    padding: 2rem !important;
+  }
+  .why-item h3 {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .why-item p {
+    color: #86868b !important;
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+  }
+
+  /* CTA Band */
+  .cta-band {
+    padding: 6rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+  .cta-inner {
+    display: grid !important;
+    grid-template-columns: 1.2fr 0.8fr !important;
+    gap: 4rem !important;
+    align-items: center !important;
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 24px !important;
+    padding: 3.5rem 3rem !important;
+  }
+  .cta-inner h2 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 2.2rem !important;
+    margin: 0 0 1rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .cta-inner p {
+    margin: 0 !important;
+    color: #515154 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+  }
+  .cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: flex-end !important;
+  }
+  
+  .btn-primary {
+    background: #1d1d1f !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 14px 28px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-primary:hover {
+    background: #333336 !important;
+  }
+  .btn-ghost {
+    background: #ffffff !important;
+    border: 1px solid #d2d2d7 !important;
+    color: #1d1d1f !important;
+    font-weight: 500 !important;
+    padding: 13px 26px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-ghost:hover {
+    border-color: #86868b !important;
+    background-color: #f5f5f7 !important;
+  }
+
+  @media(max-width: 1024px) {
+    .photo-grid, .card-grid, .process-steps, .why-grid, .cta-inner {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+    .cta-actions {
+      justify-content: flex-start !important;
+    }
+  }
+</style>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Corporate Training</span>
+    <h1>Upskill Your Team on the Stack They’ll Use on <em>Monday</em></h1>
+    <p class="lead">Custom, project-anchored tracks in UiPath, Power Platform, Playwright, and BI — designed around your upcoming sprint roadmaps and led by senior consultants.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/contact/">Propose a Custom Curriculum</a>
+      <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+    </div>
   </div>
-</div></section>
+</section>
 
-<section class="content-section"><div class="container">
-  <span class="num-label">PROGRAMS</span><h2>What we train teams on</h2>
-  <div class="card-grid">
-    <article class="card reveal"><h3>RPA &amp; Agentic Automation</h3><p>UiPath from fundamentals to REFramework, plus Power Automate and AI-agent patterns — our flagship corporate track.</p></article>
-    <article class="card reveal"><h3>Data &amp; BI</h3><p>SQL Server, MSBI and Power BI — from analyst fundamentals to advanced DAX for reporting teams.</p></article>
-    <article class="card reveal"><h3>QA Automation</h3><p>Playwright with TypeScript, framework design and CI — move manual QA teams to modern automation.</p></article>
-    <article class="card reveal"><h3>Document Intelligence</h3><p>UiPath Document Understanding and IDP pipelines for teams processing invoices, forms and unstructured docs.</p></article>
-    <article class="card reveal"><h3>GenAI for Automation Teams</h3><p>Practical GenAI and agentic patterns your developers can safely apply inside existing processes.</p></article>
-    <article class="card reveal"><h3>Custom Tracks</h3><p>Blend modules across tools and levels — we design around your team’s baseline and your project roadmap.</p></article>
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="num-label">IN THE ROOM</span>
+      <h2>Delivery your team will actually <em>enjoy</em></h2>
+    </div>
+    <div class="photo-grid">
+      <figure class="photo-card reveal">
+        <img src="/assets/images/classroom-training.webp" alt="RPAVault trainer delivering a corporate classroom session" loading="lazy">
+        <figcaption>Instructor-led sessions, on-site or online</figcaption>
+      </figure>
+      <figure class="photo-card reveal">
+        <img src="/assets/images/hands-on-mentoring.webp" alt="Hands-on mentoring during a corporate training workshop" loading="lazy">
+        <figcaption>Hands-on labs with real mentoring</figcaption>
+      </figure>
+      <figure class="photo-card reveal">
+        <img src="/assets/images/community-meetup.webp" alt="RPAVault team at an industry training event" loading="lazy">
+        <figcaption>An active practitioner community</figcaption>
+      </figure>
+    </div>
   </div>
-</div></section>
+</section>
 
-<section class="content-section"><div class="container">
-  <span class="num-label">HOW IT RUNS</span><h2>From skills gap to shipped work</h2>
-  <div class="process-steps">
-    <div class="process-step reveal"><b>Assess</b><p>Baseline your team’s current skills and the project demands ahead.</p></div>
-    <div class="process-step reveal"><b>Design</b><p>Custom curriculum, schedule and labs — aligned to your delivery calendar.</p></div>
-    <div class="process-step reveal"><b>Deliver</b><p>Live sessions with hands-on labs, projects and assessments — on-site or online.</p></div>
-    <div class="process-step reveal"><b>Sustain</b><p>Post-program support, office hours and advanced follow-on tracks.</p></div>
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="num-label">PROGRAMS</span>
+      <h2>What we train corporate <em>teams on</em></h2>
+    </div>
+    <div class="card-grid">
+      <article class="card reveal">
+        <h3>RPA &amp; Agentic Automation</h3>
+        <p>UiPath from fundamentals to REFramework, plus Power Automate and AI-agent patterns — our flagship corporate track.</p>
+      </article>
+      <article class="card reveal">
+        <h3>Data &amp; BI</h3>
+        <p>SQL Server, MSBI and Power BI — from analyst fundamentals to advanced DAX for reporting teams.</p>
+      </article>
+      <article class="card reveal">
+        <h3>QA Automation</h3>
+        <p>Playwright with TypeScript, framework design and CI — move manual QA teams to modern automation.</p>
+      </article>
+      <article class="card reveal">
+        <h3>Document Intelligence</h3>
+        <p>UiPath Document Understanding and IDP pipelines for teams processing invoices, forms and unstructured docs.</p>
+      </article>
+      <article class="card reveal">
+        <h3>GenAI for Automation Teams</h3>
+        <p>Practical GenAI and agentic patterns your developers can safely apply inside existing processes.</p>
+      </article>
+      <article class="card reveal">
+        <h3>Custom Tracks</h3>
+        <p>Blend modules across tools and levels — we design around your team’s baseline and your project roadmap.</p>
+      </article>
+    </div>
   </div>
-</div></section>
+</section>
 
-<section class="content-section"><div class="container">
-  <span class="num-label">WHY RPAVAULT</span><h2>Why L&amp;D teams choose us</h2>
-  <div class="why-grid">
-    <div class="why-item reveal"><h3>Practitioners teach</h3><p>UiPath tech leads, enterprise consultants and 14-year data specialists — trainers your seniors will respect.</p></div>
-    <div class="why-item reveal"><h3>Project-anchored labs</h3><p>Exercises modelled on your actual processes wherever possible — skills transfer straight into delivery.</p></div>
-    <div class="why-item reveal"><h3>Measurable outcomes</h3><p>Assessments before and after, with a clear skills report for every participant.</p></div>
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="num-label">HOW IT RUNS</span>
+      <h2>From skills gap to <em>shipped work</em></h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <b>Assess</b>
+        <p>Baseline your team’s current skills and the project demands ahead.</p>
+      </div>
+      <div class="process-step reveal">
+        <b>Design</b>
+        <p>Custom curriculum, schedule and labs — aligned to your delivery calendar.</p>
+      </div>
+      <div class="process-step reveal">
+        <b>Deliver</b>
+        <p>Live sessions with hands-on labs, projects and assessments — on-site or online.</p>
+      </div>
+      <div class="process-step reveal">
+        <b>Sustain</b>
+        <p>Post-program support, office hours and advanced follow-on tracks.</p>
+      </div>
+    </div>
   </div>
-</div></section>
+</section>
 
-<section class="cta-band"><div class="container"><div class="cta-inner">
-  <div><h2>Let’s design your program</h2><p>Tell us the team size, current skills and target stack — we’ll propose a plan within days.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="/contact.html">Plan a program</a><a class="btn btn-ghost" href="/request-callback.html">Request Callback</a></div>
-</div></div></section>
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="num-label">WHY RPAVAULT</span>
+      <h2>Why L&amp;D teams partner with <em>us</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <h3>Practitioners teach</h3>
+        <p>UiPath tech leads, enterprise consultants and 14-year data specialists — trainers your seniors will respect.</p>
+      </div>
+      <div class="why-item reveal">
+        <h3>Project-anchored labs</h3>
+        <p>Exercises modelled on your actual processes wherever possible — skills transfer straight into delivery.</p>
+      </div>
+      <div class="why-item reveal">
+        <h3>Measurable outcomes</h3>
+        <p>Assessments before and after, with a clear skills report for every participant.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-inner">
+      <div>
+        <h2>Let’s design your program</h2>
+        <p>Tell us the team size, current skills and target stack — we’ll propose a plan within days.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="/contact/">Propose a Custom Curriculum</a>
+        <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+      </div>
+    </div>
+  </div>
+</section>

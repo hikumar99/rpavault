@@ -4,18 +4,18 @@
     <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
     <nav class="site-nav" data-site-nav>
       <a class="nav-link" href="/" {% if page.url == "/" %}aria-current="page"{% endif %}>Home</a>
-      <a class="nav-link" href="/about.html" {% if page.url == "/about.html" or page.url == "/about/" %}aria-current="page"{% endif %}>About</a>
+      <a class="nav-link" href="/about/" {% if page.url == "/about/" %}aria-current="page"{% endif %}>About</a>
       <div class="services" data-services>
         <button class="services-trigger" type="button" aria-expanded="false" data-services-trigger>Services <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="services-menu">
-          <a class="service-item" href="/consulting.html" {% if page.url == "/consulting.html" or page.url == "/consulting/" %}aria-current="page"{% endif %}><span class="service-num">01</span><span><strong class="service-title">Consulting</strong><span class="service-text">Professional staffing &amp; automation consulting</span></span></a>
-          <a class="service-item" href="/enterprise-automation.html" {% if page.url == "/enterprise-automation.html" or page.url == "/enterprise-automation/" %}aria-current="page"{% endif %}><span class="service-num">02</span><span><strong class="service-title">Enterprise Automation</strong><span class="service-text">Bots, flows, dashboards &amp; AI agents</span></span></a>
-          <a class="service-item" href="/trainings.html" {% if page.url == "/trainings.html" or page.url == "/trainings/" %}aria-current="page"{% endif %}><span class="service-num">03</span><span><strong class="service-title">Trainings</strong><span class="service-text">Cloud, RPA, Power Automate &amp; AI automation courses</span></span></a>
-          <a class="service-item" href="/courses.html" {% if page.url == "/courses.html" or page.url == "/courses/" %}aria-current="page"{% endif %}><span class="service-num">04</span><span><strong class="service-title">IT Courses</strong><span class="service-text">Individual course pages — UiPath, Power BI, SQL &amp; more</span></span></a>
+          <a class="service-item" href="/consulting/" {% if page.url == "/consulting/" %}aria-current="page"{% endif %}><span class="service-num">01</span><span><strong class="service-title">Consulting</strong><span class="service-text">Professional staffing &amp; automation consulting</span></span></a>
+          <a class="service-item" href="/enterprise-automation/" {% if page.url == "/enterprise-automation/" %}aria-current="page"{% endif %}><span class="service-num">02</span><span><strong class="service-title">Enterprise Automation</strong><span class="service-text">Bots, flows, dashboards &amp; AI agents</span></span></a>
+          <a class="service-item" href="/training/" {% if page.url == "/training/" %}aria-current="page"{% endif %}><span class="service-num">03</span><span><strong class="service-title">Training</strong><span class="service-text">Cloud, RPA, Power Automate &amp; AI automation courses</span></span></a>
+          <a class="service-item" href="/courses/" {% if page.url == "/courses/" %}aria-current="page"{% endif %}><span class="service-num">04</span><span><strong class="service-title">IT Courses</strong><span class="service-text">Individual course pages — UiPath, Power BI, SQL &amp; more</span></span></a>
         </div>
       </div>
-      <a class="nav-link" href="/contact.html" {% if page.url == "/contact.html" or page.url == "/contact/" %}aria-current="page"{% endif %}>Contact</a>
-      <a class="nav-cta" href="/request-callback.html" data-open-callback>Request Callback</a>
+      <a class="nav-link" href="/contact/" {% if page.url == "/contact/" %}aria-current="page"{% endif %}>Contact</a>
+      <a class="nav-cta" href="#" data-open-callback>Request Callback</a>
     </nav>
   </div>
 </header>

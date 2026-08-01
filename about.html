@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.html
-title: About RPAVault — Practitioners in Automation & IT Careers
-description: RPAVault is a team of practitioners delivering pre-vetted staffing, enterprise automation bots, and IT training from our office in Hyderabad.
+title: About RPAVault — Our Mission, Values & Leadership Team
+description: "Discover RPAVault's mission to bridge the gap between technical theory and production-grade delivery. Meet our leadership team and view our core operating values."
 schema_ld: |
   {
     "@context": "https://schema.org",
@@ -17,49 +17,446 @@ schema_ld: |
         "@type": "ListItem",
         "position": 2,
         "name": "About",
-        "item": "https://rpavault.com/about.html"
+        "item": "https://rpavault.com/about/"
       }
     ]
   }
 ---
-<section class="page-hero"><div class="container">
-  <p class="eyebrow">About RPAVault</p>
-  <h1>A talent &amp; automation partner, built by practitioners</h1>
-  <p class="lead">RPAVault exists to close one gap: enterprises need people and automations that perform from day one — and most vendors deliver neither. We do both, with trainers and consultants who work in the industry they teach.</p>
-</div></section>
+<style>
+  /* Premium B2B About Page Styling */
+  .about-hero {
+    padding: 8.5rem 0 6rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+    text-align: center !important;
+  }
+  .about-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(2.6rem, 5vw, 3.8rem) !important;
+    line-height: 1.12 !important;
+    color: #1d1d1f !important;
+    margin: 0 auto 1.8rem auto !important;
+    max-width: 900px !important;
+  }
+  .about-hero h1 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+  .about-hero .lead {
+    font-size: 1.25rem !important;
+    line-height: 1.65 !important;
+    color: #86868b !important;
+    max-width: 820px !important;
+    margin: 0 auto !important;
+  }
 
-<section class="content-section"><div class="container">
-  <span class="num-label">WHAT WE DO</span><h2>Three practices, one standard</h2>
-  <div class="card-grid">
-    <article class="card reveal"><h3>Consulting &amp; Staffing</h3><p>Pre-vetted automation and IT professionals placed into corporate teams — screened for real delivery ability, not just keywords on a resume.</p><p><a href="/consulting.html">Explore consulting →</a></p></article>
-    <article class="card reveal"><h3>Enterprise Automation</h3><p>End-to-end RPA, Power Platform and AI-agent builds — from process discovery to bots running in production with support.</p><p><a href="/enterprise-automation.html">Explore automation →</a></p></article>
-    <article class="card reveal"><h3>Training Programs</h3><p>Corporate upskilling, college programs and live IT batches taught by working professionals — 2,000+ learners and counting.</p><p><a href="/trainings.html">Explore trainings →</a></p></article>
+  .content-section {
+    padding: 7.5rem 0 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+
+  .section-label {
+    display: inline-block !important;
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    color: #515154 !important;
+    padding: 4px 12px !important;
+    border-radius: 100px !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.2px !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .section-title-wrap {
+    max-width: 750px !important;
+    margin-bottom: 3.5rem !important;
+  }
+  .section-title-wrap h2 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(2rem, 3.5vw, 2.6rem) !important;
+    color: #1d1d1f !important;
+    margin-top: 0.5rem !important;
+  }
+  .section-title-wrap h2 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+
+  /* Mission & Vision Grid */
+  .mv-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4rem !important;
+  }
+  .mv-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 20px !important;
+    padding: 3rem !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
+  }
+  .mv-card h3 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.6rem !important;
+    color: #0058b0 !important;
+    margin: 0 0 1rem 0 !important;
+  }
+  .mv-card p {
+    font-size: 1.05rem !important;
+    line-height: 1.65 !important;
+    color: #515154 !important;
+    margin: 0 !important;
+  }
+
+  /* Company Timeline */
+  .timeline {
+    position: relative !important;
+    max-width: 800px !important;
+    margin: 3.5rem auto 0 auto !important;
+    padding: 0 1rem !important;
+  }
+  .timeline::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 31px !important;
+    width: 2px !important;
+    background: #e5e5e7 !important;
+  }
+  .timeline-item {
+    position: relative !important;
+    margin-bottom: 3.5rem !important;
+    padding-left: 70px !important;
+  }
+  .timeline-item:last-child {
+    margin-bottom: 0 !important;
+  }
+  .timeline-icon {
+    position: absolute !important;
+    left: 20px !important;
+    top: 2px !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    border: 2px solid #0058b0 !important;
+    z-index: 2 !important;
+  }
+  .timeline-date {
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: #0058b0 !important;
+    margin-bottom: 0.5rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .timeline-content h3 {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    margin: 0 0 0.5rem 0 !important;
+  }
+  .timeline-content p {
+    color: #86868b !important;
+    font-size: 0.95rem !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+  }
+
+  /* Core Values Grid */
+  .values-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .value-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 18px !important;
+    padding: 2.5rem !important;
+  }
+  .value-card h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    margin: 0 0 0.8rem 0 !important;
+  }
+  .value-card p {
+    color: #86868b !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+
+
+
+  /* Polaroid Gallery */
+  .polaroid-gallery {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2.5rem !important;
+  }
+  .polaroid-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 16px !important;
+    padding: 1.2rem 1.2rem 1.8rem 1.2rem !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.015) !important;
+    margin: 0 !important;
+  }
+  .polaroid-card img {
+    width: 100% !important;
+    height: 220px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+  }
+  .polaroid-card figcaption {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #1d1d1f !important;
+    text-align: center !important;
+    margin-top: 1.2rem !important;
+  }
+
+  /* Trust Banner */
+  .trust-banner {
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 3rem !important;
+    padding: 3rem 0 !important;
+    border-top: 1px solid #e5e5e7 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+    margin-top: 4rem !important;
+  }
+  .trust-logo {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #d2d2d7 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  /* CTA Container */
+  .cta-band {
+    padding: 7.5rem 0 !important;
+    background: #ffffff !important;
+  }
+  .cta-container {
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 24px !important;
+    padding: 4.5rem 4rem !important;
+    display: grid !important;
+    grid-template-columns: 1.25fr 0.75fr !important;
+    gap: 4rem !important;
+    align-items: center !important;
+  }
+  .cta-text h2 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 2.2rem !important;
+    margin: 0 0 1rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .cta-text p {
+    color: #515154 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+  .cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: flex-end !important;
+  }
+  .btn-primary {
+    background: #1d1d1f !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 14px 28px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-primary:hover {
+    background: #333336 !important;
+  }
+  .btn-ghost {
+    background: #ffffff !important;
+    border: 1px solid #d2d2d7 !important;
+    color: #1d1d1f !important;
+    font-weight: 500 !important;
+    padding: 13px 26px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-ghost:hover {
+    border-color: #86868b !important;
+    background-color: #f5f5f7 !important;
+  }
+
+  @media(max-width: 1024px) {
+    .mv-grid, .values-grid, .team-grid, .polaroid-gallery, .cta-container {
+      grid-template-columns: 1fr !important;
+      gap: 2.5rem !important;
+    }
+    .cta-actions {
+      justify-content: flex-start !important;
+    }
+  }
+</style>
+
+<section class="about-hero">
+  <div class="container">
+    <span class="eyebrow">About RPAVault</span>
+    <h1>Setting the Standard for Enterprise Automation &amp; Technical <em>Talent</em></h1>
+    <p class="lead">We are senior architects and consultants active in production environments. We don't just teach technology — we build, deploy, and support it every single day.</p>
   </div>
-</div></section>
+</section>
 
-<section class="content-section"><div class="container">
-  <span class="num-label">ON THE GROUND</span><h2>Real classrooms, real teams, real outcomes</h2>
-  <p class="section-intro">From college programs to corporate batches — this is what our work looks like in person.</p>
-  <div class="photo-grid">
-    <figure class="photo-card reveal"><img src="/assets/images/college-training-1.webp" alt="RPAVault college training program in progress" loading="lazy"><figcaption>College training programs</figcaption></figure>
-    <figure class="photo-card reveal"><img src="/assets/images/classroom-training.webp" alt="RPAVault trainer teaching a live classroom session" loading="lazy"><figcaption>Live classroom sessions</figcaption></figure>
-    <figure class="photo-card reveal"><img src="/assets/images/hands-on-mentoring.webp" alt="Hands-on mentoring with a small group of learners" loading="lazy"><figcaption>Hands-on mentoring</figcaption></figure>
+<!-- Section 1: Mission & Vision -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="section-label">MISSION &amp; VISION</span>
+      <h2>Our core corporate <em>purpose</em></h2>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card reveal">
+        <h3>Our Mission</h3>
+        <p>To bridge the critical gap between theoretical knowledge and production-grade delivery. We empower enterprise teams with vetted practitioner talent and build intelligent, resilient automations that drive measurable efficiency from day one.</p>
+      </div>
+      <div class="mv-card reveal">
+        <h3>Our Vision</h3>
+        <p>To be the world’s most trusted partner for intelligent RPA, agentic AI, and data engineering solutions — recognized for bringing absolute technical rigor, operational integrity, and practitioner-led upskilling to GCCs and corporate teams.</p>
+      </div>
+    </div>
   </div>
-</div></section>
+</section>
 
-<section class="content-section"><div class="container">
-  <span class="num-label">WHY TEAMS PICK US</span><h2>The RPAVault difference</h2>
-  <div class="why-grid">
-    <div class="why-item reveal"><h3>Practitioners, not presenters</h3><p>Every trainer and consultant actively works in the field — UiPath tech leads, Capgemini consultants, 14-year BI specialists.</p></div>
-    <div class="why-item reveal"><h3>Outcomes over hours</h3><p>Placements, promotions and bots in production — we measure what happens after the engagement, not just during it.</p></div>
-    <div class="why-item reveal"><h3>One partner, full loop</h3><p>Train your team, staff your project, automate your process — or all three. Context carries across, and you deal with one accountable partner.</p></div>
-    <div class="why-item reveal"><h3>4.9★ on Google</h3><p>Rated 4.9/5 from 170+ Google reviews by learners and partners.</p></div>
-    <div class="why-item reveal"><h3>2,000+ trained · 100+ placed</h3><p>A track record across freshers, working professionals and enterprise teams.</p></div>
-    <div class="why-item reveal"><h3>Hyderabad roots, remote reach</h3><p>Based in Hyderabad, delivering live online across India and beyond.</p></div>
+<!-- Section 2: Core Values -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="section-label">OPERATING PRINCIPLES</span>
+      <h2>The values that guide our <em>work</em></h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <h3>Practitioner Rigor</h3>
+        <p>Every candidate we place and every course we run is screened and taught by working senior developers. We verify hands-on execution ability under pressure — not just slide-reading.</p>
+      </div>
+      <div class="value-card reveal">
+        <h3>Operational Transparency</h3>
+        <p>We tell you honestly which processes are ready for automation and which ones are not. We build solutions designed to own exceptions, with clear metrics of delivery.</p>
+      </div>
+      <div class="value-card reveal">
+        <h3>Production Discipline</h3>
+        <p>No fragile scripts. We write bots based on industry frameworks (like UiPath REFramework), with standard logging, clean code structures, and comprehensive handover logs.</p>
+      </div>
+      <div class="value-card reveal">
+        <h3>Sustained Independence</h3>
+        <p>We do not lock you in. Whether we build automation for you or place professionals in your teams, we offer structured upskilling so your internal CoE can comfortably own the estate after us.</p>
+      </div>
+    </div>
   </div>
-</div></section>
+</section>
 
-<section class="cta-band"><div class="container"><div class="cta-inner">
-  <div><h2>Let’s talk about your goal</h2><p>Hiring, automating or upskilling — tell us what you need and we’ll map the fastest route.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="/contact.html">Contact us</a><a class="btn btn-ghost" href="/request-callback.html">Request Callback</a></div>
-</div></div></section>
+<!-- Section 3: Company Timeline -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap" style="text-align: center; margin: 0 auto 3.5rem auto;">
+      <span class="section-label">OUR JOURNEY</span>
+      <h2>Milestones along the <em>way</em></h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-icon"></div>
+        <div class="timeline-date">2020 · Founding</div>
+        <div class="timeline-content">
+          <h3>Established in Hyderabad</h3>
+          <p>Founded by active tech leads to address the skills gap in RPA, starting with live, developer-led individual batches.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-icon"></div>
+        <div class="timeline-date">2022 · Scaling</div>
+        <div class="timeline-content">
+          <h3>Corporate &amp; Staffing Launch</h3>
+          <p>Expanded into corporate upskilling cohorts and developer placement services, establishing production-vetted screening pipelines.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-icon"></div>
+        <div class="timeline-date">2024 · Enterprise partnerships</div>
+        <div class="timeline-content">
+          <h3>Naan Mudhalvan &amp; 17,000+ Reached</h3>
+          <p>Partnered in massive state skill development initiatives, scaling our practitioner training pipeline to over 17,000 students.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-icon"></div>
+        <div class="timeline-date">2026 · AI &amp; Agentic automation</div>
+        <div class="timeline-content">
+          <h3>Intelligent automation pods</h3>
+          <p>Pioneered goal-driven AI agents, UiPath Document Understanding IDP, and managed CoE pods for global teams.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Section 5: Trust Indicators & classroom photos -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="section-label">ON THE GROUND</span>
+      <h2>Real classrooms, real teams, real <em>outcomes</em></h2>
+    </div>
+    <div class="polaroid-gallery">
+      <figure class="polaroid-card reveal">
+        <img src="/assets/images/college-training-1.webp" alt="College training in progress" loading="lazy">
+        <figcaption>Campus Training Initiatives</figcaption>
+      </figure>
+      <figure class="polaroid-card reveal">
+        <img src="/assets/images/classroom-training.webp" alt="Corporate training classroom" loading="lazy">
+        <figcaption>Corporate Cohort Bootcamps</figcaption>
+      </figure>
+      <figure class="polaroid-card reveal">
+        <img src="/assets/images/hands-on-mentoring.webp" alt="Individual developer mentoring" loading="lazy">
+        <figcaption>Hands-on Mentoring Labs</figcaption>
+      </figure>
+    </div>
+    
+    <div class="trust-banner">
+      <span class="trust-logo">UiPath Vetted</span>
+      <span class="trust-logo">Microsoft Power Automate</span>
+      <span class="trust-logo">17,000+ Trained</span>
+      <span class="trust-logo">Google 4.9★ Rated</span>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-container">
+      <div class="cta-text">
+        <h2>Let’s talk about your goal</h2>
+        <p>Hiring, automating, or upskilling — tell us what you need and we’ll map the fastest route.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="/contact/">Contact us</a>
+        <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -14,7 +14,7 @@ const yearTarget=document.querySelector('[data-current-year]'); if(yearTarget){y
 const closeNav=()=>{if(siteNav&&siteNav.classList.contains('is-open')){siteNav.classList.remove('is-open');navToggle?.setAttribute('aria-expanded','false');}services?.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');};
 document.addEventListener('click',(e)=>{if(services&&services.classList.contains('is-open')&&!services.contains(e.target)){services.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');}
 if(siteNav&&siteNav.classList.contains('is-open')&&!siteNav.contains(e.target)&&!navToggle.contains(e.target)){closeNav();}});
-document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeNav();closeModal();}});
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeNav();closeModal();closeConsultingModal();closeDiscoveryModal();}});
 siteNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeNav()));
 services?.addEventListener('keydown',(e)=>{if(e.key==='Escape'){services.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');servicesTrigger?.focus();}});
 
@@ -34,6 +34,22 @@ function closeModal(){if(!modal||!modal.classList.contains('is-open'))return;mod
 window.rpvOpenCallback=openModal;
 document.querySelectorAll('[data-open-callback]').forEach(el=>{el.addEventListener('click',(e)=>{if(modal){e.preventDefault();closeNav();openModal();}});});
 modal?.addEventListener('click',(e)=>{if(e.target===modal||e.target.closest('[data-close-modal]')){closeModal();}});
+
+/* ---------- Consulting modal ---------- */
+const cModal=document.querySelector('[data-consulting-modal]');
+function openConsultingModal(){if(!cModal)return;lastFocus=document.activeElement;cModal.classList.add('is-open');document.body.classList.add('modal-open');const first=cModal.querySelector('input[name="name"]');setTimeout(()=>first?.focus(),60);}
+function closeConsultingModal(){if(!cModal||!cModal.classList.contains('is-open'))return;cModal.classList.remove('is-open');document.body.classList.remove('modal-open');lastFocus?.focus();}
+window.rpvOpenConsulting=openConsultingModal;
+document.querySelectorAll('[data-open-consulting]').forEach(el=>{el.addEventListener('click',(e)=>{if(cModal){e.preventDefault();closeNav();openConsultingModal();}});});
+cModal?.addEventListener('click',(e)=>{if(e.target===cModal||e.target.closest('[data-close-modal]')){closeConsultingModal();}});
+
+/* ---------- Discovery modal ---------- */
+const dModal=document.querySelector('[data-discovery-modal]');
+function openDiscoveryModal(){if(!dModal)return;lastFocus=document.activeElement;dModal.classList.add('is-open');document.body.classList.add('modal-open');const first=dModal.querySelector('input[name="name"]');setTimeout(()=>first?.focus(),60);}
+function closeDiscoveryModal(){if(!dModal||!dModal.classList.contains('is-open'))return;dModal.classList.remove('is-open');document.body.classList.remove('modal-open');lastFocus?.focus();}
+window.rpvOpenDiscovery=openDiscoveryModal;
+document.querySelectorAll('[data-open-discovery]').forEach(el=>{el.addEventListener('click',(e)=>{if(dModal){e.preventDefault();closeNav();openDiscoveryModal();}});});
+dModal?.addEventListener('click',(e)=>{if(e.target===dModal||e.target.closest('[data-close-modal]')){closeDiscoveryModal();}});
 
 /* ---------- Lead form enrichment ---------- */
 /* Fills hidden fields on every .js-lead-form: source page, course page, browser, device, and (best-effort) location via ipapi.co */
@@ -69,7 +85,7 @@ document.querySelectorAll('form.js-lead-form').forEach(form=>{
   const topic=form.querySelector('select[name="topic"], select[name="interest"]');
   const wrap=form.querySelector('[data-course-conditional]');
   if(!topic||!wrap)return;
-  const check=()=>{const v=(topic.value||'').toLowerCase();const show=v.includes('course')||v.includes('batch')||v.includes('training');wrap.style.display=show?'':'none';const sel=wrap.querySelector('select');if(sel){sel.disabled=!show;}};
+  const check=()=>{const v=(topic.value||'').toLowerCase().trim();const show=v==='it courses & batches';wrap.style.setProperty('display',show?'block':'none','important');const inputs=wrap.querySelectorAll('input, select, textarea');inputs.forEach(inp=>{inp.disabled=!show;});};
   topic.addEventListener('change',check);check();
 });
 })();

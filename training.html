@@ -1,0 +1,437 @@
+---
+layout: layouts/base.html
+title: Training — Corporate, College & IT Course Batches | RPAVault
+description: "Live training by working professionals: corporate upskilling, college programs and IT course batches in RPA, agentic AI, testing and data/BI."
+schema_ld: |
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://rpavault.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Training",
+        "item": "https://rpavault.com/training/"
+      }
+    ]
+  }
+---
+<style>
+  /* Page Specific Overrides to match Option 1 Minimalist Theme */
+  .page-hero {
+    padding: 6.5rem 0 5rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+    text-align: center !important;
+  }
+  .page-hero .container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .page-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(2.4rem, 4.2vw, 3.4rem) !important;
+    line-height: 1.15 !important;
+    margin: 0 auto 1.5rem auto !important;
+    max-width: 850px !important;
+    color: #1d1d1f !important;
+  }
+  .page-hero h1 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+  .page-hero .lead {
+    font-size: 1.2rem !important;
+    line-height: 1.65 !important;
+    color: #86868b !important;
+    max-width: 780px !important;
+    margin: 0 auto 2rem auto !important;
+  }
+  .hero-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .section-title-wrap {
+    text-align: center !important;
+    max-width: 750px !important;
+    margin: 0 auto 3.5rem auto !important;
+  }
+  .section-title-wrap h2 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(1.8rem, 3vw, 2.4rem) !important;
+    margin-top: 0.5rem !important;
+    color: #1d1d1f !important;
+  }
+  .section-title-wrap h2 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+  .num-label {
+    display: inline-block !important;
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    color: #515154 !important;
+    padding: 4px 12px !important;
+    border-radius: 100px !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+  }
+
+  .content-section {
+    padding: 6rem 0 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+
+  /* Two Route Cards */
+  .block-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+  }
+  .block-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .block-card h3 {
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    margin: 0 0 1rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .block-card p {
+    color: #86868b !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    margin: 0 0 2rem 0 !important;
+  }
+  .block-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+    margin-top: auto !important;
+  }
+
+  /* Course Cards Grid */
+  .course-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+  }
+  .course-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  }
+  .course-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: #d2d2d7 !important;
+  }
+  .course-card:before {
+    display: none !important; /* Remove old gradient top bar */
+  }
+  .course-media {
+    position: relative !important;
+    background: #f5f5f7 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+    padding: 2rem 1.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .course-media img {
+    max-height: 110px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+  .course-flags {
+    position: absolute !important;
+    top: 15px !important;
+    left: 15px !important;
+    display: flex !important;
+    gap: 0.5rem !important;
+  }
+  .badge-live {
+    background: #34c759 !important; /* iOS Green */
+    color: #ffffff !important;
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    text-transform: uppercase !important;
+  }
+  .pill-soft {
+    background: #e5e5e7 !important;
+    color: #1d1d1f !important;
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+  }
+  .course-body {
+    padding: 2rem 1.8rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+  }
+  .course-body h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .course-body h3 a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  .course-desc {
+    color: #86868b !important;
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin: 0 0 1.5rem 0 !important;
+  }
+  .course-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .course-meta span {
+    font-size: 0.82rem !important;
+    color: #515154 !important;
+    font-weight: 500 !important;
+    background: #f5f5f7 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+  }
+  .course-foot {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: auto !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid #f5f5f7 !important;
+  }
+  .course-fee {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #1d1d1f !important;
+  }
+  .course-link {
+    font-size: 0.9rem !important;
+    color: #0058b0 !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+  }
+  .course-link:hover {
+    text-decoration: underline !important;
+  }
+
+  /* Category Headers */
+  .category-head {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin: 4rem 0 1.5rem 0 !important;
+  }
+  .category-head h3 {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: #1d1d1f !important;
+    margin: 0 !important;
+  }
+  .cat-line {
+    flex-grow: 1 !important;
+    height: 1px !important;
+    background: #e5e5e7 !important;
+  }
+
+  /* Highlight Panel Split */
+  .highlight-panel {
+    display: grid !important;
+    grid-template-columns: 1.2fr 0.8fr !important;
+    gap: 4rem !important;
+    align-items: center !important;
+    background: linear-gradient(145deg, #ffffff 0%, #f0f7ff 100%) !important;
+    border: 1px solid rgba(0, 88, 176, 0.15) !important;
+    border-radius: 24px !important;
+    padding: 3.5rem 3rem !important;
+    box-shadow: 0 15px 40px rgba(0, 88, 176, 0.04) !important;
+  }
+  .college-stat-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 1.2rem !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 88, 176, 0.15) !important;
+    padding: 0.8rem 1.4rem !important;
+    border-radius: 12px !important;
+    margin: 1.5rem 0 !important;
+    box-shadow: 0 4px 12px rgba(0, 88, 176, 0.02) !important;
+  }
+  .college-stat-badge b {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.8rem !important;
+    color: #0058b0 !important;
+    line-height: 1 !important;
+  }
+  .college-stat-badge span {
+    font-size: 0.85rem !important;
+    color: #515154 !important;
+    font-weight: 500 !important;
+    line-height: 1.3 !important;
+  }
+  .highlight-panel h2 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 2.2rem !important;
+    margin: 0.5rem 0 1rem 0 !important;
+    color: #1d1d1f !important;
+  }
+  .highlight-panel p {
+    color: #86868b !important;
+    font-size: 1.05rem !important;
+    line-height: 1.65 !important;
+  }
+  .check-list {
+    margin: 1.5rem 0 !important;
+    padding-left: 1.2rem !important;
+    display: grid !important;
+    gap: 0.6rem !important;
+  }
+  .check-list li {
+    font-size: 0.95rem !important;
+    color: #515154 !important;
+    line-height: 1.5 !important;
+  }
+  .highlight-media img {
+    width: 100% !important;
+    border-radius: 14px !important;
+    border: 1px solid #e5e5e7 !important;
+    object-fit: cover !important;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    background: #1d1d1f !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 14px 28px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-primary:hover {
+    background: #333336 !important;
+  }
+  .btn-ghost {
+    background: #ffffff !important;
+    border: 1px solid #d2d2d7 !important;
+    color: #1d1d1f !important;
+    font-weight: 500 !important;
+    padding: 13px 26px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+  }
+  .btn-ghost:hover {
+    border-color: #86868b !important;
+    background-color: #f5f5f7 !important;
+  }
+
+  @media(max-width: 1024px) {
+    .block-row, .course-grid, .highlight-panel {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+  }
+</style>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Training</span>
+    <h1>Practical Programs that End in Offers, Not <em>Certificates</em></h1>
+    <p class="lead">Live, hands-on cohorts led by active technical leads. Build real portfolios, tackle production-grade case studies, and unlock direct placement opportunities.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#featured">See current batches</a>
+      <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+    </div>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <div class="section-title-wrap">
+      <span class="num-label">CHOOSE YOUR PATHWAY</span>
+      <h2>Who are we <em>training?</em></h2>
+    </div>
+    <div class="block-row">
+      <article class="block-card reveal">
+        <h3>🏢 Corporate teams</h3>
+        <p>Custom upskilling programs for enterprise teams — RPA, Power Platform, data and QA automation, delivered around your delivery calendar.</p>
+        <div class="block-actions">
+          <a class="btn btn-primary" href="/corporate-training/">Corporate training services</a>
+        </div>
+      </article>
+      <article class="block-card reveal">
+        <h3>👩‍💻 Individuals &amp; job seekers</h3>
+        <p>Live online batches with projects, placement support and lifetime recordings — from beginner-friendly to advanced practitioner tracks.</p>
+        <div class="block-actions">
+          <a class="btn btn-primary" href="/courses/">Browse courses &amp; batches</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="college-programs">
+  <div class="container">
+    <div class="highlight-panel reveal">
+      <div>
+        <span class="num-label" style="background:#0058b0 !important; color:#ffffff !important; border:none !important;">FOR COLLEGES &amp; UNIVERSITIES</span>
+        <h2>College Programs that Put Students in <em>Industry</em></h2>
+        <p>We run structured RPA and automation programs for colleges, including large-scale initiatives like Naan Mudhalvan. We deliver a complete enablement package: curriculum, hands-on labs, industry certification guidance, and placement-oriented outcomes, on campus or online.</p>
+        
+        <div class="college-stat-badge">
+          <b>17,000+</b>
+          <span>Students trained across universities &amp; initiatives</span>
+        </div>
+
+        <ul class="check-list">
+          <li>✓ Semester-long or bootcamp formats</li>
+          <li>✓ Industry trainers, not slide readers</li>
+          <li>✓ Projects and portfolio outcomes for every student</li>
+          <li>✓ Faculty development programs available</li>
+        </ul>
+        <div class="hero-actions" style="justify-content: flex-start !important; margin-top: 2rem;">
+          <a class="btn btn-primary" href="/contact/">Plan a college program</a>
+          <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+        </div>
+      </div>
+      <div class="highlight-media"><img src="/assets/images/college-training-1.webp" alt="RPAVault college training program — packed classroom session" loading="lazy"></div>
+    </div>
+  </div>
+</section>

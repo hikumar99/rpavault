@@ -16,8 +16,9 @@
           <div class="form-field" {% if field.name == "course" %}data-course-conditional{% endif %}>
             <label for="m-{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
             <select id="m-{{ field.name }}" name="{{ field.name }}" {% if field.required %}required{% endif %}>
+              <option value="" disabled selected hidden>-- Select an Option --</option>
               {% for opt in field.options %}
-                <option {% if opt == "IT Courses & Batches" %}selected{% endif %}>{{ opt }}</option>
+                <option>{{ opt }}</option>
               {% endfor %}
             </select>
           </div>
@@ -27,9 +28,9 @@
             <textarea id="m-{{ field.name }}" name="{{ field.name }}" rows="3" {% if field.required %}required{% endif %}></textarea>
           </div>
         {% else %}
-          <div class="form-field">
+          <div class="form-field" {% if field.name == "course" %}data-course-conditional style="display: none;"{% endif %}>
             <label for="m-{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
-            <input id="m-{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" {% if field.required %}required{% endif %} {% if field.autocomplete %}autocomplete="{{ field.autocomplete }}"{% endif %}>
+            <input id="m-{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" {% if field.required %}required{% endif %} {% if field.autocomplete %}autocomplete="{{ field.autocomplete }}"{% endif %} {% if field.name == "course" %}placeholder="e.g. RPA Agentic"{% endif %}>
           </div>
         {% endif %}
       {% endfor %}

@@ -1,0 +1,77 @@
+<div class="rpv-modal" data-consulting-modal role="dialog" aria-modal="true" aria-label="Discuss a Consulting Role">
+  <div class="rpv-modal-card">
+    <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
+    <h2>Discuss a Staffing / Consulting Role</h2>
+    <p class="modal-sub">Tell us about your talent requirements, and our principal architect will connect with you to review our vetted pipeline.</p>
+    <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
+      <input type="hidden" name="_subject" value="Consulting Enquiry — {{ settings.header.brand_name }}">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="form_type" value="Consulting Staffing request (popup)">
+      <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/contact/?sent=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-c-name">Name *</label>
+          <input id="m-c-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="m-c-email">Corporate Email *</label>
+          <input id="m-c-email" name="email" type="email" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-c-phone">Phone / WhatsApp *</label>
+          <input id="m-c-phone" name="phone" type="tel" required autocomplete="tel">
+        </div>
+        <div class="form-field">
+          <label for="m-c-role">Target Role / Tech Stack *</label>
+          <input id="m-c-role" name="target_role_stack" type="text" required placeholder="e.g. Senior UiPath Dev, Azure DevOps">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-c-exp">Required Experience *</label>
+          <select id="m-c-exp" name="experience_requirement" required>
+            <option value="" disabled selected hidden>-- Select Experience --</option>
+            <option>Junior (1-3 years)</option>
+            <option>Mid-Level (3-5 years)</option>
+            <option>Senior (5+ years)</option>
+            <option>Technical Lead / Architect</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="m-c-model">Engagement Model *</label>
+          <select id="m-c-model" name="engagement_model" required>
+            <option value="" disabled selected hidden>-- Select Engagement Model --</option>
+            <option>Contract Staffing (3-12+ months)</option>
+            <option>Contract-to-Hire</option>
+            <option>Direct Hire (Permanent)</option>
+            <option>Managed Engineering Pod</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="m-c-timeline">Target Onboarding Timeline *</label>
+        <select id="m-c-timeline" name="timeline" required>
+          <option value="" disabled selected hidden>-- Select Onboarding Timeline --</option>
+          <option>Immediate (less than 2 weeks)</option>
+          <option>Within 30 Days</option>
+          <option>Flexible / Planning Phase</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="m-c-msg">Job Description / Core Requirements</label>
+        <textarea id="m-c-msg" name="message" rows="3" placeholder="Describe the project scope, required certifications, or key deliverables..."></textarea>
+      </div>
+      
+      <div class="section-cta"><button class="btn btn-primary" type="submit" style="width: 100% !important;">Submit Staffing Request</button></div>
+    </form>
+  </div>
+</div>

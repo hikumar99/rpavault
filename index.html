@@ -1,167 +1,889 @@
 ---
 layout: layouts/base.html
-title: RPAVault — Consultancy, Staffing & Enterprise Automation | Hyderabad
-description: RPAVault is a consultancy, staffing, and enterprise automation partner in Hyderabad. We place skilled professionals in corporate teams, build RPA and AI-agent automations, and deliver training across all major IT courses.
-schema_ld: |
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "RPAVault",
-    "url": "https://rpavault.com/",
-    "logo": "https://rpavault.com/assets/images/logo-rpavault.png",
-    "image": "https://rpavault.com/assets/images/og-image.png",
-    "email": "info@rpavault.com",
-    "telephone": "+91-9160949996",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Hyderabad",
-      "addressRegion": "Telangana",
-      "addressCountry": "IN"
-    },
-    "description": "Consultancy, staffing, enterprise automation, and IT training partner based in Hyderabad, India.",
-    "areaServed": "IN",
-    "sameAs": [
-      "https://in.linkedin.com/company/rpavault",
-      "https://www.instagram.com/rpavault/",
-      "https://www.youtube.com/@rpavault",
-      "https://www.facebook.com/rpavault/",
-      "https://t.me/rpavaultofficial"
-    ],
-    "knowsAbout": [
-      "RPA",
-      "UiPath",
-      "Power Automate",
-      "AI agents",
-      "IT staffing",
-      "IT training"
-    ]
-  }
+title: RPAVault Redesign Preview — Premium Minimalist Light | Hyderabad
+description: Live testing page for the brand new premium layout redesign of RPAVault.
 ---
-<section class="hero">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow"><i class="eyebrow-dot"></i> Consultancy + staffing for enterprise teams</span>
-      <h1>Enterprise Talent that performs from day one</h1>
-      <p class="lead">RPAVault is a <strong>consultancy and staffing partner</strong> for enterprise teams. We identify your role needs, source skilled talent across domains, screen every candidate, and manage smooth deployment — so you get productive team members, not just resumes.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="/consulting.html">Explore consulting & staffing</a>
-      </div>
-      <div class="hero-proof" aria-label="RPAVault focus areas">
-        <span>✓ Trusted by MNC & corporate teams</span>
-        <span>✓ Roles across IT, operations, cloud, data & business</span>
-      </div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap">
+
+<style>
+  /* Center Utilities */
+  .text-center { text-align: center !important; }
+  .mx-auto { margin-left: auto !important; margin-right: auto !important; }
+  .justify-center { justify-content: center !important; }
+
+  /* Section Padding - Reduced empty space to feel tighter and more polished */
+  .hero-premium {
+    position: relative;
+    padding: 6.5rem 0 5rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+  .pillars-section, .enterprise-premium-section, .trainings-premium-section, .content-section {
+    position: relative;
+    padding: 6rem 0 !important;
+    background: transparent !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+
+  /* Hero Eyebrow */
+  .eyebrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    padding: 6px 14px !important;
+    border-radius: 100px !important;
+    color: #515154 !important;
+    font-size: 0.78rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-weight: 600 !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: none !important;
+  }
+  .eyebrow-dot {
+    background: #0058b0 !important; /* Signature Logo Blue */
+    box-shadow: none !important;
+  }
+
+  /* Typography - Playfair Display headings with Logo Blue highlights */
+  h1, h2, h3, .serif-heading {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    color: #1d1d1f !important;
+  }  /* Fixed Hero Centering Alignment & Max-Width Overrides */
+  /* Fixed Hero Centering Alignment & Max-Width Overrides */
+  .hero-premium .container, .hero .container, .hero-copy, .hero-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    max-width: var(--container) !important;
+    width: 100% !important;
+  }
+
+  .hero-premium h1, .hero h1, h1 {
+    font-size: clamp(2.6rem, 4.8vw, 3.8rem) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -1.2px !important;
+    margin: 0 auto 1.5rem auto !important;
+    text-align: center !important;
+    max-width: 900px !important;
+    width: 100% !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 3.2vw, 2.6rem) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.8px !important;
+    margin-bottom: 1.2rem !important;
+  }
+
+  /* Italic Logo Blue Highlight */
+  h1 em, h2 em, h3 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important; /* Signature Logo Blue */
+  }
+
+  .hero-premium .lead, .hero .lead, .lead {
+    color: #86868b !important;
+    font-size: 1.25rem !important;
+    line-height: 1.65 !important;
+    max-width: 800px !important;
+    text-align: center !important;
+    margin: 0 auto 2.5rem auto !important;
+    width: 100% !important;
+  }
+  .hero-premium .lead strong, .hero .lead strong, .lead strong {
+    color: #1d1d1f !important;
+  }
+  .hero-premium .hero-actions, .hero .hero-actions, .hero-actions {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin: 0 auto 3rem auto !important;
+    width: 100% !important;
+  }
+  .hero-premium .hero-proof, .hero .hero-proof, .hero-proof {
+    text-align: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  /* Pipeline Track on Hero */
+  .hero-pipeline-showcase {
+    max-width: 1020px;
+    margin: 4rem auto 0 auto;
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.015);
+  }
+  
+  .pipeline-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .pipeline-step {
+    flex: 1;
+    text-align: center;
+  }
+  .pipeline-step h4 {
+    margin: 0.8rem 0 0.4rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #1d1d1f;
+  }
+  .pipeline-step p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #86868b;
+    line-height: 1.4;
+  }
+  
+  .step-badge {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f5f5f7;
+    border: 1px solid #e5e5e7;
+    color: #1d1d1f;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .pipeline-step.active .step-badge {
+    background: #1d1d1f;
+    border-color: #1d1d1f;
+    color: #ffffff;
+  }
+  
+  .pipeline-line {
+    flex: 0 0 40px;
+    height: 1px;
+    background: #e5e5e7;
+  }
+  
+  .hero-proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    border-top: 1px solid #e5e5e7;
+    padding-top: 1.5rem;
+    margin-top: 1rem;
+  }
+  .hero-proof span {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #515154;
+  }
+
+  /* Pillars Split Section */
+  .pillars-section {
+    background: #f5f5f7 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.3fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .pillars-left {
+    position: sticky;
+    top: 120px;
+  }
+  .lead-sub {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #86868b;
+    margin-bottom: 2rem;
+  }
+  .pillars-stat-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+    max-width: 320px;
+  }
+  .pillars-stat-card h3 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Playfair Display', serif;
+  }
+  .pillars-stat-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #86868b;
+  }
+  
+  .pillars-right {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .pillar-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 18px;
+    padding: 2.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: start;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  }
+  .pillar-card:hover {
+    transform: translateY(-4px);
+    border-color: #d2d2d7;
+  }
+  .pillar-card .card-icon {
+    flex: 0 0 46px;
+    height: 46px;
+    background: #f5f5f7;
+    border: 1px solid #e5e5e7;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: #1d1d1f;
+    font-size: 1.1rem;
+  }
+  .pillar-card-body h3 {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+  .pillar-card-body p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #86868b;
+    line-height: 1.6;
+  }
+
+  /* Link blue chevrons */
+  .card-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    color: #0058b0 !important; /* Logo Blue Link */
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+    margin-top: 1.5rem !important;
+    transition: gap 0.2s !important;
+  }
+  .card-link:hover {
+    gap: 8px !important;
+    text-decoration: underline !important;
+  }
+
+  /* Enterprise Section Custom background */
+  .enterprise-premium-section {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+  
+  .enterprise-premium-section .section-kicker {
+    background: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    color: #515154 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 6px 14px !important;
+    border-radius: 100px !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-weight: 600 !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .enterprise-premium-section .section-kicker i {
+    background: #0058b0 !important;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* Step Timeline Horizontal grid */
+  .timeline-step-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  
+  .step-card {
+    background: #f5f5f7;
+    border: 1px solid #e5e5e7;
+    border-radius: 18px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  }
+  .step-card:hover {
+    transform: translateY(-4px);
+    border-color: #d2d2d7;
+  }
+  .step-number {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: rgba(29, 29, 31, 0.08);
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+  }
+  .step-card h3 {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+  .step-card p {
+    margin: 0 0 1.5rem 0;
+    font-size: 0.9rem;
+    color: #86868b;
+    line-height: 1.5;
+  }
+  .step-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    font-size: 0.75rem;
+    color: #515154;
+    font-weight: 500;
+  }
+  
+  /* Horizontal featured showcase */
+  .enterprise-featured-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 4rem;
+    align-items: center;
+    background: #f5f5f7;
+    border: 1px solid #e5e5e7;
+    border-radius: 24px;
+    padding: 3.5rem 3rem;
+  }
+  .featured-showcase-copy h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin: 0 0 1rem 0;
+  }
+  .featured-showcase-copy p {
+    font-size: 1.05rem;
+    color: #515154;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  .enterprise-list {
+    display: grid;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  .enterprise-list span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #515154;
+    font-weight: 500;
+  }
+  .enterprise-list b {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1d1d1f;
+    color: #ffffff;
+    font-size: 0.8rem;
+  }
+  
+  .featured-showcase-cards {
+    display: grid;
+    gap: 1.2rem;
+  }
+  .mini-showcase-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 14px;
+    padding: 1.5rem 1.8rem;
+  }
+  .mini-showcase-card h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.05rem;
+    color: #1d1d1f;
+    font-weight: 600;
+  }
+  .mini-showcase-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #86868b;
+    line-height: 1.5;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    background: #1d1d1f !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    padding: 15px 32px !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+  .btn-primary:hover {
+    background: #333336 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .btn-secondary, .btn-light {
+    background: #ffffff !important;
+    border: 1px solid #d2d2d7 !important;
+    color: #1d1d1f !important;
+    font-weight: 500 !important;
+    padding: 13px 28px !important;
+    border-radius: 8px !important;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s !important;
+    box-shadow: none !important;
+  }
+  .btn-secondary:hover, .btn-light:hover {
+    border-color: #86868b !important;
+    background-color: #f5f5f7 !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* Trainings Premium Layout */
+  .trainings-premium-section {
+    padding: 8rem 0 !important;
+    background: #f5f5f7 !important;
+    border-bottom: 1px solid #e5e5e7 !important;
+  }
+  .trainings-premium-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .trainings-premium-left {
+    position: sticky;
+    top: 120px;
+  }
+  .trainings-premium-section .section-kicker {
+    background: #ffffff !important;
+    border: 1px solid #e5e5e7 !important;
+    color: #515154 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 6px 14px !important;
+    border-radius: 100px !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-weight: 600 !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .trainings-premium-section .section-kicker i {
+    background: #0058b0 !important;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .trainings-premium-right {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  
+  .training-card-featured {
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 20px;
+    padding: 2.8rem 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  }
+  .training-card-featured:hover {
+    transform: translateY(-4px);
+    border-color: #d2d2d7;
+  }
+  .training-card-featured small {
+    display: block;
+    color: #86868b;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  .training-card-featured h3 {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+  .training-card-featured p {
+    color: #86868b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+  }
+  
+  .training-strip {
+    height: 64px;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e5e5e7 !important;
+  }
+  .strip-corporate {
+    background: linear-gradient(135deg, #1d1d1f, #515154) !important;
+  }
+  
+  .training-points {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+  .training-points span {
+    font-size: 0.92rem;
+    color: #515154;
+    font-weight: 500;
+  }
+  
+  .training-card-stack {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .training-card-sub {
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 20px;
+    padding: 2.2rem 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  }
+  .training-card-sub:hover {
+    transform: translateY(-3px);
+    border-color: #d2d2d7;
+  }
+  
+  .training-card-sub small {
+    display: block;
+    color: #86868b;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .training-card-sub h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.6rem !important;
+    color: #1d1d1f !important;
+  }
+  
+  .training-card-sub p {
+    color: #86868b;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    margin: 0;
+  }
+  
+  .course-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .course-chips span {
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: 1px solid #e5e5e7 !important;
+    background: #ffffff !important;
+    color: #515154 !important;
+    font-weight: 500;
+    font-size: 0.88rem;
+  }
+  
+  .training-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .training-stats b {
+    display: block;
+    font-size: 1.8rem;
+    color: #1d1d1f !important;
+    font-weight: 700;
+  }
+  .training-stats span {
+    font-size: 0.88rem;
+    color: #86868b !important;
+  }
+
+  /* Testimonials and Ratings */
+  .rating-line {
+    color: #86868b !important;
+  }
+  .rating-line strong {
+    color: #1d1d1f !important;
+  }
+  .quote-card {
+    border: 1px solid #e5e5e7 !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
+  }
+  .quote-card blockquote {
+    color: #515154 !important;
+    font-style: italic !important;
+    line-height: 1.65 !important;
+  }
+  .quote-card cite {
+    color: #1d1d1f !important;
+  }
+  .stars {
+    color: #ff9500 !important; /* iOS Gold star */
+  }
+
+  /* Footer Section */
+  .site-footer {
+    background: #f5f5f7 !important;
+    color: #515154 !important;
+    border-top: 1px solid #e5e5e7 !important;
+  }
+  .site-footer h3 {
+    color: #1d1d1f !important;
+  }
+  .site-footer a, .site-footer p {
+    color: #86868b !important;
+  }
+  .site-footer a:hover {
+    color: #1d1d1f !important;
+  }
+  .footer-bottom {
+    border-top: 1px solid #e5e5e7 !important;
+    color: #86868b !important;
+  }
+
+  /* Responsive Overrides */
+  @media(max-width: 1024px) {
+    .pillars-grid, .enterprise-featured-showcase, .trainings-premium-grid, .trainings-premium-right {
+      grid-template-columns: 1fr;
+    }
+    .timeline-step-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .pillars-left, .trainings-premium-left {
+      position: static;
+    }
+    .pipeline-track {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .pipeline-line {
+      display: none;
+    }
+  }
+  @media(max-width: 640px) {
+    .timeline-step-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section class="hero-premium">
+  <div class="container text-center">
+    <span class="eyebrow"><i class="eyebrow-dot"></i> Consultancy + staffing for enterprise teams</span>
+    <h1>Deploy Vetted Tech Talent, Engineered for <em>Immediate Impact</em></h1>
+    <p class="lead mx-auto">RPAVault is an elite technology staffing and automation consultancy. We bridge the talent gap by matching your engineering, cloud, and operations teams with pre-screened, deployment-ready professionals equipped to scale your systems from day one.</p>
+    <div class="hero-actions justify-center">
+      <a class="btn btn-primary" href="/consulting/">Explore consulting & staffing</a>
+      <a class="btn btn-secondary" href="#" data-open-callback>Request Callback</a>
     </div>
-    <div class="visual-wrap" aria-hidden="true">
-      <div class="visual-card">
-        <div class="pulse"></div>
-        <div class="orbit"></div>
-        <div class="orbit two"></div>
-        <div class="core"><strong>From role to ready<br>end to end</strong></div>
-        <div class="node candidates"><b>Professional Pool</b><span>Vetted, multi-domain talent</span></div>
-        <div class="node screening"><b>Role Screening</b><span>Profile & role-fit checks</span></div>
-        <div class="node deploy"><b>Corporate Deployment</b><span>Team-ready from day one</span></div>
-        <div class="node automation"><b>Consulting Support</b><span>Workforce & process guidance</span></div>
-        <div class="pipeline"><i></i> Our pipeline: Source → Screen → Deploy → Support</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="quick-cards">
-  <div class="container quick-grid">
-    <article class="quick-card reveal">
-      <small>01 / Staffing</small>
-      <h3>Skilled professionals for every role</h3>
-      <p>Support corporate and MNC teams with talent across IT, operations, cloud, data, automation, and business functions.</p>
-    </article>
-    <article class="quick-card reveal">
-      <small>02 / Consulting</small>
-      <h3>We map the gap before we fill it</h3>
-      <p>Understand your team gaps, role expectations, and project needs first — then match the right people to the work.</p>
-    </article>
-    <article class="quick-card reveal">
-      <small>03 / Professional pipeline</small>
-      <h3>Screened, onboarded, deployment-ready</h3>
-      <p>Maintain a vetted talent pipeline, screen every profile, coordinate onboarding, and support smooth deployment into your teams.</p>
-    </article>
-  </div>
-</section>
-
-<section class="enterprise-section" id="enterprise-automation">
-  <div class="container enterprise-shell">
-    <div class="enterprise-copy">
-      <span class="section-kicker"><i></i> Enterprise automation</span>
-      <h2>Scalable RPA projects built end to end.</h2>
-      <p>RPAVault designs and builds <strong>complete RPA automation projects</strong> for companies based on their real business requirements — from process discovery and solution design to bots, AI agents, and agentic workflows, through testing, deployment, and ongoing scaling.</p>
-      <div class="enterprise-list">
-        <span><b>✓</b> Automate repetitive business processes across departments</span>
-        <span><b>✓</b> Build reliable bots, AI agents, workflows, and dashboards</span>
-        <span><b>✓</b> Deliver scalable automation systems that teams can actually use</span>
-      </div>
-      <div class="section-cta">
-        <a class="btn btn-light" href="/enterprise-automation.html">Explore enterprise automation</a>
-      </div>
-    </div>
-
-    <div class="automation-stack" aria-hidden="true">
-      <div class="automation-glow"></div>
-      <div class="automation-connector"></div>
-      <div class="automation-stage reveal">
-        <span class="stage-num">01</span>
-        <span class="stage-copy"><b>Discover</b><span>Process study, requirement mapping, and feasibility check</span></span>
-        <span class="stage-chip">Requirement</span>
-      </div>
-      <div class="automation-stage reveal">
-        <span class="stage-num">02</span>
-        <span class="stage-copy"><b>Design</b><span>Workflow logic, exception paths, architecture, and controls</span></span>
-        <span class="stage-chip">Blueprint</span>
-      </div>
-      <div class="automation-stage reveal">
-        <span class="stage-num">03</span>
-        <span class="stage-copy"><b>Build</b><span>Bots, AI agents, integrations, dashboards, and handover assets</span></span>
-        <span class="stage-chip">Automation</span>
-      </div>
-      <div class="automation-stage reveal">
-        <span class="stage-num">04</span>
-        <span class="stage-copy"><b>Scale</b><span>Testing, deployment, monitoring, support, and improvements</span></span>
-        <span class="stage-chip">Production</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="container enterprise-cards">
-    <article class="enterprise-card reveal">
-      <small>01 / Discovery</small>
-      <h3>We understand the process first</h3>
-      <p>Study the current workflow, bottlenecks, inputs, outputs, exceptions, and business rules before automation starts.</p>
-    </article>
-    <article class="enterprise-card reveal">
-      <small>02 / Build</small>
-      <h3>We develop production-ready automations</h3>
-      <p>Create bots, AI agents, agentic workflows, integrations, and dashboards that fit your team’s actual operational needs.</p>
-    </article>
-    <article class="enterprise-card reveal">
-      <small>03 / Scale</small>
-      <h3>We support rollout and improvement</h3>
-      <p>Test, deploy, monitor, and improve automations so they stay reliable as your business requirements grow.</p>
-    </article>
-  </div>
-</section>
-
-<section class="training-section" id="trainings">
-  <div class="container training-head">
-    <div>
-      <span class="section-kicker"><i></i> Trainings</span>
-      <h2>Practical IT training for teams, colleges, and focused batches.</h2>
-      <div class="section-cta"><a class="btn btn-primary" href="/trainings.html">Explore all IT courses</a></div>
-        <div class="training-stats">
-          <div><b>5,000+</b><span>students trained</span></div>
-          <div><b>500+</b><span>corporate trainings</span></div>
-          <div><b>140+</b><span>college programs</span></div>
+    
+    <!-- Redesigned Hero Process Diagram: Visual pipeline panel -->
+    <div class="hero-pipeline-showcase">
+      <div class="pipeline-track">
+        <div class="pipeline-step active">
+          <span class="step-badge">1</span>
+          <h4>Source</h4>
+          <p>Professional pool of vetted candidate database</p>
         </div>
+        <div class="pipeline-line"></div>
+        <div class="pipeline-step active">
+          <span class="step-badge">2</span>
+          <h4>Screen</h4>
+          <p>Rigorous profile and role-fit vetting checks</p>
+        </div>
+        <div class="pipeline-line"></div>
+        <div class="pipeline-step active">
+          <span class="step-badge">3</span>
+          <h4>Deploy</h4>
+          <p>Corporate-ready deployment from day one</p>
+        </div>
+        <div class="pipeline-line"></div>
+        <div class="pipeline-step active">
+          <span class="step-badge">4</span>
+          <h4>Support</h4>
+          <p>Ongoing workforce & consulting guidance</p>
+        </div>
+      </div>
+      <div class="hero-proof">
+        <span>✓ Trusted Partner for MNCs & Leading Corporate Enterprises</span>
+        <span>✓ Direct Access to Specialists in RPA, Cloud, Data & DevOps</span>
+      </div>
     </div>
-    <div class="training-aside">
-      <p>RPAVault delivers training across <strong>all major IT courses</strong> — with AI and agentic automation at the center of today’s demand. From corporate upskilling to college programs and career batches, every program is built around real project skills.</p>
+  </div>
+</section>
+
+<section class="pillars-section">
+  <div class="container pillars-grid">
+    <div class="pillars-left">
+      <span class="eyebrow"><i class="eyebrow-dot"></i> Vetted Talent</span>
+      <h2>Precision Sourcing. <em>Zero Friction.</em></h2>
+      <p class="lead-sub">We maintain a vetted multi-domain candidate pipeline to support your team deployment from day one.</p>
+      <div class="pillars-stat-card">
+        <h3>15,000+</h3>
+        <p>Vetted Profiles in our active candidate database</p>
+      </div>
+    </div>
+    <div class="pillars-right">
+      <div class="pillar-card reveal">
+        <div class="card-icon">01</div>
+        <div class="pillar-card-body">
+          <h3>Cross-Domain Technology Experts</h3>
+          <p>Instantly access certified professionals skilled in Cloud Architecture, Data Analytics, RPA, DevOps, and Full-Stack Engineering.</p>
+          <a href="/consulting/#placement-pillars" class="card-link">Explore staffing <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div>
+      </div>
+      <div class="pillar-card reveal">
+        <div class="card-icon">02</div>
+        <div class="pillar-card-body">
+          <h3>Strategic Capability Mapping</h3>
+          <p>We analyze your team’s bottlenecks and technical stack first, ensuring every placement aligns with your long-term technical roadmap.</p>
+          <a href="/consulting/#placement-blueprint" class="card-link">Explore consulting <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div>
+      </div>
+      <div class="pillar-card reveal">
+        <div class="card-icon">03</div>
+        <div class="pillar-card-body">
+          <h3>Accelerated Deployment Pipeline</h3>
+          <p>Our rigorous vetting, coding audits, and background checks guarantee candidates who assimilate and deliver value within hours.</p>
+          <a href="/consulting/#partnership-models" class="card-link">Explore pipeline <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="enterprise-premium-section" id="enterprise-automation">
+  <div class="container">
+    <div class="text-center" style="max-width: 800px; margin: 0 auto 4rem auto;">
+      <span class="section-kicker"><i></i> Enterprise automation</span>
+      <h2>Architecting the Future of <em>Intelligent Automation</em></h2>
+      <p class="lead mx-auto">We design, develop, and deploy enterprise-grade automation systems. From legacy process migration and robust RPA bots to cutting-edge AI agents and workflows, we build solutions that eliminate operational friction.</p>
+    </div>
+
+    <!-- Redesigned Step Timeline Grid -->
+    <div class="timeline-step-grid reveal">
+      <div class="step-card">
+        <span class="step-number">01</span>
+        <h3>Discover</h3>
+        <p>Process study, requirement mapping, and feasibility check</p>
+        <span class="step-tag">Requirement</span>
+      </div>
+      <div class="step-card">
+        <span class="step-number">02</span>
+        <h3>Design</h3>
+        <p>Workflow logic, exception paths, architecture, and controls</p>
+        <span class="step-tag">Blueprint</span>
+      </div>
+      <div class="step-card">
+        <span class="step-number">03</span>
+        <h3>Build</h3>
+        <p>Bots, AI agents, integrations, dashboards, and handover assets</p>
+        <span class="step-tag">Automation</span>
+      </div>
+      <div class="step-card">
+        <span class="step-number">04</span>
+        <h3>Scale</h3>
+        <p>Testing, deployment, monitoring, support, and improvements</p>
+        <span class="step-tag">Production</span>
+      </div>
+    </div>
+
+    <!-- Asymmetrical bottom cards -->
+    <div class="enterprise-featured-showcase reveal">
+      <div class="featured-showcase-copy">
+        <h3>How we deliver reliability</h3>
+        <p>We automate repetitive business processes across departments, building robust bots and dashboards that teams can actually use daily.</p>
+        <div class="enterprise-list">
+          <span><b>✓</b> Automate business processes across departments</span>
+          <span><b>✓</b> Build reliable bots, AI agents, and workflows</span>
+          <span><b>✓</b> Deliver scalable systems that teams use</span>
+        </div>
+        <a class="btn btn-primary" href="/enterprise-automation/">Explore automation services</a>
+      </div>
+      <div class="featured-showcase-cards">
+        <div class="mini-showcase-card">
+          <h4>01 / Discovery</h4>
+          <p>Study the current workflow, bottlenecks, exceptions, and rules before automation starts.</p>
+        </div>
+        <div class="mini-showcase-card">
+          <h4>02 / Build</h4>
+          <p>Create production-ready bots, AI agents, and integrations that fit operational needs.</p>
+        </div>
+        <div class="mini-showcase-card">
+          <h4>03 / Scale</h4>
+          <p>Test, deploy, and monitor automations so they stay reliable as your business requirements grow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trainings-premium-section" id="trainings">
+  <div class="container trainings-premium-grid">
+    <div class="trainings-premium-left">
+      <span class="section-kicker"><i></i> Trainings</span>
+      <h2>Future-Proof Skills, Engineered for <em>Growth</em></h2>
+      <p class="lead-sub">Empower your organization and teams with project-focused technology training. Specializing in high-demand domains like AI Agents, Intelligent Automation, Data Science, and DevOps, we turn learners into builders.</p>
+      
       <div class="course-chips">
         <span>Cloud</span>
         <span>AI & Agentic Automation</span>
@@ -170,56 +892,58 @@ schema_ld: |
         <span>DevOps</span>
         <span>Full-stack & more</span>
       </div>
+
+      <div class="training-stats">
+        <div><b>5,000+</b><span>students trained</span></div>
+        <div><b>500+</b><span>corporate trainings</span></div>
+        <div><b>140+</b><span>college programs</span></div>
+      </div>
+      
+      <div class="section-cta" style="margin-top: 2rem;">
+        <a class="btn btn-primary" href="/training/">Explore all IT courses</a>
+      </div>
     </div>
-  </div>
+    
+    <div class="trainings-premium-right">
+      <!-- Large Featured Corporate Card -->
+      <article class="training-card-featured reveal">
+        <div class="training-strip strip-corporate" aria-hidden="true"></div>
+        <small>01 / Corporate training</small>
+        <h3>Upskill employees for automation-first work</h3>
+        <p>Practical workshops for companies, L&D, operations, and IT teams — from automation adoption to modern IT skills for working teams.</p>
+        <div class="training-points">
+          <span>✓ Automation, cloud & modern IT tools</span>
+          <span>✓ AI & agentic automation adoption</span>
+          <span>✓ Custom curriculum for business teams</span>
+        </div>
+        <div class="section-cta" style="margin-top: auto;"><a class="btn btn-secondary" href="/corporate-training/">Corporate training</a></div>
+      </article>
 
-  <div class="container training-grid">
-    <article class="training-card reveal">
-      <div class="training-strip strip-corporate" aria-hidden="true"><svg viewBox="0 0 72 48" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="16" width="17" height="29" rx="2"/><rect x="27" y="4" width="19" height="41" rx="2"/><rect x="53" y="22" width="16" height="23" rx="2"/><path d="M32 12h9M32 20h9M32 28h9M32 36h9"/><path d="M8 24h7M8 32h7M58 30h6M58 38h6"/></svg></div>
-      <small>01 / Corporate training</small>
-      <h3>Upskill employees for automation-first work</h3>
-      <p>Practical workshops for companies, HR, L&D, operations, and IT teams — from automation adoption to modern IT skills for working teams.</p>
-      <div class="training-points">
-        <span>✓ Automation, cloud & modern IT tools</span>
-        <span>✓ AI & agentic automation adoption</span>
-        <span>✓ Custom curriculum for business teams</span>
-      </div>
-      <div class="section-cta"><a class="btn btn-secondary" href="/corporate-training.html">Corporate training</a></div>
-    </article>
+      <!-- Split right column for College and Batches -->
+      <div class="training-card-stack">
+        <article class="training-card-sub reveal">
+          <small>02 / College training</small>
+          <h3>Bridge students into industry-ready skills</h3>
+          <p>College-focused programs that introduce practical automation, cloud, data, and IT skills through guided sessions and project-based learning.</p>
+          <a class="card-link" href="/training/#college-programs">Explore college programs <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </article>
 
-    <article class="training-card reveal">
-      <div class="training-strip strip-college" aria-hidden="true"><svg viewBox="0 0 72 48" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M36 5 4 17l32 12 32-12z"/><path d="M17 23v11c0 5 8.5 9 19 9s19-4 19-9V23"/><path d="M66 19v13"/></svg></div>
-      <small>02 / College training</small>
-      <h3>Bridge students into industry-ready skills</h3>
-      <p>College-focused programs that introduce practical automation, cloud, data, and IT skills through guided sessions and project-based learning.</p>
-      <div class="training-points">
-        <span>✓ Campus workshops and bootcamps</span>
-        <span>✓ Hands-on project exposure</span>
-        <span>✓ Career-oriented technology foundation</span>
+        <article class="training-card-sub reveal">
+          <small>03 / Focused batch trainings</small>
+          <h3>Job-ready batches for career growth</h3>
+          <p>Dedicated learner batches across IT courses — AI & agentic automation, cloud, RPA, data, testing, DevOps, full-stack, and more.</p>
+          <a class="card-link" href="/courses/">View batches & courses <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </article>
       </div>
-      <div class="section-cta"><a class="btn btn-secondary" href="/trainings.html">College programs</a></div>
-    </article>
-
-    <article class="training-card reveal">
-      <div class="training-strip strip-batch" aria-hidden="true"><svg viewBox="0 0 72 48" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="38" r="5"/><circle cx="30" cy="14" r="5"/><circle cx="50" cy="32" r="5"/><circle cx="64" cy="9" r="5"/><path d="M14 34.5 26 18M34 17l12 11M54 28.5 60 13"/></svg></div>
-      <small>03 / Focused batch trainings</small>
-      <h3>Job-ready batches for career growth</h3>
-      <p>Dedicated learner batches across IT courses — AI & agentic automation, cloud, RPA, data, testing, DevOps, full-stack, and more.</p>
-      <div class="training-points">
-        <span>✓ Batches across all major IT courses</span>
-        <span>✓ Curriculum, practice, and guidance</span>
-        <span>✓ Enrollment-ready training pathways</span>
-      </div>
-      <div class="section-cta"><a class="btn btn-secondary" href="/it-training.html">View batches & courses</a></div>
-    </article>
+    </div>
   </div>
 </section>
 
 <section class="content-section" id="testimonials">
-  <div class="container">
+  <div class="container text-center">
     <h2>What our students say</h2>
     <p class="section-intro rating-line">Rated <strong>4.9 / 5</strong> from <strong>170+ Google reviews</strong>.</p>
-    <div class="card-grid">
+    <div class="card-grid" style="text-align: left;">
       <article class="info-card quote-card reveal"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Excellent training and real-time knowledge. The sessions are completely practical and the trainer explains every concept with real project scenarios. Best place to learn RPA.”</blockquote><cite>Madhu Krishna</cite><span class="review-source">Google review</span></article>
       <article class="info-card quote-card reveal"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Very good institute for UiPath training. In-depth coverage from basics to REFramework with hands-on practice, and genuine placement guidance throughout.”</blockquote><cite>Krishna Cherukuri</cite><span class="review-source">Google review</span></article>
       <article class="info-card quote-card reveal"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Great learning experience. Concepts are taught patiently with real examples, doubts are cleared in every session, and the projects gave me real confidence for interviews.”</blockquote><cite>Aditi Kulkarni</cite><span class="review-source">Google review</span></article>
