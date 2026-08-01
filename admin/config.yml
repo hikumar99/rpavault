@@ -20,8 +20,8 @@ collections:
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/blog-post.html"}
       - {label: "Title", name: "title", widget: "string"}
-      - {label: "Description", name: "description", widget: "string"}
-      - {label: "Date", name: "date", widget: "date"}
+      - {label: "Description (SEO)", name: "description", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "date", format: "YYYY-MM-DD"}
       - {label: "Tags", name: "tags", widget: "hidden", default: "blog"}
       - {label: "Body", name: "body", widget: "markdown"}
 
@@ -29,19 +29,128 @@ collections:
     label: "Course Pages"
     folder: "course"
     create: true
-    slug: "{{slug}}/index"
+    nested: true
+    path: "{{slug}}/index"
     format: "frontmatter"
     extension: "html"
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Title (SEO)", name: "title", widget: "string"}
+      - {label: "Description (SEO)", name: "description", widget: "string"}
       - {label: "Course Slug (must match folder name)", name: "course_slug", widget: "string"}
-      - {label: "Body (HTML)", name: "body", widget: "code", default_language: "html"}
+      - {label: "Body (HTML Content)", name: "body", widget: "code", default_language: "html"}
+
+  - name: "pages"
+    label: "Website Pages"
+    files:
+      - name: "home"
+        label: "Home Page"
+        file: "index.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "about"
+        label: "About Page"
+        file: "about.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "contact"
+        label: "Contact Page"
+        file: "contact.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "consulting"
+        label: "Consulting Page"
+        file: "consulting.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "enterprise_automation"
+        label: "Enterprise Automation Page"
+        file: "enterprise-automation.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "trainings"
+        label: "Trainings Page"
+        file: "trainings.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "it_training"
+        label: "IT Training Page"
+        file: "it-training.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "corporate_training"
+        label: "Corporate Training Page"
+        file: "corporate-training.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
+      - name: "request_callback"
+        label: "Request Callback Page"
+        file: "request-callback.html"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+          - {label: "Title (SEO)", name: "title", widget: "string"}
+          - {label: "Description (SEO)", name: "description", widget: "string"}
+          - {label: "Body", name: "body", widget: "code", default_language: "html"}
 
   - name: "settings"
-    label: "Live Settings & Pricing"
+    label: "Global Settings & Pricing"
     files:
+      - name: "globals"
+        label: "Header, Footer & Forms"
+        file: "_data/settings.json"
+        fields:
+          - label: "Header Settings"
+            name: "header"
+            widget: "object"
+            fields:
+              - {label: "Brand Name", name: "brand_name", widget: "string"}
+          - label: "Footer Settings"
+            name: "footer"
+            widget: "object"
+            fields:
+              - {label: "Description Text", name: "description", widget: "text"}
+              - {label: "Contact Email", name: "email", widget: "string"}
+              - {label: "Website URL", name: "domain_url", widget: "string"}
+              - {label: "Office Location", name: "location", widget: "string"}
+              - label: "Social Media Links"
+                name: "social"
+                widget: "object"
+                fields:
+                  - {label: "LinkedIn URL", name: "linkedin", widget: "string", required: false}
+                  - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+                  - {label: "YouTube URL", name: "youtube", widget: "string", required: false}
+                  - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+                  - {label: "Telegram URL", name: "telegram", widget: "string", required: false}
+          - label: "Form Configuration"
+            name: "forms"
+            widget: "object"
+            fields:
+              - {label: "FormSubmit Endpoint URL", name: "formsubmit_endpoint", widget: "string"}
+
       - name: "courses_data"
         label: "Central Course Prices & Batches"
         file: "assets/data/courses.json"

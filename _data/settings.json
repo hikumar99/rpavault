@@ -1,0 +1,21 @@
+{
+  "header": {
+    "brand_name": "RPAVault"
+  },
+  "footer": {
+    "email": "info@rpavault.com",
+    "domain_url": "https://rpavault.com",
+    "location": "Hyderabad, Telangana, India",
+    "description": "RPAVault is a consultancy, staffing, and enterprise automation partner. We place the right professionals in corporate teams, build end-to-end RPA and AI-agent automations, and deliver training across all major IT courses.",
+    "social": {
+      "linkedin": "https://in.linkedin.com/company/rpavault",
+      "instagram": "https://www.instagram.com/rpavault/",
+      "youtube": "https://www.youtube.com/@rpavault",
+      "facebook": "https://www.facebook.com/rpavault/",
+      "telegram": "https://t.me/rpavaultofficial"
+    }
+  },
+  "forms": {
+    "formsubmit_endpoint": "https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2"
+  }
+}

@@ -3,12 +3,12 @@
     <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
     <h2>Request a callback</h2>
     <p class="modal-sub">Share your number and what you need — our team calls back within one business day.</p>
-    <form class="form-grid js-lead-form" action="https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2" method="POST">
-      <input type="hidden" name="_subject" value="Callback request — rpavault.com">
+    <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
+      <input type="hidden" name="_subject" value="Callback request — {{ settings.header.brand_name }}">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="form_type" value="Callback request (popup)">
-      <input type="hidden" name="_next" value="https://rpavault.com/request-callback.html?sent=1">
+      <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/request-callback.html?sent=1">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="form-row">
         <div class="form-field"><label for="m-name">Name</label><input id="m-name" name="name" type="text" required autocomplete="name"></div>
