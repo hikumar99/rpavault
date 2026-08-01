@@ -1,0 +1,140 @@
+backend:
+  name: github
+  repo: hikumar99/rpavault
+  branch: main
+  site_domain: rpavault.pages.dev
+  base_url: https://rpavault.pages.dev
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "blog"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/blog-post.html"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Date", name: "date", widget: "date"}
+      - {label: "Tags", name: "tags", widget: "hidden", default: "blog"}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "course"
+    label: "Course Pages"
+    folder: "course"
+    create: true
+    slug: "{{slug}}/index"
+    format: "frontmatter"
+    extension: "html"
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Course Slug (must match folder name)", name: "course_slug", widget: "string"}
+      - {label: "Body (HTML)", name: "body", widget: "code", default_language: "html"}
+
+  - name: "settings"
+    label: "Live Settings & Pricing"
+    files:
+      - name: "courses_data"
+        label: "Central Course Prices & Batches"
+        file: "assets/data/courses.json"
+        fields:
+          - {label: "Last Updated Date", name: "updated", widget: "string"}
+          - label: "Courses"
+            name: "courses"
+            widget: "object"
+            fields:
+              - label: "RPA Agentic (UiPath + Power Automate)"
+                name: "rpa-agentic-uipath-power-automate"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}
+              - label: "Advance Agentic RPA UiPath"
+                name: "advance-agentic-rpa-uipath"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}
+              - label: "UiPath Test Suite"
+                name: "uipath-test-suite"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}
+              - label: "MSBI Masterclass"
+                name: "msbi-masterclass"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}
+              - label: "SQL Server Masterclass"
+                name: "sql-server-masterclass"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}
+              - label: "Power BI"
+                name: "power-bi"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}
+              - label: "Playwright with TypeScript Automation Masterclass"
+                name: "playwright-typescript-automation"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}
+              - label: "Data Analytics (Power BI + SQL)"
+                name: "data-analytics-power-bi-sql"
+                widget: "object"
+                fields:
+                  - {label: "Course Name", name: "name", widget: "string"}
+                  - {label: "Current Fee", name: "fee", widget: "string"}
+                  - {label: "Regular Fee (Optional)", name: "regular_fee", widget: "string", required: false}
+                  - {label: "Next Batch", name: "next_batch", widget: "string"}
+                  - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
+                  - {label: "Featured", name: "featured", widget: "boolean"}
+                  - {label: "Is Live", name: "live", widget: "boolean"}

@@ -1,0 +1,17 @@
+---
+layout: layouts/base.html
+---
+<section class="page-hero"><div class="container">
+  <p class="page-kicker"><a href="/blog.html">Blog</a> · Careers &amp; Automation</p>
+  <h1>{{ title }}</h1>
+  <p class="post-meta">RPAVault Team · {{ date | dateFilter }}</p>
+</div></section>
+
+<section class="content-section"><div class="container"><div class="article-body">
+  {{ content | safe }}
+</div></div></section>
+
+<section class="cta-band"><div class="container"><div class="cta-inner">
+  <div><h2>Want to know if we fit your team?</h2><p>Tell us what you are trying to build — we will respond within one business day.</p></div>
+  <a class="btn btn-light" href="/contact.html">Contact us</a>
+</div></div></section>
