@@ -29,7 +29,8 @@ collections:
     label: "Course Pages"
     folder: "course"
     create: true
-    nested: true
+    nested:
+      depth: 10
     path: "{{slug}}/index"
     format: "frontmatter"
     extension: "html"
