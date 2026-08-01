@@ -1,0 +1,78 @@
+{
+  "updated": "2026-07-31",
+  "note": "Local fallback. When the Google Sheet is connected via assets/js/config.js, the sheet wins.",
+  "courses": {
+    "rpa-agentic-uipath-power-automate": {
+      "name": "RPA Agentic (UiPath + Power Automate)",
+      "fee": "₹16,999",
+      "regular_fee": "₹25,000",
+      "next_batch": "New batch enrolling — weekday mornings",
+      "batch_status": "Enrollment open",
+      "featured": true,
+      "live": true
+    },
+    "advance-agentic-rpa-uipath": {
+      "name": "Advance Agentic RPA UiPath",
+      "fee": "₹22,000",
+      "regular_fee": "",
+      "next_batch": "Open for interest — 35 live sessions",
+      "batch_status": "Enrollment open",
+      "featured": true,
+      "live": true
+    },
+    "uipath-test-suite": {
+      "name": "UiPath Test Suite",
+      "fee": "₹8,000",
+      "regular_fee": "",
+      "next_batch": "New batch planned — enroll now",
+      "batch_status": "Enrollment open",
+      "featured": true,
+      "live": false
+    },
+    "msbi-masterclass": {
+      "name": "MSBI Masterclass",
+      "fee": "Reach out for current fees",
+      "regular_fee": "",
+      "next_batch": "Open for interest — contact us for dates",
+      "batch_status": "Open for interest",
+      "featured": true,
+      "live": false
+    },
+    "sql-server-masterclass": {
+      "name": "SQL Server Masterclass",
+      "fee": "Reach out for current fees",
+      "regular_fee": "",
+      "next_batch": "Open for interest — contact us for dates",
+      "batch_status": "Open for interest",
+      "featured": true,
+      "live": false
+    },
+    "power-bi": {
+      "name": "Power BI",
+      "fee": "Reach out for current fees",
+      "regular_fee": "",
+      "next_batch": "Open for interest — contact us for dates",
+      "batch_status": "Open for interest",
+      "featured": true,
+      "live": false
+    },
+    "playwright-typescript-automation": {
+      "name": "Playwright with TypeScript Automation Masterclass",
+      "fee": "Reach out for current fees",
+      "regular_fee": "",
+      "next_batch": "Open for interest — contact us for dates",
+      "batch_status": "Open for interest",
+      "featured": true,
+      "live": false
+    },
+    "data-analytics-power-bi-sql": {
+      "name": "Data Analytics (Power BI + SQL)",
+      "fee": "Reach out for current fees",
+      "regular_fee": "",
+      "next_batch": "Enrollment started — 37 sessions",
+      "batch_status": "Enrollment open",
+      "featured": true,
+      "live": true
+    }
+  }
+}

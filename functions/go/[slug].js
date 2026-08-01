@@ -1,0 +1,35 @@
+// RPAVault short links — served from Cloudflare KV (binding: LINKS)
+// Managed from the Google Sheet "links" tab via Apps Script sync.
+export async function onRequest(context) {
+  const { params, env, request } = context;
+  const slug = String(params.slug || "").toLowerCase();
+  const raw = env.LINKS ? await env.LINKS.get(slug) : null;
+  if (!raw) {
+    return Response.redirect("https://rpavault.com/404.html", 302);
+  }
+  let link;
+  try { link = JSON.parse(raw); } catch (e) { link = { destination: raw }; }
+  const ua = (request.headers.get("user-agent") || "").toLowerCase();
+  const isPreviewBot = /(facebookexternalhit|whatsapp|twitterbot|linkedinbot|telegrambot|slackbot|discordbot|pinterest|skypeuripreview|vkshare|redditbot)/.test(ua);
+  if (!isPreviewBot) {
+    return Response.redirect(link.destination, 302);
+  }
+  const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+  const title = esc(link.og_title || "RPAVault");
+  const desc = esc(link.og_description || "Automation consultancy, enterprise automation and IT training.");
+  const img = esc(link.og_image || "https://rpavault.com/assets/images/og-image.png");
+  const url = "https://rpavault.com/go/" + esc(slug);
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>${title}</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="${desc}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:image" content="${img}">
+<meta property="og:url" content="${url}">
+<meta name="twitter:card" content="summary_large_image">
+<meta http-equiv="refresh" content="0;url=${esc(link.destination)}">
+</head><body>Redirecting…</body></html>`;
+  return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
+}
