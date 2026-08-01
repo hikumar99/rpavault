@@ -1,8 +1,8 @@
 <div class="rpv-modal" data-callback-modal role="dialog" aria-modal="true" aria-label="Request a callback">
   <div class="rpv-modal-card">
     <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
-    <h2>Request a callback</h2>
-    <p class="modal-sub">Share your number and what you need — our team calls back within one business day.</p>
+    <h2>{{ settings.forms.callback_form.title | default("Request a callback") }}</h2>
+    <p class="modal-sub">{{ settings.forms.callback_form.subtitle | default("Share your number and what you need — our team calls back within one business day.") }}</p>
     <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
       <input type="hidden" name="_subject" value="Callback request — {{ settings.header.brand_name }}">
       <input type="hidden" name="_captcha" value="false">
@@ -10,13 +10,30 @@
       <input type="hidden" name="form_type" value="Callback request (popup)">
       <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/request-callback.html?sent=1">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="form-row">
-        <div class="form-field"><label for="m-name">Name</label><input id="m-name" name="name" type="text" required autocomplete="name"></div>
-        <div class="form-field"><label for="m-phone">Phone / WhatsApp</label><input id="m-phone" name="phone" type="tel" required autocomplete="tel"></div>
-      </div>
-      <div class="form-field"><label for="m-topic">I’m interested in</label><select id="m-topic" name="topic"><option>Consulting &amp; Staffing</option><option>Enterprise Automation</option><option>Corporate Training</option><option>College Programs</option><option selected>IT Courses &amp; Batches</option><option>Something else</option></select></div>
-      <div class="form-field" data-course-conditional><label for="m-course">Which course?</label><select id="m-course" name="course"><option>RPA Agentic (UiPath + Power Automate)</option><option>Advance Agentic RPA UiPath</option><option>UiPath Test Suite</option><option>MSBI Masterclass</option><option>SQL Server Masterclass</option><option>Power BI</option><option>Playwright with TypeScript</option><option>Data Analytics (Power BI + SQL)</option><option>Other / not sure yet</option></select></div>
-      <div class="form-field"><label for="m-msg">Anything specific? (optional)</label><textarea id="m-msg" name="message" rows="3"></textarea></div>
+      
+      {% for field in settings.forms.callback_form.fields %}
+        {% if field.type == "select" %}
+          <div class="form-field" {% if field.name == "course" %}data-course-conditional{% endif %}>
+            <label for="m-{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
+            <select id="m-{{ field.name }}" name="{{ field.name }}" {% if field.required %}required{% endif %}>
+              {% for opt in field.options %}
+                <option {% if opt == "IT Courses & Batches" %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% elif field.type == "textarea" %}
+          <div class="form-field">
+            <label for="m-{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
+            <textarea id="m-{{ field.name }}" name="{{ field.name }}" rows="3" {% if field.required %}required{% endif %}></textarea>
+          </div>
+        {% else %}
+          <div class="form-field">
+            <label for="m-{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
+            <input id="m-{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" {% if field.required %}required{% endif %} {% if field.autocomplete %}autocomplete="{{ field.autocomplete }}"{% endif %}>
+          </div>
+        {% endif %}
+      {% endfor %}
+      
       <div class="section-cta"><button class="btn btn-primary" type="submit">Request my callback</button></div>
     </form>
   </div>

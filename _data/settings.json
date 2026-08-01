@@ -16,6 +16,63 @@
     }
   },
   "forms": {
-    "formsubmit_endpoint": "https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2"
+    "formsubmit_endpoint": "https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2",
+    "callback_form": {
+      "title": "Request a callback",
+      "subtitle": "Share your number and what you need — our team calls back within one business day.",
+      "fields": [
+        {
+          "name": "name",
+          "label": "Name",
+          "type": "text",
+          "required": true,
+          "autocomplete": "name"
+        },
+        {
+          "name": "phone",
+          "label": "Phone / WhatsApp",
+          "type": "tel",
+          "required": true,
+          "autocomplete": "tel"
+        },
+        {
+          "name": "topic",
+          "label": "I’m interested in",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Consulting & Staffing",
+            "Enterprise Automation",
+            "Corporate Training",
+            "College Programs",
+            "IT Courses & Batches",
+            "Something else"
+          ]
+        },
+        {
+          "name": "course",
+          "label": "Which course?",
+          "type": "select",
+          "required": false,
+          "options": [
+            "RPA Agentic (UiPath + Power Automate)",
+            "Advance Agentic RPA UiPath",
+            "UiPath Test Suite",
+            "MSBI Masterclass",
+            "SQL Server Masterclass",
+            "Power BI",
+            "Playwright with TypeScript",
+            "Data Analytics (Power BI + SQL)",
+            "Other / not sure yet"
+          ]
+        },
+        {
+          "name": "message",
+          "label": "Anything specific? (optional)",
+          "type": "textarea",
+          "required": false
+        }
+      ]
+    }
   }
 }
