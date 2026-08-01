@@ -12,35 +12,54 @@
       // Load the website stylesheet inside the CMS preview panel
       CMS.registerPreviewStyle("/assets/css/style.css");
 
-      // Preview template for general Website Pages
-      CMS.registerPreviewTemplate("pages", function(opts) {
-        var entry = opts.entry;
-        var body = entry.getIn(['data', 'body']) || '';
-        return h('div', { dangerouslySetInnerHTML: { __html: body } });
+      // Custom Preview template for Website Pages using official createClass API
+      var PagesPreview = createClass({
+        render: function() {
+          var entry = this.props.entry;
+          var body = entry.getIn(['data', 'body']) || '';
+          return h('div', { dangerouslySetInnerHTML: { __html: body } });
+        }
       });
+      CMS.registerPreviewTemplate("pages", PagesPreview);
 
-      // Preview template for Course Pages
-      CMS.registerPreviewTemplate("course", function(opts) {
-        var entry = opts.entry;
-        var body = entry.getIn(['data', 'body']) || '';
-        return h('div', { dangerouslySetInnerHTML: { __html: body } });
+      // Custom Preview template for Course Pages
+      var CoursePreview = createClass({
+        render: function() {
+          var entry = this.props.entry;
+          var body = entry.getIn(['data', 'body']) || '';
+          return h('div', { dangerouslySetInnerHTML: { __html: body } });
+        }
       });
+      CMS.registerPreviewTemplate("course", CoursePreview);
 
-      // Preview template for Blogs
-      CMS.registerPreviewTemplate("blog", function(opts) {
-        var entry = opts.entry;
-        var widgetFor = opts.widgetFor;
-        
-        return h('div', { className: 'content-section' },
-          h('div', { className: 'container' },
-            h('div', { className: 'article-body' },
-              h('h1', {}, entry.getIn(['data', 'title'])),
-              h('p', { className: 'post-meta' }, entry.getIn(['data', 'date'])),
-              h('div', {}, widgetFor('body'))
+      // Custom Preview template for Shared Components
+      var ComponentsPreview = createClass({
+        render: function() {
+          var entry = this.props.entry;
+          var body = entry.getIn(['data', 'body']) || '';
+          return h('div', { dangerouslySetInnerHTML: { __html: body } });
+        }
+      });
+      CMS.registerPreviewTemplate("components", ComponentsPreview);
+
+      // Custom Preview template for Blog Posts
+      var BlogPreview = createClass({
+        render: function() {
+          var entry = this.props.entry;
+          var widgetFor = this.props.widgetFor;
+          
+          return h('div', { className: 'content-section' },
+            h('div', { className: 'container' },
+              h('div', { className: 'article-body' },
+                h('h1', {}, entry.getIn(['data', 'title'])),
+                h('p', { className: 'post-meta' }, entry.getIn(['data', 'date'])),
+                h('div', {}, widgetFor('body'))
+              )
             )
-          )
-        );
+          );
+        }
       });
+      CMS.registerPreviewTemplate("blog", BlogPreview);
     </script>
   </body>
 </html>
