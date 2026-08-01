@@ -161,7 +161,7 @@ collections:
                   - {label: "Field Type", name: "type", widget: "select", options: ["text", "tel", "email", "select", "textarea"]}
                   - {label: "Is Required?", name: "required", widget: "boolean"}
                   - {label: "Autocomplete Helper", name: "autocomplete", widget: "string", required: false}
-                  - {label: "Select Options (Optional)", name: "options", widget: "list", field: {label: "Option", widget: "string"}, required: false}
+                  - {label: "Select Options (Optional)", name: "options", widget: "list", field: {label: "Option", name: "option", widget: "string"}, required: false}
           - label: "General Form Configuration"
             name: "forms"
             widget: "object"
