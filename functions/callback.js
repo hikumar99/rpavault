@@ -52,13 +52,15 @@ export async function onRequest(context) {
           const token = ${JSON.stringify(token)};
           const provider = "github";
           
-          function postMessage() {
+          if (window.opener) {
             window.opener.postMessage(
               "authorization:" + provider + ":success:" + JSON.stringify({ token: token, provider: provider }),
-              window.location.origin
+              "*"
             );
+            window.close();
+          } else {
+            document.body.innerHTML = "<p>Authorization successful! You can now close this window and refresh the page.</p>";
           }
-          postMessage();
         })();
       </script>
     </body>
