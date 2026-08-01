@@ -4,6 +4,7 @@ backend:
   branch: main
   site_domain: rpavault.pages.dev
   base_url: https://rpavault.pages.dev
+  auth_endpoint: auth
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
