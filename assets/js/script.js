@@ -2,6 +2,8 @@
 (function(){
 'use strict';
 
+const rpvPageLoadTime = Date.now();
+
 /* ---------- Navigation ---------- */
 const navToggle=document.querySelector('[data-nav-toggle]');
 const siteNav=document.querySelector('[data-site-nav]');
@@ -81,6 +83,8 @@ function browserInfo(){const ua=navigator.userAgent;let b='Unknown';
 if(/edg\//i.test(ua))b='Microsoft Edge';else if(/opr\//i.test(ua))b='Opera';else if(/chrome|crios/i.test(ua))b='Chrome';else if(/firefox|fxios/i.test(ua))b='Firefox';else if(/safari/i.test(ua))b='Safari';
 const dev=/mobi|android|iphone|ipad/i.test(ua)?'Mobile':'Desktop';return b+' · '+dev;}
 function setField(form,name,value){if(!value)return;let f=form.querySelector('input[name="'+name+'"]');if(!f){f=document.createElement('input');f.type='hidden';f.name=name;form.appendChild(f);}f.value=value;}
+function getOS(){const ua=navigator.userAgent;if(ua.indexOf("Win")!==-1)return "Windows";if(ua.indexOf("Mac")!==-1){if(navigator.maxTouchPoints>1)return "iOS (iPad)";return "macOS";}if(ua.indexOf("Linux")!==-1)return "Linux";if(/Android/i.test(ua))return "Android";if(/iPhone|iPad|iPod/i.test(ua))return "iOS";return "Unknown OS";}
+function getDeviceType(){const ua=navigator.userAgent;if(/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua))return "Tablet";if(/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpwOS)/i.test(ua))return "Mobile";return "Desktop";}
 const leadForms=document.querySelectorAll('form.js-lead-form');
 if(leadForms.length){
   const pagePath=location.pathname||'/';
@@ -137,6 +141,13 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
     }
 
     try {
+      // Set time spent on page, timezone, OS, and Device type on submission
+      const timeOnPage = Math.round((Date.now() - rpvPageLoadTime) / 1000);
+      setField(form, 'time_on_page_seconds', timeOnPage.toString());
+      setField(form, 'timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+      setField(form, 'operating_system', getOS());
+      setField(form, 'device_type', getDeviceType());
+
       const formData = new FormData(form);
       const data = {};
       formData.forEach((value, key) => {
