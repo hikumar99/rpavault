@@ -12,7 +12,11 @@ module.exports = function(eleventyConfig) {
 
   // Custom blog collection sorted by date descending (newest first)
   eleventyConfig.addCollection("blogPosts", function(collectionApi) {
-    return collectionApi.getFilteredByTag("blog").reverse();
+    return [...collectionApi.getFilteredByTag("blog")].sort((a, b) => {
+      const dateA = new Date(a.data.date || a.date);
+      const dateB = new Date(b.data.date || b.date);
+      return dateB - dateA;
+    });
   });
 
   // Date filter for blog posts (e.g. "2026-07-30" -> "30 July 2026")
