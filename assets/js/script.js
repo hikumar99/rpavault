@@ -153,7 +153,20 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
         action = action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
       }
 
-      // Submit to FormSubmit (as JSON to avoid CORS redirects)
+      // 1. Submit to custom webhook first in background (fire-and-forget, simple request, no-cors)
+      const webhookUrl = window.rpvConfig?.webhookEndpoint;
+      if (webhookUrl && webhookUrl.trim() !== '') {
+        fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors', // Bypasses CORS response header checks in the browser
+          headers: {
+            'Content-Type': 'text/plain' // Simple request Content-Type to bypass preflight OPTIONS check
+          },
+          body: JSON.stringify(data)
+        }).catch(err => console.warn("Background webhook submission failed:", err));
+      }
+
+      // 2. Submit to FormSubmit (as JSON to avoid CORS redirects)
       const response = await fetch(action, {
         method: 'POST',
         headers: {
@@ -165,17 +178,10 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
 
       if (!response.ok) throw new Error("Submission server error");
 
-      // Submit to custom webhook in background (fire-and-forget, simple request, no-cors)
-      const webhookUrl = window.rpvConfig?.webhookEndpoint;
-      if (webhookUrl && webhookUrl.trim() !== '') {
-        fetch(webhookUrl, {
-          method: 'POST',
-          mode: 'no-cors', // Bypasses CORS response header checks in the browser
-          headers: {
-            'Content-Type': 'text/plain' // Simple request Content-Type to bypass preflight OPTIONS check
-          },
-          body: JSON.stringify(data)
-        }).catch(err => console.warn("Background webhook submission failed:", err));
+      // Verify that FormSubmit didn't reject the submission internally
+      const resJson = await response.json();
+      if (resJson.success === "false" || resJson.success === false) {
+        throw new Error(resJson.message || "FormSubmit rejected submission");
       }
 
       form.innerHTML = `
