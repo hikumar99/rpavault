@@ -2,7 +2,7 @@
 layout: layouts/blog-post.html
 title: "AI Agents in SQL Databases: The Future of Database Querying"
 description: "How Large Language Models and AI Agents are transforming SQL databases. Learn about text-to-SQL agents, data extraction pipelines, and automated reporting."
-date: 2026-07-05
+date: 2026-08-04
 tags: blog
 category: "AI & Data Engineering"
 read_time: "6 min read"

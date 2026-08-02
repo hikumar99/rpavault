@@ -2,7 +2,7 @@
 layout: layouts/blog-post.html
 title: "Playwright vs Selenium: Why Modern QA Teams Are Switching"
 description: "Planning your QA testing stack in 2026? Read this technical comparison between Selenium and Playwright, covering speed, features, and developer experience."
-date: 2026-07-10
+date: 2026-08-03
 tags: blog
 category: "QA Testing"
 read_time: "5 min read"

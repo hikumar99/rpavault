@@ -2,7 +2,7 @@
 layout: layouts/blog-post.html
 title: "The Ultimate RPA Developer Resume Guide for 2026"
 description: "Stand out in the automation job market. Learn how to structure your RPA developer resume, showcase hands-on projects, translate non-IT skills, and grab hiring managers' attention."
-date: 2026-07-20
+date: 2026-08-01
 tags: blog
 category: "Career Transition"
 read_time: "6 min read"

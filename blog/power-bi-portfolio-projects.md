@@ -2,7 +2,7 @@
 layout: layouts/blog-post.html
 title: "Top 3 Power BI Portfolio Projects That Will Get You Hired"
 description: "Build a portfolio that stands out. Here are three high-impact Power BI projects with real data sources that demonstrate your business intelligence and data analyst skills."
-date: 2026-07-15
+date: 2026-08-02
 tags: blog
 category: "Data Analytics"
 read_time: "7 min read"
