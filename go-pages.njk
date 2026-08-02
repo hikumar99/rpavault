@@ -1,0 +1,132 @@
+---
+pagination:
+  data: redirects
+  size: 1
+  alias: redirect
+  addAllPagesToCollections: true
+permalink: "go/{{ redirect.slug }}/index.html"
+layout: layouts/base.html
+eleventyComputed:
+  title: "{{ redirect.title }}"
+  description: "{{ redirect.description }}"
+  og_image: "{{ redirect.image }}"
+---
+{% if redirect.type == "iframe" %}
+<style>
+  /* Full screen iframe container */
+  .iframe-container {
+    width: 100%;
+    height: calc(100vh - 68px); /* Height minus header height */
+    border: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+  }
+  .site-footer, .whatsapp-btn {
+    display: none !important;
+  }
+  #main-content {
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+</style>
+<iframe class="iframe-container" src="{{ redirect.url }}" allow="clipboard-write"></iframe>
+
+{% elif redirect.type == "transition" %}
+<style>
+  .transition-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 2rem;
+    background: #f5f5f7;
+  }
+  .transition-card {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    padding: 3rem 2.5rem;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .transition-card svg {
+    color: var(--blue);
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.85; }
+  }
+</style>
+<div class="transition-container">
+  <div class="transition-card">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    <h2 style="font-size: 1.45rem; font-weight: 800; color: var(--ink); margin: 0 0 1rem 0; line-height: 1.25;">Leaving RPAVault</h2>
+    <p style="font-size: 0.98rem; color: var(--ink-soft); line-height: 1.6; margin: 0 0 1.8rem 0;">
+      You are opening <strong>{{ redirect.title }}</strong>. We are securely redirecting you in <span id="build-countdown-timer" style="font-weight: 800; color: var(--blue); font-size: 1.15rem;">3</span> seconds...
+    </p>
+    <a href="{{ redirect.url }}" class="btn" style="background: var(--blue) !important; color: #ffffff !important; display: inline-block; padding: 12px 30px; font-weight: 700; border-radius: 8px; text-decoration: none; font-size: 0.92rem; box-shadow: 0 4px 12px rgba(0,88,176,0.15);">Open Link Now</a>
+  </div>
+</div>
+<script>
+  let count = 3;
+  const timer = document.getElementById('build-countdown-timer');
+  const interval = setInterval(() => {
+    count--;
+    timer.innerText = count;
+    if (count <= 0) {
+      clearInterval(interval);
+      window.location.replace("{{ redirect.url }}");
+    }
+  }, 1000);
+</script>
+
+{% else %}
+<!-- Direct redirect: immediately forward -->
+<style>
+  body.is-redirecting .site-header,
+  body.is-redirecting .site-footer,
+  body.is-redirecting .whatsapp-btn,
+  body.is-redirecting #main-content {
+    display: none !important;
+  }
+  .direct-loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    background: #ffffff;
+  }
+  .loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--blue-soft);
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1.5rem;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+<script>
+  document.body.classList.add('is-redirecting');
+  window.location.replace("{{ redirect.url }}");
+</script>
+<div class="direct-loader-container">
+  <div class="loader-spinner"></div>
+  <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--ink); margin: 0 0 0.5rem 0;">Redirecting you...</h2>
+  <p style="font-size: 0.92rem; color: var(--muted); margin: 0;">Securing your connection to {{ redirect.title }}.</p>
+</div>
+{% endif %}

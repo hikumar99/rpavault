@@ -23,6 +23,11 @@
 <link rel="stylesheet" href="/assets/css/style.css">
 <script src="/assets/js/script.js" defer></script>
 <script src="/assets/js/config.js" defer></script>
+<script>
+  window.rpvConfig = {
+    webhookEndpoint: "{{ settings.forms.webhook_endpoint | default('') }}"
+  };
+</script>
 
 {% if schema_ld %}
 <script type="application/ld+json">{{ schema_ld | safe }}</script>

@@ -112,4 +112,101 @@ document.querySelectorAll('form.js-lead-form').forEach(form=>{
   const check=()=>{const v=(topic.value||'').toLowerCase().trim();const show=v==='it courses & batches';wrap.style.setProperty('display',show?'block':'none','important');const inputs=wrap.querySelectorAll('input, select, textarea');inputs.forEach(inp=>{inp.disabled=!show;});};
   topic.addEventListener('change',check);check();
 });
+
+/* ---------- AJAX Form Submissions ---------- */
+document.querySelectorAll('form.js-lead-form').forEach(form => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Submit';
+    
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="spinner-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; display: inline-block;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2v4"></path></svg>
+        Submitting...
+      `;
+    }
+
+    if (!document.getElementById('spin-anim-style')) {
+      const s = document.createElement('style');
+      s.id = 'spin-anim-style';
+      s.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
+      document.head.appendChild(s);
+    }
+
+    try {
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        // Exclude redirect parameter and honeypot field from JSON payload
+        if (key !== '_next' && key !== '_honey') {
+          data[key] = value;
+        }
+      });
+
+      let action = form.getAttribute('action') || 'https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2';
+
+      // Ensure we hit FormSubmit's AJAX endpoint
+      if (action.includes('formsubmit.co') && !action.includes('/ajax/')) {
+        action = action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+      }
+
+      // Submit to FormSubmit (as JSON to avoid CORS redirects)
+      const response = await fetch(action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) throw new Error("Submission server error");
+
+      // Submit to custom webhook in background (fire-and-forget, simple request, no-cors)
+      const webhookUrl = window.rpvConfig?.webhookEndpoint;
+      if (webhookUrl && webhookUrl.trim() !== '') {
+        fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors', // Bypasses CORS response header checks in the browser
+          headers: {
+            'Content-Type': 'text/plain' // Simple request Content-Type to bypass preflight OPTIONS check
+          },
+          body: JSON.stringify(data)
+        }).catch(err => console.warn("Background webhook submission failed:", err));
+      }
+
+      form.innerHTML = `
+        <div style="text-align: center; padding: 2.5rem 1.5rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
+          <div style="width: 56px; height: 56px; background: #e6f9f0; color: #10b981; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 1.5rem auto; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--ink); margin: 0 0 0.75rem 0;">Request Received!</h3>
+          <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.5; margin: 0;">
+            Thank you. Your details have been submitted securely. Our coordinator will contact you shortly.
+          </p>
+        </div>
+      `;
+
+      const parentModal = form.closest('.rpv-modal');
+      if (parentModal) {
+        setTimeout(() => {
+          if (parentModal.classList.contains('is-open')) {
+            parentModal.classList.remove('is-open');
+            document.body.classList.remove('modal-open');
+          }
+        }, 4500);
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+      alert("Submission failed. Please check your connection and try again.");
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+    }
+  });
+});
 })();

@@ -30,6 +30,7 @@
   },
   "forms": {
     "formsubmit_endpoint": "https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2",
+    "webhook_endpoint": "https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec",
     "callback_form": {
       "title": "Request a callback",
       "subtitle": "Share your number and what you need — our team calls back within one business day.",
@@ -83,5 +84,8 @@
         }
       ]
     }
+  },
+  "redirects": {
+    "google_sheet_id": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxYUl_FhfoYtwzRUMGyUVuKdihV19WZlg5aFCtMut9FuZN8qtHjUBGJf4ftP6MbgVXrAFyfogU3Heq/pubhtml?gid=17123895&single=true"
   }
 }

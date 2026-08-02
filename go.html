@@ -1,0 +1,280 @@
+---
+layout: layouts/base.html
+title: Redirecting...
+permalink: "go/index.html"
+---
+<style>
+  /* Direct redirects and early load: hide everything */
+  body.is-redirecting .site-header,
+  body.is-redirecting .site-footer,
+  body.is-redirecting .whatsapp-btn,
+  body.is-redirecting #main-content {
+    display: none !important;
+  }
+
+  /* Transition layout styling */
+  .transition-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 2rem;
+    background: #f5f5f7;
+  }
+  .transition-card {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    padding: 3rem 2.5rem;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .transition-card svg {
+    color: var(--blue);
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.85; }
+  }
+
+  /* Full screen iframe container */
+  .iframe-container {
+    width: 100%;
+    height: calc(100vh - 68px); /* Height minus header height */
+    border: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+  }
+  
+  /* Global loader screen */
+  .global-redirect-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ffffff;
+  }
+  .loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--blue-soft);
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1.5rem;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<!-- Global Loader Spinner (Visible while fetching database) -->
+<div id="global-loader" class="global-redirect-loader">
+  <div class="loader-spinner"></div>
+  <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--ink); margin: 0 0 0.5rem 0;">Redirecting you...</h2>
+  <p style="font-size: 0.92rem; color: var(--muted); margin: 0;">Securing your connection and routing destination link.</p>
+</div>
+
+<!-- Transition Page Screen -->
+<div id="transition-screen" class="transition-container" style="display: none;">
+  <div class="transition-card">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    <h2 style="font-size: 1.45rem; font-weight: 800; color: var(--ink); margin: 0 0 1rem 0; line-height: 1.25;">Leaving RPAVault</h2>
+    <p style="font-size: 0.98rem; color: var(--ink-soft); line-height: 1.6; margin: 0 0 1.8rem 0;">
+      You are opening <strong id="transition-dest-title" style="color: var(--ink);">external link</strong>. We are securely redirecting you in <span id="countdown-timer" style="font-weight: 800; color: var(--blue); font-size: 1.15rem;">3</span> seconds...
+    </p>
+    <a id="transition-btn" href="#" target="_blank" rel="noopener" class="btn" style="background: var(--blue) !important; color: #ffffff !important; display: inline-block; padding: 12px 30px; font-weight: 700; border-radius: 8px; text-decoration: none; font-size: 0.92rem; box-shadow: 0 4px 12px rgba(0,88,176,0.15);">Open Link Now</a>
+  </div>
+</div>
+
+<!-- Fullscreen Iframe Placeholder -->
+<div id="iframe-screen" style="display: none; background: #ffffff;">
+  <iframe id="iframe-embed" class="iframe-container" src="" allow="clipboard-write"></iframe>
+</div>
+
+<!-- Fallback Error Screen -->
+<div id="error-screen" class="transition-container" style="display: none;">
+  <div class="transition-card" style="border-color: #fecaca; background: #fffef2;">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1.5rem;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+    <h2 style="font-size: 1.4rem; font-weight: 800; color: #b91c1c; margin: 0 0 1rem 0;">Redirect Failed</h2>
+    <p id="error-message" style="font-size: 0.95rem; color: #7f1d1d; line-height: 1.5; margin: 0 0 1.8rem 0;">We couldn't resolve this redirect URL slug.</p>
+    <a href="/" class="btn" style="background: var(--ink) !important; color: #ffffff !important; display: inline-block; padding: 10px 24px; font-weight: 700; border-radius: 8px; text-decoration: none; font-size: 0.9rem;">Back to Home</a>
+  </div>
+</div>
+
+<script>
+  (async () => {
+    // Add early styling to block body flash
+    document.body.classList.add('is-redirecting');
+
+    const googleSheetId = "{{ settings.redirects.google_sheet_id }}";
+
+    const getSlug = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      let slug = urlParams.get('slug');
+      if (!slug) {
+        const pathParts = window.location.pathname.split('/');
+        const goIdx = pathParts.indexOf('go');
+        if (goIdx !== -1 && pathParts.length > goIdx + 1) {
+          slug = pathParts[goIdx + 1];
+        }
+      }
+      return slug ? decodeURIComponent(slug).trim().toLowerCase() : '';
+    };
+
+    const getCsvUrl = (configId) => {
+      if (configId.startsWith('http')) {
+        let url = configId.replace('/pubhtml', '/pub');
+        if (url.includes('?')) {
+          if (!url.includes('output=csv')) {
+            url += '&output=csv';
+          }
+        } else {
+          url += '?output=csv';
+        }
+        return url;
+      }
+      return `https://docs.google.com/spreadsheets/d/${configId}/pub?output=csv`;
+    };
+
+    const parseCSVLine = (line) => {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          result.push(current);
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      result.push(current);
+      return result;
+    };
+
+    const fetchRedirects = async (sheetId) => {
+      const csvUrl = getCsvUrl(sheetId);
+      const response = await fetch(csvUrl);
+      if (!response.ok) throw new Error("Failed to load spreadsheet database");
+      const text = await response.text();
+      
+      const lines = text.split(/\r?\n/);
+      if (lines.length < 2) return [];
+      
+      const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
+      const slugIdx = headers.indexOf('slug');
+      const urlIdx = headers.indexOf('target url');
+      const typeIdx = headers.indexOf('type');
+      const titleIdx = headers.indexOf('title');
+      
+      if (slugIdx === -1 || urlIdx === -1) {
+        throw new Error("Required column headers 'slug' or 'target url' not found in spreadsheet");
+      }
+      
+      const list = [];
+      for (let i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const cols = parseCSVLine(lines[i]);
+        if (cols.length <= Math.max(slugIdx, urlIdx)) continue;
+        
+        list.push({
+          slug: cols[slugIdx].trim().toLowerCase(),
+          url: cols[urlIdx].trim(),
+          type: typeIdx !== -1 && cols[typeIdx] ? cols[typeIdx].trim().toLowerCase() : 'direct',
+          title: titleIdx !== -1 && cols[titleIdx] ? cols[titleIdx].trim() : 'External Link'
+        });
+      }
+      return list;
+    };
+
+    const slug = getSlug();
+    const loaderEl = document.getElementById('global-loader');
+    const transitionEl = document.getElementById('transition-screen');
+    const iframeEl = document.getElementById('iframe-screen');
+    const errorEl = document.getElementById('error-screen');
+
+    if (!slug) {
+      showError("No redirect slug provided.");
+      return;
+    }
+
+    try {
+      const redirects = await fetchRedirects(googleSheetId);
+      const match = redirects.find(r => r.slug === slug);
+
+      if (!match) {
+        showError(`Redirect link not found for slug "${slug}".`);
+        return;
+      }
+
+      // Handle based on redirect type
+      if (match.type === 'iframe') {
+        // Iframe: render within framework, show header, hide footer
+        loaderEl.style.display = 'none';
+        iframeEl.style.display = 'block';
+        
+        document.getElementById('iframe-embed').src = match.url;
+        document.title = match.title + " — RPAVault";
+        
+        // Remove layout-hiding class but hide footer specifically
+        document.body.classList.remove('is-redirecting');
+        const style = document.createElement('style');
+        style.innerHTML = ".site-footer, .whatsapp-btn { display: none !important; } #main-content { padding: 0 !important; max-width: 100% !important; width: 100% !important; margin: 0 !important; }";
+        document.head.appendChild(style);
+      }
+      else if (match.type === 'transition') {
+        // Transition: leaving site page
+        loaderEl.style.display = 'none';
+        transitionEl.style.display = 'flex';
+        document.title = "Opening external link — RPAVault";
+        
+        document.getElementById('transition-dest-title').innerText = match.title;
+        document.getElementById('transition-btn').href = match.url;
+        
+        // Remove class so header and footer render
+        document.body.classList.remove('is-redirecting');
+        
+        // Countdown and redirect
+        let count = 3;
+        const timer = document.getElementById('countdown-timer');
+        const interval = setInterval(() => {
+          count--;
+          timer.innerText = count;
+          if (count <= 0) {
+            clearInterval(interval);
+            window.location.replace(match.url);
+          }
+        }, 1000);
+      }
+      else {
+        // Direct: instantly navigate
+        window.location.replace(match.url);
+      }
+    } catch (err) {
+      showError(err.message || "Failed to load redirect link details.");
+    }
+
+    function showError(msg) {
+      loaderEl.style.display = 'none';
+      transitionEl.style.display = 'none';
+      iframeEl.style.display = 'none';
+      errorEl.style.display = 'flex';
+      document.getElementById('error-message').innerText = msg;
+      document.body.classList.remove('is-redirecting');
+    }
+  })();
+</script>
