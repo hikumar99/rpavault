@@ -17,30 +17,386 @@ schema_ld: |
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://rpavault.com/blog.html"
+        "item": "https://rpavault.com/blog/"
       }
     ]
   }
+pagination:
+  data: collections.blogPosts
+  size: 7
+  alias: posts
+permalink: "blog/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
 ---
-<section class="page-hero"><div class="container">
-  <p class="page-kicker">Blog</p>
-  <h1>Guides for automation & data careers.</h1>
-  <p class="lead">Practical, no-fluff articles from the RPAVault team — what to learn, how to get hired, and where the industry is going.</p>
-</div></section>
+<style>
+  body {
+    background-color: #f5f5f7 !important;
+  }
+  /* Blog Custom Styling System */
+  .blog-container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 var(--gutter) !important;
+  }
+  
+  /* Hero section styling */
+  .blog-hero {
+    text-align: center !important;
+    padding: 5rem 0 3rem 0 !important;
+  }
+  .blog-hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem) !important;
+    font-weight: 850 !important;
+    color: var(--ink) !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.15 !important;
+    margin-bottom: 1.25rem !important;
+    max-width: 100% !important;
+  }
+  .blog-hero h1 em {
+    font-style: normal !important;
+    color: var(--blue) !important;
+  }
+  .blog-hero p {
+    font-size: clamp(1.05rem, 2vw, 1.25rem) !important;
+    color: var(--ink-soft) !important;
+    max-width: 680px !important;
+    margin: 0 auto !important;
+    line-height: 1.6 !important;
+  }
 
-<section class="content-section"><div class="container">
-  <div class="card-grid">
-    {% for post in collections.blog | reverse %}
-      <article class="info-card reveal">
-        <p class="post-meta">{{ post.date | dateFilter }}</p>
-        <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
-        <p>{{ post.data.description }}</p>
+  /* Featured Post Card */
+  .featured-post-section {
+    margin-bottom: 4.5rem !important;
+  }
+  .featured-card {
+    display: grid !important;
+    grid-template-columns: 1.1fr 0.9fr !important;
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  .featured-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+  .featured-media {
+    position: relative !important;
+    min-height: 380px !important;
+    overflow: hidden !important;
+    background: var(--canvas-2) !important;
+  }
+  .featured-media img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.4s ease !important;
+  }
+  .featured-card:hover .featured-media img {
+    transform: scale(1.03) !important;
+  }
+  .featured-body {
+    padding: 3rem 2.8rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+  .post-badge-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.2rem !important;
+  }
+  .post-badge {
+    background: var(--blue-soft) !important;
+    color: var(--blue) !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    letter-spacing: 0.02em !important;
+  }
+  .post-read-time {
+    color: var(--muted) !important;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+  }
+  .featured-body h2 {
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    margin: 0 0 1rem 0 !important;
+    color: var(--ink) !important;
+  }
+  .featured-body h2 a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  .featured-body h2 a:hover {
+    color: var(--blue) !important;
+  }
+  .featured-desc {
+    color: var(--ink-soft) !important;
+    font-size: 1.02rem !important;
+    line-height: 1.6 !important;
+    margin: 0 0 1.8rem 0 !important;
+  }
+  .read-more-link {
+    font-size: 0.95rem !important;
+    color: var(--blue) !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    transition: gap 0.2s ease !important;
+  }
+  .read-more-link:hover {
+    gap: 0.6rem !important;
+  }
+
+  /* Grid section styling */
+  .grid-section-title {
+    font-size: 1.6rem !important;
+    font-weight: 850 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--ink) !important;
+    margin-bottom: 2rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .blog-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2.2rem !important;
+    margin-bottom: 5rem !important;
+  }
+  .blog-card {
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  .blog-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+  .blog-card-media {
+    position: relative !important;
+    aspect-ratio: 16/10 !important;
+    overflow: hidden !important;
+    background: var(--canvas-2) !important;
+  }
+  .blog-card-media img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.4s ease !important;
+  }
+  .blog-card:hover .blog-card-media img {
+    transform: scale(1.03) !important;
+  }
+  .blog-card-body {
+    padding: 1.8rem 1.6rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+  }
+  .blog-card-body h3 {
+    font-size: 1.22rem !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: var(--ink) !important;
+  }
+  .blog-card-body h3 a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  .blog-card-body h3 a:hover {
+    color: var(--blue) !important;
+  }
+  .blog-card-desc {
+    color: var(--ink-soft) !important;
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin: 0 0 1.5rem 0 !important;
+  }
+  .blog-card-foot {
+    margin-top: auto !important;
+    padding-top: 1.25rem !important;
+    border-top: 1px solid var(--line) !important;
+  }
+
+  /* Redesigned CTA block */
+  .cta-band {
+    background: var(--ink) !important;
+    border-radius: 28px !important;
+    padding: 4.5rem 4rem !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 4rem auto !important;
+    max-width: 1200px !important;
+  }
+  .cta-band h2 {
+    color: #ffffff !important;
+    font-family: var(--font-heading) !important;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem) !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+  .cta-band p {
+    color: rgba(255, 255, 255, 0.82) !important;
+    margin: 12px auto 0 auto !important;
+    max-width: 580px !important;
+    text-align: center !important;
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+  }
+  .cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: center !important;
+    margin-top: 2rem !important;
+  }
+
+  /* Responsive styling rules */
+  @media(max-width: 990px) {
+    .featured-card {
+      grid-template-columns: 1fr !important;
+    }
+    .featured-media {
+      min-height: 280px !important;
+    }
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+  @media(max-width: 640px) {
+    .blog-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.8rem !important;
+    }
+    .blog-hero {
+      padding: 3.5rem 0 2rem 0 !important;
+    }
+    .featured-body {
+      padding: 2rem 1.6rem !important;
+    }
+    .cta-band {
+      padding: 3rem 1.5rem !important;
+    }
+    .cta-actions {
+      flex-direction: column !important;
+    }
+    .cta-actions a {
+      width: 100% !important;
+      text-align: center !important;
+    }
+  }
+</style>
+
+<div class="blog-container">
+  
+  <!-- Hero Fold -->
+  <section class="blog-hero">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Guides &amp; Articles</span>
+    <h1>Automation &amp; IT <em>Career Insights</em></h1>
+    <p>No-fluff guides and step-by-step roadmaps from the RPAVault engineering and consulting team — what to learn, how to get hired, and how to scale your tech stack.</p>
+  </section>
+
+  <!-- FEATURED POST: Latest Post (Only on Page 1) -->
+  {% if pagination.pageNumber == 0 %}
+    {% set featured = posts[0] %}
+    {% if featured %}
+    <section class="featured-post-section">
+      <article class="featured-card">
+        <div class="featured-media">
+          <a href="{{ featured.url }}">
+            <img src="{{ featured.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ featured.data.title }}">
+          </a>
+        </div>
+        <div class="featured-body">
+          <div class="post-badge-row">
+            <a class="post-badge" href="/search/?q={{ (featured.data.category | default('Career')) | urlencode }}" style="text-decoration: none !important;">{{ featured.data.category | default("Career") }}</a>
+          </div>
+          <h2><a href="{{ featured.url }}">{{ featured.data.title }}</a></h2>
+          <p class="featured-desc">{{ featured.data.description }}</p>
+          <div>
+            <a class="read-more-link" href="{{ featured.url }}">
+              Read Article
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
       </article>
-    {% endfor %}
-  </div>
-</div></section>
+    </section>
+    {% endif %}
+  {% endif %}
 
-<section class="cta-band"><div class="container"><div class="cta-inner">
-    <div><h2>Want to know if we fit your team?</h2><p>Tell us what you are trying to build — we will respond within one business day.</p></div>
-    <a class="btn btn-light" href="/contact.html">Contact us</a>
-  </div></div></section>
+  <!-- GRID: Other Posts -->
+  <section class="grid-section">
+    <h2 class="grid-section-title">All Articles &amp; Technical Roadmaps</h2>
+    <div class="blog-grid">
+      {% for post in posts %}
+        {% if pagination.pageNumber > 0 or not loop.first %}
+        <article class="blog-card">
+          <div class="blog-card-media">
+            <a href="{{ post.url }}">
+              <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}" loading="lazy">
+            </a>
+          </div>
+          <div class="blog-card-body">
+            <div class="post-badge-row">
+              <a class="post-badge" href="/search/?q={{ (post.data.category | default('Tech')) | urlencode }}" style="text-decoration: none !important;">{{ post.data.category | default("Tech") }}</a>
+            </div>
+            <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+            <p class="blog-card-desc">{{ post.data.description }}</p>
+            <div class="blog-card-foot">
+              <a class="read-more-link" href="{{ post.url }}">
+                Read Article
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Pagination Controls -->
+  {% if pagination.pages.length > 1 %}
+  <nav class="pagination" style="display: flex !important; justify-content: center !important; align-items: center !important; gap: 1rem !important; margin-top: 3.5rem !important; margin-bottom: 5rem !important;">
+    {% if pagination.href.previous %}
+      <a href="{{ pagination.href.previous }}" class="btn" style="background: #ffffff !important; border: 1px solid var(--line) !important; color: var(--ink) !important; border-radius: 8px !important; padding: 10px 20px !important; font-size: 0.9rem !important;">← Previous</a>
+    {% else %}
+      <span class="btn" style="background: #ffffff !important; border: 1px solid var(--line) !important; color: var(--muted) !important; opacity: 0.5 !important; cursor: not-allowed !important; border-radius: 8px !important; padding: 10px 20px !important; font-size: 0.9rem !important;">← Previous</span>
+    {% endif %}
+    
+    <span style="font-size: 0.95rem !important; font-weight: 600 !important; color: var(--ink-soft) !important;">Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}</span>
+    
+    {% if pagination.href.next %}
+      <a href="{{ pagination.href.next }}" class="btn" style="background: #ffffff !important; border: 1px solid var(--line) !important; color: var(--ink) !important; border-radius: 8px !important; padding: 10px 20px !important; font-size: 0.9rem !important;">Next →</a>
+    {% else %}
+      <span class="btn" style="background: #ffffff !important; border: 1px solid var(--line) !important; color: var(--muted) !important; opacity: 0.5 !important; cursor: not-allowed !important; border-radius: 8px !important; padding: 10px 20px !important; font-size: 0.9rem !important;">Next →</span>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+</div>

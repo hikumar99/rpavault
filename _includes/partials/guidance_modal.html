@@ -1,0 +1,102 @@
+<div class="rpv-modal" data-guidance-modal role="dialog" aria-modal="true" aria-label="Get Guidance">
+  <div class="rpv-modal-card" style="max-width: 520px !important;">
+    <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
+    <h2>Get Personalized Guidance</h2>
+    <p class="modal-sub">Confused between courses? Tell us your background below. Our senior architect will analyze your details and recommend the perfect pathway, honestly.</p>
+    <form class="form-grid js-lead-form" action="https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2" method="POST">
+      <input type="hidden" name="_subject" value="Personalized Guidance Request — RPAVault">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="form_type" value="Personalized Guidance Request">
+      <input type="hidden" name="_next" value="https://rpavault.com/courses/?sent=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      
+      <div class="form-field">
+        <label for="g-name">Name *</label>
+        <input id="g-name" name="name" type="text" required autocomplete="name">
+      </div>
+      
+      <div class="form-field">
+        <label for="g-email">Email Address *</label>
+        <input id="g-email" name="email" type="email" required autocomplete="email">
+      </div>
+      
+      <div class="form-field">
+        <label for="g-phone">Phone / WhatsApp *</label>
+        <input id="g-phone" name="phone" type="tel" required autocomplete="tel">
+      </div>
+      
+      <div class="form-field">
+        <label for="g-pathway">Which stage describes you best? *</label>
+        <select id="g-pathway" name="pathway" required style="width: 100% !important; padding: 12px !important; border: 1px solid var(--line) !important; border-radius: 8px !important; background: #ffffff !important; color: var(--ink-soft) !important;">
+          <option value="" disabled selected hidden>-- Select your stage --</option>
+          <option value="switch">Career Switcher (Non-IT to IT)</option>
+          <option value="fresher">Fresh Graduate (Fresher)</option>
+          <option value="upskilling">Working Professional (Upskilling)</option>
+          <option value="break">Career Break (Return to Work)</option>
+        </select>
+      </div>
+      
+      <!-- Dynamic follow-up conditional fields -->
+      <div id="g-cond-switch" class="form-field g-conditional-field" style="display: none;">
+        <label for="g-switch-q">What is your current background/domain? * (e.g. Sales, HR, Finance, Operations)</label>
+        <input id="g-switch-q" name="switcher_background" type="text" placeholder="e.g. Sales / Marketing">
+      </div>
+      
+      <div id="g-cond-fresher" class="form-field g-conditional-field" style="display: none;">
+        <label for="g-fresher-q">What was your graduation year & degree? * (e.g. 2025 B.Tech ECE)</label>
+        <input id="g-fresher-q" name="fresher_details" type="text" placeholder="e.g. 2025 B.Tech CSE">
+      </div>
+      
+      <div id="g-cond-upskilling" class="form-field g-conditional-field" style="display: none;">
+        <label for="g-upskilling-q">What is your current tech stack & experience? * (e.g. 3 years manual testing)</label>
+        <input id="g-upskilling-q" name="upskilling_experience" type="text" placeholder="e.g. 2 years manual QA / Developer">
+      </div>
+      
+      <div id="g-cond-break" class="form-field g-conditional-field" style="display: none;">
+        <label for="g-break-q">How long has your career break been & previous experience? *</label>
+        <input id="g-break-q" name="break_details" type="text" placeholder="e.g. 4 years break, previously SQL dev">
+      </div>
+      
+      <div class="form-field">
+        <label for="g-message">Any specific questions / goals? (optional)</label>
+        <textarea id="g-message" name="message" rows="3"></textarea>
+      </div>
+      
+      <div class="section-cta" style="margin-top: 1.5rem;"><button class="btn btn-primary" type="submit" style="width: 100% !important;">Get my guidance proposal</button></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectEl = document.getElementById('g-pathway');
+    const condFields = document.querySelectorAll('.g-conditional-field');
+    
+    if (selectEl) {
+      selectEl.addEventListener('change', (e) => {
+        const val = e.target.value;
+        
+        // Hide all conditional fields first and clear required attributes
+        condFields.forEach(f => {
+          f.style.display = 'none';
+          const input = f.querySelector('input');
+          if (input) {
+            input.removeAttribute('required');
+          }
+        });
+        
+        // Show corresponding field and set it to required
+        const targetDiv = document.getElementById('g-cond-' + val);
+        if (targetDiv) {
+          targetDiv.style.display = 'block';
+          const input = targetDiv.querySelector('input');
+          if (input) {
+            input.setAttribute('required', 'required');
+            input.focus();
+          }
+        }
+      });
+    }
+  });
+</script>

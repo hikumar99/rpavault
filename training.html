@@ -25,7 +25,7 @@ schema_ld: |
 <style>
   /* Page Specific Overrides to match Option 1 Minimalist Theme */
   .page-hero {
-    padding: 6.5rem 0 5rem 0 !important;
+    padding: 7.5rem 0 5.5rem 0 !important;
     background: #ffffff !important;
     border-bottom: 1px solid #e5e5e7 !important;
     text-align: center !important;
@@ -92,212 +92,70 @@ schema_ld: |
   }
 
   .content-section {
-    padding: 6rem 0 !important;
+    padding: 7.5rem 0 !important;
     border-bottom: 1px solid #e5e5e7 !important;
   }
 
-  /* Two Route Cards */
-  .block-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 2rem !important;
-  }
-  .block-card {
-    background: #ffffff !important;
-    border: 1px solid #e5e5e7 !important;
-    border-radius: 20px !important;
-    padding: 3rem 2.5rem !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  .block-card h3 {
-    font-size: 1.4rem !important;
-    font-weight: 600 !important;
-    margin: 0 0 1rem 0 !important;
-    color: #1d1d1f !important;
-  }
-  .block-card p {
-    color: #86868b !important;
-    font-size: 1rem !important;
-    line-height: 1.6 !important;
-    margin: 0 0 2rem 0 !important;
-  }
-  .block-actions {
-    display: flex !important;
-    gap: 1rem !important;
-    align-items: center !important;
-    margin-top: auto !important;
-  }
-
-  /* Course Cards Grid */
-  .course-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2rem !important;
-  }
-  .course-card {
-    background: #ffffff !important;
-    border: 1px solid #e5e5e7 !important;
-    border-radius: 20px !important;
-    overflow: hidden !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
-  }
-  .course-card:hover {
-    transform: translateY(-4px) !important;
-    border-color: #d2d2d7 !important;
-  }
-  .course-card:before {
-    display: none !important; /* Remove old gradient top bar */
-  }
-  .course-media {
-    position: relative !important;
-    background: #f5f5f7 !important;
-    border-bottom: 1px solid #e5e5e7 !important;
-    padding: 2rem 1.5rem !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  .course-media img {
-    max-height: 110px !important;
-    width: auto !important;
-    object-fit: contain !important;
-  }
-  .course-flags {
-    position: absolute !important;
-    top: 15px !important;
-    left: 15px !important;
-    display: flex !important;
-    gap: 0.5rem !important;
-  }
-  .badge-live {
-    background: #34c759 !important; /* iOS Green */
-    color: #ffffff !important;
-    font-size: 0.68rem !important;
-    font-weight: 600 !important;
-    padding: 3px 8px !important;
-    border-radius: 4px !important;
-    text-transform: uppercase !important;
-  }
-  .pill-soft {
-    background: #e5e5e7 !important;
-    color: #1d1d1f !important;
-    font-size: 0.68rem !important;
-    font-weight: 600 !important;
-    padding: 3px 8px !important;
-    border-radius: 4px !important;
-  }
-  .course-body {
-    padding: 2rem 1.8rem !important;
-    display: flex !important;
-    flex-direction: column !important;
-    flex-grow: 1 !important;
-  }
-  .course-body h3 {
-    font-size: 1.25rem !important;
-    font-weight: 600 !important;
-    margin: 0 0 0.8rem 0 !important;
-    color: #1d1d1f !important;
-  }
-  .course-body h3 a {
-    color: inherit !important;
-    text-decoration: none !important;
-  }
-  .course-desc {
-    color: #86868b !important;
-    font-size: 0.92rem !important;
-    line-height: 1.55 !important;
-    margin: 0 0 1.5rem 0 !important;
-  }
-  .course-meta {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 1rem !important;
-    margin-bottom: 1rem !important;
-  }
-  .course-meta span {
-    font-size: 0.82rem !important;
-    color: #515154 !important;
-    font-weight: 500 !important;
-    background: #f5f5f7 !important;
-    padding: 3px 8px !important;
-    border-radius: 4px !important;
-  }
-  .course-foot {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    margin-top: auto !important;
-    padding-top: 1.5rem !important;
-    border-top: 1px solid #f5f5f7 !important;
-  }
-  .course-fee {
-    font-size: 1.15rem !important;
-    font-weight: 700 !important;
-    color: #1d1d1f !important;
-  }
-  .course-link {
-    font-size: 0.9rem !important;
-    color: #0058b0 !important;
-    font-weight: 600 !important;
-    text-decoration: none !important;
-  }
-  .course-link:hover {
-    text-decoration: underline !important;
-  }
-
-  /* Category Headers */
-  .category-head {
-    display: flex !important;
-    align-items: center !important;
-    gap: 1rem !important;
-    margin: 4rem 0 1.5rem 0 !important;
-  }
-  .category-head h3 {
-    font-size: 1.4rem !important;
-    font-weight: 700 !important;
-    color: #1d1d1f !important;
-    margin: 0 !important;
-  }
-  .cat-line {
-    flex-grow: 1 !important;
-    height: 1px !important;
-    background: #e5e5e7 !important;
-  }
-
-  /* Highlight Panel Split */
+  /* Three Highlight Panels alternating */
   .highlight-panel {
     display: grid !important;
     grid-template-columns: 1.2fr 0.8fr !important;
-    gap: 4rem !important;
+    gap: 5rem !important;
     align-items: center !important;
+    border-radius: 24px !important;
+    padding: 4.5rem 4rem !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.01) !important;
+  }
+  .highlight-panel.alternating {
+    grid-template-columns: 0.8fr 1.2fr !important;
+  }
+  .highlight-panel.p-college {
     background: linear-gradient(145deg, #ffffff 0%, #f0f7ff 100%) !important;
     border: 1px solid rgba(0, 88, 176, 0.15) !important;
-    border-radius: 24px !important;
-    padding: 3.5rem 3rem !important;
-    box-shadow: 0 15px 40px rgba(0, 88, 176, 0.04) !important;
   }
+  .highlight-panel.p-corporate {
+    background: linear-gradient(145deg, #ffffff 0%, #faf7f2 100%) !important;
+    border: 1px solid rgba(134, 88, 0, 0.12) !important;
+  }
+  .highlight-panel.p-individuals {
+    background: linear-gradient(145deg, #ffffff 0%, #f2f7f4 100%) !important;
+    border: 1px solid rgba(0, 134, 88, 0.1) !important;
+  }
+
   .college-stat-badge {
     display: inline-flex !important;
     align-items: center !important;
     gap: 1.2rem !important;
     background: #ffffff !important;
-    border: 1px solid rgba(0, 88, 176, 0.15) !important;
+    border: 1px solid #e5e5e7 !important;
     padding: 0.8rem 1.4rem !important;
     border-radius: 12px !important;
     margin: 1.5rem 0 !important;
-    box-shadow: 0 4px 12px rgba(0, 88, 176, 0.02) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.01) !important;
   }
+  .p-college .college-stat-badge {
+    border-color: rgba(0, 88, 176, 0.15) !important;
+  }
+  .p-corporate .college-stat-badge {
+    border-color: rgba(134, 88, 0, 0.15) !important;
+  }
+  .p-individuals .college-stat-badge {
+    border-color: rgba(0, 134, 88, 0.15) !important;
+  }
+
   .college-stat-badge b {
     font-family: 'Playfair Display', Georgia, serif !important;
     font-size: 1.8rem !important;
     color: #0058b0 !important;
     line-height: 1 !important;
   }
+  .p-corporate .college-stat-badge b {
+    color: #a05a00 !important;
+  }
+  .p-individuals .college-stat-badge b {
+    color: #008658 !important;
+  }
+
   .college-stat-badge span {
     font-size: 0.85rem !important;
     color: #515154 !important;
@@ -306,18 +164,33 @@ schema_ld: |
   }
   .highlight-panel h2 {
     font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 2.2rem !important;
-    margin: 0.5rem 0 1rem 0 !important;
+    font-size: clamp(1.8rem, 3vw, 2.2rem) !important;
+    margin: 0.5rem 0 1.2rem 0 !important;
     color: #1d1d1f !important;
+    line-height: 1.25 !important;
   }
+  .highlight-panel h2 em {
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #0058b0 !important;
+  }
+  .p-corporate h2 em {
+    color: #a05a00 !important;
+  }
+  .p-individuals h2 em {
+    color: #008658 !important;
+  }
+
   .highlight-panel p {
     color: #86868b !important;
     font-size: 1.05rem !important;
     line-height: 1.65 !important;
+    margin-bottom: 1.5rem !important;
   }
   .check-list {
     margin: 1.5rem 0 !important;
-    padding-left: 1.2rem !important;
+    padding-left: 0.2rem !important;
+    list-style: none !important;
     display: grid !important;
     gap: 0.6rem !important;
   }
@@ -325,12 +198,21 @@ schema_ld: |
     font-size: 0.95rem !important;
     color: #515154 !important;
     line-height: 1.5 !important;
+    font-weight: 500 !important;
+  }
+  .highlight-media {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
   }
   .highlight-media img {
     width: 100% !important;
-    border-radius: 14px !important;
+    height: 380px !important;
+    border-radius: 18px !important;
     border: 1px solid #e5e5e7 !important;
     object-fit: cover !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.015) !important;
   }
 
   /* Buttons */
@@ -363,57 +245,41 @@ schema_ld: |
   }
 
   @media(max-width: 1024px) {
-    .block-row, .course-grid, .highlight-panel {
+    .highlight-panel, .highlight-panel.alternating {
       grid-template-columns: 1fr !important;
-      gap: 2rem !important;
+      gap: 3rem !important;
+      padding: 3rem 2rem !important;
+    }
+    .highlight-media img {
+      height: 280px !important;
+    }
+    .highlight-panel.alternating .highlight-media {
+      order: 2 !important;
     }
   }
 </style>
 
 <section class="page-hero">
   <div class="container">
-    <span class="eyebrow">Training</span>
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Training</span>
     <h1>Practical Programs that End in Offers, Not <em>Certificates</em></h1>
     <p class="lead">Live, hands-on cohorts led by active technical leads. Build real portfolios, tackle production-grade case studies, and unlock direct placement opportunities.</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#featured">See current batches</a>
+      <a class="btn btn-primary" href="#pathways">Explore Pathways</a>
       <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
     </div>
   </div>
 </section>
 
-<section class="content-section">
-  <div class="container">
-    <div class="section-title-wrap">
-      <span class="num-label">CHOOSE YOUR PATHWAY</span>
-      <h2>Who are we <em>training?</em></h2>
-    </div>
-    <div class="block-row">
-      <article class="block-card reveal">
-        <h3>🏢 Corporate teams</h3>
-        <p>Custom upskilling programs for enterprise teams — RPA, Power Platform, data and QA automation, delivered around your delivery calendar.</p>
-        <div class="block-actions">
-          <a class="btn btn-primary" href="/corporate-training/">Corporate training services</a>
-        </div>
-      </article>
-      <article class="block-card reveal">
-        <h3>👩‍💻 Individuals &amp; job seekers</h3>
-        <p>Live online batches with projects, placement support and lifetime recordings — from beginner-friendly to advanced practitioner tracks.</p>
-        <div class="block-actions">
-          <a class="btn btn-primary" href="/courses/">Browse courses &amp; batches</a>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="content-section" id="college-programs">
-  <div class="container">
-    <div class="highlight-panel reveal">
-      <div>
-        <span class="num-label" style="background:#0058b0 !important; color:#ffffff !important; border:none !important;">FOR COLLEGES &amp; UNIVERSITIES</span>
+<section class="content-section" id="pathways">
+  <div class="container" style="display: flex !important; flex-direction: column !important; gap: 5rem !important;">
+    
+    <!-- Pathway 1: Colleges (Text Left, Image Right) -->
+    <div class="highlight-panel reveal p-college">
+      <div class="panel-text">
+        <span class="num-label" style="background:#0058b0 !important; color:#ffffff !important; border:none !important;">Colleges &amp; Universities</span>
         <h2>College Programs that Put Students in <em>Industry</em></h2>
-        <p>We run structured RPA and automation programs for colleges, including large-scale initiatives like Naan Mudhalvan. We deliver a complete enablement package: curriculum, hands-on labs, industry certification guidance, and placement-oriented outcomes, on campus or online.</p>
+        <p>We run structured RPA and automation programs for engineering colleges and universities, including large-scale state initiatives like Naan Mudhalvan. We deliver a complete enablement package: curriculum, hands-on labs, industry certification guidance, and placement-oriented outcomes.</p>
         
         <div class="college-stat-badge">
           <b>17,000+</b>
@@ -421,17 +287,70 @@ schema_ld: |
         </div>
 
         <ul class="check-list">
-          <li>✓ Semester-long or bootcamp formats</li>
-          <li>✓ Industry trainers, not slide readers</li>
-          <li>✓ Projects and portfolio outcomes for every student</li>
-          <li>✓ Faculty development programs available</li>
+          <li>✓ Semester-long credits or intensive bootcamps</li>
+          <li>✓ Live instruction by working tech leads, not slide readers</li>
+          <li>✓ Direct integration with corporate placement portals</li>
+          <li>✓ Complimentary Faculty Development Programs (FDP)</li>
         </ul>
         <div class="hero-actions" style="justify-content: flex-start !important; margin-top: 2rem;">
-          <a class="btn btn-primary" href="/contact/">Plan a college program</a>
+          <a class="btn btn-primary" href="#" data-open-college>Plan a college program</a>
           <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
         </div>
       </div>
       <div class="highlight-media"><img src="/assets/images/college-training-1.webp" alt="RPAVault college training program — packed classroom session" loading="lazy"></div>
     </div>
+
+    <!-- Pathway 2: Corporate Training (Alternating: Image Left, Text Right) -->
+    <div class="highlight-panel reveal p-corporate alternating">
+      <div class="highlight-media"><img src="/assets/images/classroom-training.webp" alt="RPAVault corporate upskilling class" loading="lazy"></div>
+      <div class="panel-text">
+        <span class="num-label" style="background:#a05a00 !important; color:#ffffff !important; border:none !important;">Corporate Teams</span>
+        <h2>Upskilling Engineered for Enterprise <em>Roadmaps</em></h2>
+        <p>Deploy custom-designed technical cohorts to bridge team capability gaps. We align training modules around your active delivery sprint calendars and project tech stacks, minimizing operational disruption while maximizing engineering throughput.</p>
+        
+        <div class="college-stat-badge">
+          <b>80+</b>
+          <span>Enterprise teams and MNC CoEs upskilled</span>
+        </div>
+
+        <ul class="check-list">
+          <li>✓ Tailored stack training (UiPath, Power Platform, Playwright, SQL)</li>
+          <li>✓ Sandboxed lab environments modeled on real system targets</li>
+          <li>✓ Structured code audits and post-training capability reports</li>
+          <li>✓ Flexible scheduling (weekend bootcamps or morning sprints)</li>
+        </ul>
+        <div class="hero-actions" style="justify-content: flex-start !important; margin-top: 2rem;">
+          <a class="btn btn-primary" href="/corporate-training/">View Program Details</a>
+          <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pathway 3: Individuals & Job Seekers (Text Left, Image Right) -->
+    <div class="highlight-panel reveal p-individuals">
+      <div class="panel-text">
+        <span class="num-label" style="background:#008658 !important; color:#ffffff !important; border:none !important;">Individuals &amp; Job Seekers</span>
+        <h2>Job-Ready Batches Led by Active <em>Tech Leads</em></h2>
+        <p>Accelerate your career with live online cohort batches. We focus-train on core concepts, portfolio-building, and technical interview readiness with active resume mentoring to bridge the gap between training and placement.</p>
+        
+        <div class="college-stat-badge">
+          <b>93%</b>
+          <span>Placement rate within 180 days of graduation</span>
+        </div>
+
+        <ul class="check-list">
+          <li>✓ Live interactive cohorts led by senior technical consultants</li>
+          <li>✓ Direct portfolio mapping with production-grade case studies</li>
+          <li>✓ 1-on-1 mock interviews and technical screening prep</li>
+          <li>✓ Lifetime access to session recordings, code repositories, and LMS</li>
+        </ul>
+        <div class="hero-actions" style="justify-content: flex-start !important; margin-top: 2rem;">
+          <a class="btn btn-primary" href="/courses/">Browse courses &amp; batches</a>
+          <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+        </div>
+      </div>
+      <div class="highlight-media"><img src="/assets/images/hands-on-mentoring.webp" alt="RPAVault mentor guiding an individual student" loading="lazy"></div>
+    </div>
+
   </div>
 </section>

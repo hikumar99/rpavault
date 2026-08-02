@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.html
-title: Corporate Training — RPA, Data & QA Automation | RPAVault
-description: Custom corporate training in UiPath RPA, agentic automation, Power Platform, SQL/Power BI and QA automation — delivered by working practitioners.
+title: Corporate Training & B2B Upskilling Solutions | RPAVault
+description: Vetted corporate training solutions in UiPath RPA, Playwright SDET, and Data/BI. Upskill your engineering teams with zero project downtime.
 schema_ld: |
   {
     "@context": "https://schema.org",
@@ -16,400 +16,1026 @@ schema_ld: |
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Corporate Training",
+        "name": "Corporate Training Solutions",
         "item": "https://rpavault.com/corporate-training/"
       }
     ]
   }
 ---
 <style>
-  /* Page Specific Overrides to match Option 1 Minimalist Theme */
-  .page-hero {
-    padding: 6.5rem 0 5rem 0 !important;
-    background: #ffffff !important;
-    border-bottom: 1px solid #e5e5e7 !important;
-    text-align: center !important;
+  /* Bind B2B Variables directly to global CSS variables (No new color combinations) */
+  :root {
+    --bg: var(--canvas) !important;
+    --bg-soft: var(--canvas-2) !important;
+    --surface: var(--white) !important;
+    --accent: var(--blue) !important;
+    --accent-deep: var(--blue-deep) !important;
+    --accent-soft: var(--blue-soft) !important;
+    --gold: #B4863A !important;
+    --success: var(--green) !important;
+    --r-sm: 12px !important;
+    --r-md: 20px !important;
+    --r-lg: 28px !important;
+    --r-pill: 999px !important;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, .04) !important;
+    --shadow-md: var(--shadow-light) !important;
+    --shadow-lg: var(--shadow-hover) !important;
   }
-  .page-hero .container {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-  .page-hero h1 {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: clamp(2.4rem, 4.2vw, 3.4rem) !important;
-    line-height: 1.15 !important;
-    margin: 0 auto 1.5rem auto !important;
-    max-width: 850px !important;
-    color: #1d1d1f !important;
-  }
-  .page-hero h1 em {
-    font-style: italic !important;
-    font-weight: 400 !important;
-    color: #0058b0 !important;
-  }
-  .page-hero .lead {
-    font-size: 1.2rem !important;
+
+  .editorial-b2b {
+    background: var(--bg) !important;
+    color: var(--ink-soft) !important;
     line-height: 1.65 !important;
-    color: #86868b !important;
-    max-width: 780px !important;
-    margin: 0 auto 2rem auto !important;
-  }
-  .hero-actions {
-    display: flex !important;
-    gap: 1rem !important;
-    align-items: center !important;
-    justify-content: center !important;
+    font-family: var(--font) !important;
   }
 
-  .section-title-wrap {
-    text-align: center !important;
-    max-width: 750px !important;
-    margin: 0 auto 3.5rem auto !important;
-  }
-  .section-title-wrap h2 {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: clamp(1.8rem, 3vw, 2.4rem) !important;
-    margin-top: 0.5rem !important;
-    color: #1d1d1f !important;
-  }
-  .section-title-wrap h2 em {
-    font-style: italic !important;
-    font-weight: 400 !important;
-    color: #0058b0 !important;
-  }
-  .num-label {
-    display: inline-block !important;
-    background: #f5f5f7 !important;
-    border: 1px solid #e5e5e7 !important;
-    color: #515154 !important;
-    padding: 4px 12px !important;
-    border-radius: 100px !important;
-    font-size: 0.72rem !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
+  /* Headings aligned with standard font list */
+  .editorial-b2b h1, 
+  .editorial-b2b h2, 
+  .editorial-b2b h3, 
+  .editorial-b2b h4 {
+    font-family: var(--font-heading) !important;
+    color: var(--ink) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.015em !important;
   }
 
-  .content-section {
-    padding: 6rem 0 !important;
-    border-bottom: 1px solid #e5e5e7 !important;
+  /* Override global max-width constraints causing "one word per line" */
+  .editorial-b2b h1 {
+    max-width: 100% !important;
+    width: 100% !important;
+    font-size: clamp(2.4rem, 4.4vw, 3.4rem) !important;
+    line-height: 1.12 !important;
+    margin-top: 1rem !important;
   }
 
-  /* Photo Grid */
-  .photo-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2rem !important;
+  .editorial-b2b a {
+    color: inherit !important;
+    text-decoration: none !important;
   }
-  .photo-card {
-    background: #ffffff !important;
-    border: 1px solid #e5e5e7 !important;
-    border-radius: 18px !important;
+
+  .editorial-b2b ul {
+    list-style: none !important;
     padding: 0 !important;
-    overflow: hidden !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
     margin: 0 !important;
   }
-  .photo-card img {
-    width: 100% !important;
-    height: 220px !important;
-    object-fit: cover !important;
-    display: block !important;
-    border-bottom: 1px solid #e5e5e7 !important;
-  }
-  .photo-card figcaption {
-    padding: 1.2rem 1.5rem !important;
-    font-size: 0.95rem !important;
-    font-weight: 600 !important;
-    color: #1d1d1f !important;
+
+  .editorial-b2b button {
+    font-family: inherit !important;
   }
 
-  /* Cards Grid */
-  .card-grid {
+  /* Spacing Wrapper matching standard format width */
+  .b2b-wrap {
+    max-width: 1140px !important;
+    margin: 0 auto !important;
+    padding: 0 1.5rem !important;
+  }
+
+  .editorial-b2b .eyebrow.on-dark {
+    background: rgba(255, 255, 255, .1) !important;
+    color: #ffffff !important;
+  }
+
+  .editorial-b2b .section-head {
+    max-width: 640px !important;
+    margin-bottom: 4rem !important;
+  }
+  .editorial-b2b .section-head.center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+  .editorial-b2b .section-head h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem) !important;
+    line-height: 1.2 !important;
+    margin-top: 1rem !important;
+  }
+  .editorial-b2b .section-head p {
+    margin-top: 1rem !important;
+    font-size: 1.05rem !important;
+    color: var(--ink-soft) !important;
+  }
+
+  .editorial-b2b .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 14px 28px !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    border: 1.5px solid transparent !important;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+  }
+  .editorial-b2b .btn-primary {
+    background: var(--ink) !important; /* Mapped to theme black/charcoal */
+    color: #ffffff !important;
+    box-shadow: 0 10px 24px rgba(26,24,27,.06) !important;
+  }
+  .editorial-b2b .btn-primary:hover {
+    background: var(--ink-soft) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 14px 30px rgba(26,24,27,.10) !important;
+  }
+  .editorial-b2b .btn-ghost {
+    background: transparent !important;
+    color: var(--ink) !important;
+    border-color: var(--line) !important;
+  }
+  .editorial-b2b .btn-ghost:hover {
+    border-color: var(--ink) !important;
+    color: var(--ink) !important;
+    background-color: var(--bg-soft) !important;
+    transform: translateY(-2px) !important;
+  }
+  .editorial-b2b .btn-ghost.on-dark {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, .25) !important;
+  }
+  .editorial-b2b .btn-ghost.on-dark:hover {
+    border-color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  /* Refined Hero spacing and alignment */
+  .editorial-b2b .hero {
+    padding: 5.5rem 0 5rem 0 !important; /* Tightened top/bottom spacing */
+    background: var(--bg) !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .editorial-b2b .hero-grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2rem !important;
+    grid-template-columns: 1.15fr 0.85fr !important;
+    gap: 3.5rem !important; /* Tightened grid spacing */
+    align-items: center !important;
   }
-  .card {
-    background: #ffffff !important;
-    border: 1px solid #e5e5e7 !important;
-    border-radius: 18px !important;
-    padding: 2.2rem !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.01) !important;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s !important;
+  .editorial-b2b .hero h1 em {
+    color: var(--accent) !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
   }
-  .card:hover {
+  .editorial-b2b .hero p.lead {
+    margin-top: 1.25rem !important;
+    font-size: 1.15rem !important;
+    color: var(--ink-soft) !important;
+    max-width: 580px !important; /* Adjusted for better content balance */
+    line-height: 1.65 !important;
+  }
+  .editorial-b2b .hero-ctas {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin-top: 1.8rem !important;
+    flex-wrap: wrap !important;
+  }
+  .editorial-b2b .trust-chips {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.8rem !important;
+    margin-top: 2.2rem !important;
+  }
+  .editorial-b2b .trust-chip {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    font-size: 0.92rem !important;
+    color: var(--ink-soft) !important;
+    font-weight: 500 !important;
+  }
+  .editorial-b2b .trust-chip svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: var(--success) !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Hero visual: impact card style */
+  .editorial-b2b .hero-visual {
+    position: relative !important;
+    height: 440px !important;
+  }
+  .editorial-b2b .hero-visual::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 8% !important;
+    right: -8% !important;
+    width: 320px !important;
+    height: 320px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(0, 88, 176, .08), transparent 70%) !important;
+    z-index: 0 !important;
+  }
+  .editorial-b2b .impact-card {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    padding: 3.8rem 2rem !important; /* Increased padding vertically */
+    min-height: 380px !important;     /* Increased card height */
+    box-shadow: var(--shadow-lg) !important;
+    z-index: 2 !important;
+    text-align: center !important;
+  }
+  .editorial-b2b .impact-num {
+    font-family: var(--font-heading) !important;
+    font-weight: 800 !important;
+    font-size: 4.5rem !important;
+    line-height: 1 !important;
+    color: var(--accent) !important;
+  }
+  .editorial-b2b .impact-label {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    color: var(--ink) !important;
+    margin-top: 10px !important;
+  }
+  .editorial-b2b .impact-sub {
+    font-size: 0.82rem !important;
+    color: var(--muted) !important;
+    margin-top: 8px !important;
+    line-height: 1.5 !important;
+  }
+  .editorial-b2b .impact-divider {
+    height: 1px !important;
+    background: var(--line) !important;
+    margin: 1.5rem 0 !important;
+  }
+  .editorial-b2b .impact-formats {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+  .editorial-b2b .impact-formats span {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    color: var(--accent) !important;
+    background: var(--accent-soft) !important;
+    padding: 5px 12px !important;
+    border-radius: var(--r-pill) !important;
+  }
+
+  .editorial-b2b .practitioner-badge {
+    position: absolute !important;
+    top: 6% !important;
+    left: -2% !important;
+    z-index: 3 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 16px !important;
+    padding: 10px 15px !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+  .editorial-b2b .practitioner-badge .ic {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: var(--accent-soft) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+  }
+  .editorial-b2b .practitioner-badge .ic svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: var(--accent) !important;
+  }
+  .editorial-b2b .practitioner-badge strong {
+    display: block !important;
+    font-size: 0.82rem !important;
+    color: var(--ink) !important;
+  }
+  .editorial-b2b .practitioner-badge span {
+    display: block !important;
+    font-size: 0.72rem !important;
+    color: var(--muted) !important;
+    margin-top: 1px !important;
+  }
+
+  .editorial-b2b .outcome-badge {
+    position: absolute !important;
+    bottom: 4% !important;
+    right: -2% !important;
+    z-index: 3 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 16px !important;
+    padding: 10px 15px !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+  .editorial-b2b .outcome-badge .ic {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: var(--accent-soft) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+  }
+  .editorial-b2b .outcome-badge .ic svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: var(--accent) !important;
+  }
+  .editorial-b2b .outcome-badge strong {
+    display: block !important;
+    font-size: 0.82rem !important;
+    color: var(--ink) !important;
+  }
+  .editorial-b2b .outcome-badge span {
+    display: block !important;
+    font-size: 0.72rem !important;
+    color: var(--muted) !important;
+    margin-top: 1px !important;
+  }
+
+  @media (max-width:960px){
+    .editorial-b2b .hero-grid { grid-template-columns: 1fr !important; gap: 3rem !important; }
+    .editorial-b2b .hero-visual { height: auto !important; min-height: 0 !important; padding: 2rem 0 !important; }
+    .editorial-b2b .impact-card { position: relative !important; top: auto !important; left: auto !important; transform: none !important; margin: 0 auto !important; width: 100% !important; }
+    .editorial-b2b .practitioner-badge { position: relative !important; top: auto !important; left: auto !important; margin: 0 0 -10px 8px !important; width: fit-content !important; }
+    .editorial-b2b .outcome-badge { position: relative !important; bottom: auto !important; right: auto !important; margin: -10px 8px 0 auto !important; width: fit-content !important; }
+  }
+
+  /* Section Padding */
+  .editorial-b2b section {
+    padding: 6.5rem 0 !important;
+  }
+  .editorial-b2b section.alt {
+    background: var(--bg-soft) !important;
+    border-top: 1px solid var(--line) !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+
+  /* Blueprint / process track style */
+  .editorial-b2b .blueprint-track {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+    margin-top: 2rem !important;
+  }
+  .editorial-b2b .blueprint-line {
+    position: absolute !important;
+    top: 23px !important;
+    left: 12% !important;
+    right: 12% !important;
+    height: 1px !important;
+    background: var(--line) !important;
+    z-index: 0 !important;
+  }
+  .editorial-b2b .bp-stage {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  .editorial-b2b .bp-num {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 50% !important;
+    background: var(--surface) !important;
+    border: 1.5px solid var(--accent) !important;
+    color: var(--accent) !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .editorial-b2b .bp-card {
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 16px !important;
+    padding: 1.8rem !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform .2s ease, border-color .2s ease !important;
+  }
+  .editorial-b2b .bp-card:hover {
     transform: translateY(-4px) !important;
     border-color: #d2d2d7 !important;
   }
-  .card h3 {
-    font-size: 1.25rem !important;
-    font-weight: 600 !important;
-    margin: 0 0 1rem 0 !important;
-    color: #1d1d1f !important;
+  .editorial-b2b .bp-tag {
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    color: var(--gold) !important;
+    margin-bottom: 8px !important;
+    display: block !important;
   }
-  .card p {
-    color: #86868b !important;
-    font-size: 0.95rem !important;
-    line-height: 1.6 !important;
-    margin: 0 !important;
+  .editorial-b2b .bp-card h4 {
+    font-size: 1.05rem !important;
+    margin-bottom: 8px !important;
+  }
+  .editorial-b2b .bp-card p {
+    font-size: 0.88rem !important;
+    color: var(--muted) !important;
+    line-height: 1.5 !important;
   }
 
-  /* Process Steps Timeline */
-  .process-steps {
+  @media (max-width:900px){
+    .editorial-b2b .blueprint-track { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+    .editorial-b2b .blueprint-line { display: none !important; }
+  }
+
+  /* Training tracks grid */
+  .editorial-b2b .train-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+  }
+  .editorial-b2b .pillar {
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-left: 3.5px solid var(--accent) !important; /* Premium left accent border bar */
+    border-radius: 14px !important;
+    padding: 2.2rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: transform .22s ease, border-color .22s ease !important;
+  }
+  .editorial-b2b .pillar:hover {
+    transform: translateY(-4px) !important;
+    border-color: #d2d2d7 !important;
+  }
+  .editorial-b2b .tech-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-top: 1.25rem !important;
+  }
+  .editorial-b2b .tech-tag {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    background: var(--bg-soft) !important;
+    color: var(--ink-soft) !important;
+    padding: 4px 10px !important;
+    border-radius: 4px !important;
+  }
+  .editorial-b2b .pillar h3 {
+    font-size: 1.15rem !important;
+    margin-bottom: 8px !important;
+  }
+  .editorial-b2b .pillar p {
+    font-size: 0.9rem !important;
+    color: var(--muted) !important;
+    line-height: 1.55 !important;
+  }
+  @media (max-width:960px){.editorial-b2b .train-grid { grid-template-columns: 1fr 1fr !important; }}
+  @media (max-width:600px){.editorial-b2b .train-grid { grid-template-columns: 1fr !important; }}
+
+  /* Why grid */
+  .editorial-b2b .why-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem !important;
+  }
+  /* Why split section styles */
+  .editorial-b2b .why-split-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1.3fr !important;
+    gap: 4.5rem !important;
+    align-items: start !important;
+  }
+  .editorial-b2b .why-left-content {
+    position: sticky !important;
+    top: 120px !important;
+  }
+  .editorial-b2b .why-left-content h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.3rem) !important;
+    line-height: 1.2 !important;
+    margin-top: 1rem !important;
+  }
+  .editorial-b2b .why-left-content p {
+    font-size: 1.05rem !important;
+    color: var(--ink-soft) !important;
+    margin-top: 1.25rem !important;
+    line-height: 1.65 !important;
+  }
+  .editorial-b2b .why-features-list {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .editorial-b2b .why-feature-block {
+    padding: 2rem 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .editorial-b2b .why-feature-block:first-child {
+    border-top: 1px solid var(--line) !important;
+    padding-top: 1.5rem !important;
+  }
+  .editorial-b2b .why-feature-tag {
+    font-family: var(--font-heading) !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: var(--accent) !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .editorial-b2b .why-feature-block h4 {
+    font-size: 1.15rem !important;
+    margin-bottom: 0.4rem !important;
+    color: var(--ink) !important;
+  }
+  .editorial-b2b .why-feature-block p {
+    font-size: 0.92rem !important;
+    color: var(--muted) !important;
+    line-height: 1.55 !important;
+    margin: 0 !important;
+  }
+  @media (max-width:960px){
+    .editorial-b2b .why-split-container { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+    .editorial-b2b .why-left-content { position: static !important; }
+  }
+
+  /* Formats Grid */
+  .editorial-b2b .model-grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 1.5rem !important;
   }
-  .process-step {
-    border-top: 2px solid #1d1d1f !important;
-    padding-top: 1.5rem !important;
-  }
-  .process-step b {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 1.35rem !important;
-    font-style: italic !important;
-    color: #0058b0 !important;
-    display: block !important;
-    margin-bottom: 0.6rem !important;
-  }
-  .process-step p {
-    color: #86868b !important;
-    font-size: 0.92rem !important;
-    line-height: 1.55 !important;
-    margin: 0 !important;
-  }
-
-  /* Why Grid */
-  .why-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2rem !important;
-  }
-  .why-item {
-    background: #ffffff !important;
-    border: 1px solid #e5e5e7 !important;
-    border-radius: 18px !important;
+  .editorial-b2b .model {
+    border: 1px solid var(--line) !important;
+    border-radius: 20px !important;
     padding: 2rem !important;
+    background: var(--bg-soft) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
   }
-  .why-item h3 {
-    font-size: 1.15rem !important;
-    font-weight: 600 !important;
-    margin: 0 0 0.8rem 0 !important;
-    color: #1d1d1f !important;
+  .editorial-b2b .model.featured {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
   }
-  .why-item p {
-    color: #86868b !important;
-    font-size: 0.92rem !important;
-    line-height: 1.55 !important;
-    margin: 0 !important;
+  .editorial-b2b .model.featured h4, 
+  .editorial-b2b .model.featured .model-best {
+    color: #ffffff !important;
   }
+  .editorial-b2b .model.featured p {
+    color: rgba(255, 255, 255, .82) !important;
+  }
+  .editorial-b2b .model h4 {
+    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
+  }
+  .editorial-b2b .model p {
+    font-size: 0.88rem !important;
+    color: var(--muted) !important;
+    flex-grow: 1 !important;
+    line-height: 1.5 !important;
+  }
+  .editorial-b2b .model-best {
+    margin-top: 1.5rem !important;
+    padding-top: 1rem !important;
+    border-top: 1px solid var(--line) !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: var(--accent) !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+  }
+  .editorial-b2b .model.featured .model-best {
+    border-top-color: rgba(255, 255, 255, .25) !important;
+  }
+  @media (max-width:960px){.editorial-b2b .model-grid { grid-template-columns: 1fr 1fr !important; }}
+  @media (max-width:600px){.editorial-b2b .model-grid { grid-template-columns: 1fr !important; }}
 
-  /* CTA Band */
-  .cta-band {
-    padding: 6rem 0 !important;
-    background: #ffffff !important;
-    border-bottom: 1px solid #e5e5e7 !important;
+  /* Accordion FAQs */
+  .editorial-b2b .faq-list {
+    max-width: 800px !important;
+    margin: 0 auto !important;
   }
-  .cta-inner {
-    display: grid !important;
-    grid-template-columns: 1.2fr 0.8fr !important;
-    gap: 4rem !important;
+  .editorial-b2b .faq-item {
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .editorial-b2b .faq-q {
+    width: 100% !important;
+    background: none !important;
+    border: none !important;
+    text-align: left !important;
+    padding: 1.5rem 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
     align-items: center !important;
-    background: #f5f5f7 !important;
-    border: 1px solid #e5e5e7 !important;
-    border-radius: 24px !important;
-    padding: 3.5rem 3rem !important;
+    gap: 20px !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 700 !important;
+    font-size: 1.15rem !important;
+    color: var(--ink) !important;
+    cursor: pointer !important;
   }
-  .cta-inner h2 {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 2.2rem !important;
-    margin: 0 0 1rem 0 !important;
-    color: #1d1d1f !important;
+  .editorial-b2b .faq-q svg {
+    width: 18px !important;
+    height: 18px !important;
+    color: var(--accent) !important;
+    flex-shrink: 0 !important;
+    transition: transform .25s ease !important;
   }
-  .cta-inner p {
-    margin: 0 !important;
-    color: #515154 !important;
-    font-size: 1.05rem !important;
+  .editorial-b2b .faq-item.open .faq-q svg {
+    transform: rotate(45deg) !important;
+  }
+  .editorial-b2b .faq-a {
+    max-height: 0 !important;
+    overflow: hidden !important;
+    transition: max-height .3s ease !important;
+  }
+  .editorial-b2b .faq-a p {
+    padding: 0 0 1.5rem 0 !important;
+    font-size: 0.95rem !important;
+    color: var(--ink-soft) !important;
+    max-width: 680px !important;
     line-height: 1.6 !important;
   }
-  .cta-actions {
-    display: flex !important;
-    gap: 1rem !important;
-    justify-content: flex-end !important;
-  }
-  
-  .btn-primary {
-    background: #1d1d1f !important;
-    border: none !important;
-    color: #ffffff !important;
-    font-weight: 500 !important;
-    padding: 14px 28px !important;
-    border-radius: 8px !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-  }
-  .btn-primary:hover {
-    background: #333336 !important;
-  }
-  .btn-ghost {
-    background: #ffffff !important;
-    border: 1px solid #d2d2d7 !important;
-    color: #1d1d1f !important;
-    font-weight: 500 !important;
-    padding: 13px 26px !important;
-    border-radius: 8px !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-  }
-  .btn-ghost:hover {
-    border-color: #86868b !important;
-    background-color: #f5f5f7 !important;
+  .editorial-b2b .faq-item.open .faq-a {
+    max-height: 220px !important;
   }
 
-  @media(max-width: 1024px) {
-    .photo-grid, .card-grid, .process-steps, .why-grid, .cta-inner {
-      grid-template-columns: 1fr !important;
-      gap: 2rem !important;
-    }
-    .cta-actions {
-      justify-content: flex-start !important;
-    }
+  /* CTA Solid Box */
+  .editorial-b2b .cta-band {
+    background: var(--ink) !important; /* Mapped to black theme background */
+    border-radius: 28px !important;
+    padding: 4.5rem 4rem !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  .editorial-b2b .cta-band h2 {
+    color: #ffffff !important;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem) !important;
+    text-align: center !important;
+    max-width: 100% !important; /* Force override global 26ch limit */
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .editorial-b2b .cta-band p {
+    color: rgba(255, 255, 255, .82) !important;
+    margin-top: 12px !important;
+    max-width: 520px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 1.05rem !important;
+    text-align: center !important;
+  }
+  .editorial-b2b .cta-band .hero-ctas {
+    justify-content: center !important;
+    margin-top: 2rem !important;
+  }
+  .editorial-b2b .cta-band .btn-primary {
+    background: #ffffff !important;
+    color: var(--ink) !important;
+  }
+  .editorial-b2b .cta-band .btn-primary:hover {
+    background: var(--bg-soft) !important;
+    color: var(--ink) !important;
+  }
+
+  @media (max-width:700px){
+    .editorial-b2b .cta-band { padding: 3rem 1.8rem !important; border-radius: 20px !important; }
   }
 </style>
 
-<section class="page-hero">
-  <div class="container">
-    <span class="eyebrow">Corporate Training</span>
-    <h1>Upskill Your Team on the Stack They’ll Use on <em>Monday</em></h1>
-    <p class="lead">Custom, project-anchored tracks in UiPath, Power Platform, Playwright, and BI — designed around your upcoming sprint roadmaps and led by senior consultants.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="/contact/">Propose a Custom Curriculum</a>
-      <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
-    </div>
-  </div>
-</section>
+<div class="editorial-b2b">
 
-<section class="content-section">
-  <div class="container">
-    <div class="section-title-wrap">
-      <span class="num-label">IN THE ROOM</span>
-      <h2>Delivery your team will actually <em>enjoy</em></h2>
-    </div>
-    <div class="photo-grid">
-      <figure class="photo-card reveal">
-        <img src="/assets/images/classroom-training.webp" alt="RPAVault trainer delivering a corporate classroom session" loading="lazy">
-        <figcaption>Instructor-led sessions, on-site or online</figcaption>
-      </figure>
-      <figure class="photo-card reveal">
-        <img src="/assets/images/hands-on-mentoring.webp" alt="Hands-on mentoring during a corporate training workshop" loading="lazy">
-        <figcaption>Hands-on labs with real mentoring</figcaption>
-      </figure>
-      <figure class="photo-card reveal">
-        <img src="/assets/images/community-meetup.webp" alt="RPAVault team at an industry training event" loading="lazy">
-        <figcaption>An active practitioner community</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<section class="content-section">
-  <div class="container">
-    <div class="section-title-wrap">
-      <span class="num-label">PROGRAMS</span>
-      <h2>What we train corporate <em>teams on</em></h2>
-    </div>
-    <div class="card-grid">
-      <article class="card reveal">
-        <h3>RPA &amp; Agentic Automation</h3>
-        <p>UiPath from fundamentals to REFramework, plus Power Automate and AI-agent patterns — our flagship corporate track.</p>
-      </article>
-      <article class="card reveal">
-        <h3>Data &amp; BI</h3>
-        <p>SQL Server, MSBI and Power BI — from analyst fundamentals to advanced DAX for reporting teams.</p>
-      </article>
-      <article class="card reveal">
-        <h3>QA Automation</h3>
-        <p>Playwright with TypeScript, framework design and CI — move manual QA teams to modern automation.</p>
-      </article>
-      <article class="card reveal">
-        <h3>Document Intelligence</h3>
-        <p>UiPath Document Understanding and IDP pipelines for teams processing invoices, forms and unstructured docs.</p>
-      </article>
-      <article class="card reveal">
-        <h3>GenAI for Automation Teams</h3>
-        <p>Practical GenAI and agentic patterns your developers can safely apply inside existing processes.</p>
-      </article>
-      <article class="card reveal">
-        <h3>Custom Tracks</h3>
-        <p>Blend modules across tools and levels — we design around your team’s baseline and your project roadmap.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="content-section">
-  <div class="container">
-    <div class="section-title-wrap">
-      <span class="num-label">HOW IT RUNS</span>
-      <h2>From skills gap to <em>shipped work</em></h2>
-    </div>
-    <div class="process-steps">
-      <div class="process-step reveal">
-        <b>Assess</b>
-        <p>Baseline your team’s current skills and the project demands ahead.</p>
-      </div>
-      <div class="process-step reveal">
-        <b>Design</b>
-        <p>Custom curriculum, schedule and labs — aligned to your delivery calendar.</p>
-      </div>
-      <div class="process-step reveal">
-        <b>Deliver</b>
-        <p>Live sessions with hands-on labs, projects and assessments — on-site or online.</p>
-      </div>
-      <div class="process-step reveal">
-        <b>Sustain</b>
-        <p>Post-program support, office hours and advanced follow-on tracks.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="content-section">
-  <div class="container">
-    <div class="section-title-wrap">
-      <span class="num-label">WHY RPAVAULT</span>
-      <h2>Why L&amp;D teams partner with <em>us</em></h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-item reveal">
-        <h3>Practitioners teach</h3>
-        <p>UiPath tech leads, enterprise consultants and 14-year data specialists — trainers your seniors will respect.</p>
-      </div>
-      <div class="why-item reveal">
-        <h3>Project-anchored labs</h3>
-        <p>Exercises modelled on your actual processes wherever possible — skills transfer straight into delivery.</p>
-      </div>
-      <div class="why-item reveal">
-        <h3>Measurable outcomes</h3>
-        <p>Assessments before and after, with a clear skills report for every participant.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="cta-band">
-  <div class="container">
-    <div class="cta-inner">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="b2b-wrap hero-grid">
       <div>
-        <h2>Let’s design your program</h2>
-        <p>Tell us the team size, current skills and target stack — we’ll propose a plan within days.</p>
+        <div class="eyebrow"><span class="dot"></span> Corporate Training</div>
+        <h1>Workforce enablement built around your enterprise — <em>not a course catalog.</em></h1>
+        <p class="lead">We design and deliver enterprise training programs mapped to your organization's tools, workflows, and capability gaps — led by the same practitioners who deliver automation and consulting engagements for corporate clients.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary" data-open-corporate>Request a Training Proposal</a>
+          <a href="#process" class="btn btn-ghost">See How It Works</a>
+        </div>
+        <div class="trust-chips">
+          <div class="trust-chip">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            80+ corporate training engagements delivered across enterprise teams
+          </div>
+          <div class="trust-chip">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Curriculum mapped to your operating environment, not a fixed syllabus
+          </div>
+          <div class="trust-chip">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Delivered onsite, virtual, or hybrid — structured around your organization's calendar
+          </div>
+        </div>
       </div>
-      <div class="cta-actions">
-        <a class="btn btn-primary" href="/contact/">Propose a Custom Curriculum</a>
-        <a class="btn btn-ghost" href="#" data-open-callback>Request Callback</a>
+
+      <div class="hero-visual">
+        <div class="practitioner-badge">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M20 12a8 8 0 11-4.2-7.05" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div><strong>Practitioner-Led</strong><span>Taught by our delivery team</span></div>
+        </div>
+
+        <div class="impact-card">
+          <div class="impact-num">80<span style="color:var(--ink);">+</span></div>
+          <div class="impact-label">Corporate Trainings Delivered</div>
+          <div class="impact-sub">UiPath · Power Automate · Azure &amp; Cloud · Data Analytics</div>
+          <div class="impact-divider"></div>
+          <div class="impact-formats">
+            <span>Onsite</span><span>Virtual</span><span>Hybrid</span>
+          </div>
+        </div>
+
+        <div class="outcome-badge">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M14 9h1M14 13h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div><strong>Enterprise-Ready</strong><span>Batch &amp; completion reporting</span></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" class="alt">
+    <div class="b2b-wrap">
+      <div class="section-head center reveal">
+        <div class="eyebrow"><span class="dot"></span> How It Works</div>
+        <h2>A program built around your team, not around us</h2>
+        <p>Every corporate engagement follows the same structured path — so the training actually reflects what your team needs to do differently on Monday morning.</p>
+      </div>
+
+      <div class="blueprint-track reveal">
+        <div class="blueprint-line"></div>
+        <div class="bp-stage">
+          <div class="bp-num">01</div>
+          <div class="bp-card">
+            <span class="bp-tag">Step 1</span>
+            <h4>Needs Assessment</h4>
+            <p>We understand your business goals, current skill gaps, and the tools your team already works with.</p>
+          </div>
+        </div>
+        <div class="bp-stage">
+          <div class="bp-num">02</div>
+          <div class="bp-card">
+            <span class="bp-tag">Step 2</span>
+            <h4>Curriculum Design</h4>
+            <p>A program built around your actual workflows and use cases — not a generic, off-the-shelf syllabus.</p>
+          </div>
+        </div>
+        <div class="bp-stage">
+          <div class="bp-num">03</div>
+          <div class="bp-card">
+            <span class="bp-tag">Step 3</span>
+            <h4>Delivery</h4>
+            <p>Practitioner-led sessions, onsite, virtual, or hybrid — hands-on with your team's real scenarios.</p>
+          </div>
+        </div>
+        <div class="bp-stage">
+          <div class="bp-num">04</div>
+          <div class="bp-card">
+            <span class="bp-tag">Step 4</span>
+            <h4>Outcomes &amp; Follow-Up</h4>
+            <p>Skill validation, completion reporting, and optional ongoing support once the training wraps up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE TRAIN -->
+  <section id="capabilities">
+    <div class="b2b-wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="dot"></span> What We Train</div>
+        <h2>Capability tracks your team can deploy immediately</h2>
+        <p>Each track maps to a business capability, not a single tool — so the training holds up even as your stack evolves. Tracks run standalone or combine into a broader enablement program.</p>
+      </div>
+
+      <div class="train-grid">
+        <div class="pillar reveal">
+          <h3>Robotic Process Automation</h3>
+          <p>Enterprise-grade bot development and orchestration — from proof of concept to production automation governed at scale.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">UiPath Studio</span>
+            <span class="tech-tag">Orchestrator</span>
+            <span class="tech-tag">REFramework</span>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <h3>Intelligent Workflow Automation</h3>
+          <p>Automating approvals, data flows, and cross-system processes natively within your Microsoft 365 and Azure environment.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Power Automate</span>
+            <span class="tech-tag">Cloud Flows</span>
+            <span class="tech-tag">Integrations</span>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <h3>Cloud Computing &amp; Infrastructure</h3>
+          <p>Core cloud architecture and hands-on infrastructure practice for teams supporting or migrating enterprise systems.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Azure VM</span>
+            <span class="tech-tag">Cloud Compute</span>
+            <span class="tech-tag">DevOps Pipelines</span>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <h3>Data Analytics &amp; Business Intelligence</h3>
+          <p>Reporting, dashboarding, and data-driven decision-making built around the KPIs your leadership already tracks.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">SQL Queries</span>
+            <span class="tech-tag">Power BI</span>
+            <span class="tech-tag">ETL Pipelines</span>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <h3>Automation Literacy for Business Teams</h3>
+          <p>A non-technical track for operations and business staff — identifying automation opportunities before they ever reach engineering.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Process Mapping</span>
+            <span class="tech-tag">ROI Audits</span>
+            <span class="tech-tag">Opportunity Identification</span>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <h3>Custom Enterprise Tracks</h3>
+          <p>A specific internal system, compliance requirement, or proprietary process? We design the curriculum around it, not around a template.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Custom Syllabus</span>
+            <span class="tech-tag">Internal Sandboxes</span>
+            <span class="tech-tag">ERP Integrations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="alt">
+    <div class="b2b-wrap">
+      <div class="why-split-container reveal">
+        <!-- Left Side Column -->
+        <div class="why-left-content">
+          <div class="eyebrow"><span class="dot"></span> Why Us</div>
+          <h2>Enablement that holds up long after training wraps</h2>
+          <p>We build our programs entirely around your operating environment, giving L&amp;D coordinators and engineering heads complete verification of the skill outcomes.</p>
+        </div>
+
+        <!-- Right Side Stacked List -->
+        <div class="why-features-list">
+          <div class="why-feature-block">
+            <span class="why-feature-tag">01 / TEAM</span>
+            <h4>Practitioner-Led Instruction</h4>
+            <p>Syllabus modules are delivered by the same consultants who build and execute automation pipelines for enterprise clients, not dedicated lecturers.</p>
+          </div>
+
+          <div class="why-feature-block">
+            <span class="why-feature-tag">02 / CONTENT</span>
+            <h4>Mapped to Your Stack</h4>
+            <p>We train on your active repositories and workflows, so your developers step out ready to deploy production code instantly.</p>
+          </div>
+
+          <div class="why-feature-block">
+            <span class="why-feature-tag">03 / OPERATIONS</span>
+            <h4>Enterprise-Ready Formats</h4>
+            <p>Batch scheduling and completion scorecards engineered to align with corporate procurement portals and L&amp;D frameworks.</p>
+          </div>
+
+          <div class="why-feature-block">
+            <span class="why-feature-tag">04 / EXPERIENCE</span>
+            <h4>Proven at Enterprise Scale</h4>
+            <p>Over 80 corporate engagements successfully completed. Pacing and lab modules are extensively refined for maximum group retention.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMATS -->
+  <section>
+    <div class="b2b-wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="dot"></span> Delivery Formats</div>
+        <h2>Trained however your team works</h2>
+        <p>Most corporate engagements land on hybrid — live sessions for the hands-on parts, self-paced material for the rest.</p>
+      </div>
+
+      <div class="model-grid">
+        <div class="model reveal">
+          <h4>Onsite Training</h4>
+          <p>Our team comes to your office — ideal when the training needs to plug directly into on-premise systems or a specific team culture.</p>
+          <div class="model-best">BEST FOR // hands-on, system-specific work</div>
+        </div>
+        <div class="model featured reveal">
+          <h4>Hybrid Cohort</h4>
+          <p>Live instructor-led sessions combined with self-paced modules — the most requested format for ongoing upskilling programs.</p>
+          <div class="model-best">BEST FOR // teams balancing training with day-to-day work</div>
+        </div>
+        <div class="model reveal">
+          <h4>Virtual / Live Online</h4>
+          <p>Fully remote, instructor-led sessions — built for distributed teams or when travel isn't practical.</p>
+          <div class="model-best">BEST FOR // distributed or remote teams</div>
+        </div>
+        <div class="model reveal">
+          <h4>Train-the-Trainer</h4>
+          <p>We train your internal trainers directly, so your organization can scale the program without depending on us long-term.</p>
+          <div class="model-best">BEST FOR // building internal training capability</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="alt">
+    <div class="b2b-wrap">
+      <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
+        <div class="eyebrow"><span class="dot"></span> Common Questions</div>
+        <h2>Before you reach out</h2>
+      </div>
+
+      <div class="faq-list reveal">
+        <div class="faq-item open">
+          <button class="faq-q">How is this different from a generic online course?
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>We build the curriculum around your team's actual tools and workflows, and it's taught by practitioners who deliver this work commercially — not a fixed, generic syllabus.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Can training be customized to our specific tools or processes?
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Yes — this is the default, not an add-on. Our Needs Assessment step exists specifically to map the program to your environment.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What's a typical batch size or duration?
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Both scale with your team and goals — we'll size the batch and timeline once we understand what you're training for.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Can this be delivered onsite at our office?
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Yes — onsite, virtual, and hybrid are all standard formats. Onsite is common when training needs to touch on-premise systems directly.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact">
+    <div class="b2b-wrap">
+      <div class="cta-band reveal">
+        <div class="eyebrow on-dark"><span class="dot"></span> Get Started</div>
+        <h2 style="margin-top:16px; color:#ffffff; text-align: center !important; display: block !important; width: 100% !important;">Ready to upskill your team?</h2>
+        <p>Tell us what your team needs to be able to do — we'll come back with a program built around it, not a catalog to pick from.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary" data-open-corporate>Request a Training Proposal</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Accordions
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-q').addEventListener('click', () => {
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if(!wasOpen) item.classList.add('open');
+      });
+    });
+
+    // Reveal animations
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  });
+</script>

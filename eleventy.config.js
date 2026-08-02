@@ -10,6 +10,11 @@ module.exports = function(eleventyConfig) {
   // Ignore OLD directories and files
   eleventyConfig.ignores.add("OLD/**");
 
+  // Custom blog collection sorted by date descending (newest first)
+  eleventyConfig.addCollection("blogPosts", function(collectionApi) {
+    return collectionApi.getFilteredByTag("blog").reverse();
+  });
+
   // Date filter for blog posts (e.g. "2026-07-30" -> "30 July 2026")
   eleventyConfig.addFilter("dateFilter", function(dateVal) {
     if (!dateVal) return "";
@@ -20,6 +25,19 @@ module.exports = function(eleventyConfig) {
       "July", "August", "September", "October", "November", "December"
     ];
     return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  });
+
+  // Strip HTML tags for indexing page contents
+  eleventyConfig.addFilter("stripHtml", function(content) {
+    if (!content) return "";
+    // Remove HTML comments, scripts, styles first
+    let clean = content.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
+    clean = clean.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, " ");
+    // Strip standard HTML tags
+    clean = clean.replace(/<[^>]*>/g, " ");
+    // Collapse whitespace
+    clean = clean.replace(/\s+/g, " ");
+    return clean.trim();
   });
 
   return {

@@ -31,12 +31,59 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H994NLYWRJ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H994NLYWRJ');</script>
 <style>
-  /* Premium Minimalist Theme (Apple-style) Global CSS */
-  body {
-    background-color: #f5f5f7 !important;
-    color: #1d1d1f !important;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  /* Root-level Centered Heroes for standard pages (excluding split heroes) */
+  .page-hero, .article-hero {
+    text-align: center !important;
+    padding: 5rem 0 3.5rem 0 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e7 !important;
   }
+  .page-hero .container, .article-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .page-hero h1, .article-hero h1 {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 100% !important;
+    text-align: center !important;
+  }
+  .page-hero .lead, .article-hero .lead {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 720px !important;
+    text-align: center !important;
+  }
+  .page-hero .eyebrow, .article-hero .eyebrow {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Fallback left alignment style for page heroes containing split-hero grid columns */
+  .page-hero:has(.split-hero) {
+    text-align: left !important;
+    padding: 6.5rem 0 5rem 0 !important;
+  }
+  .page-hero:has(.split-hero) .container {
+    display: block !important;
+    text-align: left !important;
+  }
+  .page-hero:has(.split-hero) h1 {
+    margin-left: 0 !important;
+    text-align: left !important;
+  }
+  .page-hero:has(.split-hero) .lead {
+    margin-left: 0 !important;
+    text-align: left !important;
+  }
+  .page-hero:has(.split-hero) .eyebrow {
+    margin-left: 0 !important;
+  }
+
 
   /* Header & Navigation Overrides */
   .site-header {
@@ -62,12 +109,13 @@
     padding: 6px 12px !important;
   }
   .nav-link:hover, .services-trigger:hover {
-    color: #1d1d1f !important;
-    background: #f5f5f7 !important;
+    color: var(--blue) !important;
+    background: var(--blue-soft) !important;
   }
   .nav-link[aria-current="page"] {
-    background: #e8e8ed !important;
-    color: #1d1d1f !important;
+    background: var(--blue-soft) !important;
+    color: var(--blue) !important;
+    font-weight: 700 !important;
     border: none !important;
     box-shadow: none !important;
   }
@@ -191,6 +239,9 @@
 {% include "partials/callback.html" %}
 {% include "partials/consulting_modal.html" %}
 {% include "partials/discovery_modal.html" %}
+{% include "partials/college_modal.html" %}
+{% include "partials/corporate_modal.html" %}
+{% include "partials/guidance_modal.html" %}
 
 </body>
 </html>

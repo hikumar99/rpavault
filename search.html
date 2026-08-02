@@ -1,0 +1,406 @@
+---
+layout: layouts/base.html
+title: Search RPAVault — Find Courses, Career Paths, and Guides
+description: Search across all RPAVault IT training courses, RPA and AI guides, and automation career pathways.
+---
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Site Search</span>
+    <h1>Search <em>RPAVault</em></h1>
+    <p class="lead">Find courses, transition roadmaps, FAQs, and career guidance files instantly.</p>
+  </div>
+</section>
+
+<section class="content-section" style="padding: 4rem 0 6rem 0 !important; background: #f5f5f7 !important;">
+  <div class="container" style="max-width: 900px !important;">
+    
+    <!-- Central Search Input Fold -->
+    <div style="background: #ffffff !important; border: 1px solid var(--line) !important; border-radius: 24px !important; padding: 2.2rem !important; box-shadow: var(--shadow-sm) !important; margin-bottom: 3.5rem !important;">
+      <form id="search-form" style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; margin: 0 !important;">
+        <div style="position: relative !important;">
+          <input type="text" id="search-input" placeholder="Type keywords (e.g. switch career, Power BI, RPA, UiPath)..." style="width: 100% !important; padding: 14px 16px 14px 44px !important; border: 1px solid var(--line) !important; border-radius: 12px !important; font-size: 1rem !important; background: #f5f5f7 !important; color: var(--ink) !important; outline: none !important; box-shadow: none !important; height: auto !important;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position: absolute !important; left: 16px !important; top: 50% !important; transform: translateY(-50%) !important; color: var(--muted) !important;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+        <button type="submit" class="btn" style="background: var(--blue) !important; color: #ffffff !important; border: none !important; border-radius: 12px !important; padding: 14px 28px !important; font-weight: 800 !important; font-size: 0.95rem !important; cursor: pointer !important; height: 100% !important;">Search</button>
+      </form>
+    </div>
+
+    <!-- Search Results Status Info -->
+    <div id="search-status" style="margin-bottom: 2rem !important; font-size: 0.95rem !important; color: var(--ink-soft) !important; font-weight: 600 !important;">
+      Initializing search catalog...
+    </div>
+
+    <!-- Dynamic Grid for Search Results -->
+    <div id="search-results-grid" style="display: grid !important; grid-template-columns: 1fr !important; gap: 1.5rem !important;">
+      <!-- Results populated by JavaScript -->
+    </div>
+
+    <!-- Recent Queries Ticker Section (Left-Aligned Layout) -->
+    <div id="search-ticker" style="margin-top: 5rem !important; padding-top: 2rem !important; border-top: 1px solid var(--line) !important; text-align: left !important;">
+      <h4 style="font-family: -apple-system, BlinkMacSystemFont, sans-serif !important; font-size: 0.72rem !important; font-weight: 800; color: var(--muted) !important; text-transform: uppercase !important; margin: 0 0 0.8rem 0 !important; letter-spacing: 0.08em !important; text-align: left !important;">Recent Queries</h4>
+      <div id="search-ticker-terms" style="display: flex !important; flex-wrap: wrap !important; gap: 0.5rem !important; justify-content: flex-start !important; font-size: 0.8rem !important; color: var(--muted) !important; align-items: center !important; line-height: 1.6 !important; text-align: left !important;">
+        <!-- Loaded dynamically from database -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Generate the Search Index dynamically in Eleventy -->
+{% set search_items = [] %}
+
+{# 1. Populate Blog Posts with content body #}
+{% for post in collections.blogPosts %}
+  {% set search_items = (search_items.push({
+    title: post.data.title,
+    description: post.data.description,
+    url: post.url,
+    category: post.data.category | default("Career"),
+    type: "Blog Guide",
+    image: post.data.image | default("/assets/images/blog/non-it-career.jpg"),
+    content: post.templateContent | stripHtml
+  }), search_items) %}
+{% endfor %}
+
+{# 2. Populate Course Pages dynamically with content body (Resolving exact thumbnail extensions) #}
+{% for item in collections.all %}
+  {% if "/course/" in item.url and item.data.title and item.url != "/course/" %}
+    {% set clean_title = item.data.title | replace(" | RPAVault", "") | replace(" — Live Online Course", "") %}
+    {% set course_cat = "IT Training" %}
+    {% if "uipath" in item.url or "rpa" in item.url %}
+      {% set course_cat = "RPA & Automation" %}
+    {% elif "power-bi" in item.url or "sql" in item.url or "data-analytics" in item.url %}
+      {% set course_cat = "Data & Business Intelligence" %}
+    {% elif "playwright" in item.url or "test" in item.url %}
+      {% set course_cat = "QA Testing" %}
+    {% endif %}
+    
+    {# Match correct image extension according to files on disk #}
+    {% set slug = item.data.course_slug | default("rpa-agentic-uipath-power-automate") %}
+    {% if slug == "advance-agentic-rpa-uipath" or slug == "data-analytics-power-bi-sql" or slug == "uipath-test-suite" %}
+      {% set course_img = "/assets/images/courses/" + slug + ".webp" %}
+    {% else %}
+      {% set course_img = "/assets/images/courses/" + slug + ".svg" %}
+    {% endif %}
+
+    {% set search_items = (search_items.push({
+      title: clean_title,
+      description: item.data.description,
+      url: item.url,
+      category: course_cat,
+      type: "Course Batch",
+      image: course_img,
+      content: item.templateContent | stripHtml
+    }), search_items) %}
+  {% endif %}
+{% endfor %}
+
+{# 3. Populate FAQ Pages dynamically with content body #}
+{% for item in collections.faq %}
+  {% set search_items = (search_items.push({
+    title: item.data.title,
+    description: item.data.description,
+    url: item.url,
+    category: item.data.category | default("FAQ Support"),
+    type: "FAQ Answer",
+    image: "/assets/images/blog/non-it-career.jpg",
+    content: item.templateContent | stripHtml
+  }), search_items) %}
+{% endfor %}
+
+<script>
+  // Dynamic JSON Search Index
+  const searchIndex = [
+    {% for item in search_items %}
+      {
+        title: {{ item.title | dump | safe }},
+        description: {{ item.description | dump | safe }},
+        url: {{ item.url | dump | safe }},
+        category: {{ item.category | dump | safe }},
+        type: {{ item.type | dump | safe }},
+        image: {{ item.image | dump | safe }},
+        content: {{ item.content | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  // Helper to decode HTML entities for accurate query comparison
+  const decodeHTML = (str) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    return txt.value;
+  };
+
+  // KV Database URL for RPAVault Search Tracking
+  const databaseUrl = 'https://kvdb.io/K3gq5V8Vf5S5wZp6W7Z4_rpavault/search_history';
+
+  // Render Ticker terms at the bottom (Left-aligned recent queries)
+  const updateTicker = (history, currentTerm = '') => {
+    const tickerEl = document.getElementById('search-ticker-terms');
+    if (!tickerEl) return;
+    
+    if (!history || history.length === 0) {
+      tickerEl.innerHTML = "<span style='color: var(--muted); font-size: 0.8rem;'>No searches logged yet</span>";
+      return;
+    }
+    
+    // Sort by Date descending (most recent first)
+    let sorted = [...history].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    // Filter out the current active search term if specified (so it is not shown in the ticker)
+    if (currentTerm) {
+      const cleanCurrent = currentTerm.trim().toLowerCase();
+      sorted = sorted.filter(item => item.term.trim().toLowerCase() !== cleanCurrent);
+    }
+    
+    // Slice top 20 recent searches
+    const slice = sorted.slice(0, 20);
+    
+    if (slice.length === 0) {
+      tickerEl.innerHTML = "<span style='color: var(--muted); font-size: 0.8rem;'>No other recent searches</span>";
+      return;
+    }
+    
+    tickerEl.innerHTML = slice.map(item => {
+      return `<a href="/search/?q=${encodeURIComponent(item.term)}" style="color: var(--muted) !important; text-decoration: none !important; font-size: 0.8rem !important; font-weight: 500 !important; transition: color 0.2s !important;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--muted)'">${decodeHTML(item.term)}</a>`;
+    }).join(' <span style="color: var(--line); font-size: 0.75rem; margin: 0 5px; font-weight: 700;">;</span> ');
+  };
+
+  // Helper to merge local and cloud history lists without duplication
+  const getMergedHistory = (local, cloud) => {
+    const map = new Map();
+    
+    local.forEach(item => {
+      map.set(item.term.toLowerCase(), item);
+    });
+    
+    cloud.forEach(item => {
+      const key = item.term.toLowerCase();
+      if (map.has(key)) {
+        const localItem = map.get(key);
+        map.set(key, {
+          term: item.term,
+          frequency: Math.max(localItem.frequency, item.frequency),
+          date: new Date(item.date) > new Date(localItem.date) ? item.date : localItem.date
+        });
+      } else {
+        map.set(key, item);
+      }
+    });
+    
+    return Array.from(map.values());
+  };
+
+  // Fetch ticker array on page load
+  const loadTicker = async (currentTerm = '') => {
+    let localHistory = [];
+    try {
+      const localText = localStorage.getItem('rpavault_search_history');
+      if (localText) localHistory = JSON.parse(localText);
+    } catch (e) {}
+
+    let history = localHistory;
+    
+    try {
+      const res = await fetch(databaseUrl);
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.trim().startsWith('[')) {
+          const cloudHistory = JSON.parse(text);
+          history = getMergedHistory(localHistory, cloudHistory);
+          localStorage.setItem('rpavault_search_history', JSON.stringify(history));
+        }
+      }
+    } catch (e) {
+      console.log("Failed loading ticker history from cloud, relying on local storage.");
+    }
+    
+    if (history.length === 0) {
+      history = [
+        { term: "switch career", date: new Date().toLocaleDateString(), frequency: 1 },
+        { term: "RPA", date: new Date().toLocaleDateString(), frequency: 1 },
+        { term: "Power BI", date: new Date().toLocaleDateString(), frequency: 1 },
+        { term: "Testing", date: new Date().toLocaleDateString(), frequency: 1 }
+      ];
+    }
+    
+    updateTicker(history, currentTerm);
+  };
+
+  const logSearchTerm = async (term) => {
+    const cleanTerm = term.trim().replace(/\s+/g, '-');
+    if (!cleanTerm || cleanTerm.length < 2) return;
+    
+    const today = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+
+    let localHistory = [];
+    try {
+      const localText = localStorage.getItem('rpavault_search_history');
+      if (localText) localHistory = JSON.parse(localText);
+    } catch (e) {}
+    
+    const localIdx = localHistory.findIndex(item => item.term.toLowerCase() === cleanTerm.toLowerCase());
+    if (localIdx !== -1) {
+      localHistory[localIdx].frequency += 1;
+      localHistory[localIdx].date = today;
+    } else {
+      localHistory.push({ term: cleanTerm, frequency: 1, date: today });
+    }
+    localStorage.setItem('rpavault_search_history', JSON.stringify(localHistory));
+
+    let mergedHistory = localHistory;
+    
+    try {
+      const res = await fetch(databaseUrl);
+      let cloudHistory = [];
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.trim().startsWith('[')) {
+          cloudHistory = JSON.parse(text);
+        }
+      } else if (res.status !== 404) {
+        throw new Error("DB Fetch failed");
+      }
+      
+      const cloudIdx = cloudHistory.findIndex(item => item.term.toLowerCase() === cleanTerm.toLowerCase());
+      if (cloudIdx !== -1) {
+        cloudHistory[cloudIdx].frequency += 1;
+        cloudHistory[cloudIdx].date = today;
+      } else {
+        cloudHistory.push({ term: cleanTerm, frequency: 1, date: today });
+      }
+      
+      mergedHistory = getMergedHistory(localHistory, cloudHistory);
+      
+      // Save back to KV store using simple POST
+      await fetch(databaseUrl, {
+        method: 'POST',
+        body: JSON.stringify(mergedHistory)
+      });
+      
+      localStorage.setItem('rpavault_search_history', JSON.stringify(mergedHistory));
+    } catch (err) {
+      console.error("KV Log Error:", err);
+    }
+    
+    updateTicker(mergedHistory, cleanTerm);
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputEl = document.getElementById('search-input');
+    const formEl = document.getElementById('search-form');
+    const statusEl = document.getElementById('search-status');
+    const gridEl = document.getElementById('search-results-grid');
+
+    if (!inputEl || !formEl || !statusEl || !gridEl) return;
+
+    // Run search based on URL param
+    const getQueryParam = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('q') || '';
+    };
+
+    const initialQuery = getQueryParam();
+    // Load initial ticker terms filtering out the current active search term
+    loadTicker(initialQuery);
+
+    const performSearch = (query) => {
+      const rawQuery = decodeURIComponent(query);
+      const q = rawQuery.trim().toLowerCase().replace(/-/g, ' ').replace('&amp;', '&').replace('&', 'and');
+      inputEl.value = rawQuery.replace(/-/g, ' ');
+
+      if (!q) {
+        statusEl.innerHTML = "Enter a keyword above to search through our courses and guides.";
+        gridEl.innerHTML = "";
+        return;
+      }
+
+      // Record query in Google Analytics (Gtag) dashboard for client analysis
+      if (typeof gtag === 'function') {
+        gtag('event', 'search', {
+          search_term: rawQuery
+        });
+      }
+
+      // Log query to KV store database
+      logSearchTerm(rawQuery);
+
+      // Filter logic: match titles, descriptions, categories, types, or body content
+      const results = searchIndex.filter(item => {
+        // Decode index values for string containment logic
+        const titleDec = decodeHTML(item.title).toLowerCase().replace('&', 'and');
+        const descDec = decodeHTML(item.description).toLowerCase().replace('&', 'and');
+        const catDec = decodeHTML(item.category).toLowerCase().replace('&', 'and');
+        const typeDec = item.type.toLowerCase();
+        const contentDec = item.content ? decodeHTML(item.content).toLowerCase().replace('&', 'and') : '';
+
+        return titleDec.includes(q) || 
+               descDec.includes(q) || 
+               catDec.includes(q) ||
+               typeDec.includes(q) ||
+               contentDec.includes(q);
+      });
+
+      // Update status info
+      statusEl.innerHTML = `Found ${results.length} result${results.length === 1 ? '' : 's'} for "${rawQuery}"`;
+
+      if (results.length === 0) {
+        gridEl.innerHTML = `
+          <div style="background: #ffffff; border: 1px solid var(--line); border-radius: 16px; padding: 3rem; text-align: center;">
+            <p style="font-size: 1.1rem; color: var(--ink-soft); margin-bottom: 1.5rem; font-weight: 600;">No exact matches found for your search query.</p>
+            <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 2rem;">Try searching for broad terms like <strong>RPA, UiPath, Power BI, SQL, Testing, or Switch Career</strong>.</p>
+            <a href="/courses/" class="btn btn-primary" style="display: inline-block;">Browse All Courses</a>
+          </div>
+        `;
+        return;
+      }
+
+      // Populate results grid
+      gridEl.innerHTML = results.map(item => {
+        const isCourse = item.type === "Course Batch";
+        const isFaq = item.type === "FAQ Answer";
+        
+        let badgeColor = "#4267B2"; // Blog
+        if (isCourse) {
+          badgeColor = "var(--blue)";
+        } else if (isFaq) {
+          badgeColor = "#10b981"; // Green FAQ
+        }
+        
+        return `
+          <article style="background: #ffffff; border: 1px solid var(--line); border-radius: 18px; padding: 1.5rem; display: grid; grid-template-columns: 80px 1fr; gap: 1.5rem; align-items: center; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onclick="window.location.href='${item.url}'" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)'">
+            <img src="${item.image}" alt="${decodeHTML(item.title)}" style="width: 80px; height: 80px; object-fit: contain; border-radius: 8px;" onerror="this.src='/assets/images/blog/non-it-career.jpg'; this.style.objectFit='cover';">
+            <div>
+              <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 0.4rem; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; font-weight: 800; background: ${badgeColor}; color: #ffffff; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.05em;">${item.type}</span>
+                <span style="font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">${decodeHTML(item.category)}</span>
+              </div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ink); margin: 0 0 0.4rem 0; line-height: 1.25;"><a href="${item.url}" style="text-decoration: none; color: inherit;">${decodeHTML(item.title)}</a></h3>
+              <p style="font-size: 0.9rem; color: var(--ink-soft); margin: 0; line-height: 1.45;">${decodeHTML(item.description)}</p>
+            </div>
+          </article>
+        `;
+      }).join('');
+    };
+
+    // Initialize search on load
+    performSearch(initialQuery);
+
+    // Handle form submit
+    formEl.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = inputEl.value;
+      
+      // Update browser history URL
+      const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?q=' + encodeURIComponent(val);
+      window.history.pushState({ path: newUrl }, '', newUrl);
+      
+      performSearch(val);
+    });
+  });
+</script>

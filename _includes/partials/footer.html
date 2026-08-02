@@ -75,12 +75,25 @@
   .footer-social {
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 1.2rem !important;
-    margin-top: 1rem !important;
+    gap: 0.65rem !important;
+    margin-top: 1.2rem !important;
   }
   .footer-social a {
     margin: 0 !important;
-    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: #e8e8ed !important;
+    color: #515154 !important;
+    transition: background 0.2s, color 0.2s, transform 0.2s !important;
+  }
+  .footer-social a:hover {
+    background: var(--blue) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
   }
 
   .footer-bottom {
@@ -122,27 +135,35 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <a class="footer-logo-text" href="/" aria-label="RPAVault home">
-        RPAVault
+      <a class="footer-logo-text" href="/" aria-label="{{ settings.header.brand_name }} home">
+        {{ settings.header.brand_name }}
       </a>
       <p>{{ settings.footer.description }}</p>
+      
+      <!-- Footer Search Box -->
+      <div class="footer-search" style="margin-top: 1.5rem !important; max-width: 280px !important;">
+        <form action="/search/" method="GET" style="display: flex !important; position: relative !important; margin: 0 !important;">
+          <input type="text" name="q" placeholder="Search courses, guides..." required style="width: 100% !important; padding: 10px 36px 10px 14px !important; border: 1px solid var(--line) !important; border-radius: 8px !important; font-size: 0.82rem !important; background: #ffffff !important; color: var(--ink) !important; outline: none !important; height: auto !important; box-shadow: none !important;">
+          <button type="submit" aria-label="Submit Search" style="position: absolute !important; right: 10px !important; top: 50% !important; transform: translateY(-50%) !important; background: transparent !important; border: none !important; color: var(--muted) !important; cursor: pointer !important; padding: 0 !important; display: flex !important; align-items: center !important;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+        </form>
+      </div>
     </div>
     
     <div class="footer-col">
       <h3>Quick Links</h3>
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/contact/">Contact</a>
-      <a href="/blog/">Blog</a>
+      {% for link in settings.footer.quick_links %}
+        <a href="{{ link.url }}">{{ link.label }}</a>
+      {% endfor %}
       <a href="#" data-open-callback>Request Callback</a>
     </div>
     
     <div class="footer-col">
       <h3>Services</h3>
-      <a href="/consulting/">Consulting</a>
-      <a href="/enterprise-automation/">Enterprise Automation</a>
-      <a href="/training/">Training</a>
-      <a href="/courses/">IT Courses</a>
+      {% for link in settings.footer.services_links %}
+        <a href="{{ link.url }}">{{ link.label }}</a>
+      {% endfor %}
     </div>
     
     <div class="footer-col">
@@ -151,11 +172,11 @@
       <a href="{{ settings.footer.domain_url }}">{{ settings.footer.domain_url | replace("https://", "") | replace("http://", "") }}</a>
       <p>{{ settings.footer.location }}</p>
       <p class="footer-social">
-        {% if settings.footer.social.linkedin %}<a href="{{ settings.footer.social.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>{% endif %}
-        {% if settings.footer.social.instagram %}<a href="{{ settings.footer.social.instagram }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
-        {% if settings.footer.social.youtube %}<a href="{{ settings.footer.social.youtube }}" target="_blank" rel="noopener">YouTube</a>{% endif %}
-        {% if settings.footer.social.facebook %}<a href="{{ settings.footer.social.facebook }}" target="_blank" rel="noopener">Facebook</a>{% endif %}
-        {% if settings.footer.social.telegram %}<a href="{{ settings.footer.social.telegram }}" target="_blank" rel="noopener">Telegram</a>{% endif %}
+        {% if settings.footer.social.linkedin %}<a href="{{ settings.footer.social.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>{% endif %}
+        {% if settings.footer.social.instagram %}<a href="{{ settings.footer.social.instagram }}" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>{% endif %}
+        {% if settings.footer.social.youtube %}<a href="{{ settings.footer.social.youtube }}" target="_blank" rel="noopener" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19c1.71.46 8.59.46 8.59.46s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>{% endif %}
+        {% if settings.footer.social.facebook %}<a href="{{ settings.footer.social.facebook }}" target="_blank" rel="noopener" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>{% endif %}
+        {% if settings.footer.social.telegram %}<a href="{{ settings.footer.social.telegram }}" target="_blank" rel="noopener" aria-label="Telegram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></a>{% endif %}
       </p>
     </div>
   </div>

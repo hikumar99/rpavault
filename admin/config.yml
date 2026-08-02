@@ -22,6 +22,9 @@ collections:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Description (SEO)", name: "description", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
+      - {label: "Category", name: "category", widget: "string", required: false}
+      - {label: "Cover Image", name: "image", widget: "image", required: false}
+      - {label: "Guidance CTA Text (Bottom)", name: "cta_text", widget: "text", required: false, default: "Tell us your background — we’ll recommend the track that actually fits, honestly."}
       - {label: "Tags", name: "tags", widget: "hidden", default: "blog"}
       - {label: "Body", name: "body", widget: "markdown"}
 
@@ -150,6 +153,18 @@ collections:
               - {label: "Contact Email", name: "email", widget: "string"}
               - {label: "Website URL", name: "domain_url", widget: "string"}
               - {label: "Office Location", name: "location", widget: "string"}
+              - label: "Quick Links"
+                name: "quick_links"
+                widget: "list"
+                fields:
+                  - {label: "Label", name: "label", widget: "string"}
+                  - {label: "URL", name: "url", widget: "string"}
+              - label: "Services Links"
+                name: "services_links"
+                widget: "list"
+                fields:
+                  - {label: "Label", name: "label", widget: "string"}
+                  - {label: "URL", name: "url", widget: "string"}
               - label: "Social Media Links"
                 name: "social"
                 widget: "object"

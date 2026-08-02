@@ -1,17 +1,424 @@
 ---
 layout: layouts/base.html
 ---
-<section class="page-hero"><div class="container">
-  <p class="page-kicker"><a href="/blog.html">Blog</a> · Careers &amp; Automation</p>
-  <h1>{{ title }}</h1>
-  <p class="post-meta">RPAVault Team · {{ date | dateFilter }}</p>
-</div></section>
+<style>
+  body {
+    background-color: #f5f5f7 !important;
+  }
+  /* Single Blog Post Template Styling */
+  .article-container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 var(--gutter) !important;
+  }
+  
+  /* Hero section styling */
+  .article-hero {
+    padding: 4.5rem 0 2rem 0 !important;
+  }
+  .article-kicker {
+    margin-bottom: 1.25rem !important;
+  }
+  .article-kicker a {
+    color: var(--blue) !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+  }
+  .article-kicker span {
+    color: var(--muted) !important;
+    font-weight: 500 !important;
+    margin-inline: 0.5rem !important;
+  }
+  .article-hero h1 {
+    font-size: clamp(2rem, 4.5vw, 2.8rem) !important;
+    font-weight: 850 !important;
+    color: var(--ink) !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1.5rem !important;
+    max-width: 100% !important;
+  }
+  .article-meta {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.8rem !important;
+    font-size: 0.9rem !important;
+    color: var(--ink-soft) !important;
+    font-weight: 500 !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .meta-dot {
+    width: 4px !important;
+    height: 4px !important;
+    background: var(--muted) !important;
+    border-radius: 50% !important;
+  }
+  .meta-category {
+    background: var(--blue-soft) !important;
+    color: var(--blue) !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+  }
 
-<section class="content-section"><div class="container"><div class="article-body">
-  {{ content | safe }}
-</div></div></section>
+  /* Featured Image Box */
+  .article-featured-image {
+    width: 100% !important;
+    aspect-ratio: 16/9 !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    margin-bottom: 3.5rem !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .article-featured-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
 
-<section class="cta-band"><div class="container"><div class="cta-inner">
-  <div><h2>Want to know if we fit your team?</h2><p>Tell us what you are trying to build — we will respond within one business day.</p></div>
-  <a class="btn btn-light" href="/contact.html">Contact us</a>
-</div></div></section>
+  /* Reading Body layout */
+  .article-content {
+    font-size: 1.1rem !important;
+    color: var(--ink) !important;
+    line-height: 1.7 !important;
+    max-width: 68ch !important;
+    margin: 0 auto 5rem auto !important;
+  }
+  .article-content h2 {
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    color: var(--ink) !important;
+    margin: 3.5rem 0 1.25rem 0 !important;
+    letter-spacing: -0.015em !important;
+  }
+  .article-content h3 {
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    color: var(--ink) !important;
+    margin: 2.5rem 0 1rem 0 !important;
+    letter-spacing: -0.01em !important;
+  }
+  .article-content p {
+    margin-bottom: 1.6rem !important;
+    color: #333336 !important;
+  }
+  .article-content ul, .article-content ol {
+    margin: 0 0 1.8rem 1.8rem !important;
+  }
+  .article-content li {
+    margin-bottom: 0.6rem !important;
+  }
+  .article-content strong {
+    color: var(--ink) !important;
+    font-weight: 700 !important;
+  }
+  .article-content blockquote {
+    border-left: 4px solid var(--blue) !important;
+    background: var(--blue-soft) !important;
+    padding: 1.25rem 1.8rem !important;
+    border-radius: 0 16px 16px 0 !important;
+    font-size: 1.05rem !important;
+    font-style: italic !important;
+    margin: 2.2rem 0 !important;
+  }
+  
+  /* Styled Table in post */
+  .article-content table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 2rem 0 !important;
+    font-size: 0.95rem !important;
+  }
+  .article-content th, .article-content td {
+    padding: 12px 16px !important;
+    text-align: left !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+  .article-content th {
+    font-weight: 700 !important;
+    background: var(--canvas-2) !important;
+    color: var(--ink) !important;
+  }
+  .article-content tr:hover td {
+    background: var(--canvas-2) !important;
+  }
+
+  /* CTA Band overrides */
+  .cta-band {
+    background: var(--ink) !important;
+    border-radius: 28px !important;
+    padding: 4.5rem 4rem !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 5rem auto 4rem auto !important;
+    max-width: 1200px !important;
+  }
+  .cta-band h2 {
+    color: #ffffff !important;
+    font-family: var(--font-heading) !important;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem) !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+  .cta-band p {
+    color: rgba(255, 255, 255, 0.82) !important;
+    margin: 12px auto 0 auto !important;
+    max-width: 580px !important;
+    text-align: center !important;
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+  }
+  .cta-actions {
+    display: flex !important;
+    gap: 1rem !important;
+    justify-content: center !important;
+    margin-top: 2rem !important;
+  }
+
+  /* CMS Sidebar Styles */
+  .article-layout {
+    display: grid !important;
+    grid-template-columns: 1fr 300px !important;
+    gap: 3.5rem !important;
+    margin-bottom: 5rem !important;
+    align-items: start !important;
+  }
+  .article-sidebar {
+    position: sticky !important;
+    top: 100px !important;
+    height: fit-content !important;
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    padding: 1.8rem !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .sidebar-title {
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    color: var(--ink) !important;
+    margin: 0 0 1.25rem 0 !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 2px solid var(--blue) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+  .sidebar-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+  .sidebar-post-item {
+    display: grid !important;
+    grid-template-columns: 74px 1fr !important;
+    gap: 0.8rem !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    transition: transform 0.2s ease !important;
+  }
+  .sidebar-post-item:hover {
+    transform: translateX(4px) !important;
+  }
+  .sidebar-post-item img {
+    width: 74px !important;
+    height: 54px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--line) !important;
+  }
+  .sidebar-post-info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+  .sidebar-post-cat {
+    font-size: 0.62rem !important;
+    font-weight: 700 !important;
+    color: var(--blue) !important;
+    text-transform: uppercase !important;
+    margin-bottom: 2px !important;
+  }
+  .sidebar-post-info h4 {
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+    color: var(--ink) !important;
+  }
+  .sidebar-post-item:hover h4 {
+    color: var(--blue) !important;
+  }
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: 1fr !important;
+      gap: 3rem !important;
+    }
+    .article-sidebar {
+      position: static !important;
+      margin-top: 2rem !important;
+    }
+  }
+</style>
+
+<article class="article-container">
+  
+  <!-- Header Fold -->
+  <header class="article-hero">
+    <div class="article-kicker">
+      <a href="/blog/">Blog</a>
+      <span>/</span>
+      <a href="/search/?q={{ (category | default('Guides & Career')) | urlencode }}">{{ category | default("Guides & Career") }}</a>
+    </div>
+    <h1>{{ title }}</h1>
+    <div class="article-meta">
+      <span class="meta-category">{{ category | default("RPAVault Guide") }}</span>
+      <span class="meta-dot"></span>
+      <span>Published: {{ date | dateFilter }}</span>
+      <span class="meta-dot"></span>
+      <span>Author: RPAVault Editorial</span>
+    </div>
+  </header>
+
+  <div class="article-layout">
+    <div class="article-main">
+      <!-- Featured Image -->
+      {% if image %}
+      <div class="article-featured-image">
+        <img src="{{ image }}" alt="{{ title }}">
+      </div>
+      {% endif %}
+
+      <!-- Post Body Content -->
+      <div class="article-content">
+        {{ content | safe }}
+      </div>
+
+      <!-- Compact CTA Block -->
+      <div class="compact-cta-block" style="background: #ffffff !important; border: 1px solid var(--line) !important; border-radius: 16px !important; padding: 1.8rem 2rem !important; margin: 4rem auto 0 auto !important; max-width: 700px !important; text-align: center !important; box-shadow: var(--shadow-sm) !important;">
+        <p style="margin: 0 0 1.25rem 0 !important; font-size: 1rem !important; line-height: 1.5 !important; color: var(--ink-soft) !important; font-weight: 600 !important; text-align: center !important;">{{ cta_text | default("Tell us your background — we’ll recommend the track that actually fits, honestly.") }}</p>
+        <div style="display: flex !important; gap: 0.75rem !important; justify-content: center !important; align-items: center !important; flex-wrap: wrap !important;">
+          <a class="btn" href="#" data-open-guidance style="background: var(--blue) !important; color: #ffffff !important; border: none !important; padding: 10px 20px !important; border-radius: 8px !important; font-weight: 700 !important; font-size: 0.88rem !important; text-decoration: none !important; display: inline-block !important; transition: transform 0.2s !important;">Get guidance</a>
+          <a class="btn" href="#" data-open-callback style="background: transparent !important; color: var(--ink) !important; border: 1px solid var(--line) !important; padding: 9px 18px !important; border-radius: 8px !important; font-weight: 700 !important; font-size: 0.88rem !important; text-decoration: none !important; display: inline-block !important; transition: transform 0.2s !important;">Request Callback</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar showing latest posts & live courses -->
+    <aside class="article-sidebar">
+      <!-- Attention-Grabbing Random Post Button -->
+      <div style="margin: 0 0 2rem 0 !important; text-align: center !important;">
+        <button id="btn-load-random-post" class="btn" style="background: var(--blue) !important; color: #ffffff !important; border: none !important; border-radius: 12px !important; padding: 12px 24px !important; font-size: 0.9rem !important; font-weight: 800 !important; cursor: pointer !important; width: 100% !important; transition: all 0.25s ease-in-out !important; box-shadow: 0 4px 12px rgba(0, 88, 176, 0.2) !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; outline: none !important; border: 1px solid var(--blue) !important;">
+          <span>✨ Another Awesome Post</span>
+        </button>
+      </div>
+
+      <style>
+        #btn-load-random-post:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 6px 16px rgba(0, 88, 176, 0.3) !important;
+          filter: brightness(1.05) !important;
+        }
+        #btn-load-random-post:active {
+          transform: translateY(0) !important;
+        }
+      </style>
+
+      <h3 class="sidebar-title">Latest Articles</h3>
+      <div class="sidebar-list" id="sidebar-articles-list">
+        {% set ns = { count: 0 } %}
+        {% for post in collections.blogPosts %}
+          {% if post.url != page.url and ns.count < 4 %}
+            <div class="sidebar-post-item">
+              <a href="{{ post.url }}" style="display: block !important;">
+                <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}">
+              </a>
+              <div class="sidebar-post-info">
+                <a class="sidebar-post-cat" href="/search/?q={{ (post.data.category | default('Tech')) | urlencode }}" style="text-decoration: none !important;">{{ post.data.category | default("Tech") }}</a>
+                <h4><a href="{{ post.url }}" style="text-decoration: none !important; color: inherit !important;">{{ post.data.title }}</a></h4>
+              </div>
+            </div>
+            {% set ns = { count: ns.count + 1 } %}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <h3 class="sidebar-title" style="margin-top: 2.2rem !important;">Batches Starting This Week</h3>
+      <div class="sidebar-list" id="sidebar-courses-list">
+        <div class="sidebar-post-item">
+          <a href="/course/rpa-agentic-uipath-power-automate/" style="display: block !important;">
+            <img src="/assets/images/courses/rpa-agentic-uipath-power-automate.svg" alt="RPA Agentic">
+          </a>
+          <div class="sidebar-post-info">
+            <a class="sidebar-post-cat" href="/search/?q=RPA" style="text-decoration: none !important;">RPA</a>
+            <h4><a href="/course/rpa-agentic-uipath-power-automate/" style="text-decoration: none !important; color: inherit !important;">RPA Agentic (UiPath + Power Automate)</a></h4>
+          </div>
+        </div>
+
+        <div class="sidebar-post-item">
+          <a href="/course/data-analytics-power-bi-sql/" style="display: block !important;">
+            <img src="/assets/images/courses/data-analytics-power-bi-sql.webp" alt="Data Analytics">
+          </a>
+          <div class="sidebar-post-info">
+            <a class="sidebar-post-cat" href="/search/?q={{ 'Data Analytics' | urlencode }}" style="text-decoration: none !important;">Data Analytics</a>
+            <h4><a href="/course/data-analytics-power-bi-sql/" style="text-decoration: none !important; color: inherit !important;">Data Analytics (Power BI + SQL)</a></h4>
+          </div>
+        </div>
+
+        <div class="sidebar-post-item">
+          <a href="/course/playwright-typescript-automation/" style="display: block !important;">
+            <img src="/assets/images/courses/playwright-typescript-automation.svg" alt="Playwright Automation">
+          </a>
+          <div class="sidebar-post-info">
+            <a class="sidebar-post-cat" href="/search/?q={{ 'QA Testing' | urlencode }}" style="text-decoration: none !important;">QA Testing</a>
+            <h4><a href="/course/playwright-typescript-automation/" style="text-decoration: none !important; color: inherit !important;">Playwright TypeScript Masterclass</a></h4>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+</article>
+
+<script>
+  const allBlogPosts = [
+    {% for post in collections.blogPosts %}
+      {
+        url: "{{ post.url }}"
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ];
+  const currentPageUrl = "{{ page.url }}";
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const loadBtn = document.getElementById('btn-load-random-post');
+    if (!loadBtn) return;
+    
+    // Check if there are other posts to navigate to
+    const remaining = allBlogPosts.filter(p => p.url !== currentPageUrl);
+    if (remaining.length === 0) {
+      loadBtn.innerText = "No other articles";
+      loadBtn.style.opacity = "0.6";
+      loadBtn.style.cursor = "not-allowed";
+      loadBtn.disabled = true;
+    }
+    
+    loadBtn.addEventListener('click', () => {
+      const remaining = allBlogPosts.filter(p => p.url !== currentPageUrl);
+      if (remaining.length === 0) return;
+      
+      // Select a random post
+      const randomIndex = Math.floor(Math.random() * remaining.length);
+      const post = remaining[randomIndex];
+      
+      // Redirect to the random page
+      window.location.href = post.url;
+    });
+  });
+</script>

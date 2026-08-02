@@ -1,0 +1,92 @@
+<div class="rpv-modal" data-college-modal role="dialog" aria-modal="true" aria-label="Plan a College Program">
+  <div class="rpv-modal-card">
+    <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
+    <h2>Plan a College Training Program</h2>
+    <p class="modal-sub">Tell us about your institution, and our academic liaison will connect with you to design a semester course or bootcamp plan.</p>
+    <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
+      <input type="hidden" name="_subject" value="College Program Request — {{ settings.header.brand_name }}">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="form_type" value="College program request (popup)">
+      <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/contact/?sent=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-col-name">Name *</label>
+          <input id="m-col-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="m-col-email">Institutional Email *</label>
+          <input id="m-col-email" name="email" type="email" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-col-phone">Phone / WhatsApp *</label>
+          <input id="m-col-phone" name="phone" type="tel" required autocomplete="tel">
+        </div>
+        <div class="form-field">
+          <label for="m-col-inst">Institution Name *</label>
+          <input id="m-col-inst" name="institution_name" type="text" required placeholder="e.g. ABC Engineering College">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-col-role">Your Role / Designation *</label>
+          <select id="m-col-role" name="role_designation" required>
+            <option value="" disabled selected hidden>-- Select Role --</option>
+            <option>Placement Officer / Coordinator</option>
+            <option>Head of Department (HOD)</option>
+            <option>Principal / Director</option>
+            <option>Professor / Faculty Member</option>
+            <option>Other Management representative</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="m-col-format">Program Format *</label>
+          <select id="m-col-format" name="program_format" required>
+            <option value="" disabled selected hidden>-- Select Format --</option>
+            <option>Semester-Long Integrated Program</option>
+            <option>Intensive Bootcamp (3-5 Days)</option>
+            <option>Faculty Development Program (FDP)</option>
+            <option>MoU / Training Collaboration Inquiry</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-col-tech">Primary Technology *</label>
+          <select id="m-col-tech" name="primary_technology" required>
+            <option value="" disabled selected hidden>-- Select Tech --</option>
+            <option>RPA (UiPath / Power Automate)</option>
+            <option>Cloud Computing &amp; DevOps</option>
+            <option>Data Analytics &amp; BI Tools</option>
+            <option>AI / GenAI Agent Development</option>
+            <option>Multiple Stacks / Core IT</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="m-col-students">Target Student Count *</label>
+          <select id="m-col-students" name="students_count" required>
+            <option value="" disabled selected hidden>-- Select Count --</option>
+            <option>Less than 100 students</option>
+            <option>100 - 300 students</option>
+            <option>300 - 1,000 students</option>
+            <option>1,000+ students</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="m-col-msg">Academic Goals / Special Requirements</label>
+        <textarea id="m-col-msg" name="message" rows="3" placeholder="Tell us about specific semester timelines, target placement domains, or certification goals..."></textarea>
+      </div>
+      
+      <div class="section-cta"><button class="btn btn-primary" type="submit" style="width: 100% !important;">Submit Academic Inquiry</button></div>
+    </form>
+  </div>
+</div>

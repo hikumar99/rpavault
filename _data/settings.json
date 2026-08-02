@@ -13,7 +13,20 @@
       "youtube": "https://www.youtube.com/@rpavault",
       "facebook": "https://www.facebook.com/rpavault/",
       "telegram": "https://t.me/rpavaultofficial"
-    }
+    },
+    "quick_links": [
+      { "label": "Home", "url": "/" },
+      { "label": "About", "url": "/about/" },
+      { "label": "Contact", "url": "/contact/" },
+      { "label": "Blog", "url": "/blog/" },
+      { "label": "Privacy Policy", "url": "/privacy-policy/" }
+    ],
+    "services_links": [
+      { "label": "Consulting", "url": "/consulting/" },
+      { "label": "Enterprise Automation", "url": "/enterprise-automation/" },
+      { "label": "Training", "url": "/training/" },
+      { "label": "Course", "url": "/courses/" }
+    ]
   },
   "forms": {
     "formsubmit_endpoint": "https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2",

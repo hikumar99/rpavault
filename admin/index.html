@@ -6,6 +6,51 @@
     <title>Content Manager | RPAVault</title>
   </head>
   <body>
+    <!-- Custom HTML Banner Block -->
+    <div id="admin-custom-banner" style="background: #ffffff !important; border-bottom: 2px solid #e5e5e7 !important; padding: 12px 24px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; z-index: 99999 !important; position: relative !important;">
+      <div style="display: flex !important; align-items: center !important; gap: 12px !important;">
+        <strong style="color: #1d1d1f !important; font-size: 0.95rem !important;">RPAVault Portal</strong>
+        <span style="color: #d2d2d7 !important;">|</span>
+        <a href="/" style="color: #0058b0 !important; font-size: 0.88rem !important; text-decoration: none !important; font-weight: 600 !important;" target="_blank">View Live Site ↗</a>
+      </div>
+      <div id="custom-html-container" style="display: flex !important; align-items: center !important; gap: 1rem !important;">
+        <button id="open-insights-btn" style="background: var(--blue, #0058b0) !important; color: #ffffff !important; border: none !important; border-radius: 8px !important; padding: 6px 14px !important; font-size: 0.8rem !important; font-weight: 700 !important; cursor: pointer !important; transition: all 0.2s ease-in-out !important; box-shadow: 0 2px 6px rgba(0, 88, 176, 0.15) !important;">
+          📊 View Search Insights
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Insights Overlay Modal -->
+    <div id="insights-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 100000; align-items: center; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+      <div style="background: #ffffff; width: 90%; max-width: 800px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; max-height: 85vh; overflow: hidden;">
+        <!-- Modal Header -->
+        <div style="padding: 20px 24px; border-bottom: 1px solid #e5e5e7; display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #1d1d1f;">📊 Student Search Queries (Past 5 Years)</h2>
+          <button id="close-insights-btn" style="background: none; border: none; font-size: 1.8rem; font-weight: 300; cursor: pointer; color: #86868b; line-height: 1 !important;">&times;</button>
+        </div>
+        <!-- Modal Content -->
+        <div style="padding: 24px; overflow-y: auto; flex: 1; background: #f5f5f7;">
+          <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <span id="insights-status" style="font-size: 0.88rem; color: #86868b; font-weight: 600;">Loading database queries...</span>
+            <button id="refresh-insights-btn" style="background: #e6f0fa; color: #0058b0; border: none; border-radius: 6px; padding: 6px 12px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: background 0.2s;">🔄 Refresh Data</button>
+          </div>
+          
+          <table style="width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <thead>
+              <tr style="background: #f5f5f7; border-bottom: 1px solid #e5e5e7; text-align: left;">
+                <th style="padding: 14px 16px; font-size: 0.82rem; font-weight: 700; color: #86868b; text-transform: uppercase; letter-spacing: 0.03em;">Search Term</th>
+                <th style="padding: 14px 16px; font-size: 0.82rem; font-weight: 700; color: #86868b; text-transform: uppercase; letter-spacing: 0.03em;">Recent Search Date</th>
+                <th style="padding: 14px 16px; font-size: 0.82rem; font-weight: 700; color: #86868b; text-transform: uppercase; text-align: right; letter-spacing: 0.03em;">Frequency (Hits)</th>
+              </tr>
+            </thead>
+            <tbody id="insights-table-body">
+              <!-- Log entries filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- Include the script that builds the page and loads Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
@@ -80,6 +125,72 @@
         }
       });
       CMS.registerPreviewTemplate("blog", BlogPreview);
+
+      // Search Insights Dashboard Toggle & Fetch Logic
+      document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('open-insights-btn');
+        const modal = document.getElementById('insights-modal');
+        const closeBtn = document.getElementById('close-insights-btn');
+        const refreshBtn = document.getElementById('refresh-insights-btn');
+        const statusEl = document.getElementById('insights-status');
+        const tbody = document.getElementById('insights-table-body');
+        
+        if (!toggleBtn || !modal || !closeBtn) return;
+        
+        const fetchInsights = async () => {
+          statusEl.innerText = "Loading database queries...";
+          tbody.innerHTML = '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #86868b; font-style: italic;">Fetching latest search terms...</td></tr>';
+          
+          const databaseUrl = 'https://kvdb.io/K3gq5V8Vf5S5wZp6W7Z4_rpavault/search_history';
+          try {
+            const res = await fetch(databaseUrl);
+            if (res.ok) {
+              const text = await res.text();
+              if (text && text.trim().startsWith('[')) {
+                const history = JSON.parse(text);
+                
+                // Sort by frequency descending (most popular first)
+                history.sort((a, b) => b.frequency - a.frequency);
+                
+                statusEl.innerText = `Displaying ${history.length} active search terms`;
+                
+                tbody.innerHTML = history.map(item => {
+                  return `
+                    <tr style="border-bottom: 1px solid #e5e5e7; background: #ffffff;">
+                      <td style="padding: 14px 16px; font-size: 0.9rem; font-weight: 700; color: #1d1d1f;">"${item.term}"</td>
+                      <td style="padding: 14px 16px; font-size: 0.88rem; color: #86868b;">${item.date}</td>
+                      <td style="padding: 14px 16px; font-size: 0.9rem; font-weight: 800; color: #0058b0; text-align: right;">${item.frequency}</td>
+                    </tr>
+                  `;
+                }).join('');
+                return;
+              }
+            }
+            statusEl.innerText = "No search history records found.";
+            tbody.innerHTML = '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #86868b; font-style: italic;">Empty database logs.</td></tr>';
+          } catch (err) {
+            statusEl.innerText = "Failed to load logs.";
+            tbody.innerHTML = '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #ff3b30; font-weight: 600;">Error: ' + err.message + '</td></tr>';
+          }
+        };
+        
+        toggleBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          modal.style.display = 'flex';
+          fetchInsights();
+        });
+        
+        closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+        
+        refreshBtn.addEventListener('click', fetchInsights);
+        
+        // Close modal when clicking outside content container
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.style.display = 'none';
+        });
+      });
     </script>
   </body>
 </html>

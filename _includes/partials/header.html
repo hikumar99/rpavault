@@ -1,4 +1,4 @@
-<header class="site-header" data-header>
+<header class="site-header" data-header style="position: relative !important;">
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="RPAVault home"><img class="brand-logo" src="/assets/images/logo-rpavault.png" width="214" height="34" alt="RPAVault logo"><span class="brand-text">RPAVault</span></a>
     <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
@@ -10,12 +10,58 @@
         <div class="services-menu">
           <a class="service-item" href="/consulting/" {% if page.url == "/consulting/" %}aria-current="page"{% endif %}><span class="service-num">01</span><span><strong class="service-title">Consulting</strong><span class="service-text">Professional staffing &amp; automation consulting</span></span></a>
           <a class="service-item" href="/enterprise-automation/" {% if page.url == "/enterprise-automation/" %}aria-current="page"{% endif %}><span class="service-num">02</span><span><strong class="service-title">Enterprise Automation</strong><span class="service-text">Bots, flows, dashboards &amp; AI agents</span></span></a>
-          <a class="service-item" href="/training/" {% if page.url == "/training/" %}aria-current="page"{% endif %}><span class="service-num">03</span><span><strong class="service-title">Training</strong><span class="service-text">Cloud, RPA, Power Automate &amp; AI automation courses</span></span></a>
-          <a class="service-item" href="/courses/" {% if page.url == "/courses/" %}aria-current="page"{% endif %}><span class="service-num">04</span><span><strong class="service-title">IT Courses</strong><span class="service-text">Individual course pages — UiPath, Power BI, SQL &amp; more</span></span></a>
+          <a class="service-item" href="/training/" {% if page.url == "/training/" %}aria-current="page"{% endif %}><span class="service-num">03</span><span><strong class="service-title">Training</strong><span class="service-text">Corporate Training · College Trainings · Batch Trainings</span></span></a>
         </div>
       </div>
-      <a class="nav-link" href="/contact/" {% if page.url == "/contact/" %}aria-current="page"{% endif %}>Contact</a>
+      <a class="nav-link" href="/courses/" {% if page.url == "/courses/" %}aria-current="page"{% endif %}>Courses</a>
+      
+      <!-- Magnifier Trigger & Small Popover search container -->
+      <div style="position: relative !important; display: inline-flex !important; align-items: center !important;">
+        <a class="nav-link nav-search-trigger" id="header-magnifier-btn" href="/search/" aria-label="Search RPAVault" style="display: inline-flex !important; align-items: center !important; justify-content: center !important; padding: 0 10px !important;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </a>
+        
+        <!-- Small search popover dropdown (positioned directly below the icon) -->
+        <div id="header-search-popover" style="display: none; position: absolute !important; top: 100% !important; right: 0 !important; width: 270px !important; background: #ffffff !important; border: 1px solid var(--line) !important; border-radius: 12px !important; padding: 10px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important; z-index: 1000 !important; margin-top: 10px !important; font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;">
+          <form action="/search/" method="GET" style="display: flex !important; gap: 8px !important; margin: 0 !important; width: 100% !important; align-items: center !important;">
+            <input type="text" name="q" id="header-search-input" placeholder="Search courses, guides, FAQs..." required style="flex: 1 !important; padding: 6px 10px !important; border: 1px solid var(--line) !important; border-radius: 6px !important; font-size: 0.8rem !important; outline: none !important; height: 32px !important; background: #f5f5f7 !important; color: var(--ink) !important; box-shadow: none !important;">
+            <button type="submit" class="btn" style="background: var(--blue) !important; color: #ffffff !important; border: none !important; border-radius: 6px !important; padding: 0 12px !important; font-size: 0.78rem !important; font-weight: 700 !important; height: 32px !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important;">Go</button>
+          </form>
+        </div>
+      </div>
+
       <a class="nav-cta" href="#" data-open-callback>Request Callback</a>
     </nav>
   </div>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.getElementById('header-magnifier-btn');
+    const popover = document.getElementById('header-search-popover');
+    const input = document.getElementById('header-search-input');
+
+    if (!trigger || !popover || !input) return;
+
+    // Toggle popover display on magnifier click
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isVisible = popover.style.display === 'block';
+      popover.style.display = isVisible ? 'none' : 'block';
+      if (!isVisible) {
+        input.focus();
+      }
+    });
+
+    // Prevent clicks inside the popover from closing it
+    popover.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Close popover when clicking anywhere outside of it
+    document.addEventListener('click', () => {
+      popover.style.display = 'none';
+    });
+  });
+</script>

@@ -1,0 +1,82 @@
+<div class="rpv-modal" data-corporate-modal role="dialog" aria-modal="true" aria-label="Request a Corporate Training Proposal">
+  <div class="rpv-modal-card">
+    <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
+    <h2>Request a Corporate Upskilling Proposal</h2>
+    <p class="modal-sub">Tell us about your team's size, stack requirements, and timeline, and our training director will draft a tailored proposal matching your sprint calendar.</p>
+    <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
+      <input type="hidden" name="_subject" value="Corporate Upskilling Request — {{ settings.header.brand_name }}">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="form_type" value="Corporate upskilling request (popup)">
+      <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/contact/?sent=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-corp-name">Name *</label>
+          <input id="m-corp-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="m-corp-email">Corporate Email *</label>
+          <input id="m-corp-email" name="email" type="email" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-corp-phone">Phone / WhatsApp *</label>
+          <input id="m-corp-phone" name="phone" type="tel" required autocomplete="tel">
+        </div>
+        <div class="form-field">
+          <label for="m-corp-company">Company Name *</label>
+          <input id="m-corp-company" name="company_name" type="text" required placeholder="e.g. Acme Tech Solutions">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-corp-tech">Target Technology Stack *</label>
+          <input id="m-corp-tech" name="target_technology_stack" type="text" required placeholder="e.g. UiPath REFramework, Playwright QA">
+        </div>
+        <div class="form-field">
+          <label for="m-corp-size">Approximate Cohort Size *</label>
+          <select id="m-corp-size" name="cohort_size" required>
+            <option value="" disabled selected hidden>-- Select Size --</option>
+            <option>Small Team (1 - 5 developers)</option>
+            <option>Mid-Sized Team (6 - 15 developers)</option>
+            <option>Large Division (15 - 40 developers)</option>
+            <option>Enterprise Scale / Multiple Batches (40+)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="m-corp-timeline">Target Start Timeline *</label>
+          <select id="m-corp-timeline" name="start_timeline" required>
+            <option value="" disabled selected hidden>-- Select Timeline --</option>
+            <option>Immediate (within 2 weeks)</option>
+            <option>Within 30 Days</option>
+            <option>Planning Phase / Q3 Roadmap</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="m-corp-delivery">Delivery Model *</label>
+          <select id="m-corp-delivery" name="delivery_model" required>
+            <option value="" disabled selected hidden>-- Select Model --</option>
+            <option>Fully Online Live Cohort</option>
+            <option>On-Site Classroom Training</option>
+            <option>Hybrid Onsite / Online Model</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="m-corp-msg">Upskilling Objectives / Project Scopes</label>
+        <textarea id="m-corp-msg" name="message" rows="3" placeholder="Describe the current skill gaps, the deliverables the team must own post-training, or any target staging system environments..."></textarea>
+      </div>
+      
+      <div class="section-cta"><button class="btn btn-primary" type="submit" style="width: 100% !important;">Request Upskilling Proposal</button></div>
+    </form>
+  </div>
+</div>

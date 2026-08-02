@@ -14,7 +14,7 @@ const yearTarget=document.querySelector('[data-current-year]'); if(yearTarget){y
 const closeNav=()=>{if(siteNav&&siteNav.classList.contains('is-open')){siteNav.classList.remove('is-open');navToggle?.setAttribute('aria-expanded','false');}services?.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');};
 document.addEventListener('click',(e)=>{if(services&&services.classList.contains('is-open')&&!services.contains(e.target)){services.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');}
 if(siteNav&&siteNav.classList.contains('is-open')&&!siteNav.contains(e.target)&&!navToggle.contains(e.target)){closeNav();}});
-document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeNav();closeModal();closeConsultingModal();closeDiscoveryModal();}});
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeNav();closeModal();closeConsultingModal();closeDiscoveryModal();closeCollegeModal();closeCorporateModal();}});
 siteNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeNav()));
 services?.addEventListener('keydown',(e)=>{if(e.key==='Escape'){services.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');servicesTrigger?.focus();}});
 
@@ -32,7 +32,7 @@ let lastFocus=null;
 function openModal(){if(!modal)return;lastFocus=document.activeElement;modal.classList.add('is-open');document.body.classList.add('modal-open');const first=modal.querySelector('input[name="name"]');setTimeout(()=>first?.focus(),60);}
 function closeModal(){if(!modal||!modal.classList.contains('is-open'))return;modal.classList.remove('is-open');document.body.classList.remove('modal-open');lastFocus?.focus();}
 window.rpvOpenCallback=openModal;
-document.querySelectorAll('[data-open-callback]').forEach(el=>{el.addEventListener('click',(e)=>{if(modal){e.preventDefault();closeNav();openModal();}});});
+document.querySelectorAll('[data-open-callback]').forEach(el=>{el.addEventListener('click',(e)=>{if(modal){e.preventDefault();closeNav();const defaultVal=el.getAttribute('data-select');if(defaultVal){const selectEl=modal.querySelector('select[name="topic"]');if(selectEl){selectEl.value=defaultVal;selectEl.dispatchEvent(new Event('change'));}}openModal();}});});
 modal?.addEventListener('click',(e)=>{if(e.target===modal||e.target.closest('[data-close-modal]')){closeModal();}});
 
 /* ---------- Consulting modal ---------- */
@@ -50,6 +50,30 @@ function closeDiscoveryModal(){if(!dModal||!dModal.classList.contains('is-open')
 window.rpvOpenDiscovery=openDiscoveryModal;
 document.querySelectorAll('[data-open-discovery]').forEach(el=>{el.addEventListener('click',(e)=>{if(dModal){e.preventDefault();closeNav();openDiscoveryModal();}});});
 dModal?.addEventListener('click',(e)=>{if(e.target===dModal||e.target.closest('[data-close-modal]')){closeDiscoveryModal();}});
+
+/* ---------- College modal ---------- */
+const colModal=document.querySelector('[data-college-modal]');
+function openCollegeModal(){if(!colModal)return;lastFocus=document.activeElement;colModal.classList.add('is-open');document.body.classList.add('modal-open');const first=colModal.querySelector('input[name="name"]');setTimeout(()=>first?.focus(),60);}
+function closeCollegeModal(){if(!colModal||!colModal.classList.contains('is-open'))return;colModal.classList.remove('is-open');document.body.classList.remove('modal-open');lastFocus?.focus();}
+window.rpvOpenCollege=openCollegeModal;
+document.querySelectorAll('[data-open-college]').forEach(el=>{el.addEventListener('click',(e)=>{if(colModal){e.preventDefault();closeNav();openCollegeModal();}});});
+colModal?.addEventListener('click',(e)=>{if(e.target===colModal||e.target.closest('[data-close-modal]')){closeCollegeModal();}});
+
+/* ---------- Corporate modal ---------- */
+const corpModal=document.querySelector('[data-corporate-modal]');
+function openCorporateModal(){if(!corpModal)return;lastFocus=document.activeElement;corpModal.classList.add('is-open');document.body.classList.add('modal-open');const first=corpModal.querySelector('input[name="name"]');setTimeout(()=>first?.focus(),60);}
+function closeCorporateModal(){if(!corpModal||!corpModal.classList.contains('is-open'))return;corpModal.classList.remove('is-open');document.body.classList.remove('modal-open');lastFocus?.focus();}
+window.rpvOpenCorporate=openCorporateModal;
+document.querySelectorAll('[data-open-corporate]').forEach(el=>{el.addEventListener('click',(e)=>{if(corpModal){e.preventDefault();closeNav();openCorporateModal();}});});
+corpModal?.addEventListener('click',(e)=>{if(e.target===corpModal||e.target.closest('[data-close-modal]')){closeCorporateModal();}});
+
+/* ---------- Guidance modal ---------- */
+const gModal=document.querySelector('[data-guidance-modal]');
+function openGuidanceModal(){if(!gModal)return;lastFocus=document.activeElement;gModal.classList.add('is-open');document.body.classList.add('modal-open');const first=gModal.querySelector('input[name="name"]');setTimeout(()=>first?.focus(),60);}
+function closeGuidanceModal(){if(!gModal||!gModal.classList.contains('is-open'))return;gModal.classList.remove('is-open');document.body.classList.remove('modal-open');lastFocus?.focus();}
+window.rpvOpenGuidance=openGuidanceModal;
+document.querySelectorAll('[data-open-guidance]').forEach(el=>{el.addEventListener('click',(e)=>{if(gModal){e.preventDefault();closeNav();openGuidanceModal();}});});
+gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[data-close-modal]')){closeGuidanceModal();}});
 
 /* ---------- Lead form enrichment ---------- */
 /* Fills hidden fields on every .js-lead-form: source page, course page, browser, device, and (best-effort) location via ipapi.co */
