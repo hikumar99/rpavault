@@ -667,7 +667,12 @@ description: Live testing page for the brand new premium layout redesign of RPAV
 
   /* Responsive Overrides */
   @media(max-width: 1024px) {
-    .pillars-grid, .enterprise-featured-showcase, .trainings-premium-grid, .trainings-premium-right {
+    .pillars-grid, .trainings-premium-grid, .trainings-premium-right {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2.5rem !important;
+    }
+    .enterprise-featured-showcase {
       grid-template-columns: 1fr;
     }
     .timeline-step-grid {
