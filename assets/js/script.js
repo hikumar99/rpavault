@@ -23,7 +23,9 @@ services?.addEventListener('keydown',(e)=>{if(e.key==='Escape'){services.classLi
 /* ---------- Scroll-in reveal ---------- */
 const revealEls=document.querySelectorAll('.reveal');
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if('IntersectionObserver' in window && !reduceMotion){
+if(window.innerWidth <= 980){
+  revealEls.forEach((el)=>el.classList.add('is-visible'));
+}else if('IntersectionObserver' in window && !reduceMotion){
   const io=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target);}});},{threshold:0.01});
   revealEls.forEach((el,i)=>{el.style.transitionDelay=((i%3)*90)+'ms';io.observe(el);});
 }else{revealEls.forEach((el)=>el.classList.add('is-visible'));}
