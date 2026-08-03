@@ -36,6 +36,13 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H994NLYWRJ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H994NLYWRJ');</script>
 <style>
+  /* Prevent horizontal scroll overlays completely */
+  html, body {
+    overflow-x: hidden !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+
   /* Root-level Centered Heroes for standard pages (excluding split heroes) */
   .page-hero, .article-hero {
     text-align: center !important;
@@ -278,7 +285,9 @@
       width: 100% !important;
     }
     
-    .services-menu {
+    /* Specificity upgrades to ensure position static on mobile drawer */
+    .site-nav .services-menu,
+    .site-nav .services.is-open .services-menu {
       position: static !important;
       width: 100% !important;
       max-width: 100% !important;
@@ -294,9 +303,19 @@
       border-radius: 14px !important;
       flex-direction: column !important;
       gap: 4px !important;
+      box-sizing: border-box !important;
     }
-    .services.is-open .services-menu {
+    .site-nav .services.is-open .services-menu {
       display: flex !important;
+    }
+
+    /* Active nav link resets to disable floating layout offsets on mobile */
+    .site-nav .nav-link[aria-current="page"] {
+      animation: none !important;
+      transform: none !important;
+      box-shadow: none !important;
+      position: relative !important; /* Keep relative inside layout drawer flow */
+      display: inline-flex !important;
     }
     
     .service-item {
