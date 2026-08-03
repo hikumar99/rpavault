@@ -134,16 +134,26 @@ schema_ld: |
     color: #0058b0 !important;
   }
   .num-label {
-    display: inline-block !important;
-    background: #f5f5f7 !important;
-    border: 1px solid #e5e5e7 !important;
-    color: #515154 !important;
-    padding: 4px 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: var(--blue-soft) !important;
+    border: 1px solid rgba(0, 88, 176, 0.15) !important;
+    color: var(--blue) !important;
+    padding: 6px 14px !important;
     border-radius: 100px !important;
-    font-size: 0.72rem !important;
-    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
+  }
+  .num-label i {
+    background: var(--green) !important;
+    width: 7px !important;
+    height: 7px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
   }
 
   .content-section {
@@ -394,17 +404,103 @@ schema_ld: |
   }
 
   @media(max-width: 1024px) {
-    .split-hero, .card-grid, .blueprint, .model-grid, .cta-inner {
+    .card-grid, .model-grid, .cta-inner {
       grid-template-columns: 1fr !important;
-      gap: 2rem !important;
-    }
-    .why-grid {
-      grid-template-columns: 1fr 1fr !important;
+      gap: 2.5rem !important;
     }
     .cta-actions {
       justify-content: flex-start !important;
     }
   }
+
+  @media(max-width: 980px) {
+    .page-hero {
+      padding: 3.5rem 0 2rem 0 !important;
+    }
+    .split-hero {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      padding-inline: var(--gutter) !important;
+      width: auto !important;
+    }
+    .split-hero > div:first-child {
+      display: contents !important; /* Strips the wrapper for re-ordering */
+    }
+    .split-hero .eyebrow {
+      order: 1 !important;
+      margin-bottom: 1.2rem !important;
+    }
+    .split-hero h1 {
+      order: 2 !important;
+      text-align: center !important;
+      max-width: 90% !important;
+      margin-inline: auto !important;
+      font-size: clamp(2.0rem, 7vw, 2.6rem) !important;
+    }
+    .split-hero .lead {
+      order: 3 !important;
+      text-align: center !important;
+      max-width: 95% !important;
+      margin-inline: auto !important;
+      margin-bottom: 1.5rem !important;
+    }
+    .split-hero .fit-console {
+      order: 4 !important;
+      width: 100% !important;
+      max-width: 320px !important;
+      margin: 1.5rem auto !important;
+    }
+    .split-hero .hero-actions {
+      order: 5 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.75rem !important;
+      width: 100% !important;
+      max-width: 280px !important;
+      margin-inline: auto !important;
+    }
+    .split-hero .hero-actions .btn {
+      width: 100% !important;
+      padding: 12px 20px !important;
+      font-size: 0.92rem !important;
+    }
+
+    .content-section {
+      padding: 3.5rem 0 !important;
+    }
+    .section-title-wrap {
+      text-align: center !important;
+      margin-inline: auto !important;
+      margin-bottom: 2rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+    
+    .blueprint {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1rem !important;
+      width: 100% !important;
+      max-width: 480px !important;
+      margin-inline: auto !important;
+    }
+    .blueprint .stage {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      text-align: left !important;
+      gap: 1.2rem !important;
+      padding: 1.5rem !important;
+    }
+    .blueprint .stage:before {
+      margin-bottom: 0 !important;
+      flex-shrink: 0 !important;
+    }
+  }
+
   @media(max-width: 640px) {
     .why-grid {
       grid-template-columns: 1fr !important;
@@ -465,7 +561,7 @@ schema_ld: |
 <section class="content-section" id="placement-pillars">
   <div class="container">
     <div class="section-title-wrap">
-      <span class="num-label">01 · WHAT WE STAFF</span>
+      <span class="num-label"><i></i> 01 · WHAT WE STAFF</span>
       <h2>Broad areas of technical <em>placement</em></h2>
     </div>
     <div class="card-grid">
@@ -492,25 +588,33 @@ schema_ld: |
 <section class="content-section" id="placement-blueprint">
   <div class="container">
     <div class="section-title-wrap">
-      <span class="num-label">02 · HOW IT WORKS</span>
+      <span class="num-label"><i></i> 02 · HOW IT WORKS</span>
       <h2>Our placement <em>blueprint</em></h2>
     </div>
     <div class="blueprint">
       <div class="stage reveal">
-        <h3>Define</h3>
-        <p>We nail down the role: stack, seniority, team context and the outcomes the hire must own.</p>
+        <div>
+          <h3>Define</h3>
+          <p>We nail down the role: stack, seniority, team context and the outcomes the hire must own.</p>
+        </div>
       </div>
       <div class="stage reveal">
-        <h3>Screen</h3>
-        <p>Candidates solve real delivery problems live — not quizzes. Code, communication and pressure all get tested.</p>
+        <div>
+          <h3>Screen</h3>
+          <p>Candidates solve real delivery problems live — not quizzes. Code, communication and pressure all get tested.</p>
+        </div>
       </div>
       <div class="stage reveal">
-        <h3>Match</h3>
-        <p>You receive a shortlist with fit scores and evidence — typically within days, not weeks.</p>
+        <div>
+          <h3>Match</h3>
+          <p>You receive a shortlist with fit scores and evidence — typically within days, not weeks.</p>
+        </div>
       </div>
       <div class="stage reveal">
-        <h3>Support</h3>
-        <p>Structured onboarding check-ins through the first 90 days, with replacement cover if a match doesn’t stick.</p>
+        <div>
+          <h3>Support</h3>
+          <p>Structured onboarding check-ins through the first 90 days, with replacement cover if a match doesn’t stick.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -519,7 +623,7 @@ schema_ld: |
 <section class="content-section">
   <div class="container">
     <div class="section-title-wrap">
-      <span class="num-label">03 · DOMAINS</span>
+      <span class="num-label"><i></i> 03 · DOMAINS</span>
       <h2>Industry sectors where we <em>deliver</em></h2>
     </div>
     <div class="chip-row reveal">
@@ -546,7 +650,7 @@ schema_ld: |
 <section class="content-section" id="partnership-models">
   <div class="container">
     <div class="section-title-wrap">
-      <span class="num-label">04 · ENGAGEMENT MODELS</span>
+      <span class="num-label"><i></i> 04 · ENGAGEMENT MODELS</span>
       <h2>Flexible partnership <em>models</em></h2>
     </div>
     <div class="model-grid">
@@ -594,7 +698,7 @@ schema_ld: |
 <section class="content-section">
   <div class="container">
     <div class="section-title-wrap">
-      <span class="num-label">WHY RPAVAULT</span>
+      <span class="num-label"><i></i> WHY RPAVAULT</span>
       <h2>Why engineering teams partner with <em>us</em></h2>
     </div>
     <div class="why-grid">
@@ -629,7 +733,7 @@ schema_ld: |
 <section class="content-section">
   <div class="container">
     <div class="section-title-wrap">
-      <span class="num-label">FAQ</span>
+      <span class="num-label"><i></i> FAQ</span>
       <h2>Frequently asked <em>questions</em></h2>
     </div>
     <div class="faq">

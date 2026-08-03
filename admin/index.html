@@ -13,7 +13,10 @@
         <span style="color: #d2d2d7 !important;">|</span>
         <a href="/" style="color: #0058b0 !important; font-size: 0.88rem !important; text-decoration: none !important; font-weight: 600 !important;" target="_blank">View Live Site ↗</a>
       </div>
-      <div id="custom-html-container" style="display: flex !important; align-items: center !important; gap: 1rem !important;">
+      <div id="custom-html-container" style="display: flex !important; align-items: center !important; gap: 0.75rem !important;">
+        <button id="open-guide-btn" style="background: #1d1d1f !important; color: #ffffff !important; border: none !important; border-radius: 8px !important; padding: 6px 14px !important; font-size: 0.8rem !important; font-weight: 700 !important; cursor: pointer !important; transition: all 0.2s ease-in-out !important; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;">
+          💡 Trainer & Course Guide
+        </button>
         <button id="open-insights-btn" style="background: var(--blue, #0058b0) !important; color: #ffffff !important; border: none !important; border-radius: 8px !important; padding: 6px 14px !important; font-size: 0.8rem !important; font-weight: 700 !important; cursor: pointer !important; transition: all 0.2s ease-in-out !important; box-shadow: 0 2px 6px rgba(0, 88, 176, 0.15) !important;">
           📊 View Search Insights
         </button>
@@ -47,6 +50,32 @@
               <!-- Log entries filled by JS -->
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trainer & Course Management Guide Modal -->
+    <div id="guide-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 100000; align-items: center; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+      <div style="background: #ffffff; width: 90%; max-width: 600px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; max-height: 85vh; overflow: hidden;">
+        <!-- Modal Header -->
+        <div style="padding: 20px 24px; border-bottom: 1px solid #e5e5e7; display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0; font-size: 1.25rem; font-weight: 850; color: #1d1d1f;">💡 Trainer & Course Details Guidelines</h2>
+          <button id="close-guide-btn" style="background: none; border: none; font-size: 1.8rem; font-weight: 300; cursor: pointer; color: #86868b; line-height: 1 !important;">&times;</button>
+        </div>
+        <!-- Modal Content -->
+        <div style="padding: 24px; overflow-y: auto; flex: 1; background: #ffffff; line-height: 1.55;">
+          <h3 style="margin-top: 0; font-size: 1.05rem; color: #0058b0; font-weight: 800;">👨‍🏫 1. Managing Active Trainers</h3>
+          <ul style="padding-left: 1.2rem; margin: 0 0 1.5rem 0; font-size: 0.9rem; color: #424245;">
+            <li style="margin-bottom: 6px;"><strong>Single Active Trainer Display:</strong> To maintain a clean professional layout, course detail pages will only show <strong>one active trainer</strong> card at a time.</li>
+            <li style="margin-bottom: 6px;"><strong>How to switch trainers:</strong> In the page metadata (front matter), you can define multiple trainers. The layout will automatically select and display <strong>only the first trainer in the list</strong>. Re-order the list items in Decap CMS to switch the displayed trainer.</li>
+            <li style="margin-bottom: 6px;"><strong>Hiding the Trainer block:</strong> Toggle the <strong>"Show Trainers Section"</strong> setting to Off (or set <code>show_trainers: false</code> in YAML) to completely hide the block when you are not in a batch class or don't want to show any trainers.</li>
+          </ul>
+
+          <h3 style="font-size: 1.05rem; color: #0058b0; font-weight: 800;">🎓 2. Quick Facts & Pricing Card</h3>
+          <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.9rem; color: #424245;">
+            <li style="margin-bottom: 6px;"><strong>Auto Geo-Pricing:</strong> Manual toggle buttons are removed. The system checks browser timezone and IP coordinates to show <strong>INR</strong> pricing for Indian visitors and <strong>USD</strong> pricing for US/Europe visitors automatically.</li>
+            <li style="margin-bottom: 6px;"><strong>Tally Payment Integrations:</strong> Make sure the INR and USD tally urls are up-to-date in Decap CMS so students click through to correct payment checkouts.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -190,6 +219,24 @@
         modal.addEventListener('click', (e) => {
           if (e.target === modal) modal.style.display = 'none';
         });
+
+        // Trainer Guide Modal Event Handlers
+        const openGuideBtn = document.getElementById('open-guide-btn');
+        const guideModal = document.getElementById('guide-modal');
+        const closeGuideBtn = document.getElementById('close-guide-btn');
+        
+        if (openGuideBtn && guideModal && closeGuideBtn) {
+          openGuideBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            guideModal.style.display = 'flex';
+          });
+          closeGuideBtn.addEventListener('click', () => {
+            guideModal.style.display = 'none';
+          });
+          guideModal.addEventListener('click', (e) => {
+            if (e.target === guideModal) guideModal.style.display = 'none';
+          });
+        }
       });
     </script>
   </body>

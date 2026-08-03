@@ -121,13 +121,58 @@
     }
   }
   @media(max-width: 640px) {
+    .site-footer {
+      padding: 3.5rem 0 2rem 0 !important;
+    }
     .footer-grid {
-      grid-template-columns: 1fr !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 2.5rem 1.5rem !important;
+      text-align: center !important;
+    }
+    .footer-brand {
+      grid-column: 1 / -1 !important;
+      text-align: center !important;
+      align-items: center !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    .footer-brand p {
+      margin: 0.5rem auto 0 auto !important;
+    }
+    .footer-search {
+      margin: 1.2rem auto 0 auto !important;
+      width: 100% !important;
+    }
+    .footer-col {
+      align-items: center !important;
+      text-align: center !important;
+    }
+    .footer-col h3 {
+      margin-bottom: 0.8rem !important;
+    }
+    .footer-col:last-child {
+      grid-column: 1 / -1 !important;
+      text-align: center !important;
+      align-items: center !important;
+    }
+    .footer-social {
+      justify-content: center !important;
+    }
+    .footer-col:last-child > a,
+    .footer-col:last-child h3 {
+      display: none !important;
+    }
+    .footer-desc-extended {
+      display: none !important;
     }
     .footer-bottom {
+      border-top: 1px solid #e5e5e7 !important;
+      padding-top: 1.5rem !important;
+      margin-top: 2.5rem !important;
       flex-direction: column !important;
-      align-items: flex-start !important;
-      text-align: left !important;
+      align-items: center !important;
+      text-align: center !important;
+      gap: 0.5rem !important;
     }
   }
 </style>
@@ -138,7 +183,8 @@
       <a class="footer-logo-text" href="/" aria-label="{{ settings.header.brand_name }} home">
         {{ settings.header.brand_name }}
       </a>
-      <p>{{ settings.footer.description }}</p>
+      <p>RPAVault is a consultancy, staffing, and enterprise automation partner.</p>
+      <p class="footer-desc-extended">We place the right professionals in corporate teams, build end-to-end RPA and AI-agent automations, and deliver training across all major IT courses.</p>
       
       <!-- Footer Search Box -->
       <div class="footer-search" style="margin-top: 1.5rem !important; max-width: 280px !important;">

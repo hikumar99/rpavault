@@ -247,14 +247,20 @@ schema_ld: |
   @media(max-width: 1024px) {
     .highlight-panel, .highlight-panel.alternating {
       grid-template-columns: 1fr !important;
-      gap: 3rem !important;
-      padding: 3rem 2rem !important;
+      gap: 0 !important;
+      padding: 2.5rem 1.5rem !important;
     }
-    .highlight-media img {
-      height: 280px !important;
+    .highlight-media {
+      display: none !important;
     }
-    .highlight-panel.alternating .highlight-media {
-      order: 2 !important;
+  }
+
+  @media(max-width: 980px) {
+    .page-hero {
+      padding: 3.5rem 0 2rem 0 !important;
+    }
+    .content-section {
+      padding: 3.5rem 0 !important;
     }
   }
 </style>
