@@ -563,7 +563,25 @@ schema_ld: |
       grid-template-columns: 1fr !important;
     }
     .ea-hero-stats {
-      grid-template-columns: 1fr 1fr !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1.5rem !important;
+    }
+    .ea-hero-stat {
+      padding: 0 !important;
+      border-right: none !important;
+      border-bottom: 1px solid #e5e5e7 !important;
+      padding-bottom: 1.2rem !important;
+    }
+    .ea-hero-stat:last-child {
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+    }
+    .ea-hero-stat:nth-child(2) {
+      padding-left: 0 !important;
+    }
+    .ea-hero-stat:last-child {
+      padding-left: 0 !important;
     }
     .ea-contact-bar {
       flex-direction: column !important;

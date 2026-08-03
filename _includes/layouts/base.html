@@ -233,7 +233,6 @@
       top: 64px !important;
       left: 1rem !important;
       right: 1rem !important;
-      display: flex !important;
       flex-direction: column !important;
       gap: 0.5rem !important;
       padding: 1.25rem !important;
@@ -243,18 +242,18 @@
       box-shadow: 0 12px 36px rgba(0, 88, 176, 0.15) !important;
       backdrop-filter: blur(20px) !important;
       -webkit-backdrop-filter: blur(20px) !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      transform: translateY(-10px) !important;
-      transition: opacity 0.22s ease, transform 0.22s ease !important;
       z-index: 9999 !important;
       max-height: calc(100vh - 100px) !important;
       overflow-y: auto !important;
+      display: none !important; /* Completely hide by default to prevent rendering bugs */
     }
     .site-nav.is-open {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      transform: translateY(0) !important;
+      display: flex !important;
+      animation: menuFadeIn 0.22s ease forwards !important;
+    }
+    @keyframes menuFadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* DEFENSIVE SAFEGUARD: Completely hide drawer contents when drawer is closed to prevent float-overs */
@@ -373,7 +372,17 @@
   .nav-cta:hover {
     background: #333336 !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+  }
+  .rpv-modal {
+    display: none !important;
+  }
+  .rpv-modal.is-open {
+    display: grid !important;
+    animation: modalFadeIn 0.2s ease forwards !important;
+  }
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 </style>
 </head>
