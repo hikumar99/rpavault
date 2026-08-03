@@ -1,4 +1,4 @@
-<header class="site-header" data-header style="position: relative !important;">
+<header class="site-header" data-header>
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="RPAVault home"><img class="brand-logo" src="/assets/images/logo-rpavault.png" width="214" height="34" alt="RPAVault logo"><span class="brand-text">RPAVault</span></a>
     <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
@@ -45,6 +45,10 @@
 
     // Toggle popover display on magnifier click
     trigger.addEventListener('click', (e) => {
+      // If we are on mobile, direct navigation to /search/ instead of popover dropdown
+      if (window.innerWidth <= 980) {
+        return;
+      }
       e.preventDefault();
       e.stopPropagation();
       const isVisible = popover.style.display === 'block';
