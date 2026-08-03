@@ -21,6 +21,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="/assets/css/style.css">
+{% if course_slug %}
+<link rel="stylesheet" href="/assets/css/course-page.css">
+{% endif %}
 <script src="/assets/js/script.js" defer></script>
 <script src="/assets/js/config.js" defer></script>
 <script>
@@ -38,7 +41,7 @@
 <style>
   /* Prevent horizontal scroll overlays completely */
   html, body {
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
     position: relative !important;
     width: 100% !important;
   }
