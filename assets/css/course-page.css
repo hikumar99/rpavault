@@ -1251,139 +1251,115 @@ body:has(.course-detail-page) {
 .course-detail-page .toast.show { opacity: 1; transform: translate(-50%,0); }
 
 /* ==========================================================================
-   APPEND TO END OF assets/css/course-page.css  (v2 — supersedes prior append)
-   Fixes: title breaking (global h1 13vw override), hero H1 accent color,
-          "white shade" on hero stat boxes, + prior modal & final-cta fixes.
+   APPEND TO END OF assets/css/course-page.css   (v3 — supersedes v1 & v2)
+   Global fixes for ALL course pages. If you pasted an earlier append block,
+   DELETE it first and use only this one.
    ========================================================================== */
 
-/* ---- (C-FIX) TITLE BREAK: override the global  h1{font-size:clamp(...,13vw,...)} ----
-   The site-wide style.css sets h1 to 13vw, which blows up the hero title on
-   desktop and forces ugly wrapping. Re-assert the intended hero size with
-   enough specificity to win. */
+/* ---- (1) HERO TITLE: kill the global  h1{clamp(...,13vw,...)} blow-up ---- */
 .course-detail-page .hero-main h1,
 body:has(.course-detail-page) .hero-main h1 {
-  font-size: clamp(28px, 3.4vw, 40px) !important;
-  line-height: 1.12 !important;
+  font-size: clamp(28px, 3.2vw, 38px) !important;
+  line-height: 1.14 !important;
+  letter-spacing: -.02em !important;
   text-wrap: balance;
   overflow-wrap: break-word;
-  max-width: 20ch;
+  max-width: 22ch;
 }
 
-/* ---- STAT BOXES: define the intended look so no stray card/hover style leaks.
-   These sit on the dark-blue hero-proof panel; give them a translucent tile. */
+/* ---- (2) HERO STAT BOXES: force flat tiles, no nested white pills ----
+   A generic global rule paints backgrounds on the inner .num/.lbl elements,
+   creating the double-box look. Force the intended flat tile for every course. */
 .course-detail-page .hero-proof-stats .mini-stat {
-  background: rgba(255, 255, 255, .08);
-  border: 1px solid rgba(255, 255, 255, .16);
-  border-radius: 12px;
-  padding: 14px 16px;
+  background: rgba(255, 255, 255, .07) !important;
+  border: 1px solid rgba(255, 255, 255, .15) !important;
+  border-radius: 12px !important;
+  padding: 14px 16px !important;
+  box-shadow: none !important;
+}
+.course-detail-page .hero-proof-stats .mini-stat .num,
+.course-detail-page .hero-proof-stats .mini-stat .lbl {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: block !important;
 }
 .course-detail-page .hero-proof-stats .mini-stat .num {
-  font-family: 'Sora', sans-serif;
-  font-weight: 800;
-  font-size: 22px;
-  display: block;
-  color: #fff;
+  font-family: 'Sora', 'Inter', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 22px !important;
+  color: #fff !important;
 }
 .course-detail-page .hero-proof-stats .mini-stat .lbl {
-  font-size: 11.5px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, .78);
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, .78) !important;
 }
 
-/* ---- MODAL OVERLAYS & CARDS (class detail, enroll, trainer popup) ---- */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 12000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: rgba(10, 24, 43, .55);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  overflow-y: auto;
+/* ---- (3) FONTS: match homepage. Sora is NOT loaded site-wide, so headings
+   fell back to an ugly system font. Fall back to Inter (which IS loaded),
+   exactly like the homepage's --font-heading chain. ---- */
+.course-detail-page,
+.course-detail-page p,
+.course-detail-page li,
+.course-detail-page .btn {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
-.modal-overlay.open { display: flex; }
-.modal-overlay .modal-card {
-  background: #fff;
-  border-radius: var(--r, 20px);
-  box-shadow: 0 30px 80px -20px rgba(10, 24, 43, .5);
-  width: 100%;
-  max-width: 560px;
-  max-height: calc(100vh - 48px);
-  overflow-y: auto;
-  position: relative;
-  animation: modalPop .2s ease;
+.course-detail-page h1,
+.course-detail-page h2,
+.course-detail-page h3,
+.course-detail-page h4,
+.course-detail-page .mini-stat .num,
+.course-detail-page .cn-title,
+.course-detail-page .lr-title,
+.course-detail-page .price-amt .now {
+  font-family: 'Sora', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
-@keyframes modalPop {
-  from { opacity: 0; transform: translateY(12px) scale(.98); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+
+/* ---- (4) STICKY ENROLL BAR: global style.css pins it with
+   .sticky-cta{position:sticky;bottom:0} so it never hides. Restore the
+   fixed + toggle behaviour the template's JS drives via .show ---- */
+.sticky-cta,
+.course-detail-page .sticky-cta {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 60 !important;
+  margin-top: 0 !important;
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .25s ease, opacity .25s ease;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line, #cce8f3);
+  padding: 12px 0;
 }
-.modal-overlay .modal-top { position: relative; padding: 28px 28px 0; }
-.modal-overlay .modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  border: 1px solid #cce8f3;
-  background: #fff;
-  color: var(--ink, #1a181b);
+.sticky-cta.show,
+.course-detail-page .sticky-cta.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.course-detail-page .sticky-cta-inner {
+  max-width: var(--maxw, 1220px);
+  margin: 0 auto;
+  padding: 0 24px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background .14s, border-color .14s;
+  gap: 16px;
+  flex-wrap: wrap;
 }
-.modal-overlay .modal-close:hover { background: #f2f8fc; border-color: var(--green, #0058b0); }
-.modal-overlay .modal-close svg { width: 18px; height: 18px; }
-.modal-overlay .modal-phase {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--green-deep, #004182);
-  margin-bottom: 6px;
-}
-.modal-overlay .modal-tag {
-  display: inline-block;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--green-deep, #004182);
-  background: var(--green-tint, #e6f1fb);
-  border-radius: 999px;
-  padding: 5px 12px;
-  margin-bottom: 4px;
-}
-.modal-overlay .modal-card > h3,
-.modal-overlay #enroll-title {
-  font-family: 'Sora', sans-serif;
-  font-size: 22px;
-  color: var(--ink, #1a181b);
-  padding: 10px 28px 0;
-}
-.modal-overlay .modal-body { padding: 16px 28px 8px; }
-.modal-overlay .modal-body p { font-size: 14px; line-height: 1.6; color: var(--body, #33414a); }
-.modal-overlay .modal-topics { margin-top: 16px; }
-.modal-overlay .modal-topics h5 {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--green-deep, #004182);
-  margin: 0 0 10px;
-}
-.modal-overlay .modal-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.modal-overlay .modal-topics li { display: flex; gap: 10px; font-size: 14px; color: var(--body, #33414a); }
-.modal-overlay .modal-topics li svg { flex: none; width: 16px; height: 16px; color: var(--green, #0058b0); margin-top: 3px; }
-.modal-overlay .modal-foot { display: flex; gap: 12px; padding: 16px 28px 28px; flex-wrap: wrap; }
+.course-detail-page .sc-info { margin-right: auto; }
+.course-detail-page .sc-title { font-weight: 700; color: var(--ink, #1a181b); font-size: 14px; display: block; }
+.course-detail-page .sc-note { font-size: 12px; color: var(--body-soft, #607987); }
+.course-detail-page .sc-btns { display: flex; gap: 10px; }
 
-/* ---- FINAL CTA — hero-proof look (dark blue, white text, centered) ---- */
+/* ---- (5) FINAL CTA: hero-proof look + keep heading on ONE line ---- */
 .course-detail-page .final-cta {
   position: relative;
   overflow: hidden;
@@ -1415,8 +1391,12 @@ body:has(.course-detail-page) .hero-main h1 {
 }
 .course-detail-page .final-cta > * { position: relative; z-index: 1; }
 .course-detail-page .final-cta:hover { transform: none; }
-.course-detail-page .final-cta h2 { color: #fff; font-size: clamp(24px, 3.5vw, 32px); }
-.course-detail-page .final-cta h2 em { color: #ffd257; }
+.course-detail-page .final-cta h2 {
+  color: #fff;
+  font-size: clamp(22px, 3.2vw, 30px);
+  white-space: nowrap;        /* keep "Enroll only when you're convinced." on one line */
+}
+.course-detail-page .final-cta h2 em { color: #ffd257; font-style: italic; }
 .course-detail-page .final-cta p {
   color: rgba(255,255,255,.85);
   font-size: 15px;
@@ -1426,6 +1406,76 @@ body:has(.course-detail-page) .hero-main h1 {
 }
 .course-detail-page .final-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-/* ---- THREE FEATURE BLOCKS — equal height ---- */
+/* On small screens the one-line heading would overflow — allow wrap there */
+@media (max-width: 560px) {
+  .course-detail-page .final-cta h2 { white-space: normal; }
+}
+
+/* ---- (6) MODAL OVERLAYS (trainer / enroll / lesson popups) ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(10, 24, 43, .55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal-overlay .modal-card {
+  background: #fff;
+  border-radius: var(--r, 20px);
+  box-shadow: 0 30px 80px -20px rgba(10, 24, 43, .5);
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  position: relative;
+  animation: modalPop .2s ease;
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+.modal-overlay .modal-top { position: relative; padding: 28px 28px 0; }
+.modal-overlay .modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 34px; height: 34px; border-radius: 10px;
+  border: 1px solid #cce8f3; background: #fff; color: var(--ink, #1a181b);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: background .14s, border-color .14s;
+}
+.modal-overlay .modal-close:hover { background: #f2f8fc; border-color: var(--green, #0058b0); }
+.modal-overlay .modal-close svg { width: 18px; height: 18px; }
+.modal-overlay .modal-phase {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--green-deep, #004182); margin-bottom: 6px;
+}
+.modal-overlay .modal-tag {
+  display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700;
+  color: var(--green-deep, #004182); background: var(--green-tint, #e6f1fb);
+  border-radius: 999px; padding: 5px 12px; margin-bottom: 4px;
+}
+.modal-overlay .modal-card > h3,
+.modal-overlay #enroll-title {
+  font-family: 'Sora', 'Inter', sans-serif; font-size: 22px; color: var(--ink, #1a181b); padding: 10px 28px 0;
+}
+.modal-overlay .modal-body { padding: 16px 28px 8px; }
+.modal-overlay .modal-body p { font-size: 14px; line-height: 1.6; color: var(--body, #33414a); }
+.modal-overlay .modal-topics { margin-top: 16px; }
+.modal-overlay .modal-topics h5 {
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--green-deep, #004182); margin: 0 0 10px;
+}
+.modal-overlay .modal-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.modal-overlay .modal-topics li { display: flex; gap: 10px; font-size: 14px; color: var(--body, #33414a); }
+.modal-overlay .modal-topics li svg { flex: none; width: 16px; height: 16px; color: var(--green, #0058b0); margin-top: 3px; }
+.modal-overlay .modal-foot { display: flex; gap: 12px; padding: 16px 28px 28px; flex-wrap: wrap; }
+
+/* ---- (7) THREE FEATURE BLOCKS — equal height ---- */
 .course-detail-page .three-block-grid { align-items: stretch; }
 .course-detail-page .feature-block { height: 100%; }
