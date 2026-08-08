@@ -1249,14 +1249,48 @@ body:has(.course-detail-page) {
   z-index: 500;
 }
 .course-detail-page .toast.show { opacity: 1; transform: translate(-50%,0); }
+
 /* ==========================================================================
-   APPEND TO END OF assets/css/course-page.css
-   Fixes: (A) modal popups rendering at page bottom, (B) final-CTA styling,
-          (C) hero H1 wrap safety, (D) equal-height feature blocks
+   APPEND TO END OF assets/css/course-page.css  (v2 — supersedes prior append)
+   Fixes: title breaking (global h1 13vw override), hero H1 accent color,
+          "white shade" on hero stat boxes, + prior modal & final-cta fixes.
    ========================================================================== */
 
-/* ---- (A) MODAL OVERLAYS & CARDS (class detail, enroll, trainer popup) ---- */
-.course-detail-page ~ .modal-overlay,
+/* ---- (C-FIX) TITLE BREAK: override the global  h1{font-size:clamp(...,13vw,...)} ----
+   The site-wide style.css sets h1 to 13vw, which blows up the hero title on
+   desktop and forces ugly wrapping. Re-assert the intended hero size with
+   enough specificity to win. */
+.course-detail-page .hero-main h1,
+body:has(.course-detail-page) .hero-main h1 {
+  font-size: clamp(28px, 3.4vw, 40px) !important;
+  line-height: 1.12 !important;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  max-width: 20ch;
+}
+
+/* ---- STAT BOXES: define the intended look so no stray card/hover style leaks.
+   These sit on the dark-blue hero-proof panel; give them a translucent tile. */
+.course-detail-page .hero-proof-stats .mini-stat {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.course-detail-page .hero-proof-stats .mini-stat .num {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  display: block;
+  color: #fff;
+}
+.course-detail-page .hero-proof-stats .mini-stat .lbl {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .78);
+}
+
+/* ---- MODAL OVERLAYS & CARDS (class detail, enroll, trainer popup) ---- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1270,9 +1304,7 @@ body:has(.course-detail-page) {
   backdrop-filter: blur(4px);
   overflow-y: auto;
 }
-.modal-overlay.open {
-  display: flex;
-}
+.modal-overlay.open { display: flex; }
 .modal-overlay .modal-card {
   background: #fff;
   border-radius: var(--r, 20px);
@@ -1288,10 +1320,7 @@ body:has(.course-detail-page) {
   from { opacity: 0; transform: translateY(12px) scale(.98); }
   to   { opacity: 1; transform: translateY(0)    scale(1);   }
 }
-.modal-overlay .modal-top {
-  position: relative;
-  padding: 28px 28px 0;
-}
+.modal-overlay .modal-top { position: relative; padding: 28px 28px 0; }
 .modal-overlay .modal-close {
   position: absolute;
   top: 16px;
@@ -1299,7 +1328,7 @@ body:has(.course-detail-page) {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  border: var(--line, 1px solid #cce8f3);
+  border: 1px solid #cce8f3;
   background: #fff;
   color: var(--ink, #1a181b);
   display: flex;
@@ -1352,14 +1381,9 @@ body:has(.course-detail-page) {
 .modal-overlay .modal-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .modal-overlay .modal-topics li { display: flex; gap: 10px; font-size: 14px; color: var(--body, #33414a); }
 .modal-overlay .modal-topics li svg { flex: none; width: 16px; height: 16px; color: var(--green, #0058b0); margin-top: 3px; }
-.modal-overlay .modal-foot {
-  display: flex;
-  gap: 12px;
-  padding: 16px 28px 28px;
-  flex-wrap: wrap;
-}
+.modal-overlay .modal-foot { display: flex; gap: 12px; padding: 16px 28px 28px; flex-wrap: wrap; }
 
-/* ---- (B) FINAL CTA — hero-proof look (dark blue, white text, centered) ---- */
+/* ---- FINAL CTA — hero-proof look (dark blue, white text, centered) ---- */
 .course-detail-page .final-cta {
   position: relative;
   overflow: hidden;
@@ -1400,20 +1424,8 @@ body:has(.course-detail-page) {
   max-width: 52ch;
   margin: 12px auto 24px;
 }
-.course-detail-page .final-cta-btns {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+.course-detail-page .final-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-/* ---- (C) HERO H1 — prevent awkward half-break ---- */
-.course-detail-page .hero-main h1 {
-  text-wrap: balance;
-  overflow-wrap: break-word;
-}
-
-/* ---- (D) THREE FEATURE BLOCKS — equal height, aligned ---- */
+/* ---- THREE FEATURE BLOCKS — equal height ---- */
 .course-detail-page .three-block-grid { align-items: stretch; }
 .course-detail-page .feature-block { height: 100%; }
-
