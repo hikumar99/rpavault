@@ -3,6 +3,12 @@
 export async function onRequest(context) {
   const { params, env, request } = context;
   const slug = String(params.slug || "").toLowerCase();
+
+  // Prevent routing loops for the main redirect landing/resolver page
+  if (slug === "index.html" || slug === "index" || !slug) {
+    return await context.next();
+  }
+
   const raw = env.LINKS ? await env.LINKS.get(slug) : null;
   
   if (!raw) {
@@ -10,7 +16,7 @@ export async function onRequest(context) {
     const response = await context.next();
     if (response.status === 404) {
       const url = new URL(request.url);
-      return Response.redirect(`${url.origin}/404.html`, 302);
+      return Response.redirect(`${url.origin}/go/index.html?slug=${encodeURIComponent(slug)}`, 302);
     }
     return response;
   }
