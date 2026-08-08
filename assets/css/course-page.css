@@ -1263,15 +1263,34 @@ body:has(.course-detail-page) {
   display: none !important;
 }
 
-/* ---- (2) HERO TITLE — stop the global h1{clamp(...,13vw,...)} blow-up ---- */
+/* ---- (1b) TESTIMONIAL HEAD — stack name above "Google review" ----
+   A global rule forces .testi-id horizontal, pushing "Google review" next to
+   the name. Force the intended vertical stack for all course pages. */
+.course-detail-page .testi-id {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 2px !important;
+}
+.course-detail-page .testi-src {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+/* ---- (2) HERO TITLE — stop the global h1{clamp(...,13vw,...)} blow-up ----
+   No max-width: let the title use the card's full width so it doesn't wrap
+   early and leave a big empty gap on the right of the hero card. */
 .course-detail-page .hero-main h1,
 body:has(.course-detail-page) .hero-main h1 {
   font-size: clamp(28px, 3.2vw, 38px) !important;
   line-height: 1.14 !important;
   letter-spacing: -.02em !important;
-  text-wrap: balance;
-  overflow-wrap: break-word;
-  max-width: 22ch;
+  max-width: none !important;
+}
+/* Description can span wider too, so the left card content fills the space. */
+.course-detail-page .hero-main p {
+  max-width: 60ch !important;
 }
 
 /* ---- (3) HERO STAT BOXES — flat tiles, no nested white pills ---- */
