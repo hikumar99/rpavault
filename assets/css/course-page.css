@@ -1249,3 +1249,171 @@ body:has(.course-detail-page) {
   z-index: 500;
 }
 .course-detail-page .toast.show { opacity: 1; transform: translate(-50%,0); }
+/* ==========================================================================
+   APPEND TO END OF assets/css/course-page.css
+   Fixes: (A) modal popups rendering at page bottom, (B) final-CTA styling,
+          (C) hero H1 wrap safety, (D) equal-height feature blocks
+   ========================================================================== */
+
+/* ---- (A) MODAL OVERLAYS & CARDS (class detail, enroll, trainer popup) ---- */
+.course-detail-page ~ .modal-overlay,
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(10, 24, 43, .55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
+}
+.modal-overlay.open {
+  display: flex;
+}
+.modal-overlay .modal-card {
+  background: #fff;
+  border-radius: var(--r, 20px);
+  box-shadow: 0 30px 80px -20px rgba(10, 24, 43, .5);
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  position: relative;
+  animation: modalPop .2s ease;
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+.modal-overlay .modal-top {
+  position: relative;
+  padding: 28px 28px 0;
+}
+.modal-overlay .modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: var(--line, 1px solid #cce8f3);
+  background: #fff;
+  color: var(--ink, #1a181b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .14s, border-color .14s;
+}
+.modal-overlay .modal-close:hover { background: #f2f8fc; border-color: var(--green, #0058b0); }
+.modal-overlay .modal-close svg { width: 18px; height: 18px; }
+.modal-overlay .modal-phase {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--green-deep, #004182);
+  margin-bottom: 6px;
+}
+.modal-overlay .modal-tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green-deep, #004182);
+  background: var(--green-tint, #e6f1fb);
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin-bottom: 4px;
+}
+.modal-overlay .modal-card > h3,
+.modal-overlay #enroll-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  color: var(--ink, #1a181b);
+  padding: 10px 28px 0;
+}
+.modal-overlay .modal-body { padding: 16px 28px 8px; }
+.modal-overlay .modal-body p { font-size: 14px; line-height: 1.6; color: var(--body, #33414a); }
+.modal-overlay .modal-topics { margin-top: 16px; }
+.modal-overlay .modal-topics h5 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--green-deep, #004182);
+  margin: 0 0 10px;
+}
+.modal-overlay .modal-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.modal-overlay .modal-topics li { display: flex; gap: 10px; font-size: 14px; color: var(--body, #33414a); }
+.modal-overlay .modal-topics li svg { flex: none; width: 16px; height: 16px; color: var(--green, #0058b0); margin-top: 3px; }
+.modal-overlay .modal-foot {
+  display: flex;
+  gap: 12px;
+  padding: 16px 28px 28px;
+  flex-wrap: wrap;
+}
+
+/* ---- (B) FINAL CTA — hero-proof look (dark blue, white text, centered) ---- */
+.course-detail-page .final-cta {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(155deg, #0058b0, #004182);
+  color: #fff;
+  text-align: center;
+  padding: 48px 32px;
+  border: none;
+}
+.course-detail-page .final-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.14) 1px, transparent 1.4px);
+  background-size: 20px 20px;
+  opacity: .5;
+  pointer-events: none;
+}
+.course-detail-page .final-cta::after {
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -90px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(57,184,127,.5), transparent 68%);
+  pointer-events: none;
+}
+.course-detail-page .final-cta > * { position: relative; z-index: 1; }
+.course-detail-page .final-cta:hover { transform: none; }
+.course-detail-page .final-cta h2 { color: #fff; font-size: clamp(24px, 3.5vw, 32px); }
+.course-detail-page .final-cta h2 em { color: #ffd257; }
+.course-detail-page .final-cta p {
+  color: rgba(255,255,255,.85);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 52ch;
+  margin: 12px auto 24px;
+}
+.course-detail-page .final-cta-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ---- (C) HERO H1 — prevent awkward half-break ---- */
+.course-detail-page .hero-main h1 {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+/* ---- (D) THREE FEATURE BLOCKS — equal height, aligned ---- */
+.course-detail-page .three-block-grid { align-items: stretch; }
+.course-detail-page .feature-block { height: 100%; }
+
