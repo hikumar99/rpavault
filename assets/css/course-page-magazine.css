@@ -1,0 +1,977 @@
+/* ==========================================================================
+   RPAVault Asymmetrical Modernist Editorial Journal Stylesheet
+   ========================================================================== */
+
+:root {
+  --journal-blue: #0058b0;        /* Brand Primary Blue */
+  --journal-sky: #0284c7;         /* Accent Sky Blue */
+  --journal-slate: #0f172a;       /* Headings Dark Slate */
+  --journal-body: #334155;        /* Body text Slate */
+  --journal-muted: #64748b;       /* Secondary details Slate */
+  --journal-line: #e2e8f0;        /* Grid divider lines */
+  --journal-border: #cbd5e1;      /* Thin outlines */
+  --journal-canvas: #ffffff;      /* Pure white background */
+  --journal-gray: #f8fafc;        /* Soft grey background */
+  --journal-green: #10b981;       /* Emerald success green */
+}
+
+/* Page Reset */
+.course-detail-page.journal-theme-light {
+  background-color: var(--journal-canvas) !important;
+  color: var(--journal-body) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+.journal-kicker {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--journal-blue);
+  margin-bottom: 0.6rem;
+}
+
+/* ==========================================================================
+   Horizontal Journal Sections (Newspaper grid pacing)
+   ========================================================================== */
+.journal-section {
+  padding: 6.5rem 0;
+  background-color: var(--journal-canvas);
+  border-bottom: 1px solid var(--journal-line);
+  box-sizing: border-box;
+}
+
+.journal-section-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+/* Left-column metadata / kicker label */
+.journal-section-sidebar {
+  position: sticky;
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-number {
+  font-family: monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 1.2px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.journal-section-title {
+  font-family: 'Space Grotesk', var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--journal-slate);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin: 0 0 10px 0;
+}
+
+.journal-section-desc {
+  font-size: 0.88rem;
+  color: var(--journal-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Right-column content container */
+.journal-section-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Section 01: Hero Headline Layout
+   ========================================================================== */
+.journal-hero {
+  padding: 5.5rem 0 4.5rem 0;
+}
+
+.journal-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.hero-left-editorial {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero-left-editorial .journal-number {
+  margin-bottom: 1.5rem;
+}
+
+.hero-main-title {
+  font-family: 'Space Grotesk', var(--font-heading);
+  font-size: clamp(2.3rem, 4.5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--journal-slate);
+  letter-spacing: -0.03em;
+  margin: 0 0 1.2rem 0;
+}
+
+.hero-lead-text {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--journal-body);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero-chips-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 2.2rem;
+}
+.hero-chip-badge {
+  font-size: 0.76rem;
+  font-weight: 600;
+  background-color: var(--journal-gray);
+  color: var(--journal-body);
+  border: 1px solid var(--journal-border);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.hero-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.btn-journal-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 0 1.6rem;
+  background-color: var(--journal-slate);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+.btn-journal-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-journal-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 0 1.6rem;
+  background-color: transparent;
+  color: var(--journal-slate) !important;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border-radius: 6px;
+  border: 1px solid var(--journal-border);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.btn-journal-secondary:hover {
+  background-color: var(--journal-gray);
+}
+
+.journal-mock-frame {
+  background: var(--journal-canvas);
+  border: 1px solid var(--journal-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+.mock-header {
+  background: var(--journal-gray);
+  border-bottom: 1px solid var(--journal-line);
+  padding: 8px 14px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.mock-header .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.mock-header .dot.red { background: #ef4444; }
+.mock-header .dot.yellow { background: #f59e0b; }
+.mock-header .dot.green { background: #10b981; }
+.mock-header .mock-file {
+  margin-left: 8px;
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: var(--journal-muted);
+}
+.mock-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   Section 02: Specifications & Pricing sheet
+   ========================================================================== */
+.journal-specs-table {
+  display: flex;
+  flex-direction: column;
+}
+.specs-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+}
+.specs-row:last-child {
+  border-bottom: none;
+}
+.specs-label {
+  font-weight: 750;
+  color: var(--journal-slate);
+}
+.specs-val {
+  color: var(--journal-body);
+  font-weight: 500;
+}
+
+/* Pricing box details */
+.journal-pricing-card {
+  background-color: var(--journal-gray);
+  border: 1px dashed var(--journal-border);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-sizing: border-box;
+}
+.enrollment-status {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--journal-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.p-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--journal-slate);
+  letter-spacing: -0.5px;
+}
+.p-value-strike {
+  font-size: 1.15rem;
+  color: var(--journal-muted);
+  text-decoration: line-through;
+  font-weight: 600;
+}
+.pricing-disclaimer {
+  font-size: 0.76rem;
+  color: var(--journal-muted);
+  margin: 4px 0 1.25rem 0;
+}
+.btn-checkout-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  background-color: var(--journal-slate);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+  text-align: center;
+}
+.btn-checkout-link:hover {
+  opacity: 0.9;
+}
+.next-batch-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--journal-border);
+  padding-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--journal-body);
+}
+
+/* ==========================================================================
+   Section 03: Lead Form Callback Layout
+   ========================================================================== */
+.form-layout-journal {
+  background-color: var(--journal-canvas);
+  border: 1px solid var(--journal-border);
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.01);
+  box-sizing: border-box;
+}
+.form-grid-journal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.form-group-journal {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.form-group-journal.span-2 {
+  grid-column: span 2;
+}
+.form-group-journal label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--journal-slate);
+}
+.input-journal-field {
+  background-color: var(--journal-gray);
+  border: 1px solid var(--journal-border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  color: var(--journal-slate);
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.input-journal-field:focus {
+  outline: none;
+  border-color: var(--journal-slate);
+  background-color: var(--journal-canvas);
+}
+textarea.input-journal-field.textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+select.input-journal-field.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px;
+  padding-right: 30px;
+}
+.btn-journal-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 46px;
+  width: 100%;
+  background-color: var(--journal-slate);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 750;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Section 04: Fit Checks & Outcomes Cards
+   ========================================================================== */
+.fit-grid-half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.fit-card {
+  background-color: var(--journal-gray);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.fit-card h4 {
+  font-family: 'Space Grotesk', var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--journal-slate);
+  margin: 0 0 1.25rem 0;
+  border-bottom: 2px solid var(--journal-slate);
+  padding-bottom: 6px;
+  display: inline-block;
+}
+.fit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fit-list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: var(--journal-body);
+  line-height: 1.45;
+}
+.tick {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.tick.green { color: var(--journal-green); }
+.tick.blue { color: var(--journal-sky); }
+
+/* ==========================================================================
+   Section 05: Chronological Timeline Roadmap
+   ========================================================================== */
+.roadmap-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.roadmap-phase-card {
+  background-color: var(--journal-canvas);
+  border: 1px solid var(--journal-border);
+  border-radius: 12px;
+  padding: 2.2rem;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.01);
+  box-sizing: border-box;
+}
+.phase-header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.phase-num-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: var(--journal-gray);
+  color: var(--journal-blue);
+  border: 1px solid var(--journal-border);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.phase-title-meta h3 {
+  margin: 2px 0 0 0;
+  font-family: 'Space Grotesk', var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--journal-slate);
+}
+.phase-duration-text {
+  display: inline-block;
+  font-size: 0.76rem;
+  color: var(--journal-muted);
+  font-weight: 700;
+  margin-top: 2px;
+}
+.phase-outcome-info {
+  background-color: var(--journal-gray);
+  border-left: 3px solid var(--journal-slate);
+  padding: 10px 14px;
+  font-size: 0.86rem;
+  color: var(--journal-body);
+  border-radius: 4px;
+  margin-bottom: 1.8rem;
+}
+
+.phase-sessions-timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 0.2rem;
+}
+.session-node {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+.session-node:last-child {
+  padding-bottom: 0;
+}
+
+/* timelines threads lines */
+.session-node::before {
+  content: "";
+  position: absolute;
+  left: 77px;
+  top: 18px;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--journal-line);
+}
+.session-node:last-child::before {
+  display: none;
+}
+
+.node-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 90px;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  position: relative;
+}
+.session-badge-num {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--journal-muted);
+  border: 1px solid var(--journal-border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-align: center;
+  min-width: 58px;
+  background-color: var(--journal-gray);
+}
+.node-bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--journal-muted);
+  flex-shrink: 0;
+  z-index: 2;
+}
+.session-node:hover .node-bullet-dot {
+  background-color: var(--journal-blue);
+  transform: scale(1.3);
+}
+
+.node-right {
+  flex-grow: 1;
+}
+.node-right h5 {
+  margin: 0 0 2px 0;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--journal-slate);
+}
+.node-right p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--journal-muted);
+  line-height: 1.45;
+}
+
+.phase-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.phase-bullet-list li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.88rem;
+  color: var(--journal-muted);
+}
+.phase-bullet-list .bullet-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--journal-sky);
+  flex-shrink: 0;
+}
+
+/* Download flyer brochure banner */
+.download-pdf-banner {
+  background-color: var(--journal-gray);
+  border: 1px dashed var(--journal-line);
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+.banner-copy h4 {
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: var(--journal-slate);
+}
+.banner-copy p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--journal-muted);
+}
+.btn-pdf-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 14px;
+  background-color: var(--journal-slate);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.84rem;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Section 06: Previews Videos
+   ========================================================================== */
+.videos-visual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.video-item-card {
+  border: 1px solid var(--journal-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--journal-canvas);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+}
+.video-top-bar {
+  height: 32px;
+  background: var(--journal-gray);
+  border-bottom: 1px solid var(--journal-border);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+}
+.video-bar-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+.video-bar-title {
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: var(--journal-muted);
+  margin-left: 6px;
+}
+.iframe-container {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  background-color: #000000;
+}
+.iframe-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.video-info {
+  padding: 12px 14px;
+}
+.video-info h5 {
+  margin: 0 0 2px 0;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--journal-slate);
+}
+.video-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--journal-muted);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Section 07: Trainer Bio card
+   ========================================================================== */
+.trainer-card-layout {
+  background-color: var(--journal-canvas);
+  border: 1px solid var(--journal-border);
+  border-radius: 12px;
+  padding: 2.2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+}
+.trainer-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1.25rem;
+}
+.trainer-avatar-box {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--journal-blue) 0%, var(--journal-green) 100%);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.trainer-meta-info h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 750;
+  color: var(--journal-slate);
+}
+.trainer-role-tag {
+  font-size: 0.8rem;
+  color: var(--journal-blue);
+  font-weight: 700;
+}
+.trainer-intro {
+  font-size: 0.92rem;
+  color: var(--journal-body);
+  line-height: 1.55;
+  margin: 0;
+}
+.trainer-bullet-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.trainer-bullet-highlights li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: var(--journal-muted);
+}
+.btn-trainer-modal-trigger {
+  background: transparent;
+  border: none;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--journal-blue);
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================================================
+   Section 08: Support & Channels
+   ========================================================================== */
+.support-channels-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.channel-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.2rem;
+  border: 1px solid var(--journal-border);
+  border-radius: 8px;
+  background-color: var(--journal-canvas);
+}
+.channel-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.channel-icon-wrap.whatsapp {
+  background: rgba(37, 211, 102, 0.08);
+  color: #25d366;
+}
+.channel-icon-wrap.jobs {
+  background: rgba(2, 132, 199, 0.08);
+  color: var(--journal-sky);
+}
+.channel-icon-wrap.discord {
+  background: rgba(88, 101, 242, 0.08);
+  color: #5865f2;
+}
+.channel-info-details h4 {
+  margin: 0 0 2px 0;
+  font-size: 0.92rem;
+  font-weight: 750;
+  color: var(--journal-slate);
+}
+.channel-info-details p {
+  margin: 0 0 6px 0;
+  font-size: 0.8rem;
+  color: var(--journal-muted);
+  line-height: 1.35;
+}
+.channel-link {
+  font-size: 0.8rem;
+  font-weight: 750;
+  color: var(--journal-blue);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Section 09: FAQ list row details
+   ========================================================================== */
+.faq-row-details {
+  border: 1px solid var(--journal-border);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+.faq-row-summary {
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--journal-slate);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-row-summary::after {
+  content: "＋";
+  font-size: 0.85rem;
+  color: var(--journal-muted);
+}
+.faq-row-details[open] .faq-row-summary::after {
+  content: "－";
+}
+.faq-row-content {
+  padding: 0 18px 14px 18px;
+  background-color: var(--journal-gray);
+  border-top: 1px solid #f1f5f9;
+}
+.faq-row-content p {
+  margin: 12px 0 0 0;
+  font-size: 0.86rem;
+  color: var(--journal-body);
+  line-height: 1.5;
+}
+
+/* Footer bottom CTA band */
+.layout-footer-cta {
+  background-color: var(--journal-gray);
+  border-top: 1px solid var(--journal-line);
+  padding: 5.5rem 0;
+}
+
+/* ==========================================================================
+   Viewport responsive overrides for Journal
+   ========================================================================== */
+@media(max-width: 980px) {
+  .journal-section {
+    padding: 4.5rem 0;
+  }
+  .journal-section-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .journal-section-sidebar {
+    position: static;
+    margin-bottom: 1rem;
+  }
+  .journal-hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-left-editorial {
+    align-items: center;
+    text-align: center;
+  }
+  .hero-main-title {
+    margin-inline: auto;
+  }
+  .hero-lead-text {
+    margin-inline: auto;
+  }
+  .hero-chips-stack,
+  .hero-actions-row {
+    justify-content: center;
+  }
+}
+
+@media(max-width: 640px) {
+  .form-layout-journal {
+    padding: 1.8rem 1.25rem;
+  }
+  .form-grid-journal {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .form-group-journal.span-2 {
+    grid-column: span 1;
+  }
+  .fit-grid-half {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .roadmap-phase-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .phase-header-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .session-node {
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 20px;
+    padding-bottom: 1.25rem;
+  }
+  .session-node::before {
+    left: 4px;
+    top: 20px;
+  }
+  .node-left {
+    width: auto;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .node-bullet-dot {
+    position: absolute;
+    left: -20px;
+    top: 6px;
+  }
+  .phase-bullet-list {
+    grid-template-columns: 1fr;
+  }
+  .download-pdf-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  .videos-visual-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}

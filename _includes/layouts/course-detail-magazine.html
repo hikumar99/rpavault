@@ -1,0 +1,647 @@
+---
+layout: layouts/base.html
+---
+
+<div class="course-detail-page journal-theme-light">
+  
+  <!-- Section 01: Hero Headline -->
+  <section class="journal-section journal-hero">
+    <div class="container">
+      <div class="journal-hero-grid">
+        <div class="hero-left-editorial">
+          <span class="journal-number">01 / HERO</span>
+          <span class="journal-kicker">// {{ eyebrow | default("RPA & Agentic Automation") }}</span>
+          <h1 class="hero-main-title">{{ name | default(title) }}</h1>
+          <p class="hero-lead-text">{{ lead | default(description) }}</p>
+          
+          <div class="hero-chips-stack">
+            {% for chip in chips %}
+              <span class="hero-chip-badge">{{ chip }}</span>
+            {% endfor %}
+          </div>
+
+          <div class="hero-actions-row">
+            <a class="btn-journal-primary" href="#" data-open-callback data-select="IT Courses & Batches">
+              <span>Book Demo Class</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            {% if syllabus_pdf %}
+              <a class="btn-journal-secondary" href="{{ syllabus_pdf }}" download>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Syllabus PDF</span>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="hero-right-visual">
+          <div class="journal-mock-frame">
+            <div class="mock-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="mock-file">rpavault_studio.xaml</span>
+            </div>
+            <img class="mock-image" src="/assets/images/courses/rpa-agentic-hero.jpg" alt="RPA Dashboard Visual representation" loading="eager">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 02: Specifications & Pricing sheet -->
+  <section class="journal-section journal-specs-pricing">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">02 / SPECS</span>
+          <h2 class="journal-section-title">Course Overview & Specs</h2>
+          <p class="journal-section-desc">Course format details, localized pricing schedules, and batch coordinates.</p>
+        </div>
+
+        <div class="journal-section-content">
+          <!-- Specs details rows -->
+          <div class="journal-specs-table">
+            <div class="specs-row"><span class="specs-label">Duration</span><span class="specs-val">{{ duration }}</span></div>
+            <div class="specs-row"><span class="specs-label">Format</span><span class="specs-val">{{ classes }}</span></div>
+            <div class="specs-row"><span class="specs-label">Training Mode</span><span class="specs-val">{{ mode }}</span></div>
+            <div class="specs-row"><span class="specs-label">Skill Level</span><span class="specs-val">{{ level }}</span></div>
+          </div>
+
+          <!-- Pricing box details -->
+          <div class="journal-pricing-card">
+            <span class="enrollment-status">Enrollment Open • Weekday Batches</span>
+            
+            <!-- INR Pricing -->
+            <div id="billing-block-inr" class="billing-pane-price">
+              <div class="price-row">
+                <span class="p-value" data-cfg="self.fee">{{ price_inr }}</span>
+                {% if price_inr_strike %}
+                  <span class="p-value-strike">{{ price_inr_strike }}</span>
+                {% endif %}
+              </div>
+              <p class="pricing-disclaimer">Local taxes included. Valid for Indian residents.</p>
+              {% if payment_inr_url %}
+                <a href="{{ payment_inr_url }}" class="btn-checkout-link" target="_blank" rel="noopener">Secure Your Spot (INR)</a>
+              {% else %}
+                <a href="#" class="btn-checkout-link" data-open-callback data-select="IT Courses & Batches">Inquire for Payment Link</a>
+              {% endif %}
+            </div>
+
+            <!-- USD Pricing -->
+            {% if price_usd %}
+            <div id="billing-block-usd" class="billing-pane-price" style="display: none;">
+              <div class="price-row">
+                <span class="p-value">{{ price_usd }}</span>
+                {% if price_usd_strike %}
+                  <span class="p-value-strike">{{ price_usd_strike }}</span>
+                {% endif %}
+              </div>
+              <p class="pricing-disclaimer">Applies to USA & European residents.</p>
+              {% if payment_usd_url %}
+                <a href="{{ payment_usd_url }}" class="btn-checkout-link" target="_blank" rel="noopener">Secure Your Spot (USD)</a>
+              {% else %}
+                <a href="#" class="btn-checkout-link" data-open-callback data-select="IT Courses & Batches">Inquire for Payment Link</a>
+              {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="next-batch-row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Next Batch: <strong data-cfg="self.next_batch">{{ next_batch }}</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 03: Lead Form Callback -->
+  <section class="journal-section journal-callback-form">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">03 / INQUIRE</span>
+          <h2 class="journal-section-title">Schedule Call</h2>
+          <p class="journal-section-desc">Submit your details below. An automation architect will contact you in 24 hours.</p>
+        </div>
+
+        <div class="journal-section-content">
+          <form class="js-lead-form form-layout-journal" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <input type="hidden" name="_next" value="https://rpavault.com/thank-you/">
+            <input type="hidden" name="course" value="{{ name | default(title) }}">
+            
+            <div class="form-grid-journal">
+              <div class="form-group-journal">
+                <label for="p-name">Full Name *</label>
+                <input type="text" id="p-name" name="name" required class="input-journal-field" placeholder="John Doe" autocomplete="name">
+              </div>
+
+              <div class="form-group-journal">
+                <label for="p-phone">Mobile / WhatsApp *</label>
+                <input type="tel" id="p-phone" name="phone" required class="input-journal-field" placeholder="+91 99999 99999" autocomplete="tel">
+              </div>
+
+              <div class="form-group-journal span-2">
+                <label for="p-email">Email Address *</label>
+                <input type="email" id="p-email" name="email" required class="input-journal-field" placeholder="john@example.com" autocomplete="email">
+              </div>
+
+              <div class="form-group-journal span-2">
+                <label for="p-topic">I am interested in *</label>
+                <select id="p-topic" name="topic" required class="input-journal-field select">
+                  <option value="IT Courses & Batches" selected>IT Courses & Batches</option>
+                  <option value="Consulting & Staffing">Consulting & Staffing</option>
+                  <option value="Enterprise Automation">Enterprise Automation</option>
+                  <option value="Corporate Training">Corporate Training</option>
+                </select>
+              </div>
+
+              <div class="form-group-journal span-2">
+                <label for="p-msg">Questions or Goals (Optional)</label>
+                <textarea id="p-msg" name="message" class="input-journal-field textarea" placeholder="What are your goals or questions?"></textarea>
+              </div>
+
+              <div class="form-group-journal span-2" style="margin-top: 1rem;">
+                <button type="submit" class="btn-journal-submit">
+                  <span>Submit Registration Inquiry</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 04: Fit Checks Outcomes -->
+  <section class="journal-section journal-fit-outcomes">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">04 / PROGRAM FIT</span>
+          <h2 class="journal-section-title">Audience & Outcomes</h2>
+          <p class="journal-section-desc">Assess background prerequisites and explore targeted developer masteries.</p>
+        </div>
+
+        <div class="journal-section-content">
+          <div class="fit-grid-half">
+            {% if fit_check %}
+            <div class="fit-card">
+              <h4>Who this program is for</h4>
+              <ul class="fit-list">
+                {% for item in fit_check %}
+                  <li>
+                    <svg class="tick green" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>{{ item }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+
+            {% if what_you_get %}
+            <div class="fit-card">
+              <h4>What you will master</h4>
+              <ul class="fit-list">
+                {% for item in what_you_get %}
+                  <li>
+                    <svg class="tick blue" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>{{ item }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 05: Chronological Timeline Syllabus -->
+  {% if curriculum %}
+  <section class="journal-section journal-syllabus">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">05 / SYLLABUS</span>
+          <h2 class="journal-section-title">Curriculum Roadmap</h2>
+          <p class="journal-section-desc">A detailed chronological breakdown of class sessions and modules outcomes.</p>
+        </div>
+
+        <div class="journal-section-content">
+          <div class="roadmap-stack">
+            {% for phase in curriculum %}
+              <div class="roadmap-phase-card">
+                <div class="phase-header-row">
+                  <span class="phase-num-badge">Module 0{{ loop.index }}</span>
+                  <div class="phase-title-meta">
+                    <h3>{{ phase.phase | replace("Module ", "") | replace("Module 1 ·", "") | replace("Module 2 ·", "") | replace("Module 3 ·", "") | replace("Module 4 ·", "") | replace("·", "") | trim }}</h3>
+                    <span class="phase-duration-text">{{ phase.duration }}</span>
+                  </div>
+                </div>
+
+                {% if phase.outcome %}
+                  <div class="phase-outcome-info">
+                    <strong>Target Outcome:</strong> {{ phase.outcome | replace("Outcome:", "") | trim }}
+                  </div>
+                {% endif %}
+
+                {% if phase.sessions %}
+                  <div class="phase-sessions-timeline">
+                    {% for session in phase.sessions %}
+                      <div class="session-node">
+                        <div class="node-left">
+                          <span class="session-badge-num">{{ session.num }}</span>
+                          <span class="node-bullet-dot"></span>
+                        </div>
+                        <div class="node-right">
+                          <h5>{{ session.title }}</h5>
+                          <p>{{ session.details }}</p>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  <ul class="phase-bullet-list">
+                    {% for item in phase.items %}
+                      <li>
+                        <span class="bullet-dot"></span>
+                        <span>{{ item }}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Download PDF Banner -->
+          {% if syllabus_pdf %}
+          <div class="download-pdf-banner">
+            <div class="banner-copy">
+              <h4>Full Program Agenda Brochure</h4>
+              <p>Get the detailed class curriculum, environments list, and project specifications offline.</p>
+            </div>
+            <a class="btn-pdf-download" href="{{ syllabus_pdf }}" download>
+              <span>Download PDF</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Section 06: Previews Videos -->
+  {% if videos and videos.length > 0 %}
+  <section class="journal-section journal-videos">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">06 / PREVIEWS</span>
+          <h2 class="journal-section-title">Actual Lecture Recordings</h2>
+          <p class="journal-section-desc">Experience our teaching first-hand. Watch recorded lecture segments covering tools integration.</p>
+        </div>
+
+        <div class="journal-section-content">
+          <div class="videos-visual-grid">
+            {% for video in videos %}
+              <div class="video-item-card">
+                <div class="video-top-bar">
+                  <span class="video-bar-dot"></span>
+                  <span class="video-bar-dot"></span>
+                  <span class="video-bar-dot"></span>
+                  <span class="video-bar-title">{{ video.title }}</span>
+                </div>
+                <div class="iframe-container">
+                  <iframe src="{{ video.url }}" title="{{ video.title }}" loading="lazy" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                  <h5>{{ video.title }}</h5>
+                  <p>{{ video.description }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Section 07: Trainer Bio -->
+  {% if show_trainers != false and trainers and trainers.length > 0 %}
+  <section class="journal-section journal-trainer">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">07 / TRAINER</span>
+          <h2 class="journal-section-title">Learn from Architects</h2>
+          <p class="journal-section-desc">Connect with instructors who design automation systems at scale.</p>
+        </div>
+
+        <div class="journal-section-content">
+          {% set trainer = trainers | first %}
+          <div class="trainer-card-layout">
+            <div class="trainer-card-header">
+              <div class="trainer-avatar-box">
+                <div class="trainer-initials">{{ trainer.avatar | default("TR") }}</div>
+              </div>
+              <div class="trainer-meta-info">
+                <h3>{{ trainer.name }}</h3>
+                <span class="trainer-role-tag">{{ trainer.role }}</span>
+              </div>
+            </div>
+            
+            <p class="trainer-intro">{{ trainer.bio }}</p>
+
+            {% if trainer.highlights %}
+            <ul class="trainer-bullet-highlights">
+              {% for hl in trainer.highlights | slice(0, 4) %}
+                <li>
+                  <svg class="tick green" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>{{ hl }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            <div class="trainer-actions">
+              <button class="btn-trainer-modal-trigger" onclick="triggerTrainerPopup(0)">
+                <span>View Full Credentials</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Section 08: Support & Channels -->
+  <section class="journal-section journal-channels">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">08 / SUPPORT</span>
+          <h2 class="journal-section-title">24/7 Channels</h2>
+          <p class="journal-section-desc">Connect with architects and classmates to resolve bugs and sync jobs alerts.</p>
+        </div>
+
+        <div class="journal-section-content">
+          <div class="support-channels-stack">
+            {% if whatsapp_group_url %}
+            <div class="channel-card">
+              <div class="channel-icon-wrap whatsapp">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.817 9.817 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.187 8.187 0 0 1-1.25-4.38c.01-4.54 3.7-8.23 8.24-8.23z"/></svg>
+              </div>
+              <div class="channel-info-details">
+                <h4>WhatsApp Batches Group</h4>
+                <p>Join our group to access updates on the latest job openings and batches.</p>
+                <a href="{{ whatsapp_group_url }}" class="channel-link" target="_blank" rel="noopener">Join WhatsApp updates →</a>
+              </div>
+            </div>
+            {% endif %}
+
+            {% if whatsapp_jobs_url %}
+            <div class="channel-card">
+              <div class="channel-icon-wrap jobs">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg>
+              </div>
+              <div class="channel-info-details">
+                <h4>Remote Jobs Community</h4>
+                <p>Subscribe to the remote job community to get the latest up-to-date remote jobs in all IT courses.</p>
+                <a href="{{ whatsapp_jobs_url }}" class="channel-link" target="_blank" rel="noopener">Subscribe channel →</a>
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="channel-card">
+              <div class="channel-icon-wrap discord">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011 13.41 13.41 0 0 0 11.944 0 .075.075 0 0 1 .078.012c.12.097.246.194.373.287a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+              </div>
+              <div class="channel-info-details">
+                <h4>Technical Discord Server</h4>
+                <p>Interact with our developer community. Share code snippets and solve installation issues.</p>
+                <a href="/go/discord" class="channel-link" target="_blank" rel="noopener">Join Discord Server →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 09: FAQs Section -->
+  {% if faqs %}
+  <section class="journal-section journal-faq">
+    <div class="container">
+      <div class="journal-section-grid">
+        <div class="journal-section-sidebar">
+          <span class="journal-number">09 / FAQ</span>
+          <h2 class="journal-section-title">Common Questions</h2>
+          <p class="journal-section-desc">Answers regarding placement coordination, background requirements, and setups.</p>
+        </div>
+
+        <div class="journal-section-content">
+          <div class="faq-accordion-stack">
+            {% for faq in faqs %}
+              {% if "certificate" not in faq.q | lower %}
+                <details class="faq-row-details">
+                  <summary class="faq-row-summary">{{ faq.q }}</summary>
+                  <div class="faq-row-content">
+                    <p>{{ faq.a | replace("lifetime access", "immediate access and shared immediately after each class") }}</p>
+                  </div>
+                </details>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Bottom CTA Slate Band -->
+  <section class="cta-band-premium-slate layout-footer-cta">
+    <div class="container">
+      <div class="cta-inner-premium">
+        <div class="cta-copy-side">
+          <h2>Accelerate Your Career Transition</h2>
+          <p>Book your virtual seat in our next weekday batch and start coding production-grade RPA bots. Every session is recorded and shared with you immediately after each class.</p>
+        </div>
+        <div class="cta-actions-side">
+          <a class="btn btn-primary" href="#" data-open-callback data-select="IT Courses & Batches">Enroll Now</a>
+          <a class="btn btn-talk-trainer" href="#" data-open-callback data-select="IT Courses & Batches">Talk to Trainer</a>
+          <a class="btn btn-black-whatsapp" href="{{ whatsapp_group_url | default('https://wa.link/s5ejcw') }}" target="_blank" rel="noopener">WhatsApp Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky footer CTA -->
+  <div class="sticky-cta">
+    <div class="container sticky-inner">
+      <span class="sticky-title">
+        {{ name | default(title) }} — <span data-cfg="self.next_batch">{{ next_batch }}</span>
+      </span>
+      <a class="btn btn-primary" href="#" data-open-callback data-select="IT Courses & Batches">Enroll Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- Interactive Trainer Modal Component -->
+{% if show_trainers != false and trainers and trainers.length > 0 %}
+<div class="rpv-modal trainer-profile-viewport-overlay" id="premiumTrainerModal" onclick="closeTrainerPopupOuter(event)">
+  <div class="rpv-modal-card">
+    <button class="rpv-modal-close" type="button" onclick="closeTrainerPopup()" aria-label="Close">✕</button>
+    <div class="trainer-modal-header" style="display: flex; align-items: center; gap: 1.5rem; border-bottom: 1px solid rgba(204, 232, 243, 0.4); padding-bottom: 1.5rem;">
+      <div class="trainer-modal-avatar" id="modal-avatar-box" style="width: 74px; height: 74px; border-radius: 20px; display: grid; place-items: center; font-family: var(--font-heading); font-weight: 900; font-size: 1.6rem; background: linear-gradient(135deg, #0058b0, #10b981); color: #fff; box-shadow: 0 8px 20px rgba(0, 88, 176, 0.15);"></div>
+      <div class="trainer-modal-titles">
+        <h3 id="modal-trainer-name" style="margin: 0 0 4px 0; font-size: 1.35rem; font-weight: 900; color: #0f172a;">Trainer Name</h3>
+        <p id="modal-trainer-role" style="margin: 0; font-size: 0.88rem; color: #0058b0; font-weight: 750;">Trainer Role</p>
+      </div>
+    </div>
+    <div class="trainer-modal-body" style="padding: 1.8rem 0; max-height: 400px; overflow-y: auto;">
+      <div class="trainer-modal-bio" id="modal-trainer-bio" style="font-size: 0.96rem; line-height: 1.6; color: #475569; margin-bottom: 1.8rem;">Detailed bio...</div>
+      <div class="trainer-modal-details-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem;">
+        <div class="trainer-modal-detail-block" id="modal-trainer-highlights-wrap">
+          <h4 style="margin: 0 0 8px 0; font-size: 0.95rem; font-weight: 850; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px;">Highlights & Accomplishments</h4>
+          <ul id="modal-trainer-highlights" style="padding-left: 1.2rem; margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; color: #475569; line-height: 1.45;"></ul>
+        </div>
+        <div class="trainer-modal-detail-block" id="modal-trainer-certs-wrap" style="margin-top: 0.5rem;">
+          <h4 style="margin: 0 0 8px 0; font-size: 0.95rem; font-weight: 850; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px;">Professional Credentials</h4>
+          <ul id="modal-trainer-certs" style="padding-left: 1.2rem; margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; color: #475569; line-height: 1.45;"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="trainer-modal-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(204, 232, 243, 0.4); padding-top: 1.25rem; margin-top: 1rem;">
+      <a id="modal-trainer-linkedin" href="#" class="trainer-linkedin-link" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; font-size: 0.88rem; font-weight: 750; color: #0a66c2; gap: 4px; text-decoration: none;">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        <span>Connect on LinkedIn</span>
+      </a>
+      <button class="btn btn-primary" style="padding: 8px 22px; min-height: auto; font-size: 0.9rem;" onclick="closeTrainerPopup()">Close Profile</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Serialize instructors details
+  const instructorsList = {{ trainers | dump | safe }};
+
+  function triggerTrainerPopup(idx) {
+    const trainer = instructorsList[idx];
+    if (!trainer) return;
+
+    document.getElementById('modal-trainer-name').innerText = trainer.name;
+    document.getElementById('modal-trainer-role').innerText = trainer.role;
+    document.getElementById('modal-trainer-bio').innerText = trainer.bio || '';
+    document.getElementById('modal-avatar-box').innerText = trainer.avatar || trainer.name.substring(0, 2).toUpperCase();
+
+    // Highlights
+    const hlUl = document.getElementById('modal-trainer-highlights');
+    hlUl.innerHTML = '';
+    const hlWrap = document.getElementById('modal-trainer-highlights-wrap');
+    if (trainer.highlights && trainer.highlights.length > 0) {
+      trainer.highlights.forEach(h => {
+        const li = document.createElement('li');
+        li.innerText = h;
+        hlUl.appendChild(li);
+      });
+      hlWrap.style.display = 'block';
+    } else {
+      hlWrap.style.display = 'none';
+    }
+
+    // Certs
+    const certsUl = document.getElementById('modal-trainer-certs');
+    certsUl.innerHTML = '';
+    const certsWrap = document.getElementById('modal-trainer-certs-wrap');
+    if (trainer.certifications && trainer.certifications.length > 0) {
+      trainer.certifications.forEach(c => {
+        const li = document.createElement('li');
+        li.innerText = c;
+        certsUl.appendChild(li);
+      });
+      certsWrap.style.display = 'block';
+    } else {
+      certsWrap.style.display = 'none';
+    }
+
+    // LinkedIn
+    const liLink = document.getElementById('modal-trainer-linkedin');
+    if (trainer.linkedin) {
+      liLink.href = trainer.linkedin;
+      liLink.style.display = 'inline-flex';
+    } else {
+      liLink.style.display = 'none';
+    }
+
+    const modal = document.getElementById('premiumTrainerModal');
+    modal.classList.add('is-open');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeTrainerPopup() {
+    const modal = document.getElementById('premiumTrainerModal');
+    modal.classList.remove('is-open');
+    document.body.classList.remove('modal-open');
+  }
+
+  function closeTrainerPopupOuter(e) {
+    const modal = document.getElementById('premiumTrainerModal');
+    if (e.target === modal) {
+      closeTrainerPopup();
+    }
+  }
+
+  // Switch Billing Currency
+  function changeBillingCurrency(type) {
+    const blockInr = document.getElementById('billing-block-inr');
+    const blockUsd = document.getElementById('billing-block-usd');
+
+    if (type === 'usd' && blockUsd) {
+      blockInr.style.display = 'none';
+      blockUsd.style.display = 'block';
+    } else {
+      blockInr.style.display = 'block';
+      if (blockUsd) blockUsd.style.display = 'none';
+    }
+  }
+
+  // Auto-detect geo logic on load (using timezone + cached IP location)
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Instant check: Detect if browser is Indian timezone
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const isIndiaTz = tz.includes('Kolkata') || tz.includes('Calcutta') || tz.includes('Asia/Delhi') || tz.includes('Asia/Mumbai');
+    
+    if (!isIndiaTz && tz !== '') {
+      changeBillingCurrency('usd');
+    }
+
+    // 2. Secondary check: Fetch cached IP location database
+    const checkGeoLocation = () => {
+      const geoCached = sessionStorage.getItem('rpv_geo');
+      if (geoCached) {
+        try {
+          const g = JSON.parse(geoCached);
+          if (g.country_name && g.country_name !== 'India') {
+            changeBillingCurrency('usd');
+          } else if (g.country_name === 'India') {
+            changeBillingCurrency('inr');
+          }
+        } catch (_) {}
+      }
+    };
+    checkGeoLocation();
+    setTimeout(checkGeoLocation, 1200); // retry check shortly after page load completes
+  });
+</script>
+{% endif %}
