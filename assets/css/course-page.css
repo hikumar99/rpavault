@@ -1315,18 +1315,26 @@ body:has(.course-detail-page) .hero-main h1 {
 .course-detail-page textarea {
   font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
+/* Big section titles → match the HOMEPAGE serif (Playfair Display). */
 .course-detail-page h1,
 .course-detail-page h2,
 .course-detail-page h3,
 .course-detail-page h4,
+.course-detail-page .instructor-name,
+.modal-overlay .modal-card > h3,
+.modal-overlay #enroll-title {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+}
+/* Numbers, prices, tags, nav labels → keep sans-serif (serif looks wrong on these). */
 .course-detail-page .hero-proof-stats .mini-stat .num,
 .course-detail-page .cn-title,
 .course-detail-page .lr-title,
 .course-detail-page .price-amt .now,
 .course-detail-page .rating-badge .big,
-.course-detail-page .bonus-worth,
-.course-detail-page .instructor-name {
-  font-family: 'Sora', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+.course-detail-page .bonus-worth {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-weight: 800 !important;
 }
 
 /* ---- (5) MODAL POPUPS (trainer / enroll / lesson) — centered overlays ---- */
