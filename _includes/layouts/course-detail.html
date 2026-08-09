@@ -237,7 +237,7 @@ layout: layouts/base.html
             <span class="bonus-worth-lbl">worth of paid toolkits — yours free</span>
           </div>
           <p class="bonus-lead">Every enrolled student unlocks our premium resource vault: interview question banks, production project templates, and career kits. New resources added over time.</p>
-          <a class="btn btn-gold btn-block" href="/go/premium-toolkit">Explore Premium Toolkit →</a>
+          <a class="btn btn-gold btn-block" href="https://rpa-vault.gumroad.com" target="_blank" rel="noopener">Explore the vault →</a>
         </div>
       </div>
     </div>
@@ -380,8 +380,27 @@ layout: layouts/base.html
   {% endif %}
 
   <!-- INSTRUCTOR SHOWCASE -->
-  {% if show_trainers != false and trainers and trainers.length > 0 %}
-  {% set trainer = trainers | first %}
+  {% if show_trainers != false %}
+  {% if trainers and trainers.length > 0 %}
+    {% set trainer = trainers | first %}
+  {% else %}
+    {% set trainer = {
+      name: "Professional Automation Architect",
+      avatar: "AV",
+      role: "RPAVault Lead Trainer & Solutions Architect",
+      bio: "Our instructors are active industry leaders and solutions architects with 8+ years of production experience in UiPath, Microsoft Power Platform, and AI integrations. They bring real-world enterprise scenarios directly to classrooms.",
+      linkedin: "https://www.linkedin.com/company/rpavault",
+      highlights: [
+        "Active Industry Solutions Architect",
+        "8+ years of production automation delivery",
+        "Delivered enterprise-scale solutions for Fortune 500 clients"
+      ],
+      certifications: [
+        "UiPath Certified Advanced RPA Developer",
+        "Microsoft Power Platform Certified Architect"
+      ]
+    } %}
+  {% endif %}
   <section class="sec-white">
     <div class="wrap">
       <div class="head-block">
@@ -400,7 +419,7 @@ layout: layouts/base.html
           <h3 class="instructor-name">{{ trainer.name }}</h3>
           <div class="instructor-role">{{ trainer.role }}</div>
           <p class="instructor-bio">{{ trainer.bio }}</p>
-          <p style="font-size:13px;font-weight:600;color:var(--body);margin:0 0 16px">You'll learn from {{ trainer.name }} for all 33 classes — no hand-offs, no substitute trainers.</p>
+          <p style="font-size:13px;font-weight:600;color:var(--body);margin:0 0 16px">You'll learn from {{ trainer.name }} — no hand-offs, no substitute trainers.</p>
           <button type="button" class="btn btn-white btn-sm" onclick="triggerTrainerPopup(0)">View Full Credentials</button>
         </div>
       </div>
@@ -569,7 +588,27 @@ layout: layouts/base.html
 </div>
 
 <!-- TRAINER DETAILS POPUP MODAL -->
-{% if show_trainers != false and trainers and trainers.length > 0 %}
+{% if show_trainers != false %}
+{% if trainers and trainers.length > 0 %}
+  {% set trainer = trainers | first %}
+{% else %}
+  {% set trainer = {
+    name: "Professional Automation Architect",
+    avatar: "AV",
+    role: "RPAVault Lead Trainer & Solutions Architect",
+    bio: "Our instructors are active industry leaders and solutions architects with 8+ years of production experience in UiPath, Microsoft Power Platform, and AI integrations. They bring real-world enterprise scenarios directly to classrooms.",
+    linkedin: "https://www.linkedin.com/company/rpavault",
+    highlights: [
+      "Active Industry Solutions Architect",
+      "8+ years of production automation delivery",
+      "Delivered enterprise-scale solutions for Fortune 500 clients"
+    ],
+    certifications: [
+      "UiPath Certified Advanced RPA Developer",
+      "Microsoft Power Platform Certified Architect"
+    ]
+  } %}
+{% endif %}
 <div class="modal-overlay" id="premiumTrainerModal" onclick="if(event.target===this)closeTrainerPopup()">
   <div class="modal-card" role="dialog" aria-modal="true" style="max-width:620px;">
     <div class="modal-top">
@@ -580,7 +619,7 @@ layout: layouts/base.html
       <div class="modal-tag" id="modal-trainer-role-tag">UiPath RPA Tech Lead</div>
     </div>
     <div style="display:flex; align-items:center; gap:16px; padding:0 28px; margin-top:10px;">
-      <div class="avatar-fallback" id="modal-avatar-box" style="width:64px; height:64px; border-radius:14px; font-size:22px; background:linear-gradient(150deg,var(--green),var(--green-deep)); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Sora'; font-weight:800;">RT</div>
+      <div class="avatar-fallback" id="modal-avatar-box" style="width:64px; height:64px; border-radius:14px; font-size:22px; background:linear-gradient(150deg,var(--green),var(--green-deep)); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Sora'; font-weight:800;">{{ trainer.avatar | default("RT") }}</div>
       <div>
         <h3 id="modal-trainer-name" style="padding:0; margin:0; font-size:20px; color:#1a181b;">{{ trainer.name }}</h3>
         <p id="modal-trainer-role" style="font-size:13px; color:#0058b0; font-weight:700; margin:2px 0 0 0;">{{ trainer.role }}</p>
