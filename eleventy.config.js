@@ -18,6 +18,14 @@ module.exports = function(eleventyConfig) {
       return dateB - dateA;
     });
   });
+  eleventyConfig.addCollection("courses", function(collectionApi) {
+    return [...collectionApi.getFilteredByTag("course")].sort((a, b) => {
+      const liveA = a.data.card_live ? 0 : 1;
+      const liveB = b.data.card_live ? 0 : 1;
+      if (liveA !== liveB) return liveA - liveB;
+      return (a.data.name || a.data.title || "").localeCompare(b.data.name || b.data.title || "");
+    });
+  });
 
   // Date filter for blog posts (e.g. "2026-07-30" -> "30 July 2026")
   eleventyConfig.addFilter("dateFilter", function(dateVal) {
