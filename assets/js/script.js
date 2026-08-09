@@ -79,28 +79,40 @@ window.rpvOpenGuidance=openGuidanceModal;
 document.querySelectorAll('[data-open-guidance]').forEach(el=>{el.addEventListener('click',(e)=>{if(gModal){e.preventDefault();closeNav();openGuidanceModal();}});});
 gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[data-close-modal]')){closeGuidanceModal();}});
 
+  // Safe Storage wrappers to handle strict cookie/storage blocking or private modes
+  const safeStorage = {
+    local: {
+      getItem: function(key) { try { return localStorage.getItem(key); } catch(_) { return null; } },
+      setItem: function(key, val) { try { localStorage.setItem(key, val); } catch(_) {} }
+    },
+    session: {
+      getItem: function(key) { try { return sessionStorage.getItem(key); } catch(_) { return null; } },
+      setItem: function(key, val) { try { sessionStorage.setItem(key, val); } catch(_) {} }
+    }
+  };
+
   // ---------- Visitor Tracking & Session Initialization ----------
-  let visitorId = localStorage.getItem('rpv_visitor_id');
-  let firstVisit = localStorage.getItem('rpv_first_visit');
-  let visitCount = localStorage.getItem('rpv_visit_count') || '0';
+  let visitorId = safeStorage.local.getItem('rpv_visitor_id');
+  let firstVisit = safeStorage.local.getItem('rpv_first_visit');
+  let visitCount = safeStorage.local.getItem('rpv_visit_count') || '0';
 
   if (!visitorId) {
     visitorId = 'v-' + Date.now() + '-' + Math.floor(Math.random() * 1000000);
-    localStorage.setItem('rpv_visitor_id', visitorId);
+    safeStorage.local.setItem('rpv_visitor_id', visitorId);
     firstVisit = new Date().toISOString();
-    localStorage.setItem('rpv_first_visit', firstVisit);
+    safeStorage.local.setItem('rpv_first_visit', firstVisit);
   }
 
   // Detect session changes & track visit count
-  const sessionActive = sessionStorage.getItem('rpv_session_active');
+  const sessionActive = safeStorage.session.getItem('rpv_session_active');
   if (!sessionActive) {
-    sessionStorage.setItem('rpv_session_active', 'true');
+    safeStorage.session.setItem('rpv_session_active', 'true');
     visitCount = (parseInt(visitCount, 10) + 1).toString();
-    localStorage.setItem('rpv_visit_count', visitCount);
+    safeStorage.local.setItem('rpv_visit_count', visitCount);
   }
 
   // Track Session Path Trail
-  let pathTrailStr = sessionStorage.getItem('rpv_path_trail');
+  let pathTrailStr = safeStorage.session.getItem('rpv_path_trail');
   let pathTrail = [];
   try {
     pathTrail = pathTrailStr ? JSON.parse(pathTrailStr) : [];
@@ -113,7 +125,7 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
     if (pathTrail.length > 20) {
       pathTrail.shift();
     }
-    sessionStorage.setItem('rpv_path_trail', JSON.stringify(pathTrail));
+    safeStorage.session.setItem('rpv_path_trail', JSON.stringify(pathTrail));
   }
 
   // Helper to format path trail nicely as: path1 -> path2 -> path3
@@ -153,13 +165,30 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
 
     let geo = {};
     try {
-      const cachedGeo = sessionStorage.getItem('rpv_geo');
+      const cachedGeo = safeStorage.session.getItem('rpv_geo');
       if (cachedGeo) {
         geo = JSON.parse(cachedGeo);
       }
     } catch (_) {}
 
-    const timeOnPage = Math.round((Date.now() - rpvPageLoadTime) / 1000);
+    // Fallbacks for geolocation fields from originalPayload (in case session storage is not ready)
+    const ipVal = geo.ip || originalPayload.visitor_ip || originalPayload['visitor_ip'] || 'Unknown';
+    const cityVal = geo.city || originalPayload.visitor_city || originalPayload['visitor_city'] || 'Unknown';
+    const regionVal = geo.region || originalPayload.visitor_region || originalPayload['visitor_region'] || 'Unknown';
+    const countryVal = geo.country_name || originalPayload.visitor_country || originalPayload['visitor_country'] || 'Unknown';
+
+    const timeOnPage = originalPayload.time_on_page_seconds || Math.round((Date.now() - rpvPageLoadTime) / 1000);
+    
+    let tzVal = 'Unknown';
+    try {
+      if (typeof Intl !== 'undefined' && Intl.DateTimeFormat) {
+        tzVal = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+      }
+    } catch (_) {}
+    if (originalPayload.timezone) {
+      tzVal = originalPayload.timezone;
+    }
+
     const enriched = {};
 
     // Place configuration keys first
@@ -170,10 +199,10 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
 
     // Add Section: Geographic & Network
     enriched['=== GEOGRAPHIC & NETWORK ==='] = '==============================';
-    enriched['Geo: IP Address'] = geo.ip || 'Unknown';
-    enriched['Geo: City'] = geo.city || 'Unknown';
-    enriched['Geo: Region'] = geo.region || 'Unknown';
-    enriched['Geo: Country'] = geo.country_name || 'Unknown';
+    enriched['Geo: IP Address'] = ipVal;
+    enriched['Geo: City'] = cityVal;
+    enriched['Geo: Region'] = regionVal;
+    enriched['Geo: Country'] = countryVal;
 
     // Add Section: Device & Browser
     enriched['=== DEVICE & BROWSER ==='] = '==============================';
@@ -190,11 +219,11 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
     enriched['Session: Visit Count'] = visitCount;
     enriched['Session: First Visit Date'] = firstVisit ? new Date(firstVisit).toLocaleString() : 'Unknown';
     enriched['Session: Path Trail'] = formatPathTrail(pathTrail);
-    enriched['Session: Referrer'] = document.referrer || 'direct';
+    enriched['Session: Referrer'] = originalPayload.referrer || document.referrer || 'direct';
     enriched['Session: Time Spent on Page (sec)'] = timeOnPage.toString();
-    enriched['Session: Timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
-    enriched['Session: Source Page Path'] = location.pathname || '/';
-    enriched['Session: Source Page Title'] = document.title || 'Untitled';
+    enriched['Session: Timezone'] = tzVal;
+    enriched['Session: Source Page Path'] = originalPayload.source_page || location.pathname || '/';
+    enriched['Session: Source Page Title'] = originalPayload.source_page_title || document.title || 'Untitled';
     enriched['Session: Local Time Submitted'] = new Date().toString();
 
     return enriched;
@@ -225,7 +254,7 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
         }
       }
     }
-    return originalFetch.call(this, input, init);
+    return originalFetch(input, init);
   };
 
   /* ---------- Lead form enrichment ---------- */
@@ -260,7 +289,7 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
   }
   
   /* Location lookup (free, no key). Cached per session; fails silently. Runs on all page loads. */
-  const cachedGeoStr = sessionStorage.getItem('rpv_geo');
+  const cachedGeoStr = safeStorage.session.getItem('rpv_geo');
   const applyGeo = (g) => {
     const lForms = document.querySelectorAll('form.js-lead-form');
     if (lForms.length) {
@@ -281,7 +310,7 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
       .then(r => r.ok ? r.json() : null)
       .then(g => {
         if (g && g.ip) {
-          sessionStorage.setItem('rpv_geo', JSON.stringify(g));
+          safeStorage.session.setItem('rpv_geo', JSON.stringify(g));
           applyGeo(g);
         }
       })
