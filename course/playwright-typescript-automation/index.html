@@ -1,102 +1,110 @@
 ---
-layout: layouts/base.html
+layout: layouts/course-detail.html
+tags: ["course"]
+card_image: "/assets/images/courses/playwright-typescript-automation.svg"
+card_category: "testing"
+card_live: false
+card_blurb: "SDET-track masterclass — Playwright with TypeScript, Page Object Model, GitHub + Jenkins CI and 5 projects over 5 weeks."
 title: "Playwright with TypeScript Automation Masterclass | RPAVault"
-description: "SDET-track masterclass \u2014 Playwright with TypeScript, Page Object Model, GitHub + Jenkins CI and 5 projects over 5 weeks."
+description: "SDET-track masterclass — Playwright with TypeScript, Page Object Model, GitHub + Jenkins CI and 5 projects over 5 weeks."
 course_slug: "playwright-typescript-automation"
+
+category: "Testing & QA Automation"
+eyebrow: "Testing & QA Automation"
+name: "Playwright with TypeScript Automation Masterclass"
+lead: "Modern test automation the way product companies do it — Playwright + TypeScript, POM, GitHub and Jenkins CI."
+chips:
+  - "⏱ 5 weeks"
+  - "🎓 6 learning tracks"
+  - "💻 Live online"
+
+duration: "5 weeks"
+classes: "6 learning tracks"
+mode: "Live online"
+level: "Testers & developers — basics covered"
+support: "Recordings · doubt clearing · community support"
+
+price_inr: "₹14,999"
+price_inr_strike: "₹22,000"
+price_usd: "$349"
+price_usd_strike: "$499"
+payment_inr_url: "https://tally.so/r/waa7gZ"
+payment_usd_url: "https://tally.so/r/waa7gZ"
+next_batch: "Open for interest — contact us for dates"
+
+whatsapp_group_url: "/go/playwright-typescript-automation-whatsapp"
+whatsapp_jobs_url: "/go/remote-jobs-whatsapp"
+
+fit_check:
+  - "Manual testers upgrading to a modern automation stack"
+  - "Selenium engineers switching to Playwright (the market is moving)"
+  - "Developers who want reliable end-to-end testing skills"
+  - "Anyone targeting SDET roles at product companies"
+
+what_you_get:
+  - "Playwright fundamentals with TypeScript — no prior TS needed"
+  - "Locators, auto-waits, fixtures and API testing"
+  - "Page Object Model done properly"
+  - "CI pipelines with GitHub and Jenkins"
+  - "5 projects culminating in a framework you own"
+
+curriculum:
+  - phase: "Week 1 · Foundations"
+    duration: "TS + Playwright setup"
+    outcome: "Outcome: You're writing stable tests immediately."
+    sessions:
+      - num: "Week 1"
+        title: "TypeScript essentials for testers"
+        details: "Playwright architecture, first tests, locators configuration and variables."
+
+  - phase: "Week 2 · Core Automation"
+    duration: "Real-world interactions"
+    outcome: "Outcome: Flaky-test problems stop following you."
+    sessions:
+      - num: "Week 2"
+        title: "Forms, frames, windows, uploads/downloads"
+        details: "Auto-waiting, assertions, debugging with trace viewer."
+
+  - phase: "Week 3 · Framework Design"
+    duration: "POM & fixtures"
+    outcome: "Outcome: You can design a framework, not just write scripts."
+    sessions:
+      - num: "Week 3"
+        title: "Page Object Model structure"
+        details: "Fixtures, hooks, tags and parallel execution."
+
+  - phase: "Week 4 · API + Data"
+    duration: "Beyond the UI"
+    outcome: "Outcome: You test the full stack like an SDET."
+    sessions:
+      - num: "Week 4"
+        title: "API testing in Playwright"
+        details: "Data-driven testing and environment configs."
+
+  - phase: "Week 5 · CI/CD + Capstone"
+    duration: "Ship it"
+    outcome: "Outcome: Your GitHub profile proves your skills."
+    sessions:
+      - num: "Week 5"
+        title: "GitHub Actions and Jenkins pipelines"
+        details: "Reporting, reports dashboard and capstone framework project."
+
+trainers:
+  - name: "RPAVault QA Faculty"
+    avatar: "QF"
+    role: "Automation engineers from product & services companies"
+    bio: "Working automation engineers who run Playwright + TypeScript in production CI pipelines."
+    highlights:
+      - "Industry-current stack: Playwright, TypeScript, GitHub, Jenkins"
+      - "Project-first: 5 hands-on projects across 5 weeks"
+
+faqs:
+  - q: "Why Playwright over Selenium?"
+    a: "Playwright is faster, has built-in auto-waiting, better debugging (trace viewer) and first-class TypeScript support — and job postings are shifting to it rapidly. We cover the comparison in week one."
+  - q: "Do I need to know TypeScript?"
+    a: "No — the course teaches the TypeScript you need, specifically for test automation."
+  - q: "Will we cover CI/CD?"
+    a: "Yes — you'll run your test suites in GitHub Actions and Jenkins pipelines, exactly like SDET teams do."
+  - q: "What are the fees and dates?"
+    a: "Batches are scheduled on demand — request a callback or join the WhatsApp group for the next start date."
 ---
-<section class="page-hero"><div class="container">
-    <div class="course-hero">
-      <div>
-        <p class="eyebrow">Testing & QA Automation</p>
-        <h1>Playwright with TypeScript Automation Masterclass</h1>
-        <p class="lead">Modern test automation the way product companies do it — Playwright + TypeScript, POM, GitHub and Jenkins CI.</p>
-        <div class="chip-row"><span class="chip">⏱ 5 weeks</span><span class="chip">🎓 6 learning tracks</span><span class="chip">💻 Live online</span></div>
-        <div class="hero-actions" style="margin-top:1.4rem"><a class="btn btn-primary" href="#" data-open-callback>Request a callback</a><a class="btn btn-ghost" href="https://chat.whatsapp.com/K1gwJ1oymhwHQIhSD86fhU" target="_blank" rel="noopener">Join WhatsApp group</a></div>
-      </div>
-      <div class="course-hero-media reveal"><img src="/assets/images/courses/playwright-typescript-automation.svg" alt="Playwright with TypeScript Automation Masterclass — RPAVault course" loading="eager"></div>
-    </div>
-    <div class="hero-stats reveal"><div><b>5</b><span>Weeks</span></div><div><b>6</b><span>Tracks</span></div><div><b>5</b><span>Projects incl. POM + CI</span></div><div><b>SDET</b><span>Career track</span></div></div>
-  </div></section>
-
-  <section class="content-section"><div class="container">
-    <div class="course-hero" style="align-items:start">
-      <div><span class="num-label">FEES &amp; BATCH</span><h2>Fees &amp; next batch</h2><div class="fee-box reveal">
-      <span class="pill-green" data-cfg="self.batch_status">Open for interest</span>
-      <div class="fee-line" style="margin-top:.6rem"><span class="fee-now" data-cfg="self.fee">Reach out for current fees</span><span class="fee-was" data-cfg-strike="self" style="display:none"></span></div>
-      <p class="fee-batch" data-cfg="self.next_batch">Open for interest — contact us for dates</p>
-      <p class="fee-note">Batch dates and offers change frequently — the details above are kept current. Not sure? <a href="#" data-open-callback>Request a callback</a> and we’ll confirm the next start date.</p>
-    </div></div>
-      <div><span class="num-label">AT A GLANCE</span><h2>Quick facts</h2><div class="fact-grid reveal">
-      <div class="fact-cell"><b>Duration</b><span>5 weeks</span></div>
-      <div class="fact-cell"><b>Format</b><span>6 learning tracks</span></div>
-      <div class="fact-cell"><b>Mode</b><span>Live online</span></div>
-      <div class="fact-cell"><b>Level</b><span>Testers & developers — basics covered</span></div>
-      <div class="fact-cell"><b>Category</b><span>Testing & QA Automation</span></div>
-      <div class="fact-cell"><b>Support</b><span>Recordings · doubt clearing · community</span></div>
-    </div></div>
-    </div>
-  </div></section>
-
-  <section class="content-section"><div class="container">
-    <span class="num-label">FIT CHECK</span><h2>Who this course is for</h2>
-    <ul class="check-list reveal" style="margin-top:1.2rem"><li>Manual testers upgrading to a modern automation stack</li><li>Selenium engineers switching to Playwright (the market is moving)</li><li>Developers who want reliable end-to-end testing skills</li><li>Anyone targeting SDET roles at product companies</li></ul>
-  </div></section>
-
-  <section class="content-section"><div class="container">
-    <span class="num-label">WHAT YOU GET</span><h2>What you’ll walk away with</h2>
-    <ul class="check-list reveal" style="margin-top:1.2rem"><li>Playwright fundamentals with TypeScript — no prior TS needed</li><li>Locators, auto-waits, fixtures and API testing</li><li>Page Object Model done properly</li><li>CI pipelines with GitHub and Jenkins</li><li>5 projects culminating in a framework you own</li></ul>
-    
-  </div></section>
-
-  <section class="content-section"><div class="container">
-    <span class="num-label">CURRICULUM</span><h2>How the program is structured</h2>
-    <div class="phase-list"><article class="phase-card reveal">
-      <h3>Week 1 · Foundations</h3><p class="phase-goal">TS + Playwright setup</p>
-      <ul><li>TypeScript essentials for testers</li><li>Playwright architecture, first tests, locators</li></ul>
-      <p class="phase-outcome">Outcome: You're writing stable tests immediately.</p>
-    </article><article class="phase-card reveal">
-      <h3>Week 2 · Core Automation</h3><p class="phase-goal">Real-world interactions</p>
-      <ul><li>Forms, frames, windows, uploads/downloads</li><li>Auto-waiting, assertions, debugging with trace viewer</li></ul>
-      <p class="phase-outcome">Outcome: Flaky-test problems stop following you.</p>
-    </article><article class="phase-card reveal">
-      <h3>Week 3 · Framework Design</h3><p class="phase-goal">POM & fixtures</p>
-      <ul><li>Page Object Model structure</li><li>Fixtures, hooks, tags and parallel execution</li></ul>
-      <p class="phase-outcome">Outcome: You can design a framework, not just write scripts.</p>
-    </article><article class="phase-card reveal">
-      <h3>Week 4 · API + Data</h3><p class="phase-goal">Beyond the UI</p>
-      <ul><li>API testing in Playwright</li><li>Data-driven testing and environment configs</li></ul>
-      <p class="phase-outcome">Outcome: You test the full stack like an SDET.</p>
-    </article><article class="phase-card reveal">
-      <h3>Week 5 · CI/CD + Capstone</h3><p class="phase-goal">Ship it</p>
-      <ul><li>GitHub Actions and Jenkins pipelines</li><li>Reporting and capstone framework project</li></ul>
-      <p class="phase-outcome">Outcome: Your GitHub profile proves your skills.</p>
-    </article></div>
-  </div></section>
-
-  
-
-  <section class="content-section"><div class="container">
-    <span class="num-label">YOUR TRAINER</span><h2>Learn from someone who does this for a living</h2>
-    <div class="trainer-card reveal">
-      <div class="trainer-avatar" aria-hidden="true">RQ</div>
-      <div><h3>RPAVault QA Faculty</h3><p class="trainer-role">Automation engineers from product & services companies</p>
-      <p>Working automation engineers who run Playwright + TypeScript in production CI pipelines.</p>
-      <ul><li>Industry-current stack: Playwright, TypeScript, GitHub, Jenkins</li><li>Project-first: 5 hands-on projects across 5 weeks</li></ul></div>
-    </div>
-    <div class="hero-actions" style="margin-top:1rem"><a class="btn btn-ghost" href="https://chat.whatsapp.com/K1gwJ1oymhwHQIhSD86fhU" target="_blank" rel="noopener">WhatsApp group</a><a class="btn btn-ghost" href="https://tally.so/r/waa7gZ" target="_blank" rel="noopener">Enquiry form</a></div>
-  </div></section>
-
-  <section class="content-section"><div class="container">
-    <span class="num-label">FAQ</span><h2>Frequently asked questions</h2>
-    <div class="faq"><details><summary>Why Playwright over Selenium?</summary><p>Playwright is faster, has built-in auto-waiting, better debugging (trace viewer) and first-class TypeScript support — and job postings are shifting to it rapidly. We cover the comparison in week one.</p></details><details><summary>Do I need to know TypeScript?</summary><p>No — the course teaches the TypeScript you need, specifically for test automation.</p></details><details><summary>Will we cover CI/CD?</summary><p>Yes — you'll run your test suites in GitHub Actions and Jenkins pipelines, exactly like SDET teams do.</p></details><details><summary>What are the fees and dates?</summary><p>Batches are scheduled on demand — request a callback or join the WhatsApp group for the next start date.</p></details></div>
-  </div></section>
-
-  <section class="cta-band"><div class="container"><div class="cta-inner">
-  <div><h2>Ready to start?</h2><p>Tell us your goal — we’ll confirm the next batch date, fees and any current offers.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="/contact.html">Contact us</a><a class="btn btn-ghost" href="/request-callback.html">Request Callback</a></div>
-</div></div></section>
-
-  <div class="sticky-cta"><div class="container sticky-inner">
-    <span class="sticky-title">Playwright with TypeScript Automation Masterclass — <span data-cfg="self.next_batch">Open for interest — contact us for dates</span></span>
-    <a class="btn btn-primary" href="#" data-open-callback>Request Callback</a>
-  </div></div>

@@ -38,13 +38,79 @@ collections:
     format: "frontmatter"
     extension: "html"
     fields:
-      - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/base.html"}
+      - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/course-detail.html"}
+      - {label: "Tags", name: "tags", widget: "hidden", default: ["course"]}
+      - {label: "Card Image", name: "card_image", widget: "image", required: false}
+      - {label: "Card Category", name: "card_category", widget: "select", options: ["rpa", "data", "testing"], required: false}
+      - {label: "Card Live Status", name: "card_live", widget: "boolean", default: true}
+      - {label: "Card Blurb/Description", name: "card_blurb", widget: "string", required: false}
       - {label: "Title (SEO)", name: "title", widget: "string"}
       - {label: "Description (SEO)", name: "description", widget: "string"}
       - {label: "Course Slug (must match folder name)", name: "course_slug", widget: "string"}
+      - {label: "Category Name", name: "category", widget: "string", required: false}
+      - {label: "Category Eyebrow", name: "eyebrow", widget: "string", required: false}
+      - {label: "Course Header Title", name: "name", widget: "string", required: false}
+      - {label: "Lead Description", name: "lead", widget: "text", required: false}
+      - {label: "Featured Stats/Chips", name: "chips", widget: "list", field: {label: "Chip Text", name: "chip", widget: "string"}, required: false}
+      - {label: "Quick Fact: Duration", name: "duration", widget: "string", required: false}
+      - {label: "Quick Fact: Classes/Format", name: "classes", widget: "string", required: false}
+      - {label: "Quick Fact: Mode", name: "mode", widget: "string", required: false}
+      - {label: "Quick Fact: Level", name: "level", widget: "string", required: false}
+      - {label: "Quick Fact: Support Info", name: "support", widget: "string", required: false}
+      - {label: "Pricing: INR Price", name: "price_inr", widget: "string", required: false}
+      - {label: "Pricing: INR Strikeout Price", name: "price_inr_strike", widget: "string", required: false}
+      - {label: "Pricing: USD Price", name: "price_usd", widget: "string", required: false}
+      - {label: "Pricing: USD Strikeout Price", name: "price_usd_strike", widget: "string", required: false}
+      - {label: "Pricing: Payment INR Checkout URL", name: "payment_inr_url", widget: "string", required: false}
+      - {label: "Pricing: Payment USD Checkout URL", name: "payment_usd_url", widget: "string", required: false}
+      - {label: "Next Cohort Date Info", name: "next_batch", widget: "string", required: false}
+      - {label: "WhatsApp Group Link Slug", name: "whatsapp_group_url", widget: "string", required: false}
+      - {label: "WhatsApp Jobs Link Slug", name: "whatsapp_jobs_url", widget: "string", required: false}
       - {label: "Syllabus PDF File", name: "syllabus_pdf", widget: "file", required: false}
-      - {label: "Show Trainers Section", name: "show_trainers", widget: "boolean", default: true, required: false}
-      - {label: "Raw HTML Code", name: "body", widget: "text"}
+      - {label: "Who is this for (Fit Checks)", name: "fit_check", widget: "list", field: {label: "Points", name: "point", widget: "string"}, required: false}
+      - {label: "What you will master (Outcomes)", name: "what_you_get", widget: "list", field: {label: "Points", name: "point", widget: "string"}, required: false}
+      - label: "Demo Videos"
+        name: "videos"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Video Title", name: "title", widget: "string"}
+          - {label: "Video Embed URL", name: "url", widget: "string"}
+          - {label: "Video Description", name: "description", widget: "text"}
+      - label: "Trainers"
+        name: "trainers"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Trainer Name", name: "name", widget: "string"}
+          - {label: "Avatar Initials", name: "avatar", widget: "string"}
+          - {label: "Role", name: "role", widget: "string"}
+          - {label: "Detailed Biography", name: "bio", widget: "text"}
+          - {label: "LinkedIn Profile Link", name: "linkedin", widget: "string", required: false}
+          - {label: "Highlights & Accomplishments", name: "highlights", widget: "list", field: {label: "Highlight Item", name: "item", widget: "string"}, required: false}
+          - {label: "Official Certifications", name: "certifications", widget: "list", field: {label: "Certification Item", name: "item", widget: "string"}, required: false}
+      - label: "Curriculum Phases"
+        name: "curriculum"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Phase Title", name: "phase", widget: "string"}
+          - {label: "Phase Duration", name: "duration", widget: "string"}
+          - {label: "Phase Outcome", name: "outcome", widget: "string"}
+          - label: "Sessions"
+            name: "sessions"
+            widget: "list"
+            fields:
+              - {label: "Session Number / Label", name: "num", widget: "string"}
+              - {label: "Session Title", name: "title", widget: "string"}
+              - {label: "Session Details", name: "details", widget: "text"}
+      - label: "Frequently Asked Questions"
+        name: "faqs"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Question", name: "q", widget: "string"}
+          - {label: "Answer", name: "a", widget: "text"}
 
   - name: "pages"
     label: "Website Pages"
