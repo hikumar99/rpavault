@@ -323,24 +323,44 @@ noindex: true
         });
       }
 
-      // Log query to KV store database
       logSearchTerm(rawQuery);
 
-      // Filter logic: match titles, descriptions, categories, types, or body content
-      const results = searchIndex.filter(item => {
-        // Decode index values for string containment logic
+      // Split query into keywords (longer than 1 character)
+      const keywords = q.split(/\s+/).filter(word => word.length > 1);
+
+      const results = searchIndex.map(item => {
         const titleDec = decodeHTML(item.title).toLowerCase().replace('&', 'and');
         const descDec = decodeHTML(item.description).toLowerCase().replace('&', 'and');
         const catDec = decodeHTML(item.category).toLowerCase().replace('&', 'and');
         const typeDec = item.type.toLowerCase();
         const contentDec = item.content ? decodeHTML(item.content).toLowerCase().replace('&', 'and') : '';
 
-        return titleDec.includes(q) || 
-               descDec.includes(q) || 
-               catDec.includes(q) ||
-               typeDec.includes(q) ||
-               contentDec.includes(q);
-      });
+        let score = 0;
+
+        // 1. Exact phrase matches (highest boost)
+        if (titleDec.includes(q)) score += 100;
+        else if (descDec.includes(q)) score += 50;
+        else if (contentDec.includes(q)) score += 20;
+
+        // 2. Keyword individual matches
+        keywords.forEach(word => {
+          let wordMatched = false;
+          if (titleDec.includes(word)) { score += 15; wordMatched = true; }
+          if (descDec.includes(word)) { score += 8; wordMatched = true; }
+          if (catDec.includes(word)) { score += 5; wordMatched = true; }
+          if (typeDec.includes(word)) { score += 5; wordMatched = true; }
+          if (contentDec.includes(word)) { score += 2; wordMatched = true; }
+        });
+
+        const isMatch = score > 0 || (keywords.length === 0 && (
+          titleDec.includes(q) || descDec.includes(q)
+        ));
+
+        return { item, score, isMatch };
+      })
+      .filter(res => res.isMatch)
+      .sort((a, b) => b.score - a.score)
+      .map(res => res.item);
 
       // Update status info
       statusEl.innerHTML = `Found ${results.length} result${results.length === 1 ? '' : 's'} for "${rawQuery}"`;
