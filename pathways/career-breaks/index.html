@@ -263,21 +263,30 @@ schema_ld: |
   .pw-faq { max-width:820px; margin:2.5rem auto 0; }
   .pw-faq h3 { font-family:var(--font-heading); font-size:1.1rem; color:var(--ink); margin:1rem 0 .4rem; }
   .pw-faq p { font-size:.95rem; color:var(--muted); line-height:1.55; margin:0; }
-
   .pw-form-gate { padding: 2.5rem 0; background: var(--canvas-2); border-bottom: 1px solid var(--line); }
   .pw-form-gate h2 { font-family: var(--font-heading); font-size: 1.6rem; color: var(--ink); margin-bottom: .5rem; }
   .pw-form-gate p { color: var(--muted); max-width: 60ch; margin-bottom: 1.5rem; }
-  .pw-form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; max-width: 720px; }
+  .pw-form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.05rem; max-width: 720px; }
   @media(max-width:700px){ .pw-form-grid { grid-template-columns: 1fr; } }
+  
+  /* ---- Match site form system exactly (values pulled from style.css .form-field) ---- */
   .pw-field { display: flex; flex-direction: column; gap: .4rem; }
-  .pw-field label { font-size: .8rem; font-weight: 700; color: var(--ink); }
-  .pw-field select, .pw-field input, .pw-field textarea {
-    padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px;
-    font-family: inherit; font-size: .92rem; background:#fff; color: var(--ink);
+  .pw-field label {
+    display: block; font-weight: 700; font-size: .93rem; color: var(--ink); margin-bottom: .4rem;
+  }
+  .pw-field input, .pw-field select, .pw-field textarea {
+    width: 100%; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: 14px;
+    font: inherit; color: var(--ink); background: var(--canvas); box-sizing: border-box;
+  }
+  .pw-field textarea { min-height: 120px; resize: vertical; }
+  .pw-field input:focus, .pw-field select:focus, .pw-field textarea:focus {
+    outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft);
   }
   .pw-field.full { grid-column: 1 / -1; }
+  
+  /* Submit matches site primary button */
   .pw-submit { grid-column: 1/-1; margin-top:.5rem; background: var(--blue); color:#fff; border:none;
-    padding: 13px; border-radius: 10px; font-weight:700; font-size: 1rem; cursor:pointer; }
+    padding: 13px; border-radius: 14px; font-weight:700; font-size: 1rem; cursor:pointer; transition: background .14s; }
   .pw-submit:hover { background: var(--blue-deep); }
 </style>
 

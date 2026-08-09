@@ -87,7 +87,7 @@ layout: layouts/base.html
     .course-detail-page .hero-fit-pill:hover { border-color: var(--green); background: var(--green-tint); }
     .qz-overlay { position: fixed; inset: 0; z-index: 12500; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(10,24,43,.55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
     .qz-overlay.open { display: flex; }
-    .qz-card { background: #fff; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: 0 30px 80px -20px rgba(10,24,43,.5); overflow: hidden; position: relative; }
+    .qz-card { background: #fff; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: 0 30px 80px -20px rgba(10,24,43,.5); max-height: calc(100vh - 48px); overflow-y: auto; position: relative; }
     .qz-top { padding: 22px 26px 0; }
     .qz-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 9px; border: var(--line); background: #fff; color: var(--ink); cursor: pointer; display: grid; place-items: center; }
     .qz-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--green); font-weight: 600; }
@@ -99,11 +99,22 @@ layout: layouts/base.html
     .qz-opts { display: grid; gap: 10px; }
     .qz-opt { text-align: left; font-family: 'Inter', sans-serif; font-size: 15px; padding: 14px 16px; border-radius: 12px; border: var(--line); background: #fff; color: var(--ink); cursor: pointer; transition: all .14s; }
     .qz-opt:hover { border-color: var(--green); background: var(--green-tint); }
-    .qz-field { margin-bottom: 12px; }
-    .qz-field label { display: block; font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
-    .qz-field input, .qz-field textarea { width: 100%; padding: 12px 14px; border-radius: 11px; border: var(--line); font-family: 'Inter', sans-serif; font-size: 14px; box-sizing: border-box; }
-    .qz-field textarea { resize: vertical; min-height: 72px; }
-    .qz-submit { width: 100%; margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; padding: 13px; border-radius: 12px; border: none; background: var(--green); color: #fff; cursor: pointer; }
+    
+    /* ---- Match site form system exactly (values pulled from style.css .form-field) ---- */
+    .qz-field { margin-bottom: 1.05rem; }
+    .qz-field label {
+      display: block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: .93rem; color: var(--ink); margin-bottom: .4rem;
+    }
+    .qz-field input, .qz-field textarea {
+      width: 100%; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: 14px;
+      font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); background: var(--canvas); box-sizing: border-box;
+    }
+    .qz-field textarea { min-height: 120px; resize: vertical; }
+    .qz-field input:focus, .qz-field textarea:focus {
+      outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft);
+    }
+    /* Submit matches site primary button */
+    .qz-submit { width: 100%; margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; padding: 13px; border: none; background: var(--blue); color: #fff; border-radius: 14px; cursor: pointer; transition: background .14s; }
     .qz-back { background: none; border: none; color: var(--body-soft); font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; margin-top: 14px; padding: 0; }
     .qz-note { font-size: 12px; color: var(--body-soft); margin-top: 12px; line-height: 1.5; }
     .qz-done { text-align: center; padding: 12px 0; }

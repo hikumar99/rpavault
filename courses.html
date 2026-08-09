@@ -113,7 +113,7 @@ schema_ld: |
   /* Questionnaire modal */
   .qz-overlay { position: fixed; inset: 0; z-index: 9000; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(10,24,43,.55); backdrop-filter: blur(4px); }
   .qz-overlay.open { display: flex; }
-  .qz-card { background:#fff; border-radius:20px; width:100%; max-width:480px; box-shadow:0 30px 80px -20px rgba(10,24,43,.5); overflow:hidden; position:relative; animation:qzPop .2s ease; }
+  .qz-card { background:#fff; border-radius:20px; width:100%; max-width:480px; box-shadow:0 30px 80px -20px rgba(10,24,43,.5); max-height:calc(100vh - 48px); overflow-y:auto; position:relative; animation:qzPop .2s ease; }
   @keyframes qzPop { from{opacity:0;transform:translateY(12px) scale(.98);} to{opacity:1;transform:translateY(0) scale(1);} }
   .qz-top { padding:22px 26px 0; }
   .qz-close { position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:9px; border:1px solid var(--cx-line); background:#fff; color:var(--cx-ink); cursor:pointer; display:grid; place-items:center; }
@@ -127,13 +127,23 @@ schema_ld: |
   .qz-opts { display:grid; gap:10px; }
   .qz-opt { text-align:left; font-family:'Inter',sans-serif; font-size:15px; padding:14px 16px; border-radius:12px; border:1px solid var(--cx-line); background:#fff; color:var(--cx-ink); cursor:pointer; transition:all .14s; }
   .qz-opt:hover { border-color:var(--cx-brand); background:var(--cx-brand-soft); }
-  .qz-field { margin-bottom:12px; }
-  .qz-field label { display:block; font-size:12px; font-weight:600; color:var(--cx-ink); margin-bottom:6px; }
-  .qz-field input, .qz-field textarea { width:100%; padding:12px 14px; border-radius:11px; border:1px solid var(--cx-line); font-family:'Inter',sans-serif; font-size:14px; box-sizing:border-box; }
-  .qz-field textarea { resize:vertical; min-height:72px; }
-  .qz-field input:focus, .qz-field textarea:focus { outline:none; border-color:var(--cx-brand); box-shadow:0 0 0 3px var(--cx-brand-soft); }
-  .qz-submit { width:100%; margin-top:6px; font-family:'Inter',sans-serif; font-weight:600; font-size:15px; padding:13px; border-radius:12px; border:none; background:var(--cx-brand); color:#fff; cursor:pointer; }
-  .qz-submit:hover { background:var(--cx-brand-deep); }
+  
+  /* ---- Match site form system exactly (values pulled from style.css .form-field) ---- */
+  .qz-field { margin-bottom: 1.05rem; }
+  .qz-field label {
+    display: block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: .93rem; color: var(--ink); margin-bottom: .4rem;
+  }
+  .qz-field input, .qz-field textarea {
+    width: 100%; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: 14px;
+    font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); background: var(--canvas); box-sizing: border-box;
+  }
+  .qz-field textarea { min-height: 120px; resize: vertical; }
+  .qz-field input:focus, .qz-field textarea:focus {
+    outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft);
+  }
+  /* Submit matches site primary button */
+  .qz-submit { width: 100%; margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; padding: 13px; border: none; background: var(--blue); color: #fff; border-radius: 14px; cursor: pointer; transition: background .14s; }
+  .qz-submit:hover { background: var(--blue-deep); }
   .qz-submit:disabled { opacity:.6; cursor:not-allowed; }
   .qz-back { background:none; border:none; color:var(--cx-muted); font-family:'Inter',sans-serif; font-size:13px; cursor:pointer; margin-top:14px; padding:0; }
   .qz-back:hover { color:var(--cx-brand); }
