@@ -17,6 +17,7 @@
     "quick_links": [
       { "label": "Home", "url": "/" },
       { "label": "About", "url": "/about/" },
+      { "label": "Career Fit Guide", "url": "/pathways/" },
       { "label": "Contact", "url": "/contact/" },
       { "label": "Blog", "url": "/blog/" },
       { "label": "Privacy Policy", "url": "/privacy-policy/" }

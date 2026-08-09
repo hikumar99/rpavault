@@ -1,0 +1,352 @@
+---
+layout: layouts/base.html
+title: Personalized Career Pathways & Study Roadmaps | RPAVault
+description: Choose your profile, complete a quick fit-check, and get a customized, job-ready study roadmap and career plan tailored to your background.
+---
+
+<style>
+  .pw-hero { padding: 4.5rem 0 3.5rem; background: var(--canvas-2); border-bottom: 1px solid var(--line); text-align: center; }
+  .pw-hero h1 { font-family: var(--font-heading); font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 800; color: var(--ink); margin-bottom: 1rem; max-width: none; }
+  .pw-hero p { font-size: 1.15rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem; line-height: 1.6; }
+  .pw-hero .btn { padding: 13px 26px; border-radius: 12px; }
+
+  .pw-grid-sec { padding: 4rem 0; }
+  .pw-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+  @media(max-width: 768px) { .pw-card-grid { grid-template-columns: 1fr; } }
+
+  .pw-path-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; text-align: left; cursor: pointer; transition: all .2s; }
+  .pw-path-card:hover { transform: translateY(-4px); border-color: var(--blue); box-shadow: 0 12px 30px rgba(0,88,176,0.08); }
+  .pw-path-card h3 { font-family: var(--font-heading); font-size: 1.4rem; color: var(--ink); margin: 0; }
+  .pw-path-card p { font-size: 0.95rem; color: var(--muted); margin: 0; line-height: 1.55; flex-grow: 1; }
+  .pw-path-card .btn-link { font-weight: 700; color: var(--blue); display: flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+  .pw-path-card .btn-link svg { transition: transform 0.2s; }
+  .pw-path-card:hover .btn-link svg { transform: translateX(4px); }
+
+  /* Questionnaire modal overlay */
+  .pw-overlay { position: fixed; inset: 0; z-index: 12500; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(10,24,43,.55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .pw-overlay.open { display: flex; }
+  .pw-card { background: #fff; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: 0 30px 80px -20px rgba(10,24,43,.5); max-height: calc(100vh - 48px); overflow-y: auto; position: relative; }
+  
+  .pw-close { position: absolute; right: 18px; top: 18px; background: none; border: none; color: var(--muted); cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.15s, color 0.15s; }
+  .pw-close:hover { background: var(--canvas-2); color: var(--ink); }
+  .pw-close svg { width: 18px; height: 18px; }
+
+  .pw-top { padding: 26px 26px 0; }
+  .pw-eyebrow { font-family: ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); font-weight: 600; }
+  .pw-progress { display: flex; gap: 6px; margin: 12px 0 0; }
+  .pw-progress span { height: 4px; flex: 1; border-radius: 99px; background: var(--blue-soft); }
+  .pw-progress span.done { background: var(--blue); }
+  .pw-body { padding: 18px 26px 26px; }
+  .pw-q { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: var(--ink); margin-bottom: 16px; line-height: 1.25; }
+  .pw-opts { display: grid; gap: 10px; }
+  .pw-opt { text-align: left; font-family: 'Inter', sans-serif; font-size: 15px; padding: 14px 16px; border-radius: 12px; border: var(--line); background: #fff; color: var(--ink); cursor: pointer; transition: all .14s; }
+  .pw-opt:hover { border-color: var(--blue); background: var(--blue-soft); }
+  
+  /* Form Field Styles */
+  .pw-field { margin-bottom: 1.05rem; }
+  .pw-field label { display: block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: .93rem; color: var(--ink); margin-bottom: .4rem; }
+  .pw-field input, .pw-field textarea { width: 100%; padding: .85rem 1rem; border: 1px solid var(--line); border-radius: 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); background: var(--canvas); box-sizing: border-box; }
+  .pw-field input:focus, .pw-field textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+
+  /* Submit Button styling */
+  .pw-submit-btn { width: 100%; margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; padding: 13px; border: none; background: var(--blue); color: #fff; border-radius: 14px; cursor: pointer; transition: background .14s; }
+  .pw-submit-btn:hover { background: var(--blue-deep); }
+  .pw-back { background: none; border: none; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; margin-top: 14px; padding: 0; }
+  .pw-back:hover { color: var(--blue); }
+  .pw-note { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+</style>
+
+<div class="pw-hero">
+  <div class="container">
+    <h1>Find Your Career Match</h1>
+    <p>Complete a quick 3-step check to evaluate your background and automatically generate a personalized study roadmap.</p>
+    <button class="btn btn-primary" id="pw-open-trigger">Start Fit-Check Quiz →</button>
+  </div>
+</div>
+
+<div class="pw-grid-sec">
+  <div class="container">
+    <div class="pw-card-grid">
+      
+      <div class="pw-path-card" data-path-key="switch">
+        <h3>Career Switchers</h3>
+        <p>Transition from customer support, operations, BPO, administration, sales, or manual testing roles into high-growth tech positions without coding stress.</p>
+        <span class="btn-link">Explore Switcher Path 
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+
+      <div class="pw-path-card" data-path-key="fresher">
+        <h3>Freshers &amp; Graduates</h3>
+        <p>Bridge the gap between college theory and enterprise-level production demands. Master modern toolsets and gain portfolio projects with direct placement support.</p>
+        <span class="btn-link">Explore Fresher Path 
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+
+      <div class="pw-path-card" data-path-key="upskill">
+        <h3>Working Professionals</h3>
+        <p>Break through professional career plateaus and step into Lead Developer, SDET, or Tech Architect roles. Master Agentic AI, Orchestrator, and automation suites.</p>
+        <span class="btn-link">Explore Professional Path 
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+
+      <div class="pw-path-card" data-path-key="return">
+        <h3>Career Breaks</h3>
+        <p>Restart your career smoothly after a gap. Rebuild your development skills, update your tech stack, optimize your portfolio, and access specialized returnship placements.</p>
+        <span class="btn-link">Explore Restart Path 
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="pw-form-gate" class="pw-overlay">
+  <div class="pw-card">
+    <button class="pw-close" id="pw-close-btn" aria-label="Close modal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="pw-top">
+      <span class="pw-eyebrow" id="pw-modal-eyebrow">Personalized Plan fit-check</span>
+      <div class="pw-progress" id="pw-progress">
+        <!-- Progress spans injected dynamically -->
+      </div>
+    </div>
+    <div class="pw-body" id="pw-modal-body">
+      <!-- Dynamic step contents injected via JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const FORMSUBMIT = "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2";
+  
+  const QUIZ = {
+    _picker: {
+      label: "Choose Career Path",
+      steps: [
+        {
+          q: "Which best describes your current career stage?",
+          key: "category",
+          opts: [
+            "Switching career into IT",
+            "Fresher / graduating student",
+            "Working professional upskilling",
+            "Returning after a career break"
+          ],
+          routes: ["switch", "fresher", "upskill", "return"]
+        }
+      ]
+    },
+    switch: {
+      label: "Career Switchers · Non-IT to IT",
+      path: "/pathways/career-switchers/",
+      persona: "Career Switchers",
+      steps: [
+        { q: "What field are you moving from?", key: "q1", opts: ["Support / BPO", "Manual testing / QA", "Operations or Admin", "Sales / Non-tech"] },
+        { q: "Which direction appeals more?", key: "q2", opts: ["Automation (RPA)", "Data & Analytics", "Not sure yet — guide me"] },
+        { q: "Your current work situation?", key: "q3", opts: ["Working full-time", "On notice period", "Not working right now"] }
+      ]
+    },
+    fresher: {
+      label: "Freshers · Graduating Students",
+      path: "/pathways/freshers/",
+      persona: "Freshers",
+      steps: [
+        { q: "Where are you right now?", key: "q1", opts: ["Final year student", "Graduated, job-hunting", "Graduated, upskilling"] },
+        { q: "Your degree background?", key: "q2", opts: ["CS / IT", "Non-CS engineering", "Non-tech degree"] },
+        { q: "Your primary goal?", key: "q3", opts: ["First job fast", "Strong portfolio", "Certification"] }
+      ]
+    },
+    upskill: {
+      label: "Working Professionals · Upskilling",
+      path: "/pathways/working-professionals/",
+      persona: "Working Professionals",
+      steps: [
+        { q: "Years of experience?", key: "q1", opts: ["1–3 years", "3–5 years", "5+ years"] },
+        { q: "Your current stack?", key: "q2", opts: ["RPA (UiPath)", "Testing / QA", "Data / BI", "Other IT"] },
+        { q: "What do you want to add?", key: "q3", opts: ["Agentic RPA & IDP", "Playwright SDET", "Power BI + SQL", "Multiple / not sure"] }
+      ]
+    },
+    return: {
+      label: "Career Breaks · Return to Work",
+      path: "/pathways/career-breaks/",
+      persona: "Career Breaks",
+      steps: [
+        { q: "How long has your break been?", key: "q1", opts: ["Under 1 year", "1–3 years", "3+ years"] },
+        { q: "Your last role was in?", key: "q2", opts: ["IT / Development", "Testing / QA", "Non-tech", "Fresher before break"] },
+        { q: "Your biggest need?", key: "q3", opts: ["Rebuild confidence", "Update skills", "Placement support"] }
+      ]
+    }
+  };
+
+  const gate = document.getElementById("pw-form-gate");
+  const openTrigger = document.getElementById("pw-open-trigger");
+  const closeBtn = document.getElementById("pw-close-btn");
+  
+  let active = null;
+  let currentStep = 0;
+  let answers = { q1: "", q2: "", q3: "", name: "", email: "", phone: "" };
+
+  function openQuiz(key) {
+    active = QUIZ[key];
+    currentStep = 0;
+    answers = { q1: "", q2: "", q3: "", name: "", email: "", phone: "" };
+    document.getElementById("pw-modal-eyebrow").textContent = active.label;
+    gate.classList.add("open");
+    document.body.style.overflow = "hidden";
+    renderStep();
+  }
+
+  function closeQuiz() {
+    gate.classList.remove("open");
+    document.body.style.overflow = "";
+    active = null;
+  }
+
+  openTrigger.addEventListener("click", () => openQuiz("_picker"));
+  closeBtn.addEventListener("click", closeQuiz);
+
+  // Hook card clicks
+  document.querySelectorAll(".pw-path-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const key = card.dataset.pathKey;
+      if (key) openQuiz(key);
+    });
+  });
+
+  function renderStep() {
+    const body = document.getElementById("pw-modal-body");
+    const progress = document.getElementById("pw-progress");
+    const isPicker = active === QUIZ._picker;
+
+    const totalSteps = isPicker ? 1 : active.steps.length + 1;
+    progress.innerHTML = "";
+    for (let i = 0; i < totalSteps; i++) {
+      const s = document.createElement("span");
+      if (i <= currentStep) s.className = "done";
+      progress.appendChild(s);
+    }
+
+    if (isPicker) {
+      const step = active.steps[0];
+      let optsHtml = step.opts.map((opt, idx) => `
+        <button type="button" class="pw-opt" data-route="${step.routes[idx]}">${opt}</button>
+      `).join("");
+
+      body.innerHTML = `
+        <h3 class="pw-q">${step.q}</h3>
+        <div class="pw-opts">${optsHtml}</div>
+      `;
+
+      body.querySelectorAll(".pw-opt").forEach(btn => {
+        btn.addEventListener("click", () => {
+          openQuiz(btn.dataset.route);
+        });
+      });
+    } else {
+      if (currentStep < active.steps.length) {
+        const step = active.steps[currentStep];
+        let optsHtml = step.opts.map(opt => `
+          <button type="button" class="pw-opt" data-val="${opt}">${opt}</button>
+        `).join("");
+
+        let backBtn = `<button type="button" class="pw-back" id="pw-back-btn">← Back</button>`;
+
+        body.innerHTML = `
+          <h3 class="pw-q">${step.q}</h3>
+          <div class="pw-opts">${optsHtml}</div>
+          ${backBtn}
+        `;
+
+        body.querySelectorAll(".pw-opt").forEach(btn => {
+          btn.addEventListener("click", () => {
+            answers[step.key] = btn.dataset.val;
+            currentStep++;
+            renderStep();
+          });
+        });
+
+        document.getElementById("pw-back-btn").addEventListener("click", () => {
+          if (currentStep === 0) {
+            openQuiz("_picker");
+          } else {
+            currentStep--;
+            renderStep();
+          }
+        });
+      } else {
+        body.innerHTML = `
+          <h3 class="pw-q">Where should we send your plan?</h3>
+          <form id="pw-details-form" class="pw-opts" style="gap: 0;">
+            <div class="pw-field">
+              <label>Full Name *</label>
+              <input type="text" id="inp-name" required placeholder="John Doe">
+            </div>
+            <div class="pw-field">
+              <label>Email *</label>
+              <input type="email" id="inp-email" required placeholder="john@example.com">
+            </div>
+            <div class="pw-field">
+              <label>Mobile / WhatsApp *</label>
+              <input type="tel" id="inp-phone" required placeholder="+91 99999 99999">
+            </div>
+            <button type="submit" class="pw-submit-btn">Get my personalized plan →</button>
+            <button type="button" class="pw-back" id="pw-back-btn">← Back</button>
+            <p class="pw-note">🔒 We value your privacy. Your details are securely transmitted only to prepare and deliver your personalized study roadmap.</p>
+          </form>
+        `;
+
+        const form = document.getElementById("pw-details-form");
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          answers.name = document.getElementById("inp-name").value;
+          answers.email = document.getElementById("inp-email").value;
+          answers.phone = document.getElementById("inp-phone").value;
+
+          const payload = {
+            _subject: active.persona + " plan request",
+            _template: "table",
+            persona: active.persona,
+            name: answers.name,
+            email: answers.email,
+            phone: answers.phone,
+            q1: answers.q1,
+            q2: answers.q2,
+            q3: answers.q3
+          };
+
+          fetch(FORMSUBMIT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(payload)
+          }).catch(() => {}).finally(() => {
+            const p = new URLSearchParams();
+            p.set("name", answers.name.trim().split(/\s+/)[0]);
+            p.set("q1", answers.q1);
+            p.set("q2", answers.q2);
+            p.set("q3", answers.q3);
+            window.location.href = active.path + "?" + p.toString();
+          });
+        });
+
+        document.getElementById("pw-back-btn").addEventListener("click", () => {
+          currentStep--;
+          renderStep();
+        });
+      }
+    }
+  }
+
+  // Automatically trigger picker on page load
+  openQuiz("_picker");
+
+})();
+</script>

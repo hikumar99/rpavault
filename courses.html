@@ -354,26 +354,22 @@ schema_ld: |
     switch: { label: "Career Switchers · Non-IT to IT", cta: "Find my switch path", path: "/pathways/career-switchers", steps: [
       { q: "What field are you moving from?", opts: ["Support / BPO", "Manual testing / QA", "Operations or Admin", "Sales / Non-tech"] },
       { q: "Which direction appeals more?", opts: ["Automation (RPA)", "Data & Analytics", "Not sure yet — guide me"] },
-      { q: "How soon do you want to start?", opts: ["Immediately", "Within a month", "Just exploring"] },
       { q: "Your current work situation?", opts: ["Working full-time", "On notice period", "Not working right now"] },
     ]},
     fresher: { label: "Freshers · Graduating Students", cta: "Build my job plan", path: "/pathways/freshers", steps: [
       { q: "Where are you right now?", opts: ["Final year student", "Graduated, job-hunting", "Graduated, upskilling"] },
       { q: "Your degree background?", opts: ["CS / IT", "Non-CS engineering", "Non-tech degree"] },
       { q: "Your primary goal?", opts: ["First job fast", "Strong portfolio", "Certification"] },
-      { q: "Graduation year?", opts: ["2026", "2025", "2024 or earlier"] },
     ]},
     upskill: { label: "Working Professionals · Upskilling", cta: "Map my next step", path: "/pathways/working-professionals", steps: [
       { q: "Years of experience?", opts: ["1–3 years", "3–5 years", "5+ years"] },
       { q: "Your current stack?", opts: ["RPA (UiPath)", "Testing / QA", "Data / BI", "Other IT"] },
       { q: "What do you want to add?", opts: ["Agentic RPA & IDP", "Playwright SDET", "Power BI + SQL", "Multiple / not sure"] },
-      { q: "Preferred batch timing?", opts: ["Weekday mornings", "Weekday evenings", "Weekend"] },
     ]},
     return: { label: "Career Breaks · Return to Work", cta: "Restart my career", path: "/pathways/career-breaks", steps: [
       { q: "How long has your break been?", opts: ["Under 1 year", "1–3 years", "3+ years"] },
       { q: "Your last role was in?", opts: ["IT / Development", "Testing / QA", "Non-tech", "Fresher before break"] },
       { q: "Your biggest need?", opts: ["Rebuild confidence", "Update skills", "Placement support"] },
-      { q: "When can you restart?", opts: ["Immediately", "Within a month", "Flexible / planning"] },
     ]},
   };
   const overlay = document.getElementById("qz-overlay");
