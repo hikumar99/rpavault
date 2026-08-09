@@ -20,4 +20,4 @@
 /data-analytics-power-bi-sql.html /course/data-analytics-power-bi-sql/ 301
 
 # Dynamic Redirect Routing
-/go/* /go/index.html?slug=:splat 200
+# /go/* /go/index.html?slug=:splat 200

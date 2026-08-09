@@ -16,7 +16,7 @@ export async function onRequest(context) {
     const response = await context.next();
     if (response.status === 404) {
       const url = new URL(request.url);
-      return Response.redirect(`${url.origin}/go/index.html?slug=${encodeURIComponent(slug)}`, 302);
+      return Response.redirect(`${url.origin}/go/?slug=${encodeURIComponent(slug)}`, 302);
     }
     return response;
   }
