@@ -95,15 +95,15 @@ collections:
         required: false
         fields:
           - {label: "Phase Title", name: "phase", widget: "string"}
-          - {label: "Phase Duration", name: "duration", widget: "string"}
+          - {label: "Phase Duration (no of classes / duration label)", name: "duration", widget: "string"}
           - {label: "Phase Outcome", name: "outcome", widget: "string"}
-          - label: "Sessions"
+          - label: "Sessions / Classes"
             name: "sessions"
             widget: "list"
             fields:
-              - {label: "Session Number / Label", name: "num", widget: "string"}
-              - {label: "Session Title", name: "title", widget: "string"}
-              - {label: "Session Details", name: "details", widget: "text"}
+              - {label: "Class Number (e.g. Class 1-2)", name: "num", widget: "string"}
+              - {label: "Class Title", name: "title", widget: "string"}
+              - {label: "Class Description / Details", name: "details", widget: "text"}
       - label: "Frequently Asked Questions"
         name: "faqs"
         widget: "list"

@@ -7,8 +7,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("sitemap.xml");
   eleventyConfig.addPassthroughCopy("admin");
 
-  // Ignore OLD directories and files
+  // Ignore OLD, backups, templates, and redundant files
   eleventyConfig.ignores.add("OLD/**");
+  eleventyConfig.ignores.add("local_backups/**");
+  eleventyConfig.ignores.add("scratch/**");
+  eleventyConfig.ignores.add("course/template-course-page.html");
 
   // Custom blog collection sorted by date descending (newest first)
   eleventyConfig.addCollection("blogPosts", function(collectionApi) {

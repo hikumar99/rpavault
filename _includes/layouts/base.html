@@ -3,13 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ title | default("RPAVault — Consultancy, Staffing & Enterprise Automation | Hyderabad") }}</title>
+<title>{{ title | default("RPAVault — Consultancy, Staffing & Enterprise Automation") }}</title>
 <meta name="description" content="{{ description | default("RPAVault is a consultancy, staffing, and enterprise automation partner in Hyderabad. We place skilled professionals in corporate teams, build RPA and AI-agent automations, and deliver training across all major IT courses.") }}">
+{% if noindex %}
+<meta name="robots" content="noindex, nofollow">
+{% endif %}
 <link rel="canonical" href="https://rpavault.com{{ page.url }}">
 <meta name="theme-color" content="#0058b0">
 <meta property="og:type" content="{{ og_type | default('website') }}">
 <meta property="og:site_name" content="RPAVault">
-<meta property="og:title" content="{{ title | default('RPAVault — Consultancy, Staffing & Enterprise Automation | Hyderabad') }}">
+<meta property="og:title" content="{{ title | default('RPAVault — Consultancy, Staffing & Enterprise Automation') }}">
 <meta property="og:description" content="{{ description | default('RPAVault is a consultancy, staffing, and enterprise automation partner in Hyderabad. We place skilled professionals in corporate teams, build RPA and AI-agent automations, and deliver training across all major IT courses.') }}">
 <meta property="og:url" content="https://rpavault.com{{ page.url }}">
 <meta property="og:image" content="{{ og_image | default('https://rpavault.com/assets/images/og-image.png') }}">

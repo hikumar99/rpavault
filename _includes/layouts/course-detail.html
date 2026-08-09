@@ -11,7 +11,7 @@ layout: layouts/base.html
           <h1>{{ name | default(title) }}</h1>
           <p>{{ lead | default(description) }}</p>
           <div class="hero-ctas">
-            <a href="#pricing" class="btn btn-primary btn-lg">Request Callback</a>
+            <a href="#" class="btn btn-primary btn-lg" data-open-callback>Request Callback</a>
             <a href="#previews" class="btn btn-white">▶ Watch Demo</a>
           </div>
           <div class="hero-meta-row">
@@ -256,7 +256,7 @@ layout: layouts/base.html
             <span class="bonus-worth-lbl">worth of paid toolkits — yours free</span>
           </div>
           <p class="bonus-lead">Every enrolled student unlocks our premium resource vault: interview question banks, production project templates, and career kits. New resources added over time.</p>
-          <a class="btn btn-gold btn-block" href="https://rpa-vault.gumroad.com" target="_blank" rel="noopener">Explore the vault →</a>
+          <a class="btn btn-gold btn-block" href="/go/explore-vault">Explore the vault →</a>
         </div>
       </div>
     </div>
@@ -290,7 +290,6 @@ layout: layouts/base.html
           </ul>
           <div class="trust-faq">
             <p><strong>Can I pay in installments?</strong> Yes — talk to us and we'll work out an option that fits.</p>
-            <p><strong>What if I miss a class?</strong> Every session is recorded and shared the same day, with lifetime access.</p>
           </div>
         </div>
         <div class="price-block featured" style="border:none;border-radius:0;height:100%;display:flex;flex-direction:column">
@@ -300,17 +299,18 @@ layout: layouts/base.html
             <span class="now" id="price-now">{{ price_inr | default("₹16,999") }}</span>
             <span class="was" id="price-was">{{ price_inr_strike | default("₹25,000") }}</span>
           </div>
+          <div class="price-disclaimer" style="font-size:12px; color:var(--body-soft); margin-top:4px; margin-bottom:8px; text-align:center">Pricing may vary batch to batch. Reach out for latest pricing.</div>
           <div class="urgency" id="price-urgency">🎟️ Launch price · limited seats per batch for close mentoring</div>
           <ul class="price-includes">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>All 33 live classes + lifetime recordings access</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>All live classes + lifetime recordings access</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Premium bonus resource vault, free</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Same trainer, all 33 classes, no substitutes</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Same trainer, all classes, no substitutes</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>100% placement assistance till you're hired</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pay securely, right here, no external redirect</li>
           </ul>
           <!-- Trigger callback modal since standard site has partials/callback.html -->
           <button type="button" class="btn btn-primary btn-block btn-lg" style="margin-top:22px;" data-open-callback data-select="IT Courses &amp; Batches">Request a Callback — Start Free</button>
-          <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-white btn-block" style="margin-top:10px">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+          <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-white btn-block" style="margin-top:10px">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
           <div class="guarantee" style="margin-top:16px">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
             <span>You've already seen 4 full classes free before paying — zero blind risk.</span>
@@ -328,7 +328,7 @@ layout: layouts/base.html
   <section id="curriculum" class="sec-sand2">
     <div class="wrap">
       <div class="head-block">
-        <span class="eyebrow"><span class="dotchip"></span>33 LIVE CLASSES</span>
+        <span class="eyebrow"><span class="dotchip"></span>ROADMAP</span>
         <h2>Curriculum <em>roadmap</em></h2>
         <p>Four phases. Pick one on the left, click any class to see the full detail.</p>
       </div>
@@ -353,12 +353,10 @@ layout: layouts/base.html
             </div>
           </div>
           {% endfor %}
-          {% if syllabus_pdf %}
-          <a href="{{ syllabus_pdf }}" target="_blank" rel="noopener" class="btn btn-primary btn-block curr-pdf-btn">
+          <a href="/go/{{ course_slug }}-pdf/" target="_blank" rel="noopener" class="btn btn-primary btn-block curr-pdf-btn">
             <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             Download Syllabus PDF
           </a>
-          {% endif %}
         </div>
         <div class="curr-panels" id="curr-panels">
           {% for phase in curriculum %}
@@ -447,7 +445,6 @@ layout: layouts/base.html
   {% endif %}
 
   <!-- PREVIEWS & CHANNELS -->
-  {% if videos and videos.length > 0 %}
   <section id="previews" class="sec-sand" style="padding-top:16px">
     <div class="wrap">
       <div class="head-block">
@@ -456,43 +453,86 @@ layout: layouts/base.html
       </div>
       <div class="preview-layout">
         <div class="preview-grid">
-          {% for video in videos %}
-          <div class="preview-block">
-            <div class="preview-video">
-              <iframe src="{{ video.url }}" title="{{ video.title }}" allowfullscreen></iframe>
+          {% set video1 = videos[0] %}
+          {% set video2 = videos[1] %}
+
+          <!-- Video Block 1 -->
+          {% if video1 %}
+            <div class="preview-block">
+              <div class="preview-video">
+                <iframe src="{{ video1.url }}" title="{{ video1.title }}" allowfullscreen></iframe>
+              </div>
+              <span class="preview-day">Day 1 &middot; Live Demo</span>
+              <h4>{{ video1.title }}</h4>
+              <p>{{ video1.description }}</p>
             </div>
-            <span class="preview-day">Day {{ loop.index }} &middot; Live Demo</span>
-            <h4>{{ video.title }}</h4>
-            <p>{{ video.description }}</p>
-          </div>
-          {% endfor %}
+          {% else %}
+            <!-- Placeholder Demo Video 1 -->
+            <div class="preview-block placeholder-demo">
+              <div class="preview-video" style="background:#f4f7f6; display:flex; align-items:center; justify-content:center; border:2px dashed #cfd9d4; border-radius:14px; box-sizing:border-box;">
+                <div style="text-align:center; color:var(--body-soft); padding:20px;">
+                  <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; opacity:0.6; color:#0058b0;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                  <p style="margin:0; font-weight:600; font-size:14px; color:var(--ink);">Demo Video 1 Coming Soon</p>
+                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--body-soft);">Live session recording for this course is being processed.</p>
+                </div>
+              </div>
+              <span class="preview-day">Day 1 &middot; Live Batch Demo</span>
+              <h4>Class preview is on the way</h4>
+              <p>Join the WhatsApp group to get notified of the next live demo session and watch immediate highlights.</p>
+            </div>
+          {% endif %}
+
+          <!-- Video Block 2 -->
+          {% if video2 %}
+            <div class="preview-block">
+              <div class="preview-video">
+                <iframe src="{{ video2.url }}" title="{{ video2.title }}" allowfullscreen></iframe>
+              </div>
+              <span class="preview-day">Day 2 &middot; Live Demo</span>
+              <h4>{{ video2.title }}</h4>
+              <p>{{ video2.description }}</p>
+            </div>
+          {% else %}
+            <!-- Placeholder Demo Video 2 -->
+            <div class="preview-block placeholder-demo">
+              <div class="preview-video" style="background:#f4f7f6; display:flex; align-items:center; justify-content:center; border:2px dashed #cfd9d4; border-radius:14px; box-sizing:border-box;">
+                <div style="text-align:center; color:var(--body-soft); padding:20px;">
+                  <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; opacity:0.6; color:#0058b0;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                  <p style="margin:0; font-weight:600; font-size:14px; color:var(--ink);">Demo Video 2 Coming Soon</p>
+                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--body-soft);">Deep-dive project walkthrough clip is being processed.</p>
+                </div>
+              </div>
+              <span class="preview-day">Day 2 &middot; Deep-dive Walkthrough</span>
+              <h4>Project workflow walkthrough coming soon</h4>
+              <p>Watch standard templates and production-grade deployments discussed in class.</p>
+            </div>
+          {% endif %}
         </div>
         <div class="preview-loop">
           <h3 class="preview-loop-head">Stay in the loop</h3>
           <p class="preview-loop-sub">Join our channels for schedules, jobs and free tutorials.</p>
           <div class="loop-btns">
-            {% if whatsapp_group_url %}
-            <a class="loop-btn" href="{{ whatsapp_group_url }}" target="_blank" rel="noopener">
+            <a class="loop-btn" href="/go/{{ course_slug }}-whatsapp/" target="_blank" rel="noopener">
               <span class="lb-ic" style="background:#dcf8e8;color:#128c4a"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.16c-.24.68-1.4 1.3-1.94 1.34-.5.05-1.13.07-1.82-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.8-4.17-4.94-4.36-.15-.19-1.19-1.58-1.19-3.01 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.59.82 2.02.89 2.17.07.15.12.32.02.51-.55 1.08-1.14 1.04-.84 1.55.82 1.4 1.63 1.88 2.87 2.5.31.16.49.13.67-.08.18-.21.77-.9.98-1.21.2-.31.41-.26.69-.16.28.11 1.76.83 2.06.98.3.15.5.22.57.34.07.12.07.66-.17 1.34Z"/></svg></span>
               <span class="lb-txt"><span class="lb-title">Join Community</span><span class="lb-sub">Latest job openings</span></span>
             </a>
-            {% endif %}
-            {% if whatsapp_jobs_url %}
-            <a class="loop-btn" href="{{ whatsapp_jobs_url }}" target="_blank" rel="noopener">
-              <span class="lb-ic" style="background:var(--green-tint);color:var(--green-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M2.5 12.5h19"/><path d="M10.5 12.5v1.6a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.6"/></svg></span>
+            <a class="loop-btn" href="https://rpavault.pages.dev/go/it-remote-openings-whatsapp" target="_blank" rel="noopener">
+              <span class="lb-ic" style="background:var(--green-tint);color:var(--green-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M2.5 12.5h19"/><path d="M10.5 12.5v1.6a1 1 0 0 0 1-1v-1.6"/></svg></span>
               <span class="lb-txt"><span class="lb-title">Latest Remote Jobs Openings</span><span class="lb-sub">IT remote jobs at your finger tips</span></span>
             </a>
-            {% endif %}
             <a class="loop-btn" href="https://www.youtube.com/@rpavault" target="_blank" rel="noopener">
               <span class="lb-ic" style="background:#fde3e3;color:#d32f2f"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></span>
               <span class="lb-txt"><span class="lb-title">YouTube · Subscribe</span><span class="lb-sub">Free tutorials &amp; class clips</span></span>
+            </a>
+            <a class="loop-btn" href="https://www.linkedin.com/company/rpavault" target="_blank" rel="noopener">
+              <span class="lb-ic" style="background:#e8f4fd;color:#0a66c2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></span>
+              <span class="lb-txt"><span class="lb-title">LinkedIn · Follow</span><span class="lb-sub">Announcements &amp; networking</span></span>
             </a>
           </div>
         </div>
       </div>
     </div>
   </section>
-  {% endif %}
 
   <!-- STUDENT TESTIMONIALS -->
   <section class="sec-green">
@@ -552,7 +592,7 @@ layout: layouts/base.html
         <p>Join our live classes for free until you're satisfied — no card, no commitment.</p>
         <div class="final-cta-btns">
           <button type="button" class="btn btn-white btn-lg" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
-          <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-pay btn-lg">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+          <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-pay btn-lg">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
         </div>
       </div>
     </div>
@@ -561,7 +601,7 @@ layout: layouts/base.html
   <!-- MOBILE BOTTOM BAR -->
   <div class="mobile-bar">
     <button type="button" class="btn btn-ghost" data-open-callback data-select="IT Courses &amp; Batches">Talk to Us</button>
-    <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-pay">Enroll <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+    <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-pay">Enroll <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
   </div>
 
   <!-- DESKTOP STICKY CTA -->
@@ -569,11 +609,11 @@ layout: layouts/base.html
     <div class="sticky-cta-inner">
       <div class="sc-info">
         <span class="sc-title">{{ name | default(title) }}</span>
-        <span class="sc-price"><span class="sc-now price-inline">{{ price_inr | default("₹16,999") }}</span><span class="sc-note">45 days · 33 live classes · first 4 free</span></span>
+        <span class="sc-price"><span class="sc-now price-inline">{{ price_inr | default("₹16,999") }}</span><span class="sc-note">Cohort program · live classes · first 4 free</span></span>
       </div>
       <div class="sc-btns">
         <button type="button" class="btn btn-ghost btn-sm" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
-        <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-pay btn-sm">Enroll &amp; Pay</a>
+        <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-pay btn-sm">Enroll &amp; Pay</a>
       </div>
     </div>
   </div>
@@ -599,9 +639,7 @@ layout: layouts/base.html
     </div>
     <div class="modal-foot">
       <button class="btn btn-primary btn-sm" onclick="closeModal();" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
-      {% if syllabus_pdf %}
-      <a href="{{ syllabus_pdf }}" target="_blank" rel="noopener" class="btn btn-white btn-sm">Full Syllabus PDF</a>
-      {% endif %}
+      <a href="/go/{{ course_slug }}-pdf/" target="_blank" rel="noopener" class="btn btn-white btn-sm">Full Syllabus PDF</a>
     </div>
   </div>
 </div>
