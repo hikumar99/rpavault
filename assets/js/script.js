@@ -79,35 +79,214 @@ window.rpvOpenGuidance=openGuidanceModal;
 document.querySelectorAll('[data-open-guidance]').forEach(el=>{el.addEventListener('click',(e)=>{if(gModal){e.preventDefault();closeNav();openGuidanceModal();}});});
 gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[data-close-modal]')){closeGuidanceModal();}});
 
-/* ---------- Lead form enrichment ---------- */
-/* Fills hidden fields on every .js-lead-form: source page, course page, browser, device, and (best-effort) location via ipapi.co */
-function browserInfo(){const ua=navigator.userAgent;let b='Unknown';
-if(/edg\//i.test(ua))b='Microsoft Edge';else if(/opr\//i.test(ua))b='Opera';else if(/chrome|crios/i.test(ua))b='Chrome';else if(/firefox|fxios/i.test(ua))b='Firefox';else if(/safari/i.test(ua))b='Safari';
-const dev=/mobi|android|iphone|ipad/i.test(ua)?'Mobile':'Desktop';return b+' · '+dev;}
-function setField(form,name,value){if(!value)return;let f=form.querySelector('input[name="'+name+'"]');if(!f){f=document.createElement('input');f.type='hidden';f.name=name;form.appendChild(f);}f.value=value;}
-function getOS(){const ua=navigator.userAgent;if(ua.indexOf("Win")!==-1)return "Windows";if(ua.indexOf("Mac")!==-1){if(navigator.maxTouchPoints>1)return "iOS (iPad)";return "macOS";}if(ua.indexOf("Linux")!==-1)return "Linux";if(/Android/i.test(ua))return "Android";if(/iPhone|iPad|iPod/i.test(ua))return "iOS";return "Unknown OS";}
-function getDeviceType(){const ua=navigator.userAgent;if(/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua))return "Tablet";if(/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpwOS)/i.test(ua))return "Mobile";return "Desktop";}
-const leadForms=document.querySelectorAll('form.js-lead-form');
-if(leadForms.length){
-  const pagePath=location.pathname||'/';
-  const pageTitle=document.title||'';
-  const courseSlug=document.body.getAttribute('data-course-slug')||'';
-  leadForms.forEach(form=>{
-    setField(form,'source_page',pagePath);
-    setField(form,'source_page_title',pageTitle);
-    if(courseSlug){setField(form,'course_page','https://rpavault.com/'+courseSlug+'.html');}
-    setField(form,'referrer',document.referrer||'direct');
-    setField(form,'browser',browserInfo());
-    setField(form,'screen',screen.width+'x'+screen.height);
-    setField(form,'language',navigator.language||'');
-    setField(form,'submitted_at_local',new Date().toString());
-  });
-  /* Location lookup (free, no key). Cached per session; fails silently. */
-  const cached=sessionStorage.getItem('rpv_geo');
-  const applyGeo=(g)=>{leadForms.forEach(form=>{setField(form,'visitor_city',g.city||'');setField(form,'visitor_region',g.region||'');setField(form,'visitor_country',g.country_name||'');setField(form,'visitor_ip',g.ip||'');});};
-  if(cached){try{applyGeo(JSON.parse(cached));}catch(_){}}
-  else{fetch('https://ipapi.co/json/').then(r=>r.ok?r.json():null).then(g=>{if(g&&g.ip){sessionStorage.setItem('rpv_geo',JSON.stringify(g));applyGeo(g);}}).catch(()=>{});}
-}
+  // ---------- Visitor Tracking & Session Initialization ----------
+  let visitorId = localStorage.getItem('rpv_visitor_id');
+  let firstVisit = localStorage.getItem('rpv_first_visit');
+  let visitCount = localStorage.getItem('rpv_visit_count') || '0';
+
+  if (!visitorId) {
+    visitorId = 'v-' + Date.now() + '-' + Math.floor(Math.random() * 1000000);
+    localStorage.setItem('rpv_visitor_id', visitorId);
+    firstVisit = new Date().toISOString();
+    localStorage.setItem('rpv_first_visit', firstVisit);
+  }
+
+  // Detect session changes & track visit count
+  const sessionActive = sessionStorage.getItem('rpv_session_active');
+  if (!sessionActive) {
+    sessionStorage.setItem('rpv_session_active', 'true');
+    visitCount = (parseInt(visitCount, 10) + 1).toString();
+    localStorage.setItem('rpv_visit_count', visitCount);
+  }
+
+  // Track Session Path Trail
+  let pathTrailStr = sessionStorage.getItem('rpv_path_trail');
+  let pathTrail = [];
+  try {
+    pathTrail = pathTrailStr ? JSON.parse(pathTrailStr) : [];
+  } catch (e) {
+    pathTrail = [];
+  }
+  const currentPath = location.pathname || '/';
+  if (pathTrail.length === 0 || pathTrail[pathTrail.length - 1] !== currentPath) {
+    pathTrail.push(currentPath);
+    if (pathTrail.length > 20) {
+      pathTrail.shift();
+    }
+    sessionStorage.setItem('rpv_path_trail', JSON.stringify(pathTrail));
+  }
+
+  // Helper to format path trail nicely as: path1 -> path2 -> path3
+  function formatPathTrail(trail) {
+    return (trail || []).join(' → ');
+  }
+
+  // Helper to enrich payload and sort keys categorically
+  function enrichPayload(originalPayload) {
+    const configData = {};
+    const userData = {};
+
+    const excludeKeys = [
+      'source_page', 'source_page_title', 'course_page', 'referrer', 'browser',
+      'screen', 'language', 'submitted_at_local', 'visitor_city', 'visitor_region',
+      'visitor_country', 'visitor_ip', 'time_on_page_seconds', 'timezone',
+      'operating_system', 'device_type', 'visitor_type', 'visitor_id',
+      'visit_count', 'first_visit_date', 'session_path', 'path_trail'
+    ];
+
+    Object.keys(originalPayload).forEach(key => {
+      const val = originalPayload[key];
+      if (key.startsWith('_')) {
+        configData[key] = val;
+      } else {
+        const normalizedKey = key.toLowerCase().trim();
+        const isExcluded = excludeKeys.some(ex => normalizedKey === ex) || 
+                           normalizedKey.startsWith('===') ||
+                           normalizedKey.startsWith('geo:') ||
+                           normalizedKey.startsWith('device:') ||
+                           normalizedKey.startsWith('session:');
+        if (!isExcluded) {
+          userData[key] = val;
+        }
+      }
+    });
+
+    let geo = {};
+    try {
+      const cachedGeo = sessionStorage.getItem('rpv_geo');
+      if (cachedGeo) {
+        geo = JSON.parse(cachedGeo);
+      }
+    } catch (_) {}
+
+    const timeOnPage = Math.round((Date.now() - rpvPageLoadTime) / 1000);
+    const enriched = {};
+
+    // Place configuration keys first
+    Object.assign(enriched, configData);
+
+    // Place User filled keys
+    Object.assign(enriched, userData);
+
+    // Add Section: Geographic & Network
+    enriched['=== GEOGRAPHIC & NETWORK ==='] = '==============================';
+    enriched['Geo: IP Address'] = geo.ip || 'Unknown';
+    enriched['Geo: City'] = geo.city || 'Unknown';
+    enriched['Geo: Region'] = geo.region || 'Unknown';
+    enriched['Geo: Country'] = geo.country_name || 'Unknown';
+
+    // Add Section: Device & Browser
+    enriched['=== DEVICE & BROWSER ==='] = '==============================';
+    enriched['Device: OS'] = getOS();
+    enriched['Device: Browser'] = browserInfo();
+    enriched['Device: Type'] = getDeviceType();
+    enriched['Device: Screen Size'] = (window.screen ? (window.screen.width + 'x' + window.screen.height) : 'Unknown');
+    enriched['Device: Browser Language'] = navigator.language || 'Unknown';
+
+    // Add Section: Visitor Session Info
+    enriched['=== VISITOR SESSION INFO ==='] = '==============================';
+    enriched['Session: Visitor Type'] = (parseInt(visitCount, 10) <= 1) ? 'New' : 'Returning';
+    enriched['Session: Visitor ID'] = visitorId;
+    enriched['Session: Visit Count'] = visitCount;
+    enriched['Session: First Visit Date'] = firstVisit ? new Date(firstVisit).toLocaleString() : 'Unknown';
+    enriched['Session: Path Trail'] = formatPathTrail(pathTrail);
+    enriched['Session: Referrer'] = document.referrer || 'direct';
+    enriched['Session: Time Spent on Page (sec)'] = timeOnPage.toString();
+    enriched['Session: Timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+    enriched['Session: Source Page Path'] = location.pathname || '/';
+    enriched['Session: Source Page Title'] = document.title || 'Untitled';
+    enriched['Session: Local Time Submitted'] = new Date().toString();
+
+    return enriched;
+  }
+
+  // Intercept all fetch calls to formsubmit.co to automatically inject enriched metadata
+  const originalFetch = window.fetch;
+  window.fetch = function(input, init) {
+    if (init && init.method && init.method.toUpperCase() === 'POST') {
+      let url = '';
+      if (typeof input === 'string') {
+        url = input;
+      } else if (input instanceof URL) {
+        url = input.href;
+      } else if (input && typeof input === 'object' && input.url) {
+        url = input.url;
+      }
+
+      if (url.includes('formsubmit.co')) {
+        try {
+          if (init.body && typeof init.body === 'string') {
+            const payload = JSON.parse(init.body);
+            const enriched = enrichPayload(payload);
+            init.body = JSON.stringify(enriched);
+          }
+        } catch (err) {
+          console.warn("FormSubmit fetch enrichment failed:", err);
+        }
+      }
+    }
+    return originalFetch.call(this, input, init);
+  };
+
+  /* ---------- Lead form enrichment ---------- */
+  /* Fills hidden fields on every .js-lead-form: source page, course page, browser, device, and (best-effort) location via ipapi.co */
+  function browserInfo(){const ua=navigator.userAgent;let b='Unknown';
+  if(/edg\//i.test(ua))b='Microsoft Edge';else if(/opr\//i.test(ua))b='Opera';else if(/chrome|crios/i.test(ua))b='Chrome';else if(/firefox|fxios/i.test(ua))b='Firefox';else if(/safari/i.test(ua))b='Safari';
+  const dev=/mobi|android|iphone|ipad/i.test(ua)?'Mobile':'Desktop';return b+' · '+dev;}
+  function setField(form,name,value){if(!value)return;let f=form.querySelector('input[name="'+name+'"]');if(!f){f=document.createElement('input');f.type='hidden';f.name=name;form.appendChild(f);}f.value=value;}
+  function getOS(){const ua=navigator.userAgent;if(ua.indexOf("Win")!==-1)return "Windows";if(ua.indexOf("Mac")!==-1){if(navigator.maxTouchPoints>1)return "iOS (iPad)";return "macOS";}if(ua.indexOf("Linux")!==-1)return "Linux";if(/Android/i.test(ua))return "Android";if(/iPhone|iPad|iPod/i.test(ua))return "iOS";return "Unknown OS";}
+  function getDeviceType(){const ua=navigator.userAgent;if(/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua))return "Tablet";if(/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpwOS)/i.test(ua))return "Mobile";return "Desktop";}
+  const leadForms=document.querySelectorAll('form.js-lead-form');
+  if(leadForms.length){
+    const pagePath=location.pathname||'/';
+    const pageTitle=document.title||'';
+    const courseSlug=document.body.getAttribute('data-course-slug')||'';
+    leadForms.forEach(form=>{
+      setField(form,'source_page',pagePath);
+      setField(form,'source_page_title',pageTitle);
+      if(courseSlug){setField(form,'course_page','https://rpavault.com/'+courseSlug+'.html');}
+      setField(form,'referrer',document.referrer||'direct');
+      setField(form,'browser',browserInfo());
+      setField(form,'screen',screen.width+'x'+screen.height);
+      setField(form,'language',navigator.language||'');
+      setField(form,'submitted_at_local',new Date().toString());
+      
+      // Fallback visitor tracking fields in DOM
+      setField(form, 'visitor_id', visitorId);
+      setField(form, 'visit_count', visitCount);
+      setField(form, 'first_visit_date', firstVisit);
+      setField(form, 'session_path', formatPathTrail(pathTrail));
+    });
+  }
+  
+  /* Location lookup (free, no key). Cached per session; fails silently. Runs on all page loads. */
+  const cachedGeoStr = sessionStorage.getItem('rpv_geo');
+  const applyGeo = (g) => {
+    const lForms = document.querySelectorAll('form.js-lead-form');
+    if (lForms.length) {
+      lForms.forEach(form => {
+        setField(form, 'visitor_city', g.city || '');
+        setField(form, 'visitor_region', g.region || '');
+        setField(form, 'visitor_country', g.country_name || '');
+        setField(form, 'visitor_ip', g.ip || '');
+      });
+    }
+  };
+  if (cachedGeoStr) {
+    try {
+      applyGeo(JSON.parse(cachedGeoStr));
+    } catch (_) {}
+  } else {
+    fetch('https://ipapi.co/json/')
+      .then(r => r.ok ? r.json() : null)
+      .then(g => {
+        if (g && g.ip) {
+          sessionStorage.setItem('rpv_geo', JSON.stringify(g));
+          applyGeo(g);
+        }
+      })
+      .catch(() => {});
+  }
 
 /* ---------- Conditional course dropdown ---------- */
 /* Shows a course selector when the visitor picks an IT-courses topic */
