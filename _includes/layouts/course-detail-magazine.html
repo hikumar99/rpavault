@@ -129,7 +129,7 @@ layout: layouts/base.html
         <div class="journal-section-content">
           <form class="js-lead-form form-layout-journal" action="{{ settings.forms.formsubmit_endpoint }}" method="POST">
             <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <input type="hidden" name="_next" value="https://rpavault.com/thank-you/">
+            <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/contact/?sent=1">
             <input type="hidden" name="course" value="{{ name | default(title) }}">
             
             <div class="form-grid-journal">
