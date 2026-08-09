@@ -26,7 +26,7 @@
       { "label": "Consulting", "url": "/consulting/" },
       { "label": "Enterprise Automation", "url": "/enterprise-automation/" },
       { "label": "Training", "url": "/training/" },
-      { "label": "Course", "url": "/courses/" }
+      { "label": "Courses", "url": "/courses/" }
     ]
   },
   "forms": {
