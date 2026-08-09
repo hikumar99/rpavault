@@ -1,0 +1,354 @@
+---
+layout: layouts/base.html
+title: Upskilling Pathway for Working Professionals | Agentic RPA & Testing | RPAVault
+description: "Scale your career and command premium salary packages. Learn Advanced Agentic RPA, Intelligent Document Processing (IDP), and Playwright automation."
+schema_ld: |
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://rpavault.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Pathways",
+        "item": "https://rpavault.com/courses/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Working Professionals",
+        "item": "https://rpavault.com/pathways/working-professionals/"
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap">
+
+<style>
+  /* Customized CSS for Working Professionals Pathway */
+  .wants-section {
+    background: #ffffff !important;
+  }
+  .roadmap-section {
+    background: var(--canvas-2) !important;
+  }
+  .roadmap-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 3rem auto 0 auto;
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .roadmap-timeline::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--blue), var(--green));
+  }
+  .roadmap-step {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .roadmap-step:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+  .roadmap-step-num {
+    position: absolute;
+    left: -2.35rem;
+    top: 1.8rem;
+    width: 24px;
+    height: 24px;
+    background: var(--blue);
+    color: #ffffff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 3px var(--canvas-2);
+  }
+  .roadmap-step h3 {
+    margin: 0 0 0.6rem 0;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--ink);
+  }
+  .roadmap-step p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.96rem;
+  }
+  
+  /* Wants layout styling */
+  .wants-card {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.8rem;
+    box-shadow: 0 8px 24px rgba(12,38,56,0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .wants-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue);
+  }
+  .wants-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.18rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--ink);
+  }
+  .wants-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.58;
+  }
+  .wants-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.25rem;
+    display: inline-block;
+  }
+
+  /* Suggested course cards layout */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .course-card {
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: var(--shadow-light) !important;
+    transition: transform 0.3s ease, border-color 0.3s ease !important;
+  }
+  .course-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--blue) !important;
+    box-shadow: var(--shadow-hover) !important;
+  }
+  .course-card-body {
+    padding: 2.2rem 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+  }
+  .course-card-badges {
+    display: flex !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .badge-primary {
+    background: var(--blue-soft) !important;
+    color: var(--blue) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .badge-success {
+    background: rgba(57, 184, 127, 0.12) !important;
+    color: var(--green) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .course-card h3 {
+    font-family: var(--font-heading) !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: var(--ink) !important;
+  }
+  .course-card p {
+    color: var(--muted) !important;
+    font-size: 0.96rem !important;
+    line-height: 1.6 !important;
+    margin: 0 0 2rem 0 !important;
+  }
+  .course-card-foot {
+    margin-top: auto !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid var(--canvas-2) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .course-card-link {
+    font-size: 0.95rem !important;
+    color: var(--blue) !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+  .course-card-link:hover {
+    text-decoration: underline !important;
+  }
+
+  @media(max-width: 980px) {
+    .course-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+  }
+</style>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Upskilling Pathway</span>
+    <h1>Scale Your Career with <em>Advanced Tech</em></h1>
+    <p class="lead">Move past career plateaus and step into Technical Architect, Lead Developer, or SDET structures. Master Agentic AI orchestrations, IDP, and advanced automated testing.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#roadmap">Explore the Pathway</a>
+      <a class="btn btn-ghost" href="#" data-open-guidance>Get Batch Schedules</a>
+    </div>
+  </div>
+</section>
+
+<section class="content-section wants-section">
+  <div class="container">
+    <h2 class="text-center">What You <em>Desire</em> &amp; Your Challenges</h2>
+    <p class="section-intro text-center mx-auto">Staying relevant in a fast-evolving IT landscape requires focusing on high-value architectural skills. Here is how we support your growth:</p>
+    
+    <div class="card-grid" style="margin-top: 3rem;">
+      <div class="wants-card">
+        <span class="wants-icon">📈</span>
+        <h3>Shift from Execution to Architecture</h3>
+        <p>Break out of repetitive maintenance tasks and start designing high-level, multi-component enterprise automation platforms.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">🤖</span>
+        <h3>Learn Cutting-Edge Agentic AI</h3>
+        <p>Go beyond basic RPA. Learn to integrate Large Language Models (LLMs), semantic parsers, and custom API loops into your workflows.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">🗓️</span>
+        <h3>Flexible Upskilling Calendars</h3>
+        <p>Designed for busy schedules, we host weekend sessions and evening cohorts so you can study without disrupting your job.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section roadmap-section" id="roadmap">
+  <div class="container">
+    <h2 class="text-center">Your Structured <em>4-Step Pathway</em></h2>
+    <p class="section-intro text-center mx-auto">An advanced architectural training blueprint for developer profile upgrades and senior role preparations.</p>
+    
+    <div class="roadmap-timeline">
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">1</div>
+        <h3>Enterprise System Design &amp; Architecture</h3>
+        <p>Master enterprise frameworks (UiPath Robotic Enterprise Framework - REFramework), multi-bot queue distribution models, custom logs handling, and secure credential vaults.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">2</div>
+        <h3>Agentic AI &amp; Intelligent Document Processing (IDP)</h3>
+        <p>Integrate Document Understanding engines, train machine learning extractors for complex layouts, and orchestrate smart bots powered by LLMs (Gemini, GPT) to parse unstructured email datasets.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">3</div>
+        <h3>Advanced Testing &amp; DevOps Orchestration</h3>
+        <p>Set up automated testing systems using UiPath Test Suite or Playwright, integrate workflows into Git version control, and set up automatic build/test runs via Jenkins or Azure DevOps pipelines.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">4</div>
+        <h3>Senior Profile Branding &amp; Architect Sprints</h3>
+        <p>Re-engineer your professional portfolio. Undergo technical design review drills and mock architectural defense calls, positioning you for tech-lead roles commanding top pay scales.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section courses-section">
+  <div class="container">
+    <h2 class="text-center">Recommended <em>Programs</em> for Professionals</h2>
+    <p class="section-intro text-center mx-auto">We recommend these programs for seasoned specialists seeking deep-dive technical mastery and architecture upgrades.</p>
+    
+    <div class="course-grid">
+      <!-- Course 1 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">Architect Track</span>
+            <span class="badge-success">AI &amp; RPA</span>
+          </div>
+          <h3>Advanced Agentic RPA with UiPath</h3>
+          <p>Command top-tier architect salaries. Learn to build advanced multi-robot solutions, Document Understanding OCR pipelines, LLM-based agent orchestrations, and custom API connections.</p>
+          <div class="course-card-foot">
+            <a href="/course/advance-agentic-rpa-uipath/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 2 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">Testing</span>
+            <span class="badge-success">Enterprise QA</span>
+          </div>
+          <h3>UiPath Test Suite</h3>
+          <p>Master automated application testing, RPA workflow validation, API checks, test manager dashboards, and test script generation to ensure enterprise software stability.</p>
+          <div class="course-card-foot">
+            <a href="/course/uipath-test-suite/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2>Unlock Your Next Professional Milestone</h2>
+      <p>Consult with our lead technical architect to customize your upskilling pathway, review syllabus options, and match cohort schedules.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-light" href="#" data-open-guidance>Consult Architect</a>
+      <a class="btn btn-secondary" href="#" data-open-callback data-select="IT Courses & Batches">Call Back</a>
+    </div>
+  </div>
+</section>

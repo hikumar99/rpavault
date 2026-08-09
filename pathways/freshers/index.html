@@ -1,0 +1,354 @@
+---
+layout: layouts/base.html
+title: Job-Ready IT Career Pathway for Freshers & Grads | RPAVault
+description: "Kickstart your IT career with live cohort learning, global certification alignments, and direct placements in RPA, Playwright SDET, and Data Analytics."
+schema_ld: |
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://rpavault.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Pathways",
+        "item": "https://rpavault.com/courses/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Freshers",
+        "item": "https://rpavault.com/pathways/freshers/"
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap">
+
+<style>
+  /* Customized CSS for Freshers Pathway */
+  .wants-section {
+    background: #ffffff !important;
+  }
+  .roadmap-section {
+    background: var(--canvas-2) !important;
+  }
+  .roadmap-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 3rem auto 0 auto;
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .roadmap-timeline::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--blue), var(--green));
+  }
+  .roadmap-step {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .roadmap-step:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+  .roadmap-step-num {
+    position: absolute;
+    left: -2.35rem;
+    top: 1.8rem;
+    width: 24px;
+    height: 24px;
+    background: var(--blue);
+    color: #ffffff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 3px var(--canvas-2);
+  }
+  .roadmap-step h3 {
+    margin: 0 0 0.6rem 0;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--ink);
+  }
+  .roadmap-step p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.96rem;
+  }
+  
+  /* Wants layout styling */
+  .wants-card {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.8rem;
+    box-shadow: 0 8px 24px rgba(12,38,56,0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .wants-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue);
+  }
+  .wants-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.18rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--ink);
+  }
+  .wants-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.58;
+  }
+  .wants-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.25rem;
+    display: inline-block;
+  }
+
+  /* Suggested course cards layout */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .course-card {
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: var(--shadow-light) !important;
+    transition: transform 0.3s ease, border-color 0.3s ease !important;
+  }
+  .course-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--blue) !important;
+    box-shadow: var(--shadow-hover) !important;
+  }
+  .course-card-body {
+    padding: 2.2rem 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+  }
+  .course-card-badges {
+    display: flex !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .badge-primary {
+    background: var(--blue-soft) !important;
+    color: var(--blue) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .badge-success {
+    background: rgba(57, 184, 127, 0.12) !important;
+    color: var(--green) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .course-card h3 {
+    font-family: var(--font-heading) !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: var(--ink) !important;
+  }
+  .course-card p {
+    color: var(--muted) !important;
+    font-size: 0.96rem !important;
+    line-height: 1.6 !important;
+    margin: 0 0 2rem 0 !important;
+  }
+  .course-card-foot {
+    margin-top: auto !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid var(--canvas-2) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .course-card-link {
+    font-size: 0.95rem !important;
+    color: var(--blue) !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+  .course-card-link:hover {
+    text-decoration: underline !important;
+  }
+
+  @media(max-width: 980px) {
+    .course-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+  }
+</style>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Freshers &amp; Grads Pathway</span>
+    <h1>Start Your IT Career with <em>Placement Support</em></h1>
+    <p class="lead">Bridge the gap between college theory and enterprise production demands. Gain global certifications, hands-on portfolio projects, and direct access to recruiter hiring partners.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#roadmap">Explore the Pathway</a>
+      <a class="btn btn-ghost" href="#" data-open-guidance>Get Free Career Guidance</a>
+    </div>
+  </div>
+</section>
+
+<section class="content-section wants-section">
+  <div class="container">
+    <h2 class="text-center">What You <em>Desire</em> &amp; Your Challenges</h2>
+    <p class="section-intro text-center mx-auto">Stepping out of college into a competitive job market can feel challenging. Here is what we deliver to set you apart:</p>
+    
+    <div class="card-grid" style="margin-top: 3rem;">
+      <div class="wants-card">
+        <span class="wants-icon">🎓</span>
+        <h3>Industry-Ready Practical Skills</h3>
+        <p>You need to learn the tools companies actually use (like UiPath, Power Automate, or Playwright), moving beyond traditional textbook code.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">🏅</span>
+        <h3>Global Certifications</h3>
+        <p>Stand out in recruiter piles immediately with resume-boosting credentials aligned with recognized international standards.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">💼</span>
+        <h3>Direct Recruiter Access</h3>
+        <p>Skip the endless CV filtering algorithms and get direct entries to companies seeking qualified junior automation talent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section roadmap-section" id="roadmap">
+  <div class="container">
+    <h2 class="text-center">Your Structured <em>4-Step Pathway</em></h2>
+    <p class="section-intro text-center mx-auto">A systematic training and mentoring timeline to transition graduating students from classrooms to IT offices.</p>
+    
+    <div class="roadmap-timeline">
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">1</div>
+        <h3>Live Cohort &amp; Technical Foundation</h3>
+        <p>Learn core databases (SQL), API structure, logic building, and how data moves across web nodes. This sets a bulletproof programming foundation regardless of your stream.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">2</div>
+        <h3>Specialized Tooling Deep-Dive</h3>
+        <p>Engage in mentor-led sessions mastering either Robotic Process Automation engines (UiPath, Power Automate) or modern software testing libraries (Playwright with TypeScript).</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">3</div>
+        <h3>Certification prep &amp; Sandbox Projects</h3>
+        <p>Tackle official certification syllabi and build verified portfolio repositories on GitHub containing functional code to showcase your practical coding expertise.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">4</div>
+        <h3>Interview Prep &amp; Direct Placements</h3>
+        <p>Optimize your LinkedIn and resume, practice live interactive mock interviews with tech architectures, and submit your profile directly to our placement partners.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section courses-section">
+  <div class="container">
+    <h2 class="text-center">Recommended <em>Programs</em> for Grads</h2>
+    <p class="section-intro text-center mx-auto">We highly recommend these programs for graduating students due to their strong placement metrics and industry demand.</p>
+    
+    <div class="course-grid">
+      <!-- Course 1 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">Highly Popular</span>
+            <span class="badge-success">Placement Portal</span>
+          </div>
+          <h3>RPA Agentic (UiPath + Power Automate)</h3>
+          <p>Learn end-to-end automation, enterprise robot orchestration, database extraction, and modern AI Agent setups. Aligns directly with UiPath Certification.</p>
+          <div class="course-card-foot">
+            <a href="/course/rpa-agentic-uipath-power-automate/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 2 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">SDET Track</span>
+            <span class="badge-success">Code Intensive</span>
+          </div>
+          <h3>Playwright &amp; TypeScript Automation</h3>
+          <p>Command top QA engineering packages. Master end-to-end testing, UI interactions, API validation, and modern CI/CD orchestration with Playwright and TypeScript.</p>
+          <div class="course-card-foot">
+            <a href="/course/playwright-typescript-automation/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2>Start Building Your Career Roadmap Today</h2>
+      <p>Consult with our academic mentors to choose the right tech stack based on your graduation stream and career goals.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-light" href="#" data-open-guidance>Get Academic Advice</a>
+      <a class="btn btn-secondary" href="#" data-open-callback data-select="IT Courses & Batches">Call Back</a>
+    </div>
+  </div>
+</section>

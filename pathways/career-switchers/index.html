@@ -1,0 +1,354 @@
+---
+layout: layouts/base.html
+title: Non-IT to IT Career Switcher Pathway | RPA & Data Analytics | RPAVault
+description: "Seamlessly transition from non-technical backgrounds into high-paying IT roles. No prior coding experience required. Learn RPA (UiPath, Power Automate) and Data Analytics."
+schema_ld: |
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://rpavault.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Pathways",
+        "item": "https://rpavault.com/courses/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Career Switchers",
+        "item": "https://rpavault.com/pathways/career-switchers/"
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap">
+
+<style>
+  /* Customized CSS for Career Switchers Pathway */
+  .wants-section {
+    background: #ffffff !important;
+  }
+  .roadmap-section {
+    background: var(--canvas-2) !important;
+  }
+  .roadmap-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 3rem auto 0 auto;
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .roadmap-timeline::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--blue), var(--green));
+  }
+  .roadmap-step {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .roadmap-step:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+  .roadmap-step-num {
+    position: absolute;
+    left: -2.35rem;
+    top: 1.8rem;
+    width: 24px;
+    height: 24px;
+    background: var(--blue);
+    color: #ffffff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 3px var(--canvas-2);
+  }
+  .roadmap-step h3 {
+    margin: 0 0 0.6rem 0;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--ink);
+  }
+  .roadmap-step p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.96rem;
+  }
+  
+  /* Wants layout styling */
+  .wants-card {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.8rem;
+    box-shadow: 0 8px 24px rgba(12,38,56,0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .wants-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue);
+  }
+  .wants-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.18rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--ink);
+  }
+  .wants-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.58;
+  }
+  .wants-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.25rem;
+    display: inline-block;
+  }
+
+  /* Suggested course cards layout */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .course-card {
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: var(--shadow-light) !important;
+    transition: transform 0.3s ease, border-color 0.3s ease !important;
+  }
+  .course-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--blue) !important;
+    box-shadow: var(--shadow-hover) !important;
+  }
+  .course-card-body {
+    padding: 2.2rem 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+  }
+  .course-card-badges {
+    display: flex !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .badge-primary {
+    background: var(--blue-soft) !important;
+    color: var(--blue) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .badge-success {
+    background: rgba(57, 184, 127, 0.12) !important;
+    color: var(--green) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .course-card h3 {
+    font-family: var(--font-heading) !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: var(--ink) !important;
+  }
+  .course-card p {
+    color: var(--muted) !important;
+    font-size: 0.96rem !important;
+    line-height: 1.6 !important;
+    margin: 0 0 2rem 0 !important;
+  }
+  .course-card-foot {
+    margin-top: auto !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid var(--canvas-2) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .course-card-link {
+    font-size: 0.95rem !important;
+    color: var(--blue) !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+  .course-card-link:hover {
+    text-decoration: underline !important;
+  }
+
+  @media(max-width: 980px) {
+    .course-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+  }
+</style>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Non-IT to IT Pathway</span>
+    <h1>Break Into IT Without <em>Coding Stress</em></h1>
+    <p class="lead">Transition from sales, customer support, operations, or administrative backgrounds into high-growth tech roles using low-code automation and data analytics.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#roadmap">Explore the Pathway</a>
+      <a class="btn btn-ghost" href="#" data-open-guidance>Talk to a Career Counselor</a>
+    </div>
+  </div>
+</section>
+
+<section class="content-section wants-section">
+  <div class="container">
+    <h2 class="text-center">What You <em>Desire</em> &amp; Your Challenges</h2>
+    <p class="section-intro text-center mx-auto">Shifting industries can feel intimidating, especially when technical requirements seem high. Here is how we address your needs and concerns:</p>
+    
+    <div class="card-grid" style="margin-top: 3rem;">
+      <div class="wants-card">
+        <span class="wants-icon">🚀</span>
+        <h3>High-Income Transition</h3>
+        <p>You want to move away from slow-growth customer service or administrative roles into high-paying, high-growth technology fields.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">🧠</span>
+        <h3>No Hardcore Coding</h3>
+        <p>You fear that learning Java or C++ is too steep. We focus on low-code solutions like RPA and Power BI which are easier to master.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">🛠️</span>
+        <h3>Practical Portfolio</h3>
+        <p>You need proof of work to replace the lack of official experience. We help you build a portfolio of real business automations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section roadmap-section" id="roadmap">
+  <div class="container">
+    <h2 class="text-center">Your Structured <em>4-Step Pathway</em></h2>
+    <p class="section-intro text-center mx-auto">A step-by-step journey custom-tailored to guide you safely from a non-IT background to a successful technology placement.</p>
+    
+    <div class="roadmap-timeline">
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">1</div>
+        <h3>Logic &amp; System Fundamentals</h3>
+        <p>We start with the absolute basics of business logic, variables, loops, data structures, and how software systems interact. No code is written here; we build your core analytical mindset first.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">2</div>
+        <h3>Low-Code Tools &amp; Automation Mastery</h3>
+        <p>Learn to design workflows and bots using UiPath and Microsoft Power Automate, and build business intelligence dashboards using Power BI and SQL Server. These are highly visual, drag-and-drop tools that command premium salaries.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">3</div>
+        <h3>The Hands-on Sandbox Labs</h3>
+        <p>Work on 15+ mini-projects and 2 enterprise-scale Capstones (like automatic PDF invoice extraction or automated CRM onboarding) mapping real-world business bottlenecks.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">4</div>
+        <h3>Resume Rebranding &amp; Direct Placements</h3>
+        <p>Translate your previous industry domain experience (banking, insurance, retail) into valuable functional consulting assets on your resume. Practice mock interviews with IT leads and access our partner network placement portal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section courses-section">
+  <div class="container">
+    <h2 class="text-center">Recommended <em>Programs</em> for You</h2>
+    <p class="section-intro text-center mx-auto">We recommend starting with these programs, designed with a gentle learning curve but high commercial value in corporate environments.</p>
+    
+    <div class="course-grid">
+      <!-- Course 1 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">Flagship</span>
+            <span class="badge-success">Beginner Friendly</span>
+          </div>
+          <h3>RPA Agentic (UiPath + Power Automate)</h3>
+          <p>Go from zero technical background to a certified Automation Developer. Learn RPA fundamentals, Excel/email automation, database operations, and advanced AI-agent orchestration.</p>
+          <div class="course-card-foot">
+            <a href="/course/rpa-agentic-uipath-power-automate/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 2 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">In Demand</span>
+            <span class="badge-success">SQL &amp; Power BI</span>
+          </div>
+          <h3>Data Analytics (Power BI &amp; SQL)</h3>
+          <p>Master data extraction, querying, formatting, and visualization. Learn how to transform raw databases into beautiful dashboards that drive critical corporate decisions.</p>
+          <div class="course-card-foot">
+            <a href="/course/data-analytics-power-bi-sql/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2>Ready to Make the Switch?</h2>
+      <p>Schedule a personal 1-on-1 counseling call with our career transition specialist to evaluate your profile and chart your study timeline.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-light" href="#" data-open-guidance>Get Free Guidance</a>
+      <a class="btn btn-secondary" href="#" data-open-callback data-select="IT Courses & Batches">Request Callback</a>
+    </div>
+  </div>
+</section>

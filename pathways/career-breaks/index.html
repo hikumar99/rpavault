@@ -1,0 +1,354 @@
+---
+layout: layouts/base.html
+title: Return-to-Work Career Pathway | Relaunch After a Break | RPAVault
+description: "Relaunch your career after a break. Rebuild your technical confidence with structured mentorship, sandbox labs, and dedicated placement pathways."
+schema_ld: |
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://rpavault.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Pathways",
+        "item": "https://rpavault.com/courses/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Career Breaks",
+        "item": "https://rpavault.com/pathways/career-breaks/"
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap">
+
+<style>
+  /* Customized CSS for Career Breaks Pathway */
+  .wants-section {
+    background: #ffffff !important;
+  }
+  .roadmap-section {
+    background: var(--canvas-2) !important;
+  }
+  .roadmap-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 3rem auto 0 auto;
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .roadmap-timeline::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--blue), var(--green));
+  }
+  .roadmap-step {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .roadmap-step:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+  .roadmap-step-num {
+    position: absolute;
+    left: -2.35rem;
+    top: 1.8rem;
+    width: 24px;
+    height: 24px;
+    background: var(--blue);
+    color: #ffffff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 3px var(--canvas-2);
+  }
+  .roadmap-step h3 {
+    margin: 0 0 0.6rem 0;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--ink);
+  }
+  .roadmap-step p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.96rem;
+  }
+  
+  /* Wants layout styling */
+  .wants-card {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.8rem;
+    box-shadow: 0 8px 24px rgba(12,38,56,0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .wants-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue);
+  }
+  .wants-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.18rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--ink);
+  }
+  .wants-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.58;
+  }
+  .wants-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.25rem;
+    display: inline-block;
+  }
+
+  /* Suggested course cards layout */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .course-card {
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: var(--shadow-light) !important;
+    transition: transform 0.3s ease, border-color 0.3s ease !important;
+  }
+  .course-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--blue) !important;
+    box-shadow: var(--shadow-hover) !important;
+  }
+  .course-card-body {
+    padding: 2.2rem 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+  }
+  .course-card-badges {
+    display: flex !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .badge-primary {
+    background: var(--blue-soft) !important;
+    color: var(--blue) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .badge-success {
+    background: rgba(57, 184, 127, 0.12) !important;
+    color: var(--green) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  .course-card h3 {
+    font-family: var(--font-heading) !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    margin: 0 0 0.8rem 0 !important;
+    color: var(--ink) !important;
+  }
+  .course-card p {
+    color: var(--muted) !important;
+    font-size: 0.96rem !important;
+    line-height: 1.6 !important;
+    margin: 0 0 2rem 0 !important;
+  }
+  .course-card-foot {
+    margin-top: auto !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid var(--canvas-2) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .course-card-link {
+    font-size: 0.95rem !important;
+    color: var(--blue) !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+  .course-card-link:hover {
+    text-decoration: underline !important;
+  }
+
+  @media(max-width: 980px) {
+    .course-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+  }
+</style>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Return to Work Pathway</span>
+    <h1>Relaunch Your Career with <em>Confidence</em></h1>
+    <p class="lead">Return to the IT workforce smoothly after a family, health, or personal break. Refresh outdated skills, build portfolio relevance, and leverage return-to-work job placement tracks.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#roadmap">Explore the Pathway</a>
+      <a class="btn btn-ghost" href="#" data-open-guidance>Consult a Career Relauncher</a>
+    </div>
+  </div>
+</section>
+
+<section class="content-section wants-section">
+  <div class="container">
+    <h2 class="text-center">What You <em>Desire</em> &amp; Your Challenges</h2>
+    <p class="section-intro text-center mx-auto">Restarting your professional journey after a break requires a supportive, step-by-step structure. Here is how we align with your goals:</p>
+    
+    <div class="card-grid" style="margin-top: 3rem;">
+      <div class="wants-card">
+        <span class="wants-icon">🤝</span>
+        <h3>Rebuild Technical Confidence</h3>
+        <p>Shake off technical rust by practicing modern tools under the guidance of patient mentors who understand gap transitions.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">🎓</span>
+        <h3>Gentle, Supportive Pace</h3>
+        <p>We start from baseline logic, explaining modern browser and server architectures without assuming you know recent framework revisions.</p>
+      </div>
+      <div class="wants-card">
+        <span class="wants-icon">💼</span>
+        <h3>Gap Reframing &amp; Placements</h3>
+        <p>Optimize your CV to position your break as a period of growth. Prepare for specific recruitment programs targeting return-to-work candidates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section roadmap-section" id="roadmap">
+  <div class="container">
+    <h2 class="text-center">Your Structured <em>4-Step Pathway</em></h2>
+    <p class="section-intro text-center mx-auto">A specialized career relaunch timeline designed to restore technical skills and secure active placement listings.</p>
+    
+    <div class="roadmap-timeline">
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">1</div>
+        <h3>Logic Refresher &amp; Modern Dev Environments</h3>
+        <p>Reconnect with database basics (SQL Server), data structure configurations, and general coding logic. Get familiar with modern Visual Studio Code and Git workflows.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">2</div>
+        <h3>High-Demand Automation Specialization</h3>
+        <p>Learn low-code automation tools like UiPath and Microsoft Power Automate, or Business Intelligence platforms like Power BI. These visual workflows allow fast upskilling without massive coding fatigue.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">3</div>
+        <h3>The Mentored Project Sandbox</h3>
+        <p>Build 10+ business automation mini-projects. Work directly with your dedicated mentor, acting as an enterprise tech lead, to check code structure and solve bugs.</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-step-num">4</div>
+        <h3>Resume Optimization &amp; Re-Entry Placement</h3>
+        <p>Re-engineer your CV structure to position the break positively. Connect with specific return-to-work recruiters, schedule mock checks, and start scheduling recruitment interviews.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section courses-section">
+  <div class="container">
+    <h2 class="text-center">Recommended <em>Programs</em> for Relaunching</h2>
+    <p class="section-intro text-center mx-auto">We highly recommend these programs due to their gentle learning curve, large market volumes, and high transition success rates.</p>
+    
+    <div class="course-grid">
+      <!-- Course 1 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">Gentle Pace</span>
+            <span class="badge-success">High Placements</span>
+          </div>
+          <h3>RPA Agentic (UiPath + Power Automate)</h3>
+          <p>Perfect for relaunching careers. Master robotic process automation, orchestrators, and AI integrations. Visual IDEs minimize coding obstacles while maximizing salary opportunities.</p>
+          <div class="course-card-foot">
+            <a href="/course/rpa-agentic-uipath-power-automate/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 2 -->
+      <article class="course-card">
+        <div class="course-card-body">
+          <div class="course-card-badges">
+            <span class="badge-primary">Data BI</span>
+            <span class="badge-success">Analyst Track</span>
+          </div>
+          <h3>Data Analytics (Power BI &amp; SQL)</h3>
+          <p>Learn to ingest databases, structure queries, transform datasets, and build corporate reports. A logical and visually rewarding skillset highly valued across functional departments.</p>
+          <div class="course-card-foot">
+            <a href="/course/data-analytics-power-bi-sql/" class="course-card-link">
+              View Course Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2>Step Back Into the Professional World</h2>
+      <p>Consult with our return-to-work counselor to design a customized study calendar that works around your family commitments.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-light" href="#" data-open-guidance>Consult Counselor</a>
+      <a class="btn btn-secondary" href="#" data-open-callback data-select="IT Courses & Batches">Call Back</a>
+    </div>
+  </div>
+</section>
