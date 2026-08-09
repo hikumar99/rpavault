@@ -1,0 +1,429 @@
+---
+layout: layouts/base.html
+title: IT Courses — Current Live Batches | RPAVault
+description: "All RPAVault live course batches: RPA Agentic (UiPath + Power Automate), advanced agentic RPA, UiPath Test Suite, MSBI, SQL Server, Power BI, Playwright and Data Analytics."
+schema_ld: |
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://rpavault.com/" },
+      { "@type": "ListItem", "position": 2, "name": "IT Courses", "item": "https://rpavault.com/courses/" }
+    ]
+  }
+---
+<style>
+  .courses-page {
+    --cx-brand: #0058b0; --cx-brand-deep: #004182; --cx-brand-soft: #e6f1fb;
+    --cx-ink: #1a181b; --cx-muted: #607987; --cx-line: #cce8f3; --cx-tint: #ecf8fc;
+    --cx-rpa:#0058b0; --cx-rpa-soft:#e6f1fb; --cx-data:#1f7fa6; --cx-data-soft:#dcf0f6; --cx-testing:#5a5fc7; --cx-testing-soft:#e6e7fb;
+    --cx-live:#1f8a54; --cx-live-soft:#dff2e8;
+    --cx-shadow: 0 1px 0 rgba(15,34,51,.03), 0 14px 34px -20px rgba(0,88,176,.35);
+    --cx-radius: 16px;
+    --cx-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .courses-page .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  .courses-page h1, .courses-page h2, .courses-page h3 { font-family: 'Playfair Display', Georgia, serif; color: var(--cx-ink); }
+
+  /* Hero */
+  .cx-hero { padding: 62px 0 38px; border-bottom: 1px solid var(--cx-line); text-align: center; }
+  .cx-eyebrow { font-family: var(--cx-mono); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--cx-brand); font-weight: 600; margin-bottom: 18px; display:block; }
+  .cx-hero h1 { font-size: clamp(38px, 6vw, 62px); line-height: 1.06; letter-spacing: -0.02em; font-weight: 700; max-width: 24ch; margin: 0 auto; }
+  .cx-hero h1 em { font-style: italic; color: var(--cx-brand); }
+  .cx-lede { font-size: 18px; color: var(--cx-muted); max-width: 60ch; margin: 20px auto 0; }
+  .cx-hero-cta { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; justify-content:center; }
+  .cx-btn { font-family:'Inter',sans-serif; font-weight:600; font-size: 15px; padding: 12px 22px; border-radius: 12px; border: 1px solid var(--cx-brand-deep); background: var(--cx-brand); color: #fff; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform .15s, background .15s; }
+  .cx-btn:hover { transform: translateY(-2px); background: var(--cx-brand-deep); }
+  .cx-btn.ghost { background:#fff; color: var(--cx-brand-deep); border-color:#cfe6f5; }
+  .cx-btn.ghost:hover { background: var(--cx-brand); color:#fff; border-color: var(--cx-brand); }
+
+  /* Personas */
+  .cx-personas { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; padding: 36px 0; border-bottom: 1px solid var(--cx-line); }
+  .cx-persona { display:block; text-align: left; background:#fff; border: 1px solid var(--cx-line); border-radius: var(--cx-radius); padding: 20px 18px; text-decoration:none; color:inherit; transition: border-color .15s, transform .15s, box-shadow .15s; }
+  .cx-persona:hover { transform: translateY(-2px); border-color: var(--cx-brand); box-shadow: var(--cx-shadow); }
+  .cx-persona .ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--cx-brand-soft); color: var(--cx-brand-deep); margin-bottom: 14px; }
+  .cx-persona .ic svg { width: 22px; height: 22px; }
+  .cx-persona .num { font-family: var(--cx-mono); font-size: 11px; letter-spacing: .12em; color: var(--cx-muted); }
+  .cx-persona h3 { font-size: 17px; margin: 6px 0; letter-spacing: -0.01em; }
+  .cx-persona p { font-size: 13px; color: var(--cx-muted); line-height: 1.45; font-family:'Inter',sans-serif; }
+  .cx-persona .go { display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:var(--cx-brand); transition:gap .15s; }
+  .cx-persona .go svg { width:15px; height:15px; transition: transform .15s; }
+  .cx-persona:hover .go { gap:9px; } .cx-persona:hover .go svg { transform: translateX(2px); }
+
+  /* Filter bar */
+  .cx-filterbar { position: sticky; top: 0; z-index: 20; background: rgba(246,252,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--cx-line); padding: 16px 0; margin-bottom: 30px; }
+  .cx-filterbar-inner { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .cx-chip { font-family:'Inter',sans-serif; font-size: 14px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--cx-line); background:#fff; color: var(--cx-ink); cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 7px; }
+  .cx-chip:hover { border-color: var(--cx-brand); }
+  .cx-chip.active { background: var(--cx-brand); color: #fff; border-color: var(--cx-brand); }
+  .cx-chip .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .cx-chip .count { font-family: var(--cx-mono); font-size: 11px; opacity: .65; }
+  .cx-filter-label { font-family: var(--cx-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--cx-muted); margin-right: 4px; }
+  .cx-spacer { flex: 1; }
+  .cx-search { font-family:'Inter',sans-serif; font-size: 14px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--cx-line); background:#fff; min-width: 200px; color: var(--cx-ink); }
+  .cx-search:focus { outline: none; border-color: var(--cx-brand); box-shadow: 0 0 0 3px var(--cx-brand-soft); }
+  .cx-live-dot { width:7px; height:7px; border-radius:50%; background: var(--cx-live); }
+
+  /* Grid + cards */
+  .cx-results { font-family: var(--cx-mono); font-size: 12px; letter-spacing:.06em; text-transform: uppercase; color: var(--cx-muted); margin-bottom: 16px; }
+  .cx-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+  .cx-card { background:#fff; border: 1px solid var(--cx-line); border-radius: var(--cx-radius); display: flex; flex-direction: column; box-shadow: var(--cx-shadow); transition: transform .18s, border-color .18s; overflow: hidden; }
+  .cx-card:hover { transform: translateY(-3px); border-color: var(--cx-brand); }
+  .cx-media { position: relative; aspect-ratio: 16/9; background:#f5f5f7; border-bottom: 1px solid var(--cx-line); overflow: hidden; display:block; }
+  .cx-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cx-flags { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; z-index: 1; }
+  .cx-tag { font-family: var(--cx-mono); font-size: 11px; letter-spacing:.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.92); color: var(--cx-cat, var(--cx-brand-deep)); font-weight: 600; backdrop-filter: blur(4px); box-shadow: 0 2px 8px rgba(15,34,51,.18); }
+  .cx-livebadge { font-family: var(--cx-mono); font-size: 11px; letter-spacing:.06em; padding: 4px 10px 4px 8px; border-radius: 999px; background: var(--cx-live-soft); color: var(--cx-live); display: inline-flex; align-items: center; gap: 6px; font-weight: 600; backdrop-filter: blur(4px); box-shadow: 0 2px 8px rgba(15,34,51,.18); }
+  .cx-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+  .cx-body h3 { font-size: 21px; line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .cx-desc { font-size: 14px; color: var(--cx-muted); flex: 1; font-family:'Inter',sans-serif; }
+  .cx-foot { display: flex; justify-content: flex-end; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--cx-tint); }
+  .cx-view { font-family:'Inter',sans-serif; font-size: 14px; font-weight: 600; color: var(--cx-brand); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap .15s; }
+  .cx-view:hover { gap: 11px; text-decoration: underline; }
+
+  .cx-card.guidance { padding: 26px 24px; background: linear-gradient(155deg, var(--cx-brand-deep), var(--cx-brand)); color:#fff; justify-content: center; align-items: flex-start; border: none; position: relative; overflow:hidden; }
+  .cx-card.guidance::after { content:""; position:absolute; inset:0; opacity:.5; pointer-events:none; background-image: radial-gradient(rgba(255,255,255,.14) 1px, transparent 1.4px); background-size: 20px 20px; }
+  .cx-card.guidance > * { position: relative; z-index: 1; }
+  .cx-card.guidance .tag-g { font-family: var(--cx-mono); font-size: 11px; letter-spacing:.12em; text-transform: uppercase; color: rgba(255,255,255,.8); margin-bottom: 12px; }
+  .cx-card.guidance h3 { color:#fff; font-size: 23px; }
+  .cx-card.guidance p { color: rgba(255,255,255,.85); font-size: 14px; margin: 8px 0 20px; font-family:'Inter',sans-serif; }
+  .cx-card.guidance .g-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cx-card.guidance a.gbtn { font-family:'Inter',sans-serif; font-weight:600; font-size: 14px; padding: 10px 18px; border-radius: 12px; text-decoration: none; transition: transform .15s; }
+  .cx-card.guidance a.gbtn.solid { background:#fff; color: var(--cx-brand-deep); }
+  .cx-card.guidance a.gbtn.line { border: 1px solid rgba(255,255,255,.6); color:#fff; }
+  .cx-card.guidance a.gbtn:hover { transform: translateY(-2px); }
+
+  .cx-empty { grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--cx-muted); font-size: 16px; }
+  .cx-pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 34px; flex-wrap: wrap; }
+  .cx-page-btn { font-family: var(--cx-mono); font-size: 14px; min-width: 40px; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--cx-line); background:#fff; color: var(--cx-ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all .15s; }
+  .cx-page-btn:hover:not(:disabled) { border-color: var(--cx-brand); color: var(--cx-brand-deep); }
+  .cx-page-btn.active { background: var(--cx-brand); color:#fff; border-color: var(--cx-brand); }
+  .cx-page-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .cx-ellipsis { color: var(--cx-muted); padding: 0 4px; }
+
+  @media (max-width: 900px) { .courses-page .cx-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .courses-page .cx-personas { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 600px) { .courses-page .cx-grid { grid-template-columns: 1fr; } .courses-page .cx-personas { grid-template-columns: 1fr; } .courses-page .cx-search { min-width: 100%; order: 5; } .courses-page .cx-spacer { display: none; } }
+
+  /* Persona CTA (button) */
+  .courses-page .cx-persona { display:block; width:100%; text-align:left; cursor:pointer; font-family:inherit; }
+  .cx-go { display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:var(--cx-brand); transition:gap .15s; }
+  .cx-go svg { width:15px; height:15px; transition: transform .15s; }
+  .cx-persona:hover .cx-go { gap:9px; } .cx-persona:hover .cx-go svg { transform: translateX(2px); }
+
+  /* Questionnaire modal */
+  .qz-overlay { position: fixed; inset: 0; z-index: 9000; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(10,24,43,.55); backdrop-filter: blur(4px); }
+  .qz-overlay.open { display: flex; }
+  .qz-card { background:#fff; border-radius:20px; width:100%; max-width:480px; box-shadow:0 30px 80px -20px rgba(10,24,43,.5); overflow:hidden; position:relative; animation:qzPop .2s ease; }
+  @keyframes qzPop { from{opacity:0;transform:translateY(12px) scale(.98);} to{opacity:1;transform:translateY(0) scale(1);} }
+  .qz-top { padding:22px 26px 0; }
+  .qz-close { position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:9px; border:1px solid var(--cx-line); background:#fff; color:var(--cx-ink); cursor:pointer; display:grid; place-items:center; }
+  .qz-close:hover { background:#f2f8fc; border-color:var(--cx-brand); }
+  .qz-eyebrow { font-family:var(--cx-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--cx-brand); font-weight:600; }
+  .qz-progress { display:flex; gap:6px; margin:12px 0 0; }
+  .qz-progress span { height:4px; flex:1; border-radius:99px; background:var(--cx-tint); transition:background .2s; }
+  .qz-progress span.done { background:var(--cx-brand); }
+  .qz-mbody { padding:18px 26px 26px; }
+  .qz-q { font-family:'Playfair Display',Georgia,serif; font-size:21px; color:var(--cx-ink); margin-bottom:16px; line-height:1.25; }
+  .qz-opts { display:grid; gap:10px; }
+  .qz-opt { text-align:left; font-family:'Inter',sans-serif; font-size:15px; padding:14px 16px; border-radius:12px; border:1px solid var(--cx-line); background:#fff; color:var(--cx-ink); cursor:pointer; transition:all .14s; }
+  .qz-opt:hover { border-color:var(--cx-brand); background:var(--cx-brand-soft); }
+  .qz-field { margin-bottom:12px; }
+  .qz-field label { display:block; font-size:12px; font-weight:600; color:var(--cx-ink); margin-bottom:6px; }
+  .qz-field input, .qz-field textarea { width:100%; padding:12px 14px; border-radius:11px; border:1px solid var(--cx-line); font-family:'Inter',sans-serif; font-size:14px; box-sizing:border-box; }
+  .qz-field textarea { resize:vertical; min-height:72px; }
+  .qz-field input:focus, .qz-field textarea:focus { outline:none; border-color:var(--cx-brand); box-shadow:0 0 0 3px var(--cx-brand-soft); }
+  .qz-submit { width:100%; margin-top:6px; font-family:'Inter',sans-serif; font-weight:600; font-size:15px; padding:13px; border-radius:12px; border:none; background:var(--cx-brand); color:#fff; cursor:pointer; }
+  .qz-submit:hover { background:var(--cx-brand-deep); }
+  .qz-submit:disabled { opacity:.6; cursor:not-allowed; }
+  .qz-back { background:none; border:none; color:var(--cx-muted); font-family:'Inter',sans-serif; font-size:13px; cursor:pointer; margin-top:14px; padding:0; }
+  .qz-back:hover { color:var(--cx-brand); }
+  .qz-note { font-size:12px; color:var(--cx-muted); margin-top:12px; line-height:1.5; }
+  .qz-done { text-align:center; padding:12px 0; }
+  .qz-done .tick { width:54px; height:54px; border-radius:50%; background:var(--cx-live-soft); color:var(--cx-live); display:grid; place-items:center; margin:0 auto 16px; }
+</style>
+
+<div class="courses-page">
+  <section class="cx-hero">
+    <div class="wrap">
+      <span class="cx-eyebrow">IT Courses · Live &amp; Enrolling</span>
+      <h1>Current Batches &amp; Enrolling <em>Programs</em></h1>
+      <p class="cx-lede">Live, mentor-led programs with hands-on labs, structured sprint calendars, and direct placement support. Pick a track or filter to your career focus.</p>
+      <div class="cx-hero-cta">
+        <a href="#" class="cx-btn" data-open-callback data-select="IT Courses &amp; Batches">Ask about a batch</a>
+        <a href="#" class="cx-btn ghost" data-open-guidance>Get guidance</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="cx-personas">
+      <button class="cx-persona" data-quiz="switch">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M4 10a8 8 0 0 1 14-3l2 3"/><path d="M20 14a8 8 0 0 1-14 3l-2-3"/></svg></div>
+        <div class="num">01 / NON-IT TO IT</div>
+        <h3>Career Switchers</h3>
+        <p>No coding experience needed. Move into automation &amp; analytics via structured RPA and SQL/Power BI tracks.</p>
+        <span class="cx-go">Find my switch path <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+      </button>
+      <button class="cx-persona" data-quiz="fresher">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg></div>
+        <div class="num">02 / FRESHERS</div>
+        <h3>Graduating Students</h3>
+        <p>Job-ready program with live cohort practice, certification alignment, and placement portal access.</p>
+        <span class="cx-go">Build my job plan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+      </button>
+      <button class="cx-persona" data-quiz="upskill">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
+        <div class="num">03 / UPSKILLING</div>
+        <h3>Working Professionals</h3>
+        <p>Deep-dives into Agentic RPA, IDP, Playwright SDET testing, and ETL pipelines.</p>
+        <span class="cx-go">Map my next step <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+      </button>
+      <button class="cx-persona" data-quiz="return">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <div class="num">04 / RETURN TO WORK</div>
+        <h3>Career Breaks</h3>
+        <p>Return-to-work sandbox labs, personal mentorship, and resume/confidence rebuilding sprints.</p>
+        <span class="cx-go">Restart my career <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+      </button>
+    </div>
+  </section>
+
+  <div class="cx-filterbar">
+    <div class="wrap cx-filterbar-inner" id="cx-filters">
+      <span class="cx-filter-label">Filter</span>
+      <button class="cx-chip" data-filter="all">All <span class="count" id="cx-c-all"></span></button>
+      <button class="cx-chip active" data-filter="live"><span class="cx-live-dot"></span>Live Now <span class="count" id="cx-c-live"></span></button>
+      <button class="cx-chip" data-filter="rpa"><span class="dot" style="background:var(--cx-rpa)"></span>RPA <span class="count" id="cx-c-rpa"></span></button>
+      <button class="cx-chip" data-filter="data"><span class="dot" style="background:var(--cx-data)"></span>Data <span class="count" id="cx-c-data"></span></button>
+      <button class="cx-chip" data-filter="testing"><span class="dot" style="background:var(--cx-testing)"></span>Testing <span class="count" id="cx-c-testing"></span></button>
+      <span class="cx-spacer"></span>
+      <input class="cx-search" id="cx-search" type="search" placeholder="Search courses…" aria-label="Search courses">
+    </div>
+  </div>
+
+  <section class="wrap">
+    <div class="cx-results" id="cx-results"></div>
+    <div class="cx-grid" id="cx-grid">
+      {%- set catMap = { "rpa": "RPA", "data": "Data", "testing": "Testing" } -%}
+      {%- set catColor = { "rpa": "var(--cx-rpa)", "data": "var(--cx-data)", "testing": "var(--cx-testing)" } -%}
+      {%- for c in collections.courses -%}
+      <article class="cx-card" data-cat="{{ c.data.card_category }}" data-live="{{ 'true' if c.data.card_live else 'false' }}"
+               data-title="{{ (c.data.name or c.data.title) | lower }}" data-desc="{{ c.data.card_blurb | lower }}"
+               style="--cx-cat:{{ catColor[c.data.card_category] }}">
+        <a href="{{ c.url }}" class="cx-media" aria-label="{{ c.data.name or c.data.title }}">
+          <div class="cx-flags">
+            <span class="cx-tag">{{ catMap[c.data.card_category] }}</span>
+            {%- if c.data.card_live %}<span class="cx-livebadge"><span class="cx-live-dot" style="background:var(--cx-live)"></span>Live now</span>{% endif -%}
+          </div>
+          <img src="{{ c.data.card_image }}" alt="{{ c.data.name or c.data.title }}" loading="lazy">
+        </a>
+        <div class="cx-body">
+          <h3>{{ c.data.name or c.data.title }}</h3>
+          <p class="cx-desc">{{ c.data.card_blurb }}</p>
+          <div class="cx-foot"><a class="cx-view" href="{{ c.url }}">View course →</a></div>
+        </div>
+      </article>
+      {%- endfor -%}
+
+      <article class="cx-card guidance" data-guidance>
+        <div class="tag-g">Not sure which track?</div>
+        <h3>Confused between two courses?</h3>
+        <p>Tell us your background — we'll recommend the track that actually fits, honestly.</p>
+        <div class="g-cta">
+          <a class="gbtn solid" href="#" data-open-guidance>Get guidance</a>
+          <a class="gbtn line" href="#" data-open-callback>Request callback</a>
+        </div>
+      </article>
+    </div>
+    <nav class="cx-pagination" id="cx-pagination" aria-label="Course pagination"></nav>
+  </section>
+</div>
+
+<script>
+(function(){
+  const PER_PAGE = 8;
+  const grid = document.getElementById("cx-grid");
+  const results = document.getElementById("cx-results");
+  const pagination = document.getElementById("cx-pagination");
+  const guidance = grid.querySelector("[data-guidance]");
+  const cards = Array.from(grid.querySelectorAll(".cx-card:not([data-guidance])"));
+  let state = { filter: "live", q: "", page: 1 };
+
+  // counts
+  const setCount = (id, n) => { const el = document.getElementById(id); if (el) el.textContent = n; };
+  setCount("cx-c-all", cards.length);
+  setCount("cx-c-live", cards.filter(c => c.dataset.live === "true").length);
+  setCount("cx-c-rpa", cards.filter(c => c.dataset.cat === "rpa").length);
+  setCount("cx-c-data", cards.filter(c => c.dataset.cat === "data").length);
+  setCount("cx-c-testing", cards.filter(c => c.dataset.cat === "testing").length);
+
+  function matches(card) {
+    if (state.filter === "live" && card.dataset.live !== "true") return false;
+    if (["rpa","data","testing"].includes(state.filter) && card.dataset.cat !== state.filter) return false;
+    if (state.q) {
+      const hay = card.dataset.title + " " + card.dataset.desc;
+      if (!hay.includes(state.q.toLowerCase())) return false;
+    }
+    return true;
+  }
+  function render() {
+    const list = cards.filter(matches);
+    const totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+    if (state.page > totalPages) state.page = totalPages;
+    const start = (state.page - 1) * PER_PAGE;
+    const pageItems = list.slice(start, start + PER_PAGE);
+    cards.forEach(c => c.style.display = "none");
+    pageItems.forEach(c => c.style.display = "");
+    // guidance always visible, moved to end
+    grid.appendChild(guidance);
+    // empty state
+    let emptyEl = grid.querySelector(".cx-empty");
+    if (!pageItems.length) {
+      if (!emptyEl) { emptyEl = document.createElement("div"); emptyEl.className = "cx-empty"; grid.insertBefore(emptyEl, guidance); }
+      emptyEl.textContent = "No courses match that combination. Try clearing the filter or search.";
+    } else if (emptyEl) { emptyEl.remove(); }
+    const labelMap = { live:"Live now", rpa:"RPA", data:"Data", testing:"Testing" };
+    const bits = [];
+    if (state.filter !== "all") bits.push(labelMap[state.filter]);
+    if (state.q) bits.push('"' + state.q + '"');
+    const from = list.length ? start + 1 : 0, to = start + pageItems.length;
+    results.textContent = (list.length ? `Showing ${from}–${to} of ${list.length} course${list.length===1?"":"s"}` : "0 courses") + (bits.length ? " · " + bits.join(" · ") : "");
+    renderPagination(totalPages);
+  }
+  function renderPagination(totalPages) {
+    pagination.innerHTML = "";
+    if (totalPages <= 1) return;
+    const mk = (label, page, opts={}) => {
+      const b = document.createElement("button");
+      b.className = "cx-page-btn" + (opts.active ? " active" : "");
+      b.innerHTML = label;
+      if (opts.disabled) b.disabled = true;
+      else b.addEventListener("click", () => { state.page = page; render(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+      return b;
+    };
+    pagination.appendChild(mk("← Prev", state.page - 1, { disabled: state.page === 1 }));
+    const pages = []; const win = 1;
+    for (let p = 1; p <= totalPages; p++) {
+      if (p === 1 || p === totalPages || (p >= state.page - win && p <= state.page + win)) pages.push(p);
+      else if (pages[pages.length - 1] !== "…") pages.push("…");
+    }
+    pages.forEach(p => {
+      if (p === "…") { const s = document.createElement("span"); s.className = "cx-ellipsis"; s.textContent = "…"; pagination.appendChild(s); }
+      else pagination.appendChild(mk(String(p), p, { active: p === state.page }));
+    });
+    pagination.appendChild(mk("Next →", state.page + 1, { disabled: state.page === totalPages }));
+  }
+  document.getElementById("cx-filters").addEventListener("click", e => {
+    const chip = e.target.closest(".cx-chip"); if (!chip) return;
+    document.querySelectorAll(".cx-chip").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active"); state.filter = chip.dataset.filter; state.page = 1; render();
+  });
+  document.getElementById("cx-search").addEventListener("input", e => { state.q = e.target.value.trim(); state.page = 1; render(); });
+  render();
+})();
+</script>
+
+<!-- Persona questionnaire modal -->
+<div class="qz-overlay" id="qz-overlay">
+  <div class="qz-card" role="dialog" aria-modal="true">
+    <button class="qz-close" id="qz-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="qz-top">
+      <span class="qz-eyebrow" id="qz-eyebrow"></span>
+      <div class="qz-progress" id="qz-progress"></div>
+    </div>
+    <div class="qz-mbody" id="qz-mbody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const FORMSUBMIT = "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2";
+  const QUIZ = {
+    switch: { label: "Career Switchers · Non-IT to IT", cta: "Find my switch path", path: "/pathways/career-switchers", steps: [
+      { q: "What field are you moving from?", opts: ["Support / BPO", "Manual testing / QA", "Operations or Admin", "Sales / Non-tech"] },
+      { q: "Which direction appeals more?", opts: ["Automation (RPA)", "Data & Analytics", "Not sure yet — guide me"] },
+      { q: "How soon do you want to start?", opts: ["Immediately", "Within a month", "Just exploring"] },
+      { q: "Your current work situation?", opts: ["Working full-time", "On notice period", "Not working right now"] },
+    ]},
+    fresher: { label: "Freshers · Graduating Students", cta: "Build my job plan", path: "/pathways/freshers", steps: [
+      { q: "Where are you right now?", opts: ["Final year student", "Graduated, job-hunting", "Graduated, upskilling"] },
+      { q: "Your degree background?", opts: ["CS / IT", "Non-CS engineering", "Non-tech degree"] },
+      { q: "Your primary goal?", opts: ["First job fast", "Strong portfolio", "Certification"] },
+      { q: "Graduation year?", opts: ["2026", "2025", "2024 or earlier"] },
+    ]},
+    upskill: { label: "Working Professionals · Upskilling", cta: "Map my next step", path: "/pathways/working-professionals", steps: [
+      { q: "Years of experience?", opts: ["1–3 years", "3–5 years", "5+ years"] },
+      { q: "Your current stack?", opts: ["RPA (UiPath)", "Testing / QA", "Data / BI", "Other IT"] },
+      { q: "What do you want to add?", opts: ["Agentic RPA & IDP", "Playwright SDET", "Power BI + SQL", "Multiple / not sure"] },
+      { q: "Preferred batch timing?", opts: ["Weekday mornings", "Weekday evenings", "Weekend"] },
+    ]},
+    return: { label: "Career Breaks · Return to Work", cta: "Restart my career", path: "/pathways/career-breaks", steps: [
+      { q: "How long has your break been?", opts: ["Under 1 year", "1–3 years", "3+ years"] },
+      { q: "Your last role was in?", opts: ["IT / Development", "Testing / QA", "Non-tech", "Fresher before break"] },
+      { q: "Your biggest need?", opts: ["Rebuild confidence", "Update skills", "Placement support"] },
+      { q: "When can you restart?", opts: ["Immediately", "Within a month", "Flexible / planning"] },
+    ]},
+  };
+  const overlay = document.getElementById("qz-overlay");
+  const eyebrow = document.getElementById("qz-eyebrow");
+  const progress = document.getElementById("qz-progress");
+  const body = document.getElementById("qz-mbody");
+  let active = null, step = 0, answers = [], submitted = false;
+
+  function open(key){ active = QUIZ[key]; step = 0; answers = []; submitted = false; eyebrow.textContent = active.label; overlay.classList.add("open"); document.body.style.overflow = "hidden"; renderStep(); }
+  function close(){ overlay.classList.remove("open"); document.body.style.overflow = ""; active = null; }
+  function goToPath(){ const path = active ? active.path : "/courses/"; document.body.style.overflow = ""; window.location.href = path; }
+  function renderProgress(total, done){ progress.innerHTML = ""; for(let i=0;i<total;i++){ const s=document.createElement("span"); if(i<done) s.className="done"; progress.appendChild(s);} }
+  function renderStep(){
+    const total = active.steps.length + 1;
+    renderProgress(total, step);
+    if (step < active.steps.length){
+      const s = active.steps[step];
+      body.innerHTML = `<div class="qz-q">${s.q}</div><div class="qz-opts">${s.opts.map((o,i)=>`<button class="qz-opt" data-i="${i}">${o}</button>`).join("")}</div>${step>0?`<button class="qz-back">← Back</button>`:""}`;
+      body.querySelectorAll(".qz-opt").forEach(btn=>btn.addEventListener("click",()=>{ answers[step]={q:s.q,a:s.opts[+btn.dataset.i]}; step++; renderStep(); }));
+      const back = body.querySelector(".qz-back"); if(back) back.addEventListener("click",()=>{ step--; renderStep(); });
+    } else {
+      body.innerHTML = `
+        <div class="qz-q">Almost there — where should we send your plan?</div>
+        <form id="qz-form">
+          <div class="qz-field"><label>Full Name *</label><input type="text" name="name" required placeholder="Your name"></div>
+          <div class="qz-field"><label>Email *</label><input type="email" name="email" required placeholder="you@example.com"></div>
+          <div class="qz-field"><label>Mobile / WhatsApp *</label><input type="tel" name="phone" required placeholder="+91 99999 99999"></div>
+          <div class="qz-field"><label>Tell us your situation (optional)</label><textarea name="description" placeholder="A few words about where you are and what you're hoping for…"></textarea></div>
+          <button type="submit" class="qz-submit">${active.cta}</button>
+          <button type="button" class="qz-back" id="qz-back-final">← Back</button>
+          <p class="qz-note">Our team reviews your answers and reaches out with a tailored path. No spam.</p>
+        </form>`;
+      body.querySelector("#qz-back-final").addEventListener("click",()=>{ step--; renderStep(); });
+      body.querySelector("#qz-form").addEventListener("submit", submit);
+    }
+  }
+  function submit(e){
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector(".qz-submit"); btn.disabled = true; btn.textContent = "Sending…";
+    const fd = new FormData(form);
+    const payload = { _subject: `Course questionnaire — ${active.label}`, _template: "table", persona: active.label,
+      name: fd.get("name"), email: fd.get("email"), phone: fd.get("phone"), description: fd.get("description") || "" };
+    answers.forEach((a,i)=>{ payload["Q"+(i+1)+" — "+a.q] = a.a; });
+    submitted = true;
+    fetch(FORMSUBMIT, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(payload) })
+      .catch(()=>{})
+      .finally(()=>{
+        renderProgress(active.steps.length+1, active.steps.length+1);
+        body.innerHTML = `<div class="qz-done">
+          <div class="tick"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div class="qz-q" style="margin-bottom:8px">Thank you!</div>
+          <p class="qz-note" style="margin:0 auto;max-width:34ch">We've got your answers. Taking you to your personalized path…</p>
+        </div>`;
+        setTimeout(goToPath, 1600);
+      });
+  }
+  document.querySelectorAll("[data-quiz]").forEach(b=>b.addEventListener("click",()=>open(b.dataset.quiz)));
+  document.getElementById("qz-close").addEventListener("click", close);
+  overlay.addEventListener("click", e=>{ if(e.target===overlay) close(); });
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && overlay.classList.contains("open")) close(); });
+})();
+</script>
