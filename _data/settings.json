@@ -26,7 +26,10 @@
       { "label": "Consulting", "url": "/consulting/" },
       { "label": "Enterprise Automation", "url": "/enterprise-automation/" },
       { "label": "Training", "url": "/training/" },
-      { "label": "Courses", "url": "/courses/" }
+      { "label": "Courses", "url": "/courses/" },
+      { "label": "RPA Agentic Course", "url": "/course/rpa-agentic-uipath-power-automate/" },
+      { "label": "Playwright Automation", "url": "/course/playwright-typescript-automation/" },
+      { "label": "Data Analytics & SQL", "url": "/course/data-analytics-power-bi-sql/" }
     ]
   },
   "forms": {

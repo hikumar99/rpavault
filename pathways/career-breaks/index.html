@@ -242,7 +242,7 @@ schema_ld: |
     letter-spacing:.08em; text-transform:uppercase; color:var(--blue-deep); box-shadow:0 4px 12px -6px rgba(0,88,176,.3); margin-bottom:16px; }
   .pw-pulse { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 0 0 rgba(57,184,127,.5); animation:pwpl 1.8s infinite; }
   @keyframes pwpl { 0%{box-shadow:0 0 0 0 rgba(57,184,127,.5);}70%{box-shadow:0 0 0 7px rgba(57,184,127,0);}100%{box-shadow:0 0 0 0 rgba(57,184,127,0);} }
-  .pw-banner h1 { font-family:var(--font-heading); font-size:clamp(2rem,4vw,2.8rem); color:var(--ink); line-height:1.15; max-width: none; margin: 0 auto; }
+  .pw-banner h2, .pw-banner h1 { font-family:var(--font-heading); font-size:clamp(2rem,4vw,2.8rem); color:var(--ink); line-height:1.15; max-width: none; margin: 0 auto; }
   .pw-nm { color:var(--blue); font-style:italic; }
   .pw-banner .lead { font-size:1.12rem; color:#33414a; max-width:56ch; margin: .9rem auto 0; line-height:1.6; }
   .pw-banner .lead b { color:var(--ink); font-weight:700; background:linear-gradient(transparent 60%, rgba(57,184,127,.25) 60%); padding:0 2px; }
@@ -303,7 +303,7 @@ schema_ld: |
   <div class="container">
     <div class="pw-banner">
       <span class="pw-kicker"><span class="pw-pulse"></span>Your personalized plan</span>
-      <h1>Hi <span class="pw-nm" id="pw-name">there</span>, let's map your path 👋</h1>
+      <h2>Hi <span class="pw-nm" id="pw-name">there</span>, let's map your path 👋</h2>
       <p class="lead" id="pw-msg"></p>
       <div class="pw-chips" id="pw-chips"></div>
       <div class="pw-cta">
