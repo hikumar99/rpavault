@@ -1,0 +1,750 @@
+---
+layout: layouts/base.html
+---
+<div class="course-detail-page">
+  <!-- HERO SECTION -->
+  <section class="sec-sand">
+    <div class="wrap">
+      <div class="hero-bento">
+        <div class="block hero-main block-pad">
+          <span class="eyebrow"><span class="dotchip"></span>{{ category | default(eyebrow) | default("RPA & Agentic Automation") }}</span>
+          <h1>{{ name | default(title) }}</h1>
+          <p>{{ lead | default(description) }}</p>
+          <div class="hero-ctas">
+            <a href="#pricing" class="btn btn-primary btn-lg">Request Callback</a>
+            <a href="#previews" class="btn btn-white">▶ Watch Demo</a>
+          </div>
+          <div class="hero-meta-row">
+            {% if chips %}
+            {% for chip in chips %}
+            <span class="hero-chip">{{ chip }}</span>
+            {% endfor %}
+            {% else %}
+            <span class="hero-chip">🎁 First 4 Classes Free</span>
+            <span class="hero-chip">⏱ {{ duration | default("45 Days") }} · {{ classes | default("33 Live Classes") }}</span>
+            <span class="hero-chip">💻 {{ mode | default("Live Online") }}</span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="hero-right">
+        <div class="block hero-proof block-pad">
+          <div class="rating-badge">
+            <div class="rb-left">
+              <div class="big">4.9</div>
+              <div class="stars-row">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 7 .7-5.3 4.8 1.6 6.9-6.2-3.6-6.2 3.6 1.6-6.9L2.1 9.6l7-.7Z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 7 .7-5.3 4.8 1.6 6.9-6.2-3.6-6.2 3.6 1.6-6.9L2.1 9.6l7-.7Z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 7 .7-5.3 4.8 1.6 6.9-6.2-3.6-6.2 3.6 1.6-6.9L2.1 9.6l7-.7Z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 7 .7-5.3 4.8 1.6 6.9-6.2-3.6-6.2 3.6 1.6-6.9L2.1 9.6l7-.7Z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.4 7 .7-5.3 4.8 1.6 6.9-6.2-3.6-6.2 3.6 1.6-6.9L2.1 9.6l7-.7Z"/></svg>
+              </div>
+            </div>
+            <div class="rb-right">
+              <span class="rb-pill"><svg viewBox="0 0 24 24" width="13" height="13"><path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.7-.2-2.5H12v4.7h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8Z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.3 21.3 7.3 24 12 24Z"/><path fill="#FBBC05" d="M5.4 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.6.4-2.4V6.5H1.4C.5 8.2 0 10 0 12s.5 3.8 1.4 5.5l4-3.1Z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.5l4 3.1c.9-2.8 3.5-4.8 6.6-4.8Z"/></svg> Google Rating</span>
+              <div class="lbl">170+ verified students</div>
+            </div>
+          </div>
+          <div class="hero-proof-stats">
+            {% if hero_stats %}
+            {% for stat in hero_stats %}
+            <div class="mini-stat"><span class="num">{{ stat.val }}</span><span class="lbl">{{ stat.label }}</span></div>
+            {% endfor %}
+            {% else %}
+            <div class="mini-stat"><span class="num">6,000+</span><span class="lbl">Learners trained</span></div>
+            <div class="mini-stat"><span class="num">₹9–18L</span><span class="lbl">Package range</span></div>
+            <div class="mini-stat"><span class="num">90%</span><span class="lbl">Placement rate</span></div>
+            <div class="mini-stat"><span class="num">50+</span><span class="lbl">Hiring partners</span></div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="block hero-fit-block" data-course="{{ name | default(title) }}">
+          <div class="hero-fit-eyebrow">Not sure yet?</div>
+          <h3>Will this be a fit for me?</h3>
+          <p>Answer 4 quick questions and we'll tell you honestly — and point you to the track that fits.</p>
+          <button type="button" class="btn btn-primary btn-block" id="fit-open">Check my fit →</button>
+          <div class="hero-fit-pills" id="fit-pills">
+            <button type="button" class="hero-fit-pill" data-quiz="switch">Career switcher</button>
+            <button type="button" class="hero-fit-pill" data-quiz="fresher">Fresher</button>
+            <button type="button" class="hero-fit-pill" data-quiz="upskill">Working pro</button>
+            <button type="button" class="hero-fit-pill" data-quiz="return">Career break</button>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- HERO FIT-BLOCK + QUIZ STYLES -->
+  <style>
+    /* Right hero column: stack the blue proof box + fit-block, share height with left cell */
+    .course-detail-page .hero-right { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+    .course-detail-page .hero-right .hero-proof { flex: 1; }
+    .course-detail-page .hero-fit-block { padding: 20px 22px; }
+    .course-detail-page .hero-fit-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--green-deep); margin-bottom: 6px; }
+    .course-detail-page .hero-fit-block h3 { font-size: 18px; margin-bottom: 4px; }
+    .course-detail-page .hero-fit-block p { font-size: 13px; color: var(--body-soft); margin: 0 0 14px; line-height: 1.45; }
+    .course-detail-page .hero-fit-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .course-detail-page .hero-fit-pill { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: var(--line); background: var(--sand); color: var(--green-deep); cursor: pointer; transition: all .14s; }
+    .course-detail-page .hero-fit-pill:hover { border-color: var(--green); background: var(--green-tint); }
+    .qz-overlay { position: fixed; inset: 0; z-index: 12500; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(10,24,43,.55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+    .qz-overlay.open { display: flex; }
+    .qz-card { background: #fff; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: 0 30px 80px -20px rgba(10,24,43,.5); overflow: hidden; position: relative; }
+    .qz-top { padding: 22px 26px 0; }
+    .qz-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 9px; border: var(--line); background: #fff; color: var(--ink); cursor: pointer; display: grid; place-items: center; }
+    .qz-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--green); font-weight: 600; }
+    .qz-progress { display: flex; gap: 6px; margin: 12px 0 0; }
+    .qz-progress span { height: 4px; flex: 1; border-radius: 99px; background: var(--green-tint); }
+    .qz-progress span.done { background: var(--green); }
+    .qz-body { padding: 18px 26px 26px; }
+    .qz-q { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: var(--ink); margin-bottom: 16px; line-height: 1.25; }
+    .qz-opts { display: grid; gap: 10px; }
+    .qz-opt { text-align: left; font-family: 'Inter', sans-serif; font-size: 15px; padding: 14px 16px; border-radius: 12px; border: var(--line); background: #fff; color: var(--ink); cursor: pointer; transition: all .14s; }
+    .qz-opt:hover { border-color: var(--green); background: var(--green-tint); }
+    .qz-field { margin-bottom: 12px; }
+    .qz-field label { display: block; font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .qz-field input, .qz-field textarea { width: 100%; padding: 12px 14px; border-radius: 11px; border: var(--line); font-family: 'Inter', sans-serif; font-size: 14px; box-sizing: border-box; }
+    .qz-field textarea { resize: vertical; min-height: 72px; }
+    .qz-submit { width: 100%; margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; padding: 13px; border-radius: 12px; border: none; background: var(--green); color: #fff; cursor: pointer; }
+    .qz-back { background: none; border: none; color: var(--body-soft); font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; margin-top: 14px; padding: 0; }
+    .qz-note { font-size: 12px; color: var(--body-soft); margin-top: 12px; line-height: 1.5; }
+    .qz-done { text-align: center; padding: 12px 0; }
+    .qz-done .tick { width: 54px; height: 54px; border-radius: 50%; background: #dff2e8; color: #1f8a54; display: grid; place-items: center; margin: 0 auto 16px; }
+  </style>
+  <div class="qz-overlay" id="qz-overlay">
+    <div class="qz-card" role="dialog" aria-modal="true">
+      <button class="qz-close" id="qz-close" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="qz-top"><span class="qz-eyebrow" id="qz-eyebrow"></span><div class="qz-progress" id="qz-progress"></div></div>
+      <div class="qz-body" id="qz-body"></div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    const FORMSUBMIT = "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2";
+    const SRC_COURSE = (document.querySelector(".hero-fit-block")||{}).dataset ? document.querySelector(".hero-fit-block").dataset.course : "";
+    const QUIZ = {
+      _picker: { label:"Check your fit", steps:[ { q:"Which best describes you?", opts:["Switching career into IT","Fresher / graduating student","Working professional upskilling","Returning after a career break"], routes:["switch","fresher","upskill","return"] } ] },
+      switch: { label:"Career Switchers · Non-IT to IT", cta:"Find my switch path", path:"/pathways/career-switchers", steps:[
+        { q:"What field are you moving from?", opts:["Support / BPO","Manual testing / QA","Operations or Admin","Sales / Non-tech"] },
+        { q:"Which direction appeals more?", opts:["Automation (RPA)","Data & Analytics","Not sure yet — guide me"] },
+        { q:"How soon do you want to start?", opts:["Immediately","Within a month","Just exploring"] },
+        { q:"Your current work situation?", opts:["Working full-time","On notice period","Not working right now"] } ]},
+      fresher: { label:"Freshers · Graduating Students", cta:"Build my job plan", path:"/pathways/freshers", steps:[
+        { q:"Where are you right now?", opts:["Final year student","Graduated, job-hunting","Graduated, upskilling"] },
+        { q:"Your degree background?", opts:["CS / IT","Non-CS engineering","Non-tech degree"] },
+        { q:"Your primary goal?", opts:["First job fast","Strong portfolio","Certification"] },
+        { q:"Graduation year?", opts:["2026","2025","2024 or earlier"] } ]},
+      upskill: { label:"Working Professionals · Upskilling", cta:"Map my next step", path:"/pathways/working-professionals", steps:[
+        { q:"Years of experience?", opts:["1–3 years","3–5 years","5+ years"] },
+        { q:"Your current stack?", opts:["RPA (UiPath)","Testing / QA","Data / BI","Other IT"] },
+        { q:"What do you want to add?", opts:["Agentic RPA & IDP","Playwright SDET","Power BI + SQL","Multiple / not sure"] },
+        { q:"Preferred batch timing?", opts:["Weekday mornings","Weekday evenings","Weekend"] } ]},
+      return: { label:"Career Breaks · Return to Work", cta:"Restart my career", path:"/pathways/career-breaks", steps:[
+        { q:"How long has your break been?", opts:["Under 1 year","1–3 years","3+ years"] },
+        { q:"Your last role was in?", opts:["IT / Development","Testing / QA","Non-tech","Fresher before break"] },
+        { q:"Your biggest need?", opts:["Rebuild confidence","Update skills","Placement support"] },
+        { q:"When can you restart?", opts:["Immediately","Within a month","Flexible / planning"] } ]},
+    };
+    const overlay=document.getElementById("qz-overlay"), eyebrow=document.getElementById("qz-eyebrow"), progress=document.getElementById("qz-progress"), body=document.getElementById("qz-body");
+    let active=null, step=0, answers=[];
+    function open(k){ active=QUIZ[k]; step=0; answers=[]; eyebrow.textContent=active.label; overlay.classList.add("open"); document.body.style.overflow="hidden"; renderStep(); }
+    function close(){ overlay.classList.remove("open"); document.body.style.overflow=""; active=null; }
+    function goToPath(){ const p=active?active.path:"/courses/"; document.body.style.overflow=""; window.location.href=p; }
+    function prog(t,d){ progress.innerHTML=""; for(let i=0;i<t;i++){const s=document.createElement("span"); if(i<d)s.className="done"; progress.appendChild(s);} }
+    function renderStep(){
+      const isPicker = active===QUIZ._picker;
+      prog(isPicker?1:active.steps.length+1, step);
+      if (step < active.steps.length){
+        const s=active.steps[step];
+        body.innerHTML = `<div class="qz-q">${s.q}</div><div class="qz-opts">${s.opts.map((o,i)=>`<button class="qz-opt" data-i="${i}">${o}</button>`).join("")}</div>${step>0?`<button class="qz-back">← Back</button>`:""}`;
+        body.querySelectorAll(".qz-opt").forEach(btn=>btn.addEventListener("click",()=>{ if(isPicker){ open(s.routes[+btn.dataset.i]); return; } answers[step]={q:s.q,a:s.opts[+btn.dataset.i]}; step++; renderStep(); }));
+        const b=body.querySelector(".qz-back"); if(b) b.addEventListener("click",()=>{ step--; renderStep(); });
+      } else {
+        body.innerHTML = `<div class="qz-q">Almost there — where should we send your plan?</div>
+          <form id="qz-form">
+            <div class="qz-field"><label>Full Name *</label><input name="name" type="text" required placeholder="Your name"></div>
+            <div class="qz-field"><label>Email *</label><input name="email" type="email" required placeholder="you@example.com"></div>
+            <div class="qz-field"><label>Mobile / WhatsApp *</label><input name="phone" type="tel" required placeholder="+91 99999 99999"></div>
+            <div class="qz-field"><label>Tell us your situation (optional)</label><textarea name="description" placeholder="A few words about where you are…"></textarea></div>
+            <button type="submit" class="qz-submit">${active.cta}</button>
+            <button type="button" class="qz-back" id="qz-bf">← Back</button>
+            <p class="qz-note">Our team reviews your answers and reaches out with a tailored path. No spam.</p>
+          </form>`;
+        body.querySelector("#qz-bf").addEventListener("click",()=>{ step--; renderStep(); });
+        body.querySelector("#qz-form").addEventListener("submit",submit);
+      }
+    }
+    function submit(e){
+      e.preventDefault();
+      const f=e.target, btn=f.querySelector(".qz-submit"); btn.disabled=true; btn.textContent="Sending…";
+      const fd=new FormData(f);
+      const payload={ _subject:`Course fit-check — ${active.label}`, _template:"table", persona:active.label, asked_from_course:SRC_COURSE||"(course page)", name:fd.get("name"), email:fd.get("email"), phone:fd.get("phone"), description:fd.get("description")||"" };
+      answers.forEach((a,i)=>{ payload["Q"+(i+1)+" — "+a.q]=a.a; });
+      fetch(FORMSUBMIT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)}).catch(()=>{}).finally(()=>{
+        prog(active.steps.length+1, active.steps.length+1);
+        body.innerHTML=`<div class="qz-done"><div class="tick"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div class="qz-q" style="margin-bottom:8px">Thank you!</div><p class="qz-note" style="margin:0 auto;max-width:34ch">Taking you to your personalized path…</p></div>`;
+        setTimeout(goToPath,1600);
+      });
+    }
+    const openBtn=document.getElementById("fit-open"); if(openBtn) openBtn.addEventListener("click",()=>open("_picker"));
+    document.querySelectorAll("#fit-pills [data-quiz]").forEach(b=>b.addEventListener("click",()=>open(b.dataset.quiz)));
+    document.getElementById("qz-close").addEventListener("click",close);
+    overlay.addEventListener("click",e=>{ if(e.target===overlay) close(); });
+    document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&overlay.classList.contains("open")) close(); });
+  })();
+  </script>
+  <section class="sec-green">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>GOOD FIT &amp; OUTCOMES</span>
+        <h2>Who it's for, what you'll <em>master</em>, and the free bonus vault</h2>
+      </div>
+      <div class="three-block-grid">
+        <div class="block feature-block" style="--fc:var(--green);--fc-tint:var(--green-tint)">
+          <div class="fhead">
+            <div class="ficon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            </div>
+            <h3>Who this is for</h3>
+          </div>
+          <ul>
+            {% for item in fit_check %}
+            <li><span class="tick-box">✓</span>{{ item }}</li>
+            {% endfor %}
+            <li><span class="tick-box">✓</span>Anyone unsure yet — the first 4 classes are free, no commitment</li>
+          </ul>
+        </div>
+        <div class="block feature-block" style="--fc:#1f8f8a;--fc-tint:#dcf1f0">
+          <div class="fhead">
+            <div class="ficon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+            </div>
+            <h3>What you'll master</h3>
+          </div>
+          <ul>
+            {% for item in what_you_get %}
+            <li><span class="tick-box">✓</span>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="block feature-block bonus-col" style="--fc:var(--gold);--fc-tint:var(--gold-tint)">
+          <div class="fhead">
+            <div class="ficon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13"/><path d="M12 8S9.5 3 7 4.5 8 8 12 8Zm0 0s2.5-5 5-3.5S16 8 12 8Z"/></svg>
+            </div>
+            <h3>Free bonus vault</h3>
+          </div>
+          <div class="bonus-highlight">
+            <span class="bonus-worth">Thousands</span>
+            <span class="bonus-worth-lbl">worth of paid toolkits — yours free</span>
+          </div>
+          <p class="bonus-lead">Every enrolled student unlocks our premium resource vault: interview question banks, production project templates, and career kits. New resources added over time.</p>
+          <a class="btn btn-gold btn-block" href="/go/premium-toolkit">Explore Premium Toolkit →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING + CALLBACK SCHEDULER -->
+  <section id="pricing" class="sec-white">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>PRICING &amp; ACCESS</span>
+        <h2>Enroll with <em>confidence</em></h2>
+        <p>See the teaching for yourself first, then pay only when you're sure. One price, everything included — no hidden add-ons.</p>
+      </div>
+      <div class="block contact-grid" id="demo-form" style="overflow:hidden;padding:0">
+        <div class="contact-info trust-panel">
+          <span class="badge">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            Try before you pay
+          </span>
+          <h3>How enrolling works</h3>
+          <ol class="trust-steps">
+            <li><span class="ts-n">1</span><div><strong>Request a callback</strong><span>We talk you through the program, batch and fit — no obligation.</span></div></li>
+            <li><span class="ts-n">2</span><div><strong>Attend 4 live classes free</strong><span>Sit in on real sessions. No card, no payment up front.</span></div></li>
+            <li><span class="ts-n">3</span><div><strong>Enroll only when convinced</strong><span>Pay securely and unlock all 45 days + the bonus vault.</span></div></li>
+          </ol>
+          <ul class="trust-points">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Trained 6,000+ learners with a 90% placement rate across 50+ hiring partners</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Taught by an active UiPath Tech Lead, not a recycled recording</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>4.9★ Google rating from 170+ verified students</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Secure payment on this page — no external redirects</li>
+          </ul>
+          <div class="trust-faq">
+            <p><strong>Can I pay in installments?</strong> Yes — talk to us and we'll work out an option that fits.</p>
+            <p><strong>What if I miss a class?</strong> Every session is recorded and shared the same day, with lifetime access.</p>
+          </div>
+        </div>
+        <div class="price-block featured" style="border:none;border-radius:0;height:100%;display:flex;flex-direction:column">
+          <div class="ribbon">MOST CHOSEN</div>
+          <div class="price-tag" id="price-region-label">One-time enrollment &middot; INR</div>
+          <div class="price-amt">
+            <span class="now" id="price-now">{{ price_inr | default("₹16,999") }}</span>
+            <span class="was" id="price-was">{{ price_inr_strike | default("₹25,000") }}</span>
+          </div>
+          <div class="urgency" id="price-urgency">🎟️ Launch price · limited seats per batch for close mentoring</div>
+          <ul class="price-includes">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>All 33 live classes + lifetime recordings access</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Premium bonus resource vault, free</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Same trainer, all 33 classes, no substitutes</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>100% placement assistance till you're hired</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pay securely, right here, no external redirect</li>
+          </ul>
+          <!-- Trigger callback modal since standard site has partials/callback.html -->
+          <button type="button" class="btn btn-primary btn-block btn-lg" style="margin-top:22px;" data-open-callback data-select="IT Courses &amp; Batches">Request a Callback — Start Free</button>
+          <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-white btn-block" style="margin-top:10px">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+          <div class="guarantee" style="margin-top:16px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>You've already seen 4 full classes free before paying — zero blind risk.</span>
+          </div>
+        </div>
+      </div>
+      <div class="block" style="margin-top:20px;padding:18px 26px;background:var(--green-tint);border-color:#d3e9df">
+        <p style="margin:0;font-size:13.5px;color:var(--green-deep)">New batches start regularly, so you're never left waiting — there's almost always a fresh cohort about to begin. Reach out and we'll place you in the next available batch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRICULUM TIMELINE -->
+  {% if curriculum %}
+  <section id="curriculum" class="sec-sand2">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>33 LIVE CLASSES</span>
+        <h2>Curriculum <em>roadmap</em></h2>
+        <p>Four phases. Pick one on the left, click any class to see the full detail.</p>
+      </div>
+      <div class="curr-layout">
+        <div class="curr-nav" id="curr-nav">
+          {% for phase in curriculum %}
+          <div class="curr-nav-item{% if loop.first %} active{% endif %}" data-target="phase-{{ loop.index0 }}">
+            <div class="cn-ic">
+              {% if loop.index == 1 %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              {% elif loop.index == 2 %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11a4 4 0 0 1 0 8H9"/><path d="m7 12-3 3 3 3"/><circle cx="19" cy="7" r="2"/></svg>
+              {% elif loop.index == 3 %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+              {% else %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2.5"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/><circle cx="9.5" cy="13" r="1.2" fill="currentColor"/><circle cx="14.5" cy="13" r="1.2" fill="currentColor"/></svg>
+              {% endif %}
+            </div>
+            <div>
+              <div class="cn-num">PHASE 0{{ loop.index }}</div>
+              <div class="cn-title">{{ phase.phase | replace("Module ", "") | replace("Module 1 ·", "") | replace("Module 2 ·", "") | replace("Module 3 ·", "") | replace("Module 4 ·", "") | replace("·", "") | trim }}</div>
+            </div>
+          </div>
+          {% endfor %}
+          {% if syllabus_pdf %}
+          <a href="{{ syllabus_pdf }}" target="_blank" rel="noopener" class="btn btn-primary btn-block curr-pdf-btn">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Download Syllabus PDF
+          </a>
+          {% endif %}
+        </div>
+        <div class="curr-panels" id="curr-panels">
+          {% for phase in curriculum %}
+          <div class="curr-panel" id="phase-{{ loop.index0 }}">
+            <div class="curr-panel-head">
+              <div class="ph-ic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              </div>
+              <div>
+                <h3>Phase 0{{ loop.index }} &middot; {{ phase.phase | replace("Module ", "") | replace("Module 1 ·", "") | replace("Module 2 ·", "") | replace("Module 3 ·", "") | replace("Module 4 ·", "") | replace("·", "") | trim }}</h3>
+                <p>{{ phase.outcome | replace("Outcome:", "") | trim }}</p>
+              </div>
+            </div>
+            <div class="lesson-list">
+              {% for session in phase.sessions %}
+              <div class="lesson-row" data-tag="{{ session.num }}" data-title="{{ session.title }}">
+                <span class="lr-tag">{{ session.num }}</span>
+                <span class="lr-title">{{ session.title }}</span>
+                <span class="lr-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+                </span>
+                <div class="lesson-detail" hidden>
+                  <p class="ld-desc">{{ session.details }}</p>
+                  <ul class="ld-topics">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Hands-on practice &amp; live mentor guidance</span></li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Real-world industrial automation use cases</span></li>
+                  </ul>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- INSTRUCTOR SHOWCASE -->
+  {% if show_trainers != false and trainers and trainers.length > 0 %}
+  {% set trainer = trainers | first %}
+  <section class="sec-white">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>YOUR INSTRUCTOR</span>
+        <h2>Learn from real <em>architects</em></h2>
+      </div>
+      <div class="block instructor-block">
+        <div class="avatar-photo" role="img" aria-label="{{ trainer.name }}">
+          <svg viewBox="0 0 96 96" width="96" height="96" aria-hidden="true">
+            <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--green)"/><stop offset="1" stop-color="var(--green-deep)"/></linearGradient></defs>
+            <rect width="96" height="96" rx="20" fill="url(#tg)"/>
+            <text x="48" y="60" text-anchor="middle" font-family="Sora, sans-serif" font-weight="800" font-size="34" fill="#fff">{{ trainer.avatar | default("RT") }}</text>
+          </svg>
+        </div>
+        <div>
+          <h3 class="instructor-name">{{ trainer.name }}</h3>
+          <div class="instructor-role">{{ trainer.role }}</div>
+          <p class="instructor-bio">{{ trainer.bio }}</p>
+          <p style="font-size:13px;font-weight:600;color:var(--body);margin:0 0 16px">You'll learn from {{ trainer.name }} for all 33 classes — no hand-offs, no substitute trainers.</p>
+          <button type="button" class="btn btn-white btn-sm" onclick="triggerTrainerPopup(0)">View Full Credentials</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- PREVIEWS & CHANNELS -->
+  {% if videos and videos.length > 0 %}
+  <section id="previews" class="sec-sand" style="padding-top:16px">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>CLASSROOM PREVIEWS</span>
+        <h2>See a real class before you <em>decide</em></h2>
+      </div>
+      <div class="preview-layout">
+        <div class="preview-grid">
+          {% for video in videos %}
+          <div class="preview-block">
+            <div class="preview-video">
+              <iframe src="{{ video.url }}" title="{{ video.title }}" allowfullscreen></iframe>
+            </div>
+            <span class="preview-day">Day {{ loop.index }} &middot; Live Demo</span>
+            <h4>{{ video.title }}</h4>
+            <p>{{ video.description }}</p>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="preview-loop">
+          <h3 class="preview-loop-head">Stay in the loop</h3>
+          <p class="preview-loop-sub">Join our channels for schedules, jobs and free tutorials.</p>
+          <div class="loop-btns">
+            {% if whatsapp_group_url %}
+            <a class="loop-btn" href="{{ whatsapp_group_url }}" target="_blank" rel="noopener">
+              <span class="lb-ic" style="background:#dcf8e8;color:#128c4a"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.16c-.24.68-1.4 1.3-1.94 1.34-.5.05-1.13.07-1.82-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.8-4.17-4.94-4.36-.15-.19-1.19-1.58-1.19-3.01 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.59.82 2.02.89 2.17.07.15.12.32.02.51-.55 1.08-1.14 1.04-.84 1.55.82 1.4 1.63 1.88 2.87 2.5.31.16.49.13.67-.08.18-.21.77-.9.98-1.21.2-.31.41-.26.69-.16.28.11 1.76.83 2.06.98.3.15.5.22.57.34.07.12.07.66-.17 1.34Z"/></svg></span>
+              <span class="lb-txt"><span class="lb-title">Join Community</span><span class="lb-sub">Latest job openings</span></span>
+            </a>
+            {% endif %}
+            {% if whatsapp_jobs_url %}
+            <a class="loop-btn" href="{{ whatsapp_jobs_url }}" target="_blank" rel="noopener">
+              <span class="lb-ic" style="background:var(--green-tint);color:var(--green-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M2.5 12.5h19"/><path d="M10.5 12.5v1.6a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1.6"/></svg></span>
+              <span class="lb-txt"><span class="lb-title">Latest Remote Jobs Openings</span><span class="lb-sub">IT remote jobs at your finger tips</span></span>
+            </a>
+            {% endif %}
+            <a class="loop-btn" href="https://www.youtube.com/@rpavault" target="_blank" rel="noopener">
+              <span class="lb-ic" style="background:#fde3e3;color:#d32f2f"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></span>
+              <span class="lb-txt"><span class="lb-title">YouTube · Subscribe</span><span class="lb-sub">Free tutorials &amp; class clips</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- STUDENT TESTIMONIALS -->
+  <section class="sec-green">
+    <div class="wrap">
+      <div class="head-block"><span class="eyebrow"><span class="dotchip"></span>STUDENT REVIEWS</span><h2>What our students <em>say</em></h2></div>
+      <div class="testi-grid">
+        <div class="block testi-block">
+          <div class="testi-head">
+            <span class="testi-avatar" aria-hidden="true">MK</span>
+            <div class="testi-id"><span class="testi-name">Madhu Krishna</span><span class="testi-src"><svg class="g-logo" viewBox="0 0 24 24" width="13" height="13"><path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.7-.2-2.5H12v4.7h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8Z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.3 21.3 7.3 24 12 24Z"/><path fill="#FBBC05" d="M5.4 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.6.4-2.4V6.5H1.4C.5 8.2 0 10 0 12s.5 3.8 1.4 5.5l4-3.1Z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.5l4 3.1c.9-2.8 3.5-4.8 6.6-4.8Z"/></svg>Google review</span></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>"Excellent training and real-time knowledge. The sessions are completely practical and the trainer explains every concept with real project scenarios. Best place to learn RPA."</p>
+        </div>
+        <div class="block testi-block">
+          <div class="testi-head">
+            <span class="testi-avatar" aria-hidden="true">KC</span>
+            <div class="testi-id"><span class="testi-name">Krishna Cherukuri</span><span class="testi-src"><svg class="g-logo" viewBox="0 0 24 24" width="13" height="13"><path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.7-.2-2.5H12v4.7h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8Z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.3 21.3 7.3 24 12 24Z"/><path fill="#FBBC05" d="M5.4 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.6.4-2.4V6.5H1.4C.5 8.2 0 10 0 12s.5 3.8 1.4 5.5l4-3.1Z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.5l4 3.1c.9-2.8 3.5-4.8 6.6-4.8Z"/></svg>Google review</span></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>"Very good institute for UiPath training. In-depth coverage from basics to REFramework with hands-on practice, and genuine placement guidance throughout."</p>
+        </div>
+        <div class="block testi-block">
+          <div class="testi-head">
+            <span class="testi-avatar" aria-hidden="true">AK</span>
+            <div class="testi-id"><span class="testi-name">Aditi Kulkarni</span><span class="testi-src"><svg class="g-logo" viewBox="0 0 24 24" width="13" height="13"><path fill="#4285F4" d="M23.5 12.3c0-.9-.1-1.7-.2-2.5H12v4.7h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8Z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.3 21.3 7.3 24 12 24Z"/><path fill="#FBBC05" d="M5.4 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.6.4-2.4V6.5H1.4C.5 8.2 0 10 0 12s.5 3.8 1.4 5.5l4-3.1Z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.5l4 3.1c.9-2.8 3.5-4.8 6.6-4.8Z"/></svg>Google review</span></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>"Great learning experience. Concepts are taught patiently with real examples, doubts are cleared in every session, and the projects gave me real confidence for interviews."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQS -->
+  {% if faqs %}
+  <section class="sec-sand">
+    <div class="wrap" style="max-width:820px">
+      <div class="head-block"><span class="eyebrow"><span class="dotchip"></span>FAQ</span><h2>Questions? We have <em>answers</em></h2></div>
+      <div class="block faq-block">
+        {% for faq in faqs %}
+        <div class="faq-item{% if loop.first %} open{% endif %}">
+          <div class="faq-q" onclick="toggleFaq(this)"><h4>{{ faq.q }}</h4><span class="plus">+</span></div>
+          <div class="faq-a"><p>{{ faq.a }}</p></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- FINAL CTA -->
+  <section class="sec-sand" style="padding-top:0">
+    <div class="wrap">
+      <div class="block final-cta">
+        <h2>Enroll only when <em>you're convinced.</em></h2>
+        <p>Join our live classes for free until you're satisfied — no card, no commitment.</p>
+        <div class="final-cta-btns">
+          <button type="button" class="btn btn-white btn-lg" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
+          <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-pay btn-lg">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE BOTTOM BAR -->
+  <div class="mobile-bar">
+    <button type="button" class="btn btn-ghost" data-open-callback data-select="IT Courses &amp; Batches">Talk to Us</button>
+    <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-pay">Enroll <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+  </div>
+
+  <!-- DESKTOP STICKY CTA -->
+  <div class="sticky-cta" id="stickyCta">
+    <div class="sticky-cta-inner">
+      <div class="sc-info">
+        <span class="sc-title">{{ name | default(title) }}</span>
+        <span class="sc-price"><span class="sc-now price-inline">{{ price_inr | default("₹16,999") }}</span><span class="sc-note">45 days · 33 live classes · first 4 free</span></span>
+      </div>
+      <div class="sc-btns">
+        <button type="button" class="btn btn-ghost btn-sm" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
+        <a href="{{ payment_inr_url | default('#') }}" target="_blank" rel="noopener" class="btn btn-pay btn-sm">Enroll &amp; Pay</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Thanks! Our team will call you back shortly.</div>
+</div>
+
+<!-- LESSON CLASS DETAIL MODAL -->
+<div class="modal-overlay" id="class-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="modal-top">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="modal-phase" id="m-phase"></div>
+      <div class="modal-tag" id="m-tag"></div>
+    </div>
+    <h3 id="m-title"></h3>
+    <div class="modal-body">
+      <p id="m-desc"></p>
+      <div class="modal-topics">
+        <h5>What's covered</h5>
+        <ul id="m-topics"></ul>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-primary btn-sm" onclick="closeModal();" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
+      {% if syllabus_pdf %}
+      <a href="{{ syllabus_pdf }}" target="_blank" rel="noopener" class="btn btn-white btn-sm">Full Syllabus PDF</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- TRAINER DETAILS POPUP MODAL -->
+{% if show_trainers != false and trainers and trainers.length > 0 %}
+<div class="modal-overlay" id="premiumTrainerModal" onclick="if(event.target===this)closeTrainerPopup()">
+  <div class="modal-card" role="dialog" aria-modal="true" style="max-width:620px;">
+    <div class="modal-top">
+      <button class="modal-close" onclick="closeTrainerPopup()" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="modal-phase">INSTRUCTOR CREDENTIALS</div>
+      <div class="modal-tag" id="modal-trainer-role-tag">UiPath RPA Tech Lead</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:16px; padding:0 28px; margin-top:10px;">
+      <div class="avatar-fallback" id="modal-avatar-box" style="width:64px; height:64px; border-radius:14px; font-size:22px; background:linear-gradient(150deg,var(--green),var(--green-deep)); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Sora'; font-weight:800;">RT</div>
+      <div>
+        <h3 id="modal-trainer-name" style="padding:0; margin:0; font-size:20px; color:#1a181b;">{{ trainer.name }}</h3>
+        <p id="modal-trainer-role" style="font-size:13px; color:#0058b0; font-weight:700; margin:2px 0 0 0;">{{ trainer.role }}</p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p id="modal-trainer-bio" style="font-size:14px; line-height:1.6; color:#33414a; margin-bottom:18px;">{{ trainer.bio }}</p>
+      {% if trainer.highlights %}
+      <div class="modal-topics" id="modal-trainer-highlights-wrap">
+        <h5 style="color:#004182; font-weight:700; font-size:12px; margin-bottom:8px;">Highlights &amp; Accomplishments</h5>
+        <ul id="modal-trainer-highlights">
+          {% for hl in trainer.highlights %}
+          <li style="display:flex; gap:10px; font-size:14px; color:#1a181b; margin-bottom:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; color:#0058b0; flex:none; margin-top:3px;"><path d="M20 6 9 17l-5-5"/></svg><span>{{ hl }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% if trainer.certifications %}
+      <div class="modal-topics" id="modal-trainer-certs-wrap" style="margin-top:16px;">
+        <h5 style="color:#004182; font-weight:700; font-size:12px; margin-bottom:8px;">Official Certifications</h5>
+        <ul id="modal-trainer-certs">
+          {% for cert in trainer.certifications %}
+          <li style="display:flex; gap:10px; font-size:14px; color:#1a181b; margin-bottom:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; color:#0058b0; flex:none; margin-top:3px;"><path d="M20 6 9 17l-5-5"/></svg><span>{{ cert }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    <div class="modal-foot" style="justify-content:space-between; align-items:center; display:flex; padding:0 28px 26px;">
+      {% if trainer.linkedin %}
+      <a id="modal-trainer-linkedin" href="{{ trainer.linkedin }}" class="btn btn-white btn-sm" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; color:#0a66c2; border-color:#0a66c2;">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+        <span>Connect on LinkedIn</span>
+      </a>
+      {% endif %}
+      <button type="button" class="btn btn-primary btn-sm" onclick="closeTrainerPopup()">Close Profile</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<script>
+function toggleFaq(q){
+  const item = q.parentElement;
+  document.querySelectorAll('.faq-item').forEach(i=>{ if(i!==item) i.classList.remove('open'); });
+  item.classList.toggle('open');
+}
+
+/* ============================================================
+   CURRICULUM TABS & MODALS
+   ============================================================ */
+(function initCurriculum(){
+  const nav = document.getElementById('curr-nav');
+  const panels = document.getElementById('curr-panels');
+  if(!nav||!panels) return;
+  nav.querySelectorAll('.curr-nav-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const targetPanel = document.getElementById(item.dataset.target);
+      if (targetPanel) {
+        targetPanel.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    });
+  });
+  const navItems = nav.querySelectorAll('.curr-nav-item');
+  const panelEls = Array.from(panels.querySelectorAll('.curr-panel'));
+  const REF_OFFSET = 130;
+  function updateActiveNav(){
+    let current = panelEls[0];
+    for(const p of panelEls){
+      if(p.getBoundingClientRect().top - REF_OFFSET <= 0) current = p;
+    }
+    navItems.forEach(n=>n.classList.toggle('active', n.dataset.target === current.id));
+  }
+  let ticking = false;
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){
+      requestAnimationFrame(()=>{ updateActiveNav(); ticking = false; });
+      ticking = true;
+    }
+  }, {passive:true});
+  updateActiveNav();
+  panels.querySelectorAll('.lesson-row').forEach(row=>{
+    row.addEventListener('click',()=>{
+      const panel = row.closest('.curr-panel');
+      const phaseTitle = panel.querySelector('.curr-panel-head h3').textContent;
+      const tag = row.dataset.tag;
+      const title = row.dataset.title;
+      const detail = row.querySelector('.lesson-detail');
+      const desc = detail.querySelector('.ld-desc').textContent;
+      const topicsHTML = detail.querySelector('.ld-topics').innerHTML;
+      document.getElementById('m-phase').textContent = phaseTitle;
+      document.getElementById('m-tag').textContent = tag;
+      document.getElementById('m-title').textContent = title;
+      document.getElementById('m-desc').textContent = desc;
+      document.getElementById('m-topics').innerHTML = topicsHTML;
+      document.getElementById('class-modal').classList.add('open');
+      document.body.style.overflow='hidden';
+    });
+  });
+})();
+function closeModal(){ document.getElementById('class-modal').classList.remove('open'); document.body.style.overflow=''; }
+
+/* ============================================================
+   TRAINER MODAL TRIGGER
+   ============================================================ */
+function triggerTrainerPopup(idx) {
+  const modal = document.getElementById('premiumTrainerModal');
+  if (modal) {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeTrainerPopup() {
+  const modal = document.getElementById('premiumTrainerModal');
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeTrainerPopup(); } });
+function showToast(msg){ const t=document.getElementById('toast'); if(typeof msg==='string') t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3400); }
+
+/* REGION-BASED SINGLE PRICING */
+(function initPricing(){
+  const PRICE = {
+    inr: { region:'One-time enrollment · INR', now:'{{ price_inr | default("₹16,999") }}', was:'{{ price_inr_strike | default("₹25,000") }}',
+      urgency:'🎟️ Launch price · limited seats per batch for close mentoring' },
+    usd: { region:'One-time enrollment · USD', now:'{{ price_usd | default("$399") }}', was:'{{ price_usd_strike | default("$599") }}',
+      urgency:'🎟️ Launch price · limited seats per batch for close mentoring' }
+  };
+  let region = 'inr';
+  try{
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const lang = navigator.language || '';
+    const looksIndian = tz.indexOf('Kolkata')>-1 || tz.indexOf('Calcutta')>-1 || lang.toLowerCase().indexOf('-in')>-1;
+    if(!looksIndian && tz.indexOf('Asia')===-1) region = 'usd';
+  }catch(err){ /* keep default INR */ }
+  function render(){
+    const p = PRICE[region];
+    const regionEl = document.getElementById('price-region-label');
+    const nowEl = document.getElementById('price-now');
+    const wasEl = document.getElementById('price-was');
+    const urgencyEl = document.getElementById('price-urgency');
+    if (regionEl) regionEl.textContent = p.region;
+    if (nowEl) nowEl.textContent = p.now;
+    if (wasEl) wasEl.textContent = p.was;
+    if (urgencyEl) urgencyEl.textContent = p.urgency;
+    document.querySelectorAll('.price-inline').forEach(el=>{ el.textContent = p.now; });
+  }
+  render();
+})();
+
+/* DESKTOP STICKY CTA */
+(function stickyCta(){
+  const bar = document.getElementById('stickyCta');
+  if(!bar) return;
+  const footer = document.querySelector('footer');
+  function onScroll(){
+    const past = window.scrollY > 640;
+    let beforeFooter = true;
+    if(footer){ beforeFooter = footer.getBoundingClientRect().top > window.innerHeight; }
+    bar.classList.toggle('show', past && beforeFooter);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
