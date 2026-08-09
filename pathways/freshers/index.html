@@ -225,7 +225,59 @@ schema_ld: |
       gap: 1.5rem !important;
     }
   }
+
+  .pw-greeting { padding: 3rem 0 1rem; }
+  .pw-greeting h1 { font-family: var(--font-heading); font-size: clamp(2rem,4vw,3rem); color: var(--ink); }
+  .pw-greeting .lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; margin-top: 0.75rem; }
+  .pw-form-gate { padding: 2.5rem 0; background: var(--canvas-2); border-bottom: 1px solid var(--line); }
+  .pw-form-gate h2 { font-family: var(--font-heading); font-size: 1.6rem; color: var(--ink); margin-bottom: .5rem; }
+  .pw-form-gate p { color: var(--muted); max-width: 60ch; margin-bottom: 1.5rem; }
+  .pw-form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; max-width: 720px; }
+  @media(max-width:700px){ .pw-form-grid { grid-template-columns: 1fr; } }
+  .pw-field { display: flex; flex-direction: column; gap: .4rem; }
+  .pw-field label { font-size: .8rem; font-weight: 700; color: var(--ink); }
+  .pw-field select, .pw-field input, .pw-field textarea {
+    padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px;
+    font-family: inherit; font-size: .92rem; background:#fff; color: var(--ink);
+  }
+  .pw-field.full { grid-column: 1 / -1; }
+  .pw-submit { grid-column: 1/-1; margin-top:.5rem; background: var(--blue); color:#fff; border:none;
+    padding: 13px; border-radius: 10px; font-weight:700; font-size: 1rem; cursor:pointer; }
+  .pw-submit:hover { background: var(--blue-deep); }
 </style>
+
+<section id="pw-greeting" class="pw-greeting" hidden>
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Your personalized plan</span>
+    <h1>Hi <span id="pw-name">there</span> 👋</h1>
+    <p class="lead" id="pw-msg"></p>
+  </div>
+</section>
+
+<section id="pw-form-gate" class="pw-form-gate" hidden>
+  <div class="container">
+    <h2>Get your personalized fresher plan</h2>
+    <p>Answer a few quick questions and this page tailors itself to your situation — our team also sends you a plan.</p>
+    <form id="pw-inline-form" class="pw-form-grid">
+      <div class="pw-field"><label>Where are you right now?</label>
+        <select name="q1" required><option value="">Select…</option>
+          <option>Final year student</option><option>Graduated, job-hunting</option><option>Graduated, upskilling</option></select></div>
+      <div class="pw-field"><label>Your degree background?</label>
+        <select name="q2" required><option value="">Select…</option>
+          <option>CS / IT</option><option>Non-CS engineering</option><option>Non-tech degree</option></select></div>
+      <div class="pw-field"><label>Your primary goal?</label>
+        <select name="q3" required><option value="">Select…</option>
+          <option>First job fast</option><option>Strong portfolio</option><option>Certification</option></select></div>
+      <div class="pw-field"><label>Graduation year?</label>
+        <select name="q4" required><option value="">Select…</option>
+          <option>2026</option><option>2025</option><option>2024 or earlier</option></select></div>
+      <div class="pw-field"><label>Full Name *</label><input type="text" name="name" required></div>
+      <div class="pw-field"><label>Email *</label><input type="email" name="email" required></div>
+      <div class="pw-field full"><label>Mobile / WhatsApp *</label><input type="tel" name="phone" required></div>
+      <button type="submit" class="pw-submit">Get my personalized plan →</button>
+    </form>
+  </div>
+</section>
 
 <section class="page-hero">
   <div class="container">
@@ -259,6 +311,57 @@ schema_ld: |
         <span class="wants-icon">💼</span>
         <h3>Direct Recruiter Access</h3>
         <p>Skip the endless CV filtering algorithms and get direct entries to companies seeking qualified junior automation talent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="job" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>Fast-Track Placement Program</h2>
+    <p class="section-intro">Get hired quickly with targeted training, direct HR referrals, resume formatting, and mock interview drills.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--blue); font-size:1.1rem;">Resume Re-Engineering</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Format your resume to pass ATS checkers and stand out to technical managers, emphasizing hands-on project deliverables over dry lists of tools.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--blue); font-size:1.1rem;">Direct Referrals &amp; Mock Interviews</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Access our direct network of corporate hiring partners. Conduct realistic technical mock trials to build confidence before the real interview.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="portfolio" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>Build a Strong Technical Portfolio</h2>
+    <p class="section-intro">Stand out from the crowd by creating a rich portfolio of 10+ real-world production projects hosted on Git.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--green); font-size:1.1rem;">Real Enterprise Projects</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Develop live automations, data dashboards, and testing suites matching corporate specs, not simple classroom exercises.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--green); font-size:1.1rem;">GitHub Profile Optimization</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Clean up your git logs, write clear README files, and structure code repos to demonstrate professional development practices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="certification" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>Global Industry Certifications</h2>
+    <p class="section-intro">Validate your capability with globally recognized credentials from UiPath, Microsoft, and ISTQB.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--yellow); font-size:1.1rem;">UiPath &amp; PL-300 Alignment</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Our curriculum aligns directly with the UiPath Certified Associate/Professional exams and the Microsoft PL-300 Data Analyst exam.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--yellow); font-size:1.1rem;">Guided Certification Prep</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Access mock exam vaults, key curriculum summaries, and expert-led prep sessions to pass your exams on the first attempt.</p>
       </div>
     </div>
   </div>
@@ -351,3 +454,42 @@ schema_ld: |
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  const FORMSUBMIT = "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2";
+  const PATH = "/pathways/freshers/";
+  const params = new URLSearchParams(location.search);
+  const hasData = !!(params.get("name") || params.get("q1"));
+  const greeting = document.getElementById("pw-greeting");
+  const gate = document.getElementById("pw-form-gate");
+
+  if (hasData) {
+    greeting.hidden = false;
+    document.getElementById("pw-name").textContent = params.get("name") || "there";
+    const q1=params.get("q1"), q2=params.get("q2"), q3=params.get("q3");
+    document.getElementById("pw-msg").textContent =
+      `As a ${q1||"student"} from a ${q2||"non-tech"} background aiming for ${(q3||"a job").toLowerCase()}, here's your job-ready plan.`;
+    const need = (q3||"").toLowerCase();
+    document.querySelectorAll("[data-need]").forEach(sec=>{
+      sec.hidden = !sec.dataset.need.split("|").some(w=>need.includes(w));
+    });
+  } else {
+    gate.hidden = false;
+    const form = document.getElementById("pw-inline-form");
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const fd = new FormData(form);
+      const payload = { _subject:"Fresher plan request", _template:"table",
+        persona:"Freshers", name:fd.get("name"), email:fd.get("email"), phone:fd.get("phone"),
+        q1:fd.get("q1"), q2:fd.get("q2"), q3:fd.get("q3"), q4:fd.get("q4") };
+      fetch(FORMSUBMIT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)}).catch(()=>{}).finally(()=>{
+        const p = new URLSearchParams();
+        p.set("name",(fd.get("name")||"").trim().split(/\s+/)[0]);
+        p.set("q1",fd.get("q1")); p.set("q2",fd.get("q2")); p.set("q3",fd.get("q3")); p.set("q4",fd.get("q4"));
+        window.location.href = PATH + "?" + p.toString();
+      });
+    });
+  }
+})();
+</script>

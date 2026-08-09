@@ -225,7 +225,59 @@ schema_ld: |
       gap: 1.5rem !important;
     }
   }
+
+  .pw-greeting { padding: 3rem 0 1rem; }
+  .pw-greeting h1 { font-family: var(--font-heading); font-size: clamp(2rem,4vw,3rem); color: var(--ink); }
+  .pw-greeting .lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; margin-top: 0.75rem; }
+  .pw-form-gate { padding: 2.5rem 0; background: var(--canvas-2); border-bottom: 1px solid var(--line); }
+  .pw-form-gate h2 { font-family: var(--font-heading); font-size: 1.6rem; color: var(--ink); margin-bottom: .5rem; }
+  .pw-form-gate p { color: var(--muted); max-width: 60ch; margin-bottom: 1.5rem; }
+  .pw-form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; max-width: 720px; }
+  @media(max-width:700px){ .pw-form-grid { grid-template-columns: 1fr; } }
+  .pw-field { display: flex; flex-direction: column; gap: .4rem; }
+  .pw-field label { font-size: .8rem; font-weight: 700; color: var(--ink); }
+  .pw-field select, .pw-field input, .pw-field textarea {
+    padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px;
+    font-family: inherit; font-size: .92rem; background:#fff; color: var(--ink);
+  }
+  .pw-field.full { grid-column: 1 / -1; }
+  .pw-submit { grid-column: 1/-1; margin-top:.5rem; background: var(--blue); color:#fff; border:none;
+    padding: 13px; border-radius: 10px; font-weight:700; font-size: 1rem; cursor:pointer; }
+  .pw-submit:hover { background: var(--blue-deep); }
 </style>
+
+<section id="pw-greeting" class="pw-greeting" hidden>
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Your personalized plan</span>
+    <h1>Hi <span id="pw-name">there</span> 👋</h1>
+    <p class="lead" id="pw-msg"></p>
+  </div>
+</section>
+
+<section id="pw-form-gate" class="pw-form-gate" hidden>
+  <div class="container">
+    <h2>Get your personalized career-switcher plan</h2>
+    <p>Answer a few quick questions and this page tailors itself to your situation — our team also sends you a plan.</p>
+    <form id="pw-inline-form" class="pw-form-grid">
+      <div class="pw-field"><label>What field are you moving from?</label>
+        <select name="q1" required><option value="">Select…</option>
+          <option>Support / BPO</option><option>Manual testing / QA</option><option>Operations or Admin</option><option>Sales / Non-tech</option></select></div>
+      <div class="pw-field"><label>Which direction appeals more?</label>
+        <select name="q2" required><option value="">Select…</option>
+          <option>Automation (RPA)</option><option>Data & Analytics</option><option>Not sure yet — guide me</option></select></div>
+      <div class="pw-field"><label>How soon do you want to start?</label>
+        <select name="q3" required><option value="">Select…</option>
+          <option>Immediately</option><option>Within a month</option><option>Just exploring</option></select></div>
+      <div class="pw-field"><label>Your current work situation?</label>
+        <select name="q4" required><option value="">Select…</option>
+          <option>Working full-time</option><option>On notice period</option><option>Not working right now</option></select></div>
+      <div class="pw-field"><label>Full Name *</label><input type="text" name="name" required></div>
+      <div class="pw-field"><label>Email *</label><input type="email" name="email" required></div>
+      <div class="pw-field full"><label>Mobile / WhatsApp *</label><input type="tel" name="phone" required></div>
+      <button type="submit" class="pw-submit">Get my personalized plan →</button>
+    </form>
+  </div>
+</section>
 
 <section class="page-hero">
   <div class="container">
@@ -259,6 +311,40 @@ schema_ld: |
         <span class="wants-icon">🛠️</span>
         <h3>Practical Portfolio</h3>
         <p>You need proof of work to replace the lack of official experience. We help you build a portfolio of real business automations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="rpa|automation" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>RPA &amp; Intelligent Automation Track</h2>
+    <p class="section-intro">Leverage visual coding tools to transition into IT without heavy programming stress. Learn to design, deploy, and manage enterprise software robots.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--blue); font-size:1.1rem;">Low-Code, High-Impact</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">UiPath and Power Automate allow you to build complex automation flows visually, bypass steep programming syntax, and start delivering value quickly.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--blue); font-size:1.1rem;">AI-Agent Integrations</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Combine RPA with modern AI agent patterns, LLMs, and Document Processing (IDP) to implement next-gen intelligent automation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="data|analytics" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>Data Science &amp; Business Intelligence Analytics Track</h2>
+    <p class="section-intro">Translate complex business data into clear visual insights. Master database scripting, warehousing, and enterprise reporting pipelines.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--green); font-size:1.1rem;">SQL &amp; Data Structuring</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Build a rock-solid foundation in database management, write clean SQL queries, and optimize data transformation logic.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--green); font-size:1.1rem;">Interactive Power BI Dashboards</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Learn to model data, design rich visual metrics, and deliver executive-level interactive reports that power strategic corporate decisions.</p>
       </div>
     </div>
   </div>
@@ -351,3 +437,42 @@ schema_ld: |
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  const FORMSUBMIT = "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2";
+  const PATH = "/pathways/career-switchers/";
+  const params = new URLSearchParams(location.search);
+  const hasData = !!(params.get("name") || params.get("q1"));
+  const greeting = document.getElementById("pw-greeting");
+  const gate = document.getElementById("pw-form-gate");
+
+  if (hasData) {
+    greeting.hidden = false;
+    document.getElementById("pw-name").textContent = params.get("name") || "there";
+    const q1=params.get("q1"), q2=params.get("q2");
+    document.getElementById("pw-msg").textContent =
+      `Since you're moving from ${q1||"another field"} into IT` + (q2?`, leaning toward ${q2}`:"") + `, here's your switch plan.`;
+    const need = (q2||"").toLowerCase();
+    document.querySelectorAll("[data-need]").forEach(sec=>{
+      sec.hidden = !sec.dataset.need.split("|").some(w=>need.includes(w));
+    });
+  } else {
+    gate.hidden = false;
+    const form = document.getElementById("pw-inline-form");
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const fd = new FormData(form);
+      const payload = { _subject:"Career-switcher plan request", _template:"table",
+        persona:"Career Switchers", name:fd.get("name"), email:fd.get("email"), phone:fd.get("phone"),
+        q1:fd.get("q1"), q2:fd.get("q2"), q3:fd.get("q3"), q4:fd.get("q4") };
+      fetch(FORMSUBMIT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)}).catch(()=>{}).finally(()=>{
+        const p = new URLSearchParams();
+        p.set("name",(fd.get("name")||"").trim().split(/\s+/)[0]);
+        p.set("q1",fd.get("q1")); p.set("q2",fd.get("q2")); p.set("q3",fd.get("q3")); p.set("q4",fd.get("q4"));
+        window.location.href = PATH + "?" + p.toString();
+      });
+    });
+  }
+})();
+</script>

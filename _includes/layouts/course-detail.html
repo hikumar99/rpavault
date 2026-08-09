@@ -144,10 +144,21 @@ layout: layouts/base.html
         { q:"When can you restart?", opts:["Immediately","Within a month","Flexible / planning"] } ]},
     };
     const overlay=document.getElementById("qz-overlay"), eyebrow=document.getElementById("qz-eyebrow"), progress=document.getElementById("qz-progress"), body=document.getElementById("qz-body");
-    let active=null, step=0, answers=[];
+    let active=null, step=0, answers=[], lastFormData=null;
     function open(k){ active=QUIZ[k]; step=0; answers=[]; eyebrow.textContent=active.label; overlay.classList.add("open"); document.body.style.overflow="hidden"; renderStep(); }
     function close(){ overlay.classList.remove("open"); document.body.style.overflow=""; active=null; }
-    function goToPath(){ const p=active?active.path:"/courses/"; document.body.style.overflow=""; window.location.href=p; }
+    function goToPath(){
+      let url = active ? active.path : "/courses/";
+      if (active && lastFormData) {
+        const first = (lastFormData.get("name")||"").trim().split(/\s+/)[0];
+        const p = new URLSearchParams();
+        if (first) p.set("name", first);
+        answers.forEach((a,i)=> p.set("q"+(i+1), a.a));
+        url = active.path + "/?" + p.toString();
+      }
+      document.body.style.overflow = "";
+      window.location.href = url;
+    }
     function prog(t,d){ progress.innerHTML=""; for(let i=0;i<t;i++){const s=document.createElement("span"); if(i<d)s.className="done"; progress.appendChild(s);} }
     function renderStep(){
       const isPicker = active===QUIZ._picker;
@@ -176,6 +187,7 @@ layout: layouts/base.html
       e.preventDefault();
       const f=e.target, btn=f.querySelector(".qz-submit"); btn.disabled=true; btn.textContent="Sending…";
       const fd=new FormData(f);
+      lastFormData=fd;
       const payload={ _subject:`Course fit-check — ${active.label}`, _template:"table", persona:active.label, asked_from_course:SRC_COURSE||"(course page)", name:fd.get("name"), email:fd.get("email"), phone:fd.get("phone"), description:fd.get("description")||"" };
       answers.forEach((a,i)=>{ payload["Q"+(i+1)+" — "+a.q]=a.a; });
       fetch(FORMSUBMIT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)}).catch(()=>{}).finally(()=>{

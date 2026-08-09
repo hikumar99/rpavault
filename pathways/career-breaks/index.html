@@ -225,7 +225,59 @@ schema_ld: |
       gap: 1.5rem !important;
     }
   }
+
+  .pw-greeting { padding: 3rem 0 1rem; }
+  .pw-greeting h1 { font-family: var(--font-heading); font-size: clamp(2rem,4vw,3rem); color: var(--ink); }
+  .pw-greeting .lead { font-size: 1.15rem; color: var(--muted); max-width: 60ch; margin-top: 0.75rem; }
+  .pw-form-gate { padding: 2.5rem 0; background: var(--canvas-2); border-bottom: 1px solid var(--line); }
+  .pw-form-gate h2 { font-family: var(--font-heading); font-size: 1.6rem; color: var(--ink); margin-bottom: .5rem; }
+  .pw-form-gate p { color: var(--muted); max-width: 60ch; margin-bottom: 1.5rem; }
+  .pw-form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; max-width: 720px; }
+  @media(max-width:700px){ .pw-form-grid { grid-template-columns: 1fr; } }
+  .pw-field { display: flex; flex-direction: column; gap: .4rem; }
+  .pw-field label { font-size: .8rem; font-weight: 700; color: var(--ink); }
+  .pw-field select, .pw-field input, .pw-field textarea {
+    padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px;
+    font-family: inherit; font-size: .92rem; background:#fff; color: var(--ink);
+  }
+  .pw-field.full { grid-column: 1 / -1; }
+  .pw-submit { grid-column: 1/-1; margin-top:.5rem; background: var(--blue); color:#fff; border:none;
+    padding: 13px; border-radius: 10px; font-weight:700; font-size: 1rem; cursor:pointer; }
+  .pw-submit:hover { background: var(--blue-deep); }
 </style>
+
+<section id="pw-greeting" class="pw-greeting" hidden>
+  <div class="container">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Your personalized plan</span>
+    <h1>Hi <span id="pw-name">there</span> 👋</h1>
+    <p class="lead" id="pw-msg"></p>
+  </div>
+</section>
+
+<section id="pw-form-gate" class="pw-form-gate" hidden>
+  <div class="container">
+    <h2>Get your personalized career-break plan</h2>
+    <p>Answer a few quick questions and this page tailors itself to your situation — our team also sends you a plan.</p>
+    <form id="pw-inline-form" class="pw-form-grid">
+      <div class="pw-field"><label>How long has your break been?</label>
+        <select name="q1" required><option value="">Select…</option>
+          <option>Under 1 year</option><option>1–3 years</option><option>3+ years</option></select></div>
+      <div class="pw-field"><label>Your last role was in?</label>
+        <select name="q2" required><option value="">Select…</option>
+          <option>IT / Development</option><option>Testing / QA</option><option>Non-tech</option><option>Fresher before break</option></select></div>
+      <div class="pw-field"><label>Your biggest need?</label>
+        <select name="q3" required><option value="">Select…</option>
+          <option>Rebuild confidence</option><option>Update skills</option><option>Placement support</option></select></div>
+      <div class="pw-field"><label>When can you restart?</label>
+        <select name="q4" required><option value="">Select…</option>
+          <option>Immediately</option><option>Within a month</option><option>Flexible / planning</option></select></div>
+      <div class="pw-field"><label>Full Name *</label><input type="text" name="name" required></div>
+      <div class="pw-field"><label>Email *</label><input type="email" name="email" required></div>
+      <div class="pw-field full"><label>Mobile / WhatsApp *</label><input type="tel" name="phone" required></div>
+      <button type="submit" class="pw-submit">Get my personalized plan →</button>
+    </form>
+  </div>
+</section>
 
 <section class="page-hero">
   <div class="container">
@@ -259,6 +311,57 @@ schema_ld: |
         <span class="wants-icon">💼</span>
         <h3>Gap Reframing &amp; Placements</h3>
         <p>Optimize your CV to position your break as a period of growth. Prepare for specific recruitment programs targeting return-to-work candidates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="confidence" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>Rebuilding Your Technical Confidence</h2>
+    <p class="section-intro">Shake off technical rust. Our program provides dedicated 1-on-1 mentorship, step-by-step guidance, and a supportive environment specifically tailored for professionals restarting their careers after a gap.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--blue); font-size:1.1rem;">Dedicated 1-on-1 Mentorship</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Get paired with senior developers who guide you patiently, reviews your work, and helps clear blockers without any stress.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--blue); font-size:1.1rem;">Zero-Stress Learning Curve</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">No competitive pressure. Learn at your own comfortable pace with practical execution labs built to restore developer confidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="skills|update" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>Updating to Modern Skills</h2>
+    <p class="section-intro">Technologies evolve rapidly. We focus on modern tech stacks currently in high demand so your profile matches current job market requirements.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--green); font-size:1.1rem;">Modern RPA &amp; Agentic Tools</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Master the latest versions of UiPath, Power Automate, and AI integrations (LLMs, API automations) that companies are actively recruiting for.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--green); font-size:1.1rem;">Hands-on Lab Sandbox</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Work on practical projects using modern developer environments, Git, GitHub, and cloud deployments to get up to date.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" data-need="placement" style="background:#ffffff; padding: 4rem 0; border-bottom: 1px solid var(--line);" hidden>
+  <div class="container">
+    <h2>Dedicated Placement Support &amp; CV Re-Engineering</h2>
+    <p class="section-intro">Getting back into the job market requires specialized positioning. We help you structure your career gap and access exclusive return-to-work job listings.</p>
+    <div style="margin-top:2rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--yellow); font-size:1.1rem;">CV &amp; LinkedIn Makeover</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">We reframe your gap year as a period of structured upskilling and capability growth, highlighting your project portfolio to stand out.</p>
+      </div>
+      <div style="background:var(--canvas-2); padding:1.8rem; border-radius:14px; border:1px solid var(--line);">
+        <h4 style="margin-top:0; color:var(--yellow); font-size:1.1rem;">Returnship Placements</h4>
+        <p style="font-size:0.95rem; margin-bottom:0;">Direct connections with corporate partners offering specific return-to-work internships and placement opportunities.</p>
       </div>
     </div>
   </div>
@@ -351,3 +454,43 @@ schema_ld: |
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  const FORMSUBMIT = "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2";
+  const PATH = "/pathways/career-breaks/";
+  const params = new URLSearchParams(location.search);
+  const hasData = !!(params.get("name") || params.get("q1"));
+  const greeting = document.getElementById("pw-greeting");
+  const gate = document.getElementById("pw-form-gate");
+
+  if (hasData) {
+    greeting.hidden = false;
+    document.getElementById("pw-name").textContent = params.get("name") || "there";
+    const q1=params.get("q1"), q2=params.get("q2"), q3=params.get("q3");
+    document.getElementById("pw-msg").textContent =
+      `Since you're returning after a ${q1||"career"} break` + (q2?` from ${q2}`:"") +
+      `, here's a plan focused on ${(q3||"getting back in").toLowerCase()}.`;
+    const need = (q3||"").toLowerCase();
+    document.querySelectorAll("[data-need]").forEach(sec=>{
+      sec.hidden = !sec.dataset.need.split("|").some(w=>need.includes(w));
+    });
+  } else {
+    gate.hidden = false;
+    const form = document.getElementById("pw-inline-form");
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const fd = new FormData(form);
+      const payload = { _subject:"Career-break plan request", _template:"table",
+        persona:"Career Breaks", name:fd.get("name"), email:fd.get("email"), phone:fd.get("phone"),
+        q1:fd.get("q1"), q2:fd.get("q2"), q3:fd.get("q3"), q4:fd.get("q4") };
+      fetch(FORMSUBMIT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)}).catch(()=>{}).finally(()=>{
+        const p = new URLSearchParams();
+        p.set("name",(fd.get("name")||"").trim().split(/\s+/)[0]);
+        p.set("q1",fd.get("q1")); p.set("q2",fd.get("q2")); p.set("q3",fd.get("q3")); p.set("q4",fd.get("q4"));
+        window.location.href = PATH + "?" + p.toString();
+      });
+    });
+  }
+})();
+</script>

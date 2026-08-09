@@ -370,11 +370,22 @@ schema_ld: |
   const eyebrow = document.getElementById("qz-eyebrow");
   const progress = document.getElementById("qz-progress");
   const body = document.getElementById("qz-mbody");
-  let active = null, step = 0, answers = [], submitted = false;
+  let active = null, step = 0, answers = [], submitted = false, lastFormData = null;
 
   function open(key){ active = QUIZ[key]; step = 0; answers = []; submitted = false; eyebrow.textContent = active.label; overlay.classList.add("open"); document.body.style.overflow = "hidden"; renderStep(); }
   function close(){ overlay.classList.remove("open"); document.body.style.overflow = ""; active = null; }
-  function goToPath(){ const path = active ? active.path : "/courses/"; document.body.style.overflow = ""; window.location.href = path; }
+  function goToPath(){
+    let url = active ? active.path : "/courses/";
+    if (active && lastFormData) {
+      const first = (lastFormData.get("name")||"").trim().split(/\s+/)[0];
+      const p = new URLSearchParams();
+      if (first) p.set("name", first);
+      answers.forEach((a,i)=> p.set("q"+(i+1), a.a));
+      url = active.path + "/?" + p.toString();
+    }
+    document.body.style.overflow = "";
+    window.location.href = url;
+  }
   function renderProgress(total, done){ progress.innerHTML = ""; for(let i=0;i<total;i++){ const s=document.createElement("span"); if(i<done) s.className="done"; progress.appendChild(s);} }
   function renderStep(){
     const total = active.steps.length + 1;
@@ -405,6 +416,7 @@ schema_ld: |
     const form = e.target;
     const btn = form.querySelector(".qz-submit"); btn.disabled = true; btn.textContent = "Sending…";
     const fd = new FormData(form);
+    lastFormData = fd;
     const payload = { _subject: `Course questionnaire — ${active.label}`, _template: "table", persona: active.label,
       name: fd.get("name"), email: fd.get("email"), phone: fd.get("phone"), description: fd.get("description") || "" };
     answers.forEach((a,i)=>{ payload["Q"+(i+1)+" — "+a.q] = a.a; });
