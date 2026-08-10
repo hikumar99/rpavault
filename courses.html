@@ -16,7 +16,11 @@ schema_ld: |
   .courses-page {
     --cx-brand: #0058b0; --cx-brand-deep: #004182; --cx-brand-soft: #e6f1fb;
     --cx-ink: #1a181b; --cx-muted: #607987; --cx-line: #cce8f3; --cx-tint: #ecf8fc;
-    --cx-rpa:#0058b0; --cx-rpa-soft:#e6f1fb; --cx-data:#1f7fa6; --cx-data-soft:#dcf0f6; --cx-testing:#5a5fc7; --cx-testing-soft:#e6e7fb;
+    --cx-rpa:#0058b0; --cx-rpa-soft:#e6f1fb;
+    --cx-data:#1f7fa6; --cx-data-soft:#dcf0f6;
+    --cx-testing:#5a5fc7; --cx-testing-soft:#e6e7fb;
+    --cx-cloud:#d97706; --cx-cloud-soft:#fef3c7;
+    --cx-dev:#059669; --cx-dev-soft:#d1fae5;
     --cx-live:#1f8a54; --cx-live-soft:#dff2e8;
     --cx-shadow: 0 1px 0 rgba(15,34,51,.03), 0 14px 34px -20px rgba(0,88,176,.35);
     --cx-radius: 16px;
@@ -205,7 +209,9 @@ schema_ld: |
       <button class="cx-chip active" data-filter="live"><span class="cx-live-dot"></span>Live Now <span class="count" id="cx-c-live"></span></button>
       <button class="cx-chip" data-filter="rpa"><span class="dot" style="background:var(--cx-rpa)"></span>RPA <span class="count" id="cx-c-rpa"></span></button>
       <button class="cx-chip" data-filter="data"><span class="dot" style="background:var(--cx-data)"></span>Data <span class="count" id="cx-c-data"></span></button>
-      <button class="cx-chip" data-filter="testing"><span class="dot" style="background:var(--cx-testing)"></span>Testing <span class="count" id="cx-c-testing"></span></button>
+      <button class="cx-chip" data-filter="cloud"><span class="dot" style="background:var(--cx-cloud)"></span>Cloud & DevOps <span class="count" id="cx-c-cloud"></span></button>
+      <button class="cx-chip" data-filter="dev"><span class="dot" style="background:var(--cx-dev)"></span>Development <span class="count" id="cx-c-dev"></span></button>
+      <button class="cx-chip" data-filter="testing"><span class="dot" style="background:var(--cx-testing)"></span>QA & Testing <span class="count" id="cx-c-testing"></span></button>
       <span class="cx-spacer"></span>
       <input class="cx-search" id="cx-search" type="search" placeholder="Search courses…" aria-label="Search courses">
     </div>
@@ -214,18 +220,21 @@ schema_ld: |
   <section class="wrap">
     <div class="cx-results" id="cx-results"></div>
     <div class="cx-grid" id="cx-grid">
-      {%- set catMap = { "rpa": "RPA", "data": "Data", "testing": "Testing" } -%}
-      {%- set catColor = { "rpa": "var(--cx-rpa)", "data": "var(--cx-data)", "testing": "var(--cx-testing)" } -%}
+      {%- set catMap = { "rpa": "RPA", "data": "Data", "testing": "QA & Testing", "cloud": "Cloud & DevOps", "dev": "Development" } -%}
+      {%- set catColor = { "rpa": "var(--cx-rpa)", "data": "var(--cx-data)", "testing": "var(--cx-testing)", "cloud": "var(--cx-cloud)", "dev": "var(--cx-dev)" } -%}
       {%- for c in collections.courses -%}
       <article class="cx-card" data-cat="{{ c.data.card_category }}" data-live="{{ 'true' if c.data.card_live else 'false' }}"
                data-title="{{ (c.data.name or c.data.title) | lower }}" data-desc="{{ c.data.card_blurb | lower }}"
-               style="--cx-cat:{{ catColor[c.data.card_category] }}">
-        <a href="{{ c.url }}" class="cx-media" aria-label="{{ c.data.name or c.data.title }}">
-          <div class="cx-flags">
-            <span class="cx-tag">{{ catMap[c.data.card_category] }}</span>
+               style="--cx-cat:{{ catColor[c.data.card_category] or 'var(--cx-brand-deep)' }}">
+        <a href="{{ c.url }}" class="cx-media" aria-label="{{ c.data.name or c.data.title }}" style="position: relative; display: block; aspect-ratio: 16/9; background: #f5f5f7;">
+          <div class="cx-flags" style="z-index: 10;">
+            <span class="cx-tag">{{ catMap[c.data.card_category] or "IT" }}</span>
             {%- if c.data.card_live %}<span class="cx-livebadge"><span class="cx-live-dot" style="background:var(--cx-live)"></span>Live now</span>{% endif -%}
           </div>
-          <img src="{{ c.data.card_image }}" alt="{{ c.data.name or c.data.title }}" loading="lazy">
+          <img src="{{ c.data.card_image }}" alt="{{ c.data.name or c.data.title }}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 100%; height: 100%; object-fit: cover;">
+          <div class="cx-svg-placeholder" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--cx-cat, var(--cx-brand-deep)), #1e293b); color: #fff; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 18px; padding: 20px; text-align: center; box-sizing: border-box; line-height: 1.3;">
+            <span>{{ c.data.name or c.data.title }}</span>
+          </div>
         </a>
         <div class="cx-body">
           <h3>{{ c.data.name or c.data.title }}</h3>
@@ -265,11 +274,13 @@ schema_ld: |
   setCount("cx-c-live", cards.filter(c => c.dataset.live === "true").length);
   setCount("cx-c-rpa", cards.filter(c => c.dataset.cat === "rpa").length);
   setCount("cx-c-data", cards.filter(c => c.dataset.cat === "data").length);
+  setCount("cx-c-cloud", cards.filter(c => c.dataset.cat === "cloud").length);
+  setCount("cx-c-dev", cards.filter(c => c.dataset.cat === "dev").length);
   setCount("cx-c-testing", cards.filter(c => c.dataset.cat === "testing").length);
 
   function matches(card) {
     if (state.filter === "live" && card.dataset.live !== "true") return false;
-    if (["rpa","data","testing"].includes(state.filter) && card.dataset.cat !== state.filter) return false;
+    if (["rpa","data","testing","cloud","dev"].includes(state.filter) && card.dataset.cat !== state.filter) return false;
     if (state.q) {
       const hay = card.dataset.title + " " + card.dataset.desc;
       if (!hay.includes(state.q.toLowerCase())) return false;
@@ -292,7 +303,7 @@ schema_ld: |
       if (!emptyEl) { emptyEl = document.createElement("div"); emptyEl.className = "cx-empty"; grid.insertBefore(emptyEl, guidance); }
       emptyEl.textContent = "No courses match that combination. Try clearing the filter or search.";
     } else if (emptyEl) { emptyEl.remove(); }
-    const labelMap = { live:"Live now", rpa:"RPA", data:"Data", testing:"Testing" };
+    const labelMap = { live:"Live now", rpa:"RPA", data:"Data", cloud:"Cloud & DevOps", dev:"Development", testing:"QA & Testing" };
     const bits = [];
     if (state.filter !== "all") bits.push(labelMap[state.filter]);
     if (state.q) bits.push('"' + state.q + '"');
