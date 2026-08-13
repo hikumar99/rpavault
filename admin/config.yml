@@ -37,7 +37,7 @@ collections:
       depth: 10
     path: "{{slug}}/index"
     format: "frontmatter"
-    extension: "html"
+    extension: "md"
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/course-detail.html"}
       - {label: "Tags", name: "tags", widget: "hidden", default: ["course"]}

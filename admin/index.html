@@ -66,10 +66,9 @@
         <div style="padding: 24px; overflow-y: auto; flex: 1; background: #ffffff; line-height: 1.55;">
           <h3 style="margin-top: 0; font-size: 1.05rem; color: #0058b0; font-weight: 800;">⚙️ 1. Managing CMS Locally</h3>
           <ul style="padding-left: 1.2rem; margin: 0 0 1.5rem 0; font-size: 0.9rem; color: #424245;">
-            <li style="margin-bottom: 6px;"><strong>Missing Buttons? Fixed!</strong> The top banner was covering the Save and Publish buttons. It has now been moved to the floating sidebar on the left.</li>
             <li style="margin-bottom: 6px;"><strong>Local Server:</strong> Ensure you are running <code>npx decap-server</code> to communicate with your local files instead of GitHub.</li>
-            <li style="margin-bottom: 6px;"><strong>Saving & Publishing:</strong> Use the top bar in any entry to <strong>Save</strong>. Clicking <strong>Publish</strong> will commit changes directly to your local Git branch.</li>
-            <li style="margin-bottom: 6px;"><strong>Closing the Editor:</strong> Click the Back arrow or the "X" button at the top-left of the editor to return to the collections view.</li>
+            <li style="margin-bottom: 6px;"><strong>Saving & Publishing:</strong> Use the top-right button in any entry to <strong>Save</strong>. Clicking <strong>Publish</strong> will commit changes directly to your local Git branch.</li>
+            <li style="margin-bottom: 6px;"><strong>Closing the Editor:</strong> Click the <strong>Back</strong> button at the top-left of the editor to return to the collections view.</li>
           </ul>
 
           <h3 style="font-size: 1.05rem; color: #0058b0; font-weight: 800;">👨‍🏫 2. Managing Active Trainers</h3>
@@ -88,8 +87,8 @@
       </div>
     </div>
 
-    <!-- Include the script that builds the page and loads Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Include the script that builds the page and loads Sveltia CMS -->
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
     <script>
       // Load Google Fonts and website stylesheet inside the CMS preview panel
       CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
