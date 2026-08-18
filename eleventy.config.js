@@ -4,7 +4,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("functions");
   eleventyConfig.addPassthroughCopy("_redirects");
   eleventyConfig.addPassthroughCopy("robots.txt");
-  eleventyConfig.addPassthroughCopy("sitemap.xml");
+  eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("admin");
 
   // Ignore OLD, backups, templates, and redundant files
@@ -15,14 +15,18 @@ module.exports = function(eleventyConfig) {
 
   // Custom blog collection sorted by date descending (newest first)
   eleventyConfig.addCollection("blogPosts", function(collectionApi) {
-    return [...collectionApi.getFilteredByTag("blog")].sort((a, b) => {
+    return [...collectionApi.getFilteredByTag("blog")]
+      .filter(a => !a.data.draft)
+      .sort((a, b) => {
       const dateA = new Date(a.data.date || a.date);
       const dateB = new Date(b.data.date || b.date);
       return dateB - dateA;
     });
   });
   eleventyConfig.addCollection("courses", function(collectionApi) {
-    return [...collectionApi.getFilteredByTag("course")].sort((a, b) => {
+    return [...collectionApi.getFilteredByTag("course")]
+      .filter(a => !a.data.draft)
+      .sort((a, b) => {
       const liveA = a.data.card_live ? 0 : 1;
       const liveB = b.data.card_live ? 0 : 1;
       if (liveA !== liveB) return liveA - liveB;
@@ -40,6 +44,17 @@ module.exports = function(eleventyConfig) {
       "July", "August", "September", "October", "November", "December"
     ];
     return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  });
+
+  // ISO Date filter for dynamic sitemap.xml (YYYY-MM-DD)
+  eleventyConfig.addFilter("isoDate", function(dateVal) {
+    if (!dateVal) return "";
+    const d = new Date(dateVal);
+    if (isNaN(d.getTime())) return dateVal;
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   });
 
   // Strip HTML tags for indexing page contents

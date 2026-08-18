@@ -1126,9 +1126,14 @@ description: RPAVault is Hyderabad's premier partner for IT consulting, corporat
     <h2>What our students say</h2>
     <p class="section-intro rating-line">Rated <strong>4.9 / 5</strong> from <strong>170+ Google reviews</strong>.</p>
     <div class="card-grid" style="text-align: left;">
-      <article class="info-card quote-card reveal"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Excellent training and real-time knowledge. The sessions are completely practical and the trainer explains every concept with real project scenarios. Best place to learn RPA.”</blockquote><cite>Madhu Krishna</cite><span class="review-source">Google review</span></article>
-      <article class="info-card quote-card reveal"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Very good institute for UiPath training. In-depth coverage from basics to REFramework with hands-on practice, and genuine placement guidance throughout.”</blockquote><cite>Krishna Cherukuri</cite><span class="review-source">Google review</span></article>
-      <article class="info-card quote-card reveal"><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>“Great learning experience. Concepts are taught patiently with real examples, doubts are cleared in every session, and the projects gave me real confidence for interviews.”</blockquote><cite>Aditi Kulkarni</cite><span class="review-source">Google review</span></article>
+      {% for review in collections.testimonials %}
+      <article class="info-card quote-card reveal">
+        <span class="stars" aria-label="5 out of 5 stars">{{ review.data.stars }}</span>
+        <blockquote>“{{ review.data.quote }}”</blockquote>
+        <cite>{{ review.data.name }}</cite>
+        <span class="review-source">{{ review.data.source }}</span>
+      </article>
+      {% endfor %}
     </div>
   </div>
 </section>

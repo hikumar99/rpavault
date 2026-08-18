@@ -8,14 +8,14 @@
 {% if noindex %}
 <meta name="robots" content="noindex, nofollow">
 {% endif %}
-<link rel="canonical" href="https://rpavault.com{{ page.url }}">
+<link rel="canonical" href="{% if canonical_url %}{{ canonical_url }}{% else %}https://rpavault.com{{ page.url }}{% endif %}">
 <meta name="theme-color" content="#0058b0">
 <meta property="og:type" content="{{ og_type | default('website') }}">
 <meta property="og:site_name" content="RPAVault">
 <meta property="og:title" content="{{ title | default('RPAVault — Consultancy, Staffing & Enterprise Automation') }}">
 <meta property="og:description" content="{{ description | default('RPAVault is a consultancy, staffing, and enterprise automation partner in Hyderabad. We place skilled professionals in corporate teams, build RPA and AI-agent automations, and deliver training across all major IT courses.') }}">
-<meta property="og:url" content="https://rpavault.com{{ page.url }}">
-<meta property="og:image" content="{{ og_image | default('https://rpavault.com/assets/images/og-image.png') }}">
+<meta property="og:url" content="{% if canonical_url %}{{ canonical_url }}{% else %}https://rpavault.com{{ page.url }}{% endif %}">
+<meta property="og:image" content="{% if og_image %}{% if og_image.startsWith('/') %}https://rpavault.com{{ og_image }}{% else %}{{ og_image }}{% endif %}{% else %}https://rpavault.com/assets/images/og-image.png{% endif %}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -39,8 +39,24 @@
 <script type="application/ld+json">{{ schema_ld | safe }}</script>
 {% endif %}
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H994NLYWRJ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H994NLYWRJ');</script>
+{% set ga4_id = settings.analytics.ga4_id | default('G-H994NLYWRJ') %}
+{% if ga4_id %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_id }}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ ga4_id }}');</script>
+{% endif %}
+
+{% if settings.analytics.meta_pixel_id %}
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '{{ settings.analytics.meta_pixel_id }}');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ settings.analytics.meta_pixel_id }}&ev=PageView&noscript=1"/></noscript>
+{% endif %}
 <style>
   /* Prevent horizontal scroll overlays completely */
   html, body {

@@ -7,13 +7,13 @@
   </head>
   <body>
     <!-- Custom HTML Banner Block (Moved to floating sidebar) -->
-    <div id="admin-custom-banner" style="position: fixed !important; bottom: 20px !important; left: 20px !important; background: #ffffff !important; border: 1px solid #e5e5e7 !important; border-radius: 12px !important; padding: 16px !important; display: flex !important; flex-direction: column !important; gap: 12px !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; z-index: 99999 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; width: 220px !important;">
+    <div id="admin-custom-banner" style="display: none; position: fixed !important; bottom: 20px !important; left: 20px !important; background: #ffffff !important; border: 1px solid #e5e5e7 !important; border-radius: 12px !important; padding: 16px !important; flex-direction: column !important; gap: 12px !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; z-index: 99999 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; width: 220px !important;">
       <div style="display: flex !important; align-items: center !important; justify-content: space-between !important;">
         <strong style="color: #1d1d1f !important; font-size: 0.95rem !important;">RPAVault Portal</strong>
         <a href="/" style="color: #0058b0 !important; font-size: 0.8rem !important; text-decoration: none !important; font-weight: 600 !important;" target="_blank">Live Site ↗</a>
       </div>
       <div style="height: 1px !important; background: #e5e5e7 !important; width: 100% !important;"></div>
-      <div id="custom-html-container" style="display: flex !important; flex-direction: column !important; gap: 0.75rem !important;">
+      <div id="custom-html-container" style="display: flex !important; flex-direction: column !important; gap: 0.75rem !important; width: 100% !important;">
         <button id="open-guide-btn" style="background: #1d1d1f !important; color: #ffffff !important; border: none !important; border-radius: 8px !important; padding: 8px 12px !important; font-size: 0.8rem !important; font-weight: 700 !important; cursor: pointer !important; transition: all 0.2s ease-in-out !important; width: 100% !important; text-align: left !important;">
           💡 Admin & Course Guide
         </button>
@@ -244,6 +244,25 @@
             if (e.target === guideModal) guideModal.style.display = 'none';
           });
         }
+
+        // Observer to move the custom buttons into the Sveltia CMS sidebar
+        const observer = new MutationObserver(() => {
+          const sidebar = document.querySelector('.sui-sidebar, aside, nav[aria-label="Primary navigation"]');
+          if (sidebar && !document.getElementById('injected-custom-container')) {
+            const container = document.getElementById('custom-html-container');
+            if (container) {
+              container.id = 'injected-custom-container';
+              container.style.marginTop = 'auto';
+              container.style.padding = '16px';
+              container.style.borderTop = '1px solid #e5e5e7';
+              sidebar.appendChild(container);
+              
+              const banner = document.getElementById('admin-custom-banner');
+              if (banner) banner.remove();
+            }
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
       });
     </script>
   </body>

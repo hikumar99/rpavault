@@ -1,3 +1,11 @@
+{% if settings.announcement.show %}
+<div style="background: #1d1d1f !important; color: #ffffff !important; text-align: center !important; padding: 8px 16px !important; font-size: 0.85rem !important; font-weight: 500 !important; font-family: -apple-system, sans-serif !important; width: 100% !important;">
+  {{ settings.announcement.text }}
+  {% if settings.announcement.link %}
+  <a href="{{ settings.announcement.link }}" style="color: #66b2ff !important; text-decoration: underline !important; margin-left: 8px !important;">Learn more &rarr;</a>
+  {% endif %}
+</div>
+{% endif %}
 <header class="site-header" data-header>
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="RPAVault home"><img class="brand-logo" src="/assets/images/logo-rpavault.webp?v={{ build.timestamp }}" width="214" height="34" alt="RPAVault logo"><span class="brand-text">RPAVault</span></a>

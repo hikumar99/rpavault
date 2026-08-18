@@ -18,12 +18,18 @@ collections:
     slug: "{{slug}}"
     format: "frontmatter"
     extension: "md"
+    editor:
+      preview: false
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/blog-post.html"}
-      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Title (SEO)", name: "title", widget: "string"}
       - {label: "Description (SEO)", name: "description", widget: "string"}
+      - {label: "Open Graph Image (Social Sharing)", name: "og_image", widget: "image", required: false}
+      - {label: "Canonical URL", name: "canonical_url", widget: "string", required: false}
+      - {label: "Author", name: "author", widget: "relation", collection: "team", search_fields: ["title"], value_field: "title", display_fields: ["title"], required: false}
       - {label: "Publish Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD"}
-      - {label: "Category", name: "category", widget: "string", required: false}
+      - {label: "Draft (Hide from Live Site)", name: "draft", widget: "boolean", default: false, required: false}
+      - {label: "Category", name: "category", widget: "relation", collection: "categories", search_fields: ["title"], value_field: "title", display_fields: ["title"], required: false}
       - {label: "Cover Image", name: "image", widget: "image", required: false}
       - {label: "Guidance CTA Text (Bottom)", name: "cta_text", widget: "text", required: false, default: "Tell us your background — we’ll recommend the track that actually fits, honestly."}
       - {label: "Tags", name: "tags", widget: "hidden", default: "blog"}
@@ -38,6 +44,8 @@ collections:
     path: "{{slug}}/index"
     format: "frontmatter"
     extension: "md"
+    editor:
+      preview: false
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/course-detail.html"}
       - {label: "Tags", name: "tags", widget: "hidden", default: ["course"]}
@@ -47,8 +55,11 @@ collections:
       - {label: "Card Blurb/Description", name: "card_blurb", widget: "string", required: false}
       - {label: "Title (SEO)", name: "title", widget: "string"}
       - {label: "Description (SEO)", name: "description", widget: "string"}
-      - {label: "Course Slug (must match folder name)", name: "course_slug", widget: "string"}
-      - {label: "Category Name", name: "category", widget: "string", required: false}
+      - {label: "Open Graph Image (Social Sharing)", name: "og_image", widget: "image", required: false}
+      - {label: "Canonical URL", name: "canonical_url", widget: "string", required: false}
+      - {label: "Course Slug", name: "course_slug", widget: "string", hint: "Must exactly match the folder name for standard navigation to work."}
+      - {label: "Draft (Hide from Live Site)", name: "draft", widget: "boolean", default: false, required: false}
+      - {label: "Category Name", name: "category", widget: "relation", collection: "categories", search_fields: ["title"], value_field: "title", display_fields: ["title"], required: false}
       - {label: "Category Eyebrow", name: "eyebrow", widget: "string", required: false}
       - {label: "Course Header Title", name: "name", widget: "string", required: false}
       - {label: "Lead Description", name: "lead", widget: "text", required: false}
@@ -74,6 +85,8 @@ collections:
         name: "videos"
         widget: "list"
         required: false
+        collapsed: true
+        summary: '{{fields.title}}'
         fields:
           - {label: "Video Title", name: "title", widget: "string"}
           - {label: "Video Embed URL", name: "url", widget: "string"}
@@ -82,6 +95,8 @@ collections:
         name: "trainers"
         widget: "list"
         required: false
+        collapsed: true
+        summary: '{{fields.name}} - {{fields.role}}'
         fields:
           - {label: "Trainer Name", name: "name", widget: "string"}
           - {label: "Avatar Initials", name: "avatar", widget: "string"}
@@ -94,6 +109,8 @@ collections:
         name: "curriculum"
         widget: "list"
         required: false
+        collapsed: true
+        summary: '{{fields.phase}}'
         fields:
           - {label: "Phase Title", name: "phase", widget: "string"}
           - {label: "Phase Duration (no of classes / duration label)", name: "duration", widget: "string"}
@@ -101,6 +118,8 @@ collections:
           - label: "Sessions / Classes"
             name: "sessions"
             widget: "list"
+            collapsed: true
+            summary: '{{fields.num}}: {{fields.title}}'
             fields:
               - {label: "Class Number (e.g. Class 1-2)", name: "num", widget: "string"}
               - {label: "Class Title", name: "title", widget: "string"}
@@ -109,6 +128,8 @@ collections:
         name: "faqs"
         widget: "list"
         required: false
+        collapsed: true
+        summary: '{{fields.q}}'
         fields:
           - {label: "Question", name: "q", widget: "string"}
           - {label: "Answer", name: "a", widget: "text"}
@@ -208,6 +229,25 @@ collections:
         label: "Header, Footer & Forms"
         file: "_data/settings.json"
         fields:
+          - label: "Announcement Bar"
+            name: "announcement"
+            widget: "object"
+            fields:
+              - {label: "Show Announcement?", name: "show", widget: "boolean", default: false}
+              - {label: "Announcement Text", name: "text", widget: "string", required: false}
+              - {label: "Link URL", name: "link", widget: "string", required: false}
+          - label: "Reusable Blocks (CTAs)"
+            name: "blocks"
+            widget: "object"
+            fields:
+              - {label: "Course CTA Title", name: "course_cta_title", widget: "string", default: "Enroll only when <em>you're convinced.</em>"}
+              - {label: "Course CTA Subtitle", name: "course_cta_subtitle", widget: "string", default: "Join our live classes for free until you're satisfied — no card, no commitment."}
+          - label: "Analytics & Tracking"
+            name: "analytics"
+            widget: "object"
+            fields:
+              - {label: "Google Analytics 4 (GA4) ID", name: "ga4_id", widget: "string", required: false, hint: "e.g., G-XXXXXXXXXX"}
+              - {label: "Meta Pixel ID", name: "meta_pixel_id", widget: "string", required: false}
           - label: "Header Settings"
             name: "header"
             widget: "object"
@@ -361,3 +401,37 @@ collections:
                   - {label: "Batch Status", name: "batch_status", widget: "select", options: ["Enrollment open", "Open for interest", "Class in progress"]}
                   - {label: "Featured", name: "featured", widget: "boolean"}
                   - {label: "Is Live", name: "live", widget: "boolean"}
+
+  - name: "categories"
+    label: "Categories (Taxonomy)"
+    folder: "categories"
+    create: true
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - {label: "Category Name", name: "title", widget: "string"}
+
+  - name: "team"
+    label: "Team & Authors"
+    folder: "team"
+    create: true
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - {label: "Full Name", name: "title", widget: "string"}
+      - {label: "Role / Title", name: "role", widget: "string"}
+      - {label: "Biography", name: "bio", widget: "text", required: false}
+      - {label: "Avatar Image", name: "avatar", widget: "image", required: false}
+      - {label: "LinkedIn Profile URL", name: "linkedin", widget: "string", required: false}
+
+  - name: "testimonials"
+    label: "Testimonials & Reviews"
+    folder: "testimonials"
+    create: true
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - {label: "Student Name", name: "name", widget: "string"}
+      - {label: "Review Source (e.g. Google review)", name: "source", widget: "string", default: "Google review"}
+      - {label: "Star Rating", name: "stars", widget: "string", default: "★★★★★"}
+      - {label: "Review Quote", name: "quote", widget: "text"}
