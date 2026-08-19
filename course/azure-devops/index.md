@@ -8,6 +8,15 @@ card_blurb: "Standardize agile delivery pipelines. Master Azure Boards, Azure Pi
 title: "Azure DevOps Engineer — Live Online Course | RPAVault"
 description: "Standardize agile delivery pipelines. Master Azure Boards, Azure Pipelines YAML, and automated deployments."
 course_slug: "azure-devops"
+
+videos:
+  - title: "Session 1 Recording"
+    description: "Live session recording for this course."
+    url: "https://www.youtube.com/embed/GzNT_0nHPqE"
+  - title: "Session 2 Recording"
+    description: "Deep-dive project walkthrough."
+    url: "https://www.youtube.com/embed/s0Gn1zN91zA"
+
 category: "Testing & QA Automation"
 eyebrow: "Testing & QA Automation"
 name: "Azure DevOps Engineer"

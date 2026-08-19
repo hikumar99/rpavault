@@ -9,6 +9,14 @@ title: "Data Analytics (Power BI + SQL) — Live Online Course | RPAVault"
 description: "Complete data-analyst path — SQL, SSIS, SSAS/SSRS and Power BI in 37 live sessions. Enrollment started."
 course_slug: "data-analytics-power-bi-sql"
 
+videos:
+  - title: "Session 1 Recording"
+    description: "Live session recording for this course."
+    url: "https://www.youtube.com/embed/GzNT_0nHPqE"
+  - title: "Session 2 Recording"
+    description: "Deep-dive project walkthrough."
+    url: "https://www.youtube.com/embed/s0Gn1zN91zA"
+
 category: "Data & Business Intelligence"
 eyebrow: "Data & Business Intelligence"
 name: "Data Analytics (Power BI + SQL)"

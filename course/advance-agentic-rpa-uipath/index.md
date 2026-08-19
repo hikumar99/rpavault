@@ -9,6 +9,14 @@ title: "Advance Agentic RPA UiPath — Live Online Course | RPAVault"
 description: "Advanced program for RPA developers with 2+ years experience — IDP, AI Center, agentic automation, MCP and Maestro."
 course_slug: "advance-agentic-rpa-uipath"
 
+videos:
+  - title: "Demo 1"
+    description: "Live session recording for this course."
+    url: "https://www.youtube.com/embed/i-24YXRNpQU"
+  - title: "Demo 2"
+    description: "Deep-dive project walkthrough."
+    url: "https://www.youtube.com/embed/EMlDpQswovs"
+
 category: "RPA & Agentic Automation"
 eyebrow: "RPA & Agentic Automation"
 name: "Advance Agentic RPA UiPath"

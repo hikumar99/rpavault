@@ -9,6 +9,11 @@ title: "UiPath Test Suite — Live Online Course | RPAVault"
 description: "Hands-on UiPath Test Suite program — Test Manager, automation tracks and 3 real use cases for QA-focused careers."
 course_slug: "uipath-test-suite"
 
+videos:
+  - title: "Demo"
+    description: "Live session recording for this course."
+    url: "https://www.youtube.com/embed/vk4_0E1PAOo"
+
 category: "Testing & QA Automation"
 eyebrow: "Testing & QA Automation"
 name: "UiPath Test Suite"
