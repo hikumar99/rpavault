@@ -1,6 +1,6 @@
 ---
 layout: layouts/base.html
-title: Student Portal & Attendance Dashboard — RPAVault
+title: Join Live Class & Attendance Portal — RPAVault
 description: Student live class sign-in portal and dynamic batch attendance analytics for RPAVault students.
 ---
 
@@ -39,20 +39,35 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     flex-shrink: 0;
   }
 
+  /* Main Action Cards Grid */
+  .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 960px;
+    margin: 0 auto 3.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .actions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   /* Form Card */
-  .join-card {
+  .portal-card {
     background: #ffffff;
     border: 1px solid var(--line, #cce8f3);
     border-radius: 26px;
-    padding: clamp(1.6rem, 3vw, 2.4rem);
+    padding: clamp(1.6rem, 3vw, 2.2rem);
     box-shadow: 0 18px 42px rgba(0, 88, 176, 0.08);
-    max-width: 580px;
-    margin: 0 auto 3.5rem;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
-  .join-card:before {
+  .portal-card:before {
     content: "";
     position: absolute;
     inset: 0 0 auto;
@@ -60,7 +75,11 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     background: linear-gradient(90deg, var(--blue, #0058b0), var(--green, #39b87f));
   }
 
-  .join-card h2 {
+  .portal-card.alt:before {
+    background: linear-gradient(90deg, var(--green, #39b87f), #0284c7);
+  }
+
+  .portal-card h2 {
     font-family: var(--font-heading, 'Sora', sans-serif);
     font-size: 1.35rem;
     font-weight: 800;
@@ -68,16 +87,18 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     color: var(--ink, #1a181b);
   }
 
-  .join-card-sub {
-    font-size: 0.9rem;
+  .portal-card-sub {
+    font-size: 0.88rem;
     color: var(--muted, #607987);
     margin-bottom: 1.25rem;
+    line-height: 1.5;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
+    margin-top: auto;
   }
 
   .field-label {
@@ -93,7 +114,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     padding: 0.85rem 1.1rem;
     border: 1px solid var(--line, #cce8f3);
     border-radius: 14px;
-    font-size: 1rem;
+    font-size: 0.98rem;
     color: var(--ink, #1a181b);
     background: var(--canvas, #f6fcff);
     box-sizing: border-box;
@@ -112,36 +133,48 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 50px;
-    padding: 0.85rem 1.5rem;
+    min-height: 48px;
+    padding: 0.8rem 1.4rem;
     border-radius: 999px;
     font-weight: 800;
-    font-size: 1.02rem;
+    font-size: 0.98rem;
     color: #ffffff;
     background: var(--blue, #0058b0);
     border: none;
     cursor: pointer;
-    box-shadow: 0 14px 28px rgba(0, 88, 176, 0.22);
+    box-shadow: 0 14px 28px rgba(0, 88, 176, 0.20);
     transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
   }
 
   .btn-join:hover {
     background: var(--blue-deep, #004182);
     transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgba(0, 88, 176, 0.28);
+    box-shadow: 0 18px 36px rgba(0, 88, 176, 0.26);
   }
 
   .btn-join:active {
     transform: translateY(0);
   }
 
+  .btn-secondary-portal {
+    background: var(--canvas-2, #ecf8fc);
+    color: var(--blue-deep, #004182);
+    border: 1px solid var(--line, #cce8f3);
+    box-shadow: 0 4px 14px rgba(0, 88, 176, 0.06);
+  }
+
+  .btn-secondary-portal:hover {
+    background: var(--blue-soft, #e6f1fb);
+    border-color: var(--blue, #0058b0);
+  }
+
   /* Status messages */
   .status-box {
     display: none;
-    margin-top: 1.25rem;
-    padding: 1rem 1.25rem;
+    margin-top: 1.1rem;
+    padding: 0.9rem 1.1rem;
     border-radius: 14px;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     line-height: 1.5;
   }
 
@@ -228,20 +261,9 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     gap: 0.5rem;
   }
 
-  .absentee-badge-label {
-    background: #e11d48;
-    color: #ffffff;
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.3rem 0.75rem;
-    border-radius: 999px;
-  }
-
   .absentee-date-title {
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 0.88rem;
+    font-weight: 800;
     color: #9f1239;
   }
 
@@ -733,38 +755,64 @@ description: Student live class sign-in portal and dynamic batch attendance anal
   <!-- Access Notice -->
   <div class="access-notice">
     <div class="access-notice-dot"></div>
-    <div>Notice: Only registered members and authorized admins will be granted access to live sessions &amp; dashboards.</div>
+    <div>Notice: This portal is strictly for registered members.</div>
   </div>
 
-  <!-- Verification Form Card -->
-  <div class="join-card">
-    <h2>Student &amp; Admin Sign-in</h2>
-    <div class="join-card-sub">Enter your registered email to join today's live session and inspect attendance benchmarks.</div>
-    
-    <form id="classJoinForm">
-      <div class="form-group">
-        <div>
-          <label class="field-label" for="studentEmail">Registered Email ID *</label>
-          <input class="field-input" type="email" id="studentEmail" placeholder="e.g. name@example.com" required autocomplete="email">
+  <!-- Action Cards Grid (Join Meeting vs View Dashboard) -->
+  <div class="actions-grid">
+    <!-- Card 1: Join Live Class -->
+    <div class="portal-card">
+      <h2>Join Live Class</h2>
+      <div class="portal-card-sub">Enter your registered email to verify your enrollment and launch today's live session.</div>
+      
+      <form id="classJoinForm">
+        <div class="form-group">
+          <div>
+            <label class="field-label" for="studentEmail">Registered Email ID *</label>
+            <input class="field-input" type="email" id="studentEmail" placeholder="e.g. name@example.com" required autocomplete="email">
+          </div>
+          <button type="submit" class="btn-join" id="submitBtn">
+            <span>Verify &amp; Join Live Class &rarr;</span>
+          </button>
         </div>
-        <button type="submit" class="btn-join" id="submitBtn">
-          <span>Verify &amp; Join Live Class &rarr;</span>
-        </button>
-      </div>
-    </form>
+      </form>
 
-    <!-- Error Message -->
-    <div class="status-box error" id="errorMessage">
-      <strong>Access Restricted:</strong> This session is reserved for enrolled candidates and registered admins. Please check your email or contact support.
+      <!-- Join Error Message -->
+      <div class="status-box error" id="errorMessage">
+        This portal is strictly for registered members.
+      </div>
+
+      <!-- Join Success Message -->
+      <div class="status-box success" id="successMessage">
+        <strong>Verified!</strong> Redirecting to your live meeting...
+        <div>
+          <a href="#" target="_blank" class="meeting-link-btn" id="meetingRedirectBtn">
+            Open Meeting Directly &rarr;
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- Success Message -->
-    <div class="status-box success" id="successMessage">
-      <strong>Verified Successfully!</strong> Redirecting to your live class in a new tab...
-      <div>
-        <a href="#" target="_blank" class="meeting-link-btn" id="meetingRedirectBtn">
-          Open Meeting Directly &rarr;
-        </a>
+    <!-- Card 2: Access Attendance Dashboard -->
+    <div class="portal-card alt">
+      <h2>Attendance Dashboard</h2>
+      <div class="portal-card-sub">View attendance benchmarks, latest absentees, and individual performance details.</div>
+      
+      <form id="dashboardAccessForm">
+        <div class="form-group">
+          <div>
+            <label class="field-label" for="dashboardEmail">Email ID *</label>
+            <input class="field-input" type="email" id="dashboardEmail" placeholder="Enter registered or admin email" required autocomplete="email">
+          </div>
+          <button type="submit" class="btn-join btn-secondary-portal" id="dashSubmitBtn">
+            <span>Unlock Attendance Dashboard &rarr;</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Dashboard Access Error Message -->
+      <div class="status-box error" id="dashErrorMessage">
+        This portal is strictly for registered members.
       </div>
     </div>
   </div>
@@ -785,7 +833,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
 
     <!-- Last 2 Days Absentees Callout Grid -->
     <div class="recent-absentees-container" id="recentAbsenteesContainer">
-      <!-- Injected dynamically -->
+      <!-- Injected dynamically with date titles like "Thu, 20 Aug 2026 Absentees" -->
     </div>
 
     <!-- Metrics KPI Grid -->
@@ -937,13 +985,14 @@ description: Student live class sign-in portal and dynamic batch attendance anal
   const pageStartTime = Date.now();
 
   document.addEventListener('DOMContentLoaded', () => {
-    initForm();
+    initJoinForm();
+    initDashboardAccessForm();
     initSearch();
     
-    // Check if user was already verified in this session
-    const cachedVerifiedEmail = sessionStorage.getItem('rpv_verified_email');
+    // Check if user was already verified for dashboard in this session
+    const cachedVerifiedEmail = sessionStorage.getItem('rpv_verified_dashboard_email');
     if (cachedVerifiedEmail) {
-      document.getElementById('studentEmail').value = cachedVerifiedEmail;
+      document.getElementById('dashboardEmail').value = cachedVerifiedEmail;
       unlockAndLoadDashboard(cachedVerifiedEmail);
     }
   });
@@ -978,8 +1027,52 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     return "Desktop";
   }
 
-  // Instant sign-in handler
-  function initForm() {
+  function buildTelemetryPayload(email, actionType) {
+    let geoData = {};
+    try {
+      const cached = sessionStorage.getItem('rpv_geo');
+      if (cached) geoData = JSON.parse(cached);
+    } catch (_) {}
+
+    const visitorId = localStorage.getItem('rpv_visitor_id') || ('v-' + Date.now() + '-' + Math.floor(Math.random()*1000000));
+    const visitCount = localStorage.getItem('rpv_visit_count') || "1";
+    const firstVisit = localStorage.getItem('rpv_first_visit') || new Date().toISOString();
+    const pathTrail = sessionStorage.getItem('rpv_path_trail') || location.pathname;
+    const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
+    return {
+      action: actionType,
+      form_type: actionType === "join" ? "Class Join (Live Portal)" : "Dashboard Unlock",
+      email: email,
+      "=== GEOGRAPHIC & NETWORK ===": "==============================",
+      "Geo: IP Address": geoData.ip || "",
+      "Geo: City": geoData.city || "",
+      "Geo: Region": geoData.region || "",
+      "Geo: Country": geoData.country_name || "",
+      "=== DEVICE & BROWSER ===": "==============================",
+      "Device: OS": getDeviceOS(),
+      "Device: Browser": getBrowserString(),
+      "Device: Type": getDeviceType(),
+      "Device: Screen Size": (window.screen ? (window.screen.width + 'x' + window.screen.height) : 'Unknown'),
+      "Device: Browser Language": navigator.language || 'Unknown',
+      "=== VISITOR SESSION INFO ===": "==============================",
+      "Session: Visitor Type": (parseInt(visitCount, 10) <= 1) ? 'New' : 'Returning',
+      "Session: Visitor ID": visitorId,
+      "Session: Visit Count": visitCount,
+      "Session: First Visit Date": new Date(firstVisit).toLocaleString(),
+      "Session: Path Trail": pathTrail,
+      "Session: Referrer": document.referrer || 'direct',
+      "Session: Time Spent on Page (sec)": timeOnPage.toString(),
+      "Session: Timezone": timezone,
+      "Session: Source Page Path": location.pathname || '/',
+      "Session: Source Page Title": document.title || 'Live Class Portal',
+      "Session: Local Time Submitted": new Date().toString()
+    };
+  }
+
+  // 1. Join Live Class Form Handler
+  function initJoinForm() {
     const form = document.getElementById('classJoinForm');
     const submitBtn = document.getElementById('submitBtn');
     const errorMsg = document.getElementById('errorMessage');
@@ -991,53 +1084,10 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       successMsg.style.display = 'none';
 
       const email = document.getElementById('studentEmail').value.trim().toLowerCase();
-
-      // Open blank window immediately to bypass popup blocker
-      const popupWindow = window.open('about:blank', '_blank');
-
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Verifying &amp; Joining...</span>';
+      submitBtn.innerHTML = '<span>Verifying...</span>';
 
-      let geoData = {};
-      try {
-        const cached = sessionStorage.getItem('rpv_geo');
-        if (cached) geoData = JSON.parse(cached);
-      } catch (_) {}
-
-      const visitorId = localStorage.getItem('rpv_visitor_id') || ('v-' + Date.now() + '-' + Math.floor(Math.random()*1000000));
-      const visitCount = localStorage.getItem('rpv_visit_count') || "1";
-      const firstVisit = localStorage.getItem('rpv_first_visit') || new Date().toISOString();
-      const pathTrail = sessionStorage.getItem('rpv_path_trail') || location.pathname;
-      const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-
-      const payload = {
-        form_type: "Class Join (Live Portal)",
-        email: email,
-        "=== GEOGRAPHIC & NETWORK ===": "==============================",
-        "Geo: IP Address": geoData.ip || "",
-        "Geo: City": geoData.city || "",
-        "Geo: Region": geoData.region || "",
-        "Geo: Country": geoData.country_name || "",
-        "=== DEVICE & BROWSER ===": "==============================",
-        "Device: OS": getDeviceOS(),
-        "Device: Browser": getBrowserString(),
-        "Device: Type": getDeviceType(),
-        "Device: Screen Size": (window.screen ? (window.screen.width + 'x' + window.screen.height) : 'Unknown'),
-        "Device: Browser Language": navigator.language || 'Unknown',
-        "=== VISITOR SESSION INFO ===": "==============================",
-        "Session: Visitor Type": (parseInt(visitCount, 10) <= 1) ? 'New' : 'Returning',
-        "Session: Visitor ID": visitorId,
-        "Session: Visit Count": visitCount,
-        "Session: First Visit Date": new Date(firstVisit).toLocaleString(),
-        "Session: Path Trail": pathTrail,
-        "Session: Referrer": document.referrer || 'direct',
-        "Session: Time Spent on Page (sec)": timeOnPage.toString(),
-        "Session: Timezone": timezone,
-        "Session: Source Page Path": location.pathname || '/',
-        "Session: Source Page Title": document.title || 'Live Class Portal',
-        "Session: Local Time Submitted": new Date().toString()
-      };
+      const payload = buildTelemetryPayload(email, "join");
 
       try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
@@ -1049,30 +1099,74 @@ description: Student live class sign-in portal and dynamic batch attendance anal
         const result = await response.json();
 
         if (result.verified) {
-          sessionStorage.setItem('rpv_verified_email', email);
+          const redirectUrl = result.redirectUrl || "https://teams.microsoft.com";
           
-          if (popupWindow) {
-            popupWindow.location.href = result.redirectUrl || "https://teams.microsoft.com";
-          }
+          // Open meeting in new tab ONLY upon confirmed verification
+          window.open(redirectUrl, '_blank');
 
           const redirectBtn = document.getElementById('meetingRedirectBtn');
-          redirectBtn.href = result.redirectUrl || "#";
+          redirectBtn.href = redirectUrl;
           successMsg.style.display = 'block';
-
-          unlockAndLoadDashboard(email);
         } else {
-          if (popupWindow) popupWindow.close();
-          errorMsg.textContent = result.message || "This portal is strictly for registered members and admins.";
+          errorMsg.textContent = result.message || "This portal is strictly for registered members.";
           errorMsg.style.display = 'block';
         }
       } catch (err) {
-        if (popupWindow) popupWindow.close();
-        console.error('Submission error:', err);
+        console.error('Join error:', err);
         errorMsg.textContent = 'Unable to verify. Please check your connection or contact support.';
         errorMsg.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<span>Verify &amp; Join Live Class &rarr;</span>';
+      }
+    });
+  }
+
+  // 2. Separate Attendance Dashboard Unlock Form Handler
+  function initDashboardAccessForm() {
+    const form = document.getElementById('dashboardAccessForm');
+    const submitBtn = document.getElementById('dashSubmitBtn');
+    const errorMsg = document.getElementById('dashErrorMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+
+      const email = document.getElementById('dashboardEmail').value.trim().toLowerCase();
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verifying Access...</span>';
+
+      const payload = buildTelemetryPayload(email, "dashboard_access");
+
+      try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result.verified) {
+          sessionStorage.setItem('rpv_verified_dashboard_email', email);
+          unlockAndLoadDashboard(email);
+          
+          // Smooth scroll to dashboard section
+          setTimeout(() => {
+            const dashEl = document.getElementById('dashboardSection');
+            if (dashEl) dashEl.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        } else {
+          errorMsg.textContent = result.message || "This portal is strictly for registered members.";
+          errorMsg.style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Dashboard unlock error:', err);
+        errorMsg.textContent = 'Unable to verify. Please check your connection or contact support.';
+        errorMsg.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Unlock Attendance Dashboard &rarr;</span>';
       }
     });
   }
@@ -1095,14 +1189,13 @@ description: Student live class sign-in portal and dynamic batch attendance anal
   }
 
   function renderDashboard(data, userEmail = "") {
-    // 1. Absentees of Last Two Days
+    // 1. Absentees of Last Two Days with Clean Date Titles
     const container = document.getElementById('recentAbsenteesContainer');
     if (data.recentAbsentees && data.recentAbsentees.length > 0) {
       container.innerHTML = data.recentAbsentees.map(item => `
         <div class="absentee-card">
           <div class="absentee-card-top">
-            <span class="absentee-badge-label">${item.label}</span>
-            <span class="absentee-date-title">${item.dateFormatted}</span>
+            <span class="absentee-date-title">${item.title}</span>
           </div>
           <div class="absentee-tags">
             ${item.absentees.length > 0 

@@ -8,15 +8,9 @@
  *    - Column C: Mobile Number
  *    - Column D: Batch
  * 
- * 2. "Settings" tab (Manages both Meeting Link & Admin Emails):
- *    - Column A: Key
- *    - Column B: Value
- *    Example rows:
- *      Row 1: Key | Value
- *      Row 2: Meeting_URL | https://teams.microsoft.com/...
- *      Row 3: Admin_Email | rpakumardev@gmail.com
- *      Row 4: Admin_Email | instructor@rpavault.com
- *      (Or comma-separated: Admin_Emails | admin1@gmail.com, admin2@gmail.com)
+ * 2. "Settings" tab:
+ *    - Column A: Key (e.g. "Meeting_URL", "Admin_Email")
+ *    - Column B: Value (e.g. "https://teams.microsoft.com/...", "admin@rpavault.com")
  * 
  * 3. "Attendance_Logs" tab (22 Columns):
  *    - Columns: Timestamp, Email, IP, City, Region, Country, OS, Browser, Device Type, Screen, Language, Visitor Type, Visitor ID, Visit Count, First Visit, Path Trail, Referrer, Time Spent, Timezone, Source Page Path, Source Page Title, Local Time
@@ -26,7 +20,6 @@ function doPost(e) {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     
-    // Parse parameters
     let params = e.parameter || {};
     if (e.postData && e.postData.contents) {
       try {
@@ -36,6 +29,7 @@ function doPost(e) {
     }
 
     const inputEmail = (params.email || "").trim().toLowerCase();
+    const action = (params.action || "join").toLowerCase(); // "join" or "dashboard_access"
 
     if (!inputEmail) {
       return jsonResponse({ success: false, verified: false, message: "Email is required." });
@@ -58,7 +52,6 @@ function doPost(e) {
         if (key === "meeting_url" || key === "meeting url" || key === "teams_link" || key === "teams link") {
           if (val) meetingUrl = val;
         } else if (key.includes("admin")) {
-          // Supports comma-separated emails or single email per row
           val.split(",").forEach(em => {
             const trimmed = em.trim().toLowerCase();
             if (trimmed) adminEmailsSet.add(trimmed);
@@ -81,7 +74,7 @@ function doPost(e) {
         if (sEmail === inputEmail) {
           isStudent = true;
           userName = regData[i][0] || inputEmail.split("@")[0];
-          batchName = regData[i][3] || "Live Batch";
+          batchName = formatCleanBatch(regData[i][3]);
           break;
         }
       }
@@ -91,12 +84,12 @@ function doPost(e) {
       return jsonResponse({
         success: false,
         verified: false,
-        message: "This portal is strictly for registered members and admins."
+        message: "This portal is strictly for registered members."
       });
     }
 
-    // 4. Log attendance for students
-    if (isStudent && logSheet) {
+    // 4. Log attendance ONLY when action === "join" and user is a student
+    if (action === "join" && isStudent && logSheet) {
       const now = new Date();
       const ip = params["Geo: IP Address"] || params.ip || "";
       const city = params["Geo: City"] || params.city || "";
@@ -162,8 +155,9 @@ function doGet(e) {
       const name = regData[i][0];
       const email = (regData[i][1] || "").toString().trim().toLowerCase();
       const mobile = regData[i][2] || "";
-      const batch = regData[i][3] || "";
-      if (batch) detectedBatch = batch;
+      const rawBatch = regData[i][3];
+      const cleanBatch = formatCleanBatch(rawBatch);
+      if (cleanBatch) detectedBatch = cleanBatch;
 
       if (email) {
         studentsMap[email] = {
@@ -171,7 +165,7 @@ function doGet(e) {
           name: name || email.split("@")[0],
           email: email,
           mobile: mobile,
-          batch: batch,
+          batch: cleanBatch,
           presentDates: new Set()
         };
         registeredList.push(studentsMap[email]);
@@ -209,7 +203,7 @@ function doGet(e) {
     const sortedDates = Array.from(uniqueDatesSet).sort();
     const totalClassesHeld = sortedDates.length || 0;
 
-    // 3. Last 2 class absentees
+    // 3. Last 2 class absentees with clean date titles
     const recentClassAbsentees = [];
     if (sortedDates.length > 0) {
       const lastDate = sortedDates[sortedDates.length - 1];
@@ -220,9 +214,8 @@ function doGet(e) {
       recentClassAbsentees.push({
         dateStr: lastDate,
         dateFormatted: formatFullDate(lastDate),
-        dateShort: formatShortDate(lastDate),
-        absentees: abs1,
-        label: "Latest Class"
+        title: `${formatFullDate(lastDate)} Absentees`,
+        absentees: abs1
       });
     }
 
@@ -235,9 +228,8 @@ function doGet(e) {
       recentClassAbsentees.push({
         dateStr: prevDate,
         dateFormatted: formatFullDate(prevDate),
-        dateShort: formatShortDate(prevDate),
-        absentees: abs2,
-        label: "Previous Class"
+        title: `${formatFullDate(prevDate)} Absentees`,
+        absentees: abs2
       });
     }
 
@@ -376,6 +368,21 @@ function doGet(e) {
 
 function jsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function formatCleanBatch(rawBatch) {
+  if (!rawBatch) return "Live Batch";
+  if (rawBatch instanceof Date) {
+    return Utilities.formatDate(rawBatch, Session.getScriptTimeZone(), "dd MMM yyyy Batch");
+  }
+  const str = rawBatch.toString().trim();
+  if (str.includes("T") && str.includes("Z")) {
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) {
+      return Utilities.formatDate(d, Session.getScriptTimeZone(), "dd MMM yyyy Batch");
+    }
+  }
+  return str;
 }
 
 function formatShortDate(dateStr) {
