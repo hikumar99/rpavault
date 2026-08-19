@@ -1,46 +1,42 @@
 ---
 layout: layouts/base.html
-title: Live Class Join & Batch Attendance Portal — RPAVault
-description: Student live class verification portal and dynamic attendance analytics for RPAVault training batches.
+title: Student Portal & Attendance Dashboard — RPAVault
+description: Student live class sign-in portal and dynamic batch attendance analytics for RPAVault students.
 ---
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <style>
-  /* RPAVault Theme Alignment */
   .portal-container {
     max-width: var(--container, 1180px);
     margin: 0 auto;
-    padding: clamp(1.8rem, 3.5vw, 3rem) var(--gutter, 1.5rem) 5rem;
+    padding: clamp(2rem, 3.5vw, 3.5rem) var(--gutter, 1.5rem) 5rem;
     font-family: var(--font, 'Inter', sans-serif);
     color: var(--ink, #1a181b);
   }
 
-  .portal-hero {
-    text-align: center;
-    margin-bottom: 2.2rem;
+  /* Access Notice */
+  .access-notice {
+    background: var(--blue-soft, #e6f1fb);
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 16px;
+    padding: 0.85rem 1.25rem;
+    max-width: 580px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    color: var(--blue-deep, #004182);
+    font-weight: 600;
   }
 
-  .portal-hero .eyebrow {
-    margin: 0 auto 0.9rem;
-  }
-
-  .portal-hero h1 {
-    font-family: var(--font-heading, 'Sora', sans-serif);
-    font-weight: 800;
-    font-size: clamp(2rem, 3.6vw, 2.9rem);
-    line-height: 1.12;
-    color: var(--ink, #1a181b);
-    letter-spacing: -0.02em;
-    margin-bottom: 0.6rem;
-  }
-
-  .portal-hero p {
-    color: var(--muted, #607987);
-    font-size: 1.05rem;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
+  .access-notice-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue, #0058b0);
+    flex-shrink: 0;
   }
 
   /* Form Card */
@@ -48,10 +44,10 @@ description: Student live class verification portal and dynamic attendance analy
     background: #ffffff;
     border: 1px solid var(--line, #cce8f3);
     border-radius: 26px;
-    padding: clamp(1.6rem, 3vw, 2.2rem);
+    padding: clamp(1.6rem, 3vw, 2.4rem);
     box-shadow: 0 18px 42px rgba(0, 88, 176, 0.08);
     max-width: 580px;
-    margin: 0 auto 3rem;
+    margin: 0 auto 3.5rem;
     position: relative;
     overflow: hidden;
   }
@@ -66,10 +62,16 @@ description: Student live class verification portal and dynamic attendance analy
 
   .join-card h2 {
     font-family: var(--font-heading, 'Sora', sans-serif);
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    margin-bottom: 1.1rem;
+    margin: 0 0 0.4rem 0;
     color: var(--ink, #1a181b);
+  }
+
+  .join-card-sub {
+    font-size: 0.9rem;
+    color: var(--muted, #607987);
+    margin-bottom: 1.25rem;
   }
 
   .form-group {
@@ -174,52 +176,73 @@ description: Student live class verification portal and dynamic attendance analy
     background: #15803d;
   }
 
-  /* Loading State */
-  .dashboard-loading {
-    text-align: center;
-    padding: 3rem 1.5rem;
+  /* Dashboard Section Header */
+  .dashboard-section-header {
+    border-top: 1px solid var(--line, #cce8f3);
+    padding-top: 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .dashboard-section-header h2 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0 0 0.3rem 0;
+  }
+
+  .dashboard-section-header p {
     color: var(--muted, #607987);
-    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0;
   }
 
-  .spinner {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    border: 3px solid rgba(0, 88, 176, 0.2);
-    border-top-color: var(--blue, #0058b0);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin-bottom: 0.75rem;
+  /* Last 2 Days Absentees Callout Grid */
+  .recent-absentees-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
   }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  /* Absentees Callout */
   .absentee-card {
     background: linear-gradient(145deg, #fff5f5, #ffe4e6);
     border: 1px solid #fecdd3;
     border-radius: 20px;
-    padding: 1.1rem 1.4rem;
-    margin-bottom: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.85rem;
+    padding: 1.1rem 1.3rem;
     box-shadow: 0 10px 24px rgba(225, 29, 72, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .absentee-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 
   .absentee-badge-label {
     background: #e11d48;
     color: #ffffff;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 0.35rem 0.8rem;
+    padding: 0.3rem 0.75rem;
     border-radius: 999px;
+  }
+
+  .absentee-date-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #9f1239;
   }
 
   .absentee-tags {
@@ -235,7 +258,7 @@ description: Student live class verification portal and dynamic attendance analy
     color: #9f1239;
     padding: 0.2rem 0.7rem;
     border-radius: 999px;
-    font-size: 0.85rem;
+    font-size: 0.84rem;
     font-weight: 700;
   }
 
@@ -304,6 +327,51 @@ description: Student live class verification portal and dynamic attendance analy
     margin-top: 0.35rem;
   }
 
+  /* Schedule / Class Dates Calendar Card */
+  .schedule-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 12px 28px rgba(0, 88, 176, 0.05);
+  }
+
+  .schedule-card h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 0.85rem 0;
+    color: var(--ink, #1a181b);
+  }
+
+  .schedule-dates-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .schedule-date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--canvas-2, #ecf8fc);
+    border: 1px solid var(--line, #cce8f3);
+    padding: 0.35rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--ink-soft, #303030);
+  }
+
+  .schedule-date-badge .turnout-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green, #39b87f);
+  }
+
   /* Trend Chart Card */
   .chart-card {
     background: #ffffff;
@@ -338,9 +406,9 @@ description: Student live class verification portal and dynamic attendance analy
     gap: 0.75rem;
   }
 
-  .section-headline h2 {
+  .section-headline h3 {
     font-family: var(--font-heading, 'Sora', sans-serif);
-    font-size: 1.45rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: var(--ink, #1a181b);
     margin: 0;
@@ -364,7 +432,7 @@ description: Student live class verification portal and dynamic attendance analy
 
   .split-grid {
     display: grid;
-    grid-template-columns: 1fr 430px;
+    grid-template-columns: 1fr 440px;
     gap: 1.5rem;
     align-items: start;
   }
@@ -480,19 +548,19 @@ description: Student live class verification portal and dynamic attendance analy
   }
 
   .avatar-circle {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 16px;
-    background: linear-gradient(135deg, var(--blue, #0058b0), var(--blue-deep, #004182));
+    background: linear-gradient(135deg, #c2410c, #ea580c);
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 800;
   }
 
-  .profile-text h3 {
+  .profile-text h4 {
     font-family: var(--font-heading, 'Sora', sans-serif);
     font-size: 1.25rem;
     font-weight: 800;
@@ -512,9 +580,9 @@ description: Student live class verification portal and dynamic attendance analy
 
   .profile-rate .rate-num {
     font-family: var(--font-heading, 'Sora', sans-serif);
-    font-size: 1.8rem;
+    font-size: 1.85rem;
     font-weight: 800;
-    color: var(--blue, #0058b0);
+    color: #c2410c;
     line-height: 1;
   }
 
@@ -529,36 +597,38 @@ description: Student live class verification portal and dynamic attendance analy
     background: var(--canvas, #f6fcff);
     border: 1px solid var(--line, #cce8f3);
     border-radius: 12px;
-    padding: 0.6rem 0.9rem;
+    padding: 0.65rem 0.95rem;
     font-size: 0.82rem;
     color: var(--ink-soft, #303030);
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.45;
   }
 
-  .stats-two-col {
+  /* 4-Box Stats Grid */
+  .stats-four-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
     margin-bottom: 1.4rem;
   }
 
   .stat-badge-box {
     border: 1px solid var(--line, #cce8f3);
-    border-radius: 16px;
-    padding: 0.8rem;
+    border-radius: 14px;
+    padding: 0.65rem 0.4rem;
     text-align: center;
     background: var(--canvas-2, #ecf8fc);
   }
 
   .stat-badge-box .count {
     font-family: var(--font-heading, 'Sora', sans-serif);
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     font-weight: 800;
     line-height: 1.1;
   }
 
   .stat-badge-box .label {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 800;
     text-transform: uppercase;
     color: var(--muted, #607987);
@@ -567,6 +637,7 @@ description: Student live class verification portal and dynamic attendance analy
 
   .count-present { color: var(--green, #39b87f); }
   .count-absent { color: #dc2626; }
+  .count-streak { color: var(--blue, #0058b0); }
 
   .calendar-section-title {
     font-size: 0.8rem;
@@ -581,7 +652,7 @@ description: Student live class verification portal and dynamic attendance analy
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
     gap: 0.4rem;
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.75rem;
   }
 
   .tile-cell {
@@ -593,11 +664,13 @@ description: Student live class verification portal and dynamic attendance analy
     font-weight: 800;
     border-radius: 8px;
     user-select: none;
+    cursor: pointer;
     transition: transform 0.1s ease;
   }
 
   .tile-cell:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
+    z-index: 2;
   }
 
   .tile-present {
@@ -614,45 +687,60 @@ description: Student live class verification portal and dynamic attendance analy
 
   .calendar-legend {
     display: flex;
-    gap: 1.2rem;
-    font-size: 0.76rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.75rem;
     color: var(--muted, #607987);
-    margin-bottom: 1.3rem;
+    margin-bottom: 1.4rem;
+    align-items: center;
   }
 
   .legend-item {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
   }
 
   .legend-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 4px;
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
   }
 
   .dot-present { background: #dcfce7; border: 1px solid #86efac; }
   .dot-absent { background: #fee2e2; border: 1px solid #fca5a5; }
 
-  .absent-dates-list {
-    font-size: 0.84rem;
-    color: var(--muted, #607987);
-    line-height: 1.6;
+  /* Days Absent Badges */
+  .absent-pills-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+
+  .absent-date-badge {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
   }
 </style>
 
 <div class="portal-container">
-  <!-- Page Header -->
-  <div class="portal-hero">
-    <div class="eyebrow"><span class="eyebrow-dot"></span> Live Class Portal</div>
-    <h1>Student Sign-in & Attendance Dashboard</h1>
-    <p>Sign in with your registered email to join today's session and monitor live attendance benchmarks.</p>
+  <!-- Access Notice -->
+  <div class="access-notice">
+    <div class="access-notice-dot"></div>
+    <div>Notice: Only registered members and authorized admins will be granted access to live sessions &amp; dashboards.</div>
   </div>
 
-  <!-- Verification Form -->
+  <!-- Verification Form Card -->
   <div class="join-card">
-    <h2>Join Today's Live Class</h2>
+    <h2>Student &amp; Admin Sign-in</h2>
+    <div class="join-card-sub">Enter your registered email to join today's live session and inspect attendance benchmarks.</div>
+    
     <form id="classJoinForm">
       <div class="form-group">
         <div>
@@ -660,50 +748,44 @@ description: Student live class verification portal and dynamic attendance analy
           <input class="field-input" type="email" id="studentEmail" placeholder="e.g. name@example.com" required autocomplete="email">
         </div>
         <button type="submit" class="btn-join" id="submitBtn">
-          <span>Verify & Join Meeting &rarr;</span>
+          <span>Verify &amp; Join Live Class &rarr;</span>
         </button>
       </div>
     </form>
 
     <!-- Error Message -->
     <div class="status-box error" id="errorMessage">
-      <strong>Access Restricted:</strong> This session is reserved for enrolled candidates. Please verify your email or reach out to your instructor.
+      <strong>Access Restricted:</strong> This session is reserved for enrolled candidates and registered admins. Please check your email or contact support.
     </div>
 
     <!-- Success Message -->
     <div class="status-box success" id="successMessage">
       <strong>Verified Successfully!</strong> Redirecting to your live class in a new tab...
       <div>
-        <a href="/go/join-rpa-meeting" target="_blank" class="meeting-link-btn" id="meetingRedirectBtn">
+        <a href="#" target="_blank" class="meeting-link-btn" id="meetingRedirectBtn">
           Open Meeting Directly &rarr;
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Dynamic Dashboard Loading Placeholder -->
-  <div class="dashboard-loading" id="dashboardLoading">
-    <div class="spinner"></div>
-    <div>Loading live attendance metrics...</div>
-  </div>
-
-  <!-- Dynamic Dashboard Section (Hidden until loaded) -->
+  <!-- Dynamic Dashboard Section (Unlocked upon verification) -->
   <div class="dashboard-section" id="dashboardSection" style="display: none;">
     
-    <!-- Absentees Alert Block -->
-    <div class="absentee-card" id="absenteeBlock" style="display: none;">
-      <span class="absentee-badge-label" id="absenteeDateLabel">Today's Absentees</span>
-      <div class="absentee-tags" id="absenteeList">
-        <!-- Injected dynamically -->
+    <div class="dashboard-section-header">
+      <div>
+        <h2>Attendance Dashboard</h2>
+        <p>Live session turnout, candidate benchmarking, and performance statistics.</p>
+      </div>
+      <div class="batch-badge" id="batchBadgeDisplay">
+        <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
+        <span id="batchNameLabel">Batch: Live Batch</span>
       </div>
     </div>
 
-    <!-- Batch Header Row -->
-    <div class="batch-header-row">
-      <div class="batch-badge" id="batchBadgeDisplay">
-        <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
-        <span id="batchNameLabel">Batch: --</span>
-      </div>
+    <!-- Last 2 Days Absentees Callout Grid -->
+    <div class="recent-absentees-container" id="recentAbsenteesContainer">
+      <!-- Injected dynamically -->
     </div>
 
     <!-- Metrics KPI Grid -->
@@ -712,7 +794,7 @@ description: Student live class verification portal and dynamic attendance analy
       <div class="kpi-card">
         <div class="kpi-title">Overall attendance</div>
         <div class="kpi-value" id="kpiOverallRate">--%</div>
-        <div class="kpi-sub" id="kpiOverallSub">-- of -- marks</div>
+        <div class="kpi-sub" id="kpiOverallSub">-- marks</div>
       </div>
 
       <!-- 2. Avg present / class -->
@@ -744,6 +826,14 @@ description: Student live class verification portal and dynamic attendance analy
       </div>
     </div>
 
+    <!-- Classes Held Schedule Timeline Card -->
+    <div class="schedule-card" id="scheduleCard" style="display: none;">
+      <h3>Class Schedule Dates (<span id="scheduleTotalClasses">0</span> Held)</h3>
+      <div class="schedule-dates-flow" id="scheduleDatesFlow">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
     <!-- Attendance Over Time Chart -->
     <div class="chart-card">
       <h3>Attendance Volume Over Time</h3>
@@ -754,7 +844,7 @@ description: Student live class verification portal and dynamic attendance analy
 
     <!-- Leaderboard & Candidate Detail Section -->
     <div class="section-headline">
-      <h2>Leaderboard & Candidate Details</h2>
+      <h3>Leaderboard &amp; Candidate Details</h3>
       <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email...">
     </div>
 
@@ -781,34 +871,43 @@ description: Student live class verification portal and dynamic attendance analy
       <div class="detail-panel" id="candidateDetailPanel">
         <div class="candidate-profile-header">
           <div class="profile-left">
-            <div class="avatar-circle" id="detailAvatar">--</div>
+            <div class="avatar-circle" id="detailAvatar">V</div>
             <div class="profile-text">
-              <h3 id="detailName">Select a Candidate</h3>
-              <p id="detailEmail">--</p>
+              <h4 id="detailName">vineel</h4>
+              <p id="detailEmail">kannayavineelkumar@gmail.com</p>
             </div>
           </div>
           <div class="profile-rate">
-            <div class="rate-num" id="detailRate">--%</div>
-            <div class="rate-sub">Rate</div>
+            <div class="rate-num" id="detailRate">63%</div>
+            <div class="rate-sub">Attendance Rate</div>
           </div>
         </div>
 
         <div class="joined-banner" id="detailJoinedBanner">
-          --
+          ✦ Joined <strong>Mon, 23 Jun 2025</strong> &bull; First class attended out of 49 held
         </div>
 
-        <div class="stats-two-col">
+        <!-- 4-Box Stats -->
+        <div class="stats-four-grid">
           <div class="stat-badge-box">
-            <div class="count count-present" id="detailPresentCount">--</div>
+            <div class="count count-present" id="detailPresentCount">31/49</div>
             <div class="label">Present</div>
           </div>
           <div class="stat-badge-box">
-            <div class="count count-absent" id="detailAbsentCount">--</div>
+            <div class="count count-absent" id="detailAbsentCount">18</div>
             <div class="label">Absent</div>
+          </div>
+          <div class="stat-badge-box">
+            <div class="count count-streak" id="detailBestStreak">9 cls</div>
+            <div class="label">Best streak</div>
+          </div>
+          <div class="stat-badge-box">
+            <div class="count count-streak" id="detailCurrentStreak">0 cls</div>
+            <div class="label">Current streak</div>
           </div>
         </div>
 
-        <div class="calendar-section-title" id="calendarHeading">Attendance Calendar</div>
+        <div class="calendar-section-title" id="calendarHeading">Attendance Calendar &bull; 49 Classes</div>
         <div class="calendar-tiles-grid" id="calendarTilesGrid">
           <!-- Injected dynamically -->
         </div>
@@ -816,10 +915,11 @@ description: Student live class verification portal and dynamic attendance analy
         <div class="calendar-legend">
           <div class="legend-item"><span class="legend-dot dot-present"></span> Present</div>
           <div class="legend-item"><span class="legend-dot dot-absent"></span> Absent</div>
+          <div style="margin-left: auto; font-style: italic; font-size: 0.72rem;">Each tile = one class, in order. Hover for date.</div>
         </div>
 
-        <div class="calendar-section-title">Days Absent</div>
-        <div class="absent-dates-list" id="absentDatesList">
+        <div class="calendar-section-title" id="absentDatesHeading">Days absent (0)</div>
+        <div class="absent-pills-flow" id="absentDatesList">
           None
         </div>
       </div>
@@ -839,10 +939,16 @@ description: Student live class verification portal and dynamic attendance analy
   document.addEventListener('DOMContentLoaded', () => {
     initForm();
     initSearch();
-    loadDashboardData();
+    
+    // Check if user was already verified in this session
+    const cachedVerifiedEmail = sessionStorage.getItem('rpv_verified_email');
+    if (cachedVerifiedEmail) {
+      document.getElementById('studentEmail').value = cachedVerifiedEmail;
+      unlockAndLoadDashboard(cachedVerifiedEmail);
+    }
   });
 
-  // Telemetry helper functions matching site tracking
+  // Telemetry helper functions
   function getDeviceOS() {
     const ua = navigator.userAgent;
     if (ua.indexOf("Win") !== -1) return "Windows";
@@ -872,7 +978,7 @@ description: Student live class verification portal and dynamic attendance analy
     return "Desktop";
   }
 
-  // Form submission handler
+  // Instant sign-in handler
   function initForm() {
     const form = document.getElementById('classJoinForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -886,10 +992,12 @@ description: Student live class verification portal and dynamic attendance analy
 
       const email = document.getElementById('studentEmail').value.trim().toLowerCase();
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Verifying & Signing In...</span>';
+      // Open blank window immediately to bypass popup blocker
+      const popupWindow = window.open('about:blank', '_blank');
 
-      // Read session storage / local storage tracking items
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verifying &amp; Joining...</span>';
+
       let geoData = {};
       try {
         const cached = sessionStorage.getItem('rpv_geo');
@@ -903,7 +1011,6 @@ description: Student live class verification portal and dynamic attendance analy
       const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
 
-      // Exact enriched telemetry payload matching site structure
       const payload = {
         form_type: "Class Join (Live Portal)",
         email: email,
@@ -933,61 +1040,46 @@ description: Student live class verification portal and dynamic attendance analy
       };
 
       try {
-        if (GOOGLE_APPS_SCRIPT_URL) {
-          const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-          });
-          const result = await response.json();
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
 
-          if (result.verified) {
-            handleVerificationSuccess(result.redirectUrl || '/go/join-rpa-meeting', email);
-            // Refresh dashboard silently to show newly logged attendance
-            loadDashboardData();
-          } else {
-            errorMsg.style.display = 'block';
+        if (result.verified) {
+          sessionStorage.setItem('rpv_verified_email', email);
+          
+          if (popupWindow) {
+            popupWindow.location.href = result.redirectUrl || "https://teams.microsoft.com";
           }
+
+          const redirectBtn = document.getElementById('meetingRedirectBtn');
+          redirectBtn.href = result.redirectUrl || "#";
+          successMsg.style.display = 'block';
+
+          unlockAndLoadDashboard(email);
+        } else {
+          if (popupWindow) popupWindow.close();
+          errorMsg.textContent = result.message || "This portal is strictly for registered members and admins.";
+          errorMsg.style.display = 'block';
         }
       } catch (err) {
+        if (popupWindow) popupWindow.close();
         console.error('Submission error:', err);
-        errorMsg.textContent = 'Unable to verify at the moment. Please try again or reach out to support.';
+        errorMsg.textContent = 'Unable to verify. Please check your connection or contact support.';
         errorMsg.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Verify & Join Meeting &rarr;</span>';
+        submitBtn.innerHTML = '<span>Verify &amp; Join Live Class &rarr;</span>';
       }
     });
   }
 
-  function handleVerificationSuccess(redirectUrl, email) {
-    const successMsg = document.getElementById('successMessage');
-    const redirectBtn = document.getElementById('meetingRedirectBtn');
-    
-    redirectBtn.href = redirectUrl;
-    successMsg.style.display = 'block';
-    
-    // Auto open meeting in a new tab
-    window.open(redirectUrl, '_blank');
-
-    if (currentDashboardData && currentDashboardData.students) {
-      const matched = currentDashboardData.students.find(s => s.email.toLowerCase() === email);
-      if (matched) {
-        selectStudent(matched.id);
-      }
-    }
-  }
-
-  // Fetch live dashboard data from Google Apps Script
-  async function loadDashboardData() {
-    const loader = document.getElementById('dashboardLoading');
+  async function unlockAndLoadDashboard(userEmail) {
     const section = document.getElementById('dashboardSection');
-
-    if (!GOOGLE_APPS_SCRIPT_URL) {
-      loader.innerHTML = '<div>Please configure <code>GOOGLE_APPS_SCRIPT_URL</code> to load live data.</div>';
-      return;
-    }
+    section.style.display = 'block';
 
     try {
       const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard');
@@ -995,32 +1087,33 @@ description: Student live class verification portal and dynamic attendance analy
       
       if (data && data.students) {
         currentDashboardData = data;
-        loader.style.display = 'none';
-        section.style.display = 'block';
-        renderDashboard(data);
-      } else {
-        loader.innerHTML = '<div>No attendance data found in the connected sheet yet.</div>';
+        renderDashboard(data, userEmail);
       }
     } catch (err) {
       console.warn('Dashboard fetch error:', err);
-      loader.innerHTML = '<div>Unable to load live dashboard data. Please check Apps Script connection.</div>';
     }
   }
 
-  function renderDashboard(data) {
-    // 1. Absentees Block
-    const absenteeCard = document.getElementById('absenteeBlock');
-    const absenteeList = document.getElementById('absenteeList');
-    const absenteeDateLabel = document.getElementById('absenteeDateLabel');
-
-    if (data.latestClass && data.latestClass.absentees && data.latestClass.absentees.length > 0) {
-      absenteeCard.style.display = 'flex';
-      absenteeDateLabel.textContent = `Absentees (${data.latestClass.date})`;
-      absenteeList.innerHTML = data.latestClass.absentees.map(name => 
-        `<span class="absentee-pill">${name}</span>`
-      ).join('');
+  function renderDashboard(data, userEmail = "") {
+    // 1. Absentees of Last Two Days
+    const container = document.getElementById('recentAbsenteesContainer');
+    if (data.recentAbsentees && data.recentAbsentees.length > 0) {
+      container.innerHTML = data.recentAbsentees.map(item => `
+        <div class="absentee-card">
+          <div class="absentee-card-top">
+            <span class="absentee-badge-label">${item.label}</span>
+            <span class="absentee-date-title">${item.dateFormatted}</span>
+          </div>
+          <div class="absentee-tags">
+            ${item.absentees.length > 0 
+              ? item.absentees.map(name => `<span class="absentee-pill">${name}</span>`).join('')
+              : '<span style="font-size:0.84rem; color:#15803d; font-weight:700;">100% Turnout! No Absentees.</span>'}
+          </div>
+        </div>
+      `).join('');
+      container.style.display = 'grid';
     } else {
-      absenteeCard.style.display = 'none';
+      container.style.display = 'none';
     }
 
     // 2. Batch KPI Cards
@@ -1037,22 +1130,33 @@ description: Student live class verification portal and dynamic attendance analy
       document.getElementById('kpiPerfectSub').textContent = b.perfectAttendanceSub || "candidates, 0 absences";
       document.getElementById('kpiPeakTurnout').textContent = b.peakTurnout !== undefined ? b.peakTurnout : "0";
       document.getElementById('kpiPeakTurnoutSub').textContent = b.peakTurnoutSub || "";
+
+      // 3. Class Schedule Timeline
+      if (b.allClassDates && b.allClassDates.length > 0) {
+        document.getElementById('scheduleCard').style.display = 'block';
+        document.getElementById('scheduleTotalClasses').textContent = b.allClassDates.length;
+        document.getElementById('scheduleDatesFlow').innerHTML = b.allClassDates.map(item => `
+          <div class="schedule-date-badge" title="${item.full} - Turnout: ${item.turnout}">
+            <span class="turnout-dot"></span>
+            <span>${item.short}</span>
+          </div>
+        `).join('');
+      }
     }
 
-    // 3. Render Chart
+    // 4. Render Chart
     if (data.trend && data.trend.dates && data.trend.dates.length > 0) {
       renderChart(data.trend);
     }
 
-    // 4. Render Table (Sorted by Percentage Descending)
+    // 5. Render Leaderboard Table
     if (data.students && data.students.length > 0) {
       renderLeaderboard(data.students);
 
-      // Select top student or currently selected
-      const selected = data.students.find(s => s.id === selectedStudentId) || data.students[0];
-      if (selected) {
-        selectedStudentId = selected.id;
-        renderStudentDetail(selected);
+      let targetStudent = data.students.find(s => s.email.toLowerCase() === userEmail.toLowerCase()) || data.students[0];
+      if (targetStudent) {
+        selectedStudentId = targetStudent.id;
+        renderStudentDetail(targetStudent);
       }
     }
   }
@@ -1152,34 +1256,43 @@ description: Student live class verification portal and dynamic attendance analy
   }
 
   function renderStudentDetail(s) {
-    document.getElementById('detailAvatar').textContent = s.name.charAt(0).toUpperCase();
+    const totalClasses = currentDashboardData && currentDashboardData.batchInfo ? currentDashboardData.batchInfo.classesHeld : (s.present + s.absent);
+
+    document.getElementById('detailAvatar').textContent = (s.name || "S").charAt(0).toUpperCase();
     document.getElementById('detailName').textContent = s.name;
     document.getElementById('detailEmail').textContent = s.email;
     document.getElementById('detailRate').textContent = `${s.rate}%`;
-    const joinedText = s.batch ? `Batch: <strong>${s.batch}</strong>` : `Enrolled Candidate`;
-    document.getElementById('detailJoinedBanner').innerHTML = joinedText;
-    document.getElementById('detailPresentCount').textContent = s.present;
-    document.getElementById('detailAbsentCount').textContent = s.absent;
 
-    const totalClasses = s.present + s.absent;
+    const joinedText = `✦ Joined <strong>${s.joinedFormatted || "Live Batch"}</strong> &bull; First class attended out of ${totalClasses} held`;
+    document.getElementById('detailJoinedBanner').innerHTML = joinedText;
+
+    document.getElementById('detailPresentCount').textContent = `${s.present}/${totalClasses}`;
+    document.getElementById('detailAbsentCount').textContent = s.absent;
+    document.getElementById('detailBestStreak').textContent = `${s.bestStreak || 0} cls`;
+    document.getElementById('detailCurrentStreak').textContent = `${s.currentStreak || 0} cls`;
+
     document.getElementById('calendarHeading').textContent = `Attendance Calendar \u2022 ${totalClasses} Classes`;
 
+    // Calendar Tiles with full tooltip
     const tilesGrid = document.getElementById('calendarTilesGrid');
-    let tilesHtml = '';
-    
-    for (let i = 1; i <= totalClasses; i++) {
-      const isAbsent = i > s.present;
-      tilesHtml += `<div class="tile-cell ${isAbsent ? 'tile-absent' : 'tile-present'}">${i}</div>`;
-    }
-    tilesGrid.innerHTML = tilesHtml;
-
-    const absentList = document.getElementById('absentDatesList');
-    if (s.absentDates && s.absentDates.length > 0) {
-      absentList.innerHTML = s.absentDates.join(' &bull; ') + ` &bull; (${s.absent} missed sessions total)`;
-    } else if (s.absent > 0) {
-      absentList.textContent = `${s.absent} missed sessions total.`;
+    if (s.calendarTiles && s.calendarTiles.length > 0) {
+      tilesGrid.innerHTML = s.calendarTiles.map(t => {
+        const cls = t.status === "Present" ? "tile-present" : "tile-absent";
+        return `<div class="tile-cell ${cls}" title="${t.formatted} \u2022 ${t.status}">${t.dayNum}</div>`;
+      }).join('');
     } else {
-      absentList.textContent = "Perfect Attendance! No classes missed.";
+      tilesGrid.innerHTML = '<div style="font-size:0.85rem; color:#64748b;">No class tiles recorded yet.</div>';
+    }
+
+    // Days Absent Pills
+    const absentHeading = document.getElementById('absentDatesHeading');
+    const absentList = document.getElementById('absentDatesList');
+    absentHeading.textContent = `Days absent (${s.absent})`;
+
+    if (s.absentDates && s.absentDates.length > 0) {
+      absentList.innerHTML = s.absentDates.map(d => `<span class="absent-date-badge">${d}</span>`).join('');
+    } else {
+      absentList.innerHTML = '<span style="font-size:0.85rem; color:#15803d; font-weight:700;">Perfect Attendance! 0 absences.</span>';
     }
   }
 
