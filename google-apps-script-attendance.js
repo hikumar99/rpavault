@@ -1,95 +1,128 @@
 /**
  * Google Apps Script for RPAVault Live Class Attendance & Dynamic Dashboard
  * 
- * Google Sheet Tab Structure (3 Tabs Total):
- * 1. "Registered_Students" tab:
- *    - Column A: Name
- *    - Column B: Email
- *    - Column C: Mobile Number
- *    - Column D: Batch
- * 
- * 2. "Settings" tab:
- *    - Column A: Key (e.g. "Meeting_URL", "Admin_Email")
- *    - Column B: Value (e.g. "https://teams.microsoft.com/...", "admin@rpavault.com")
- * 
- * 3. "Attendance_Logs" tab (22 Columns):
- *    - Columns: Timestamp, Email, IP, City, Region, Country, OS, Browser, Device Type, Screen, Language, Visitor Type, Visitor ID, Visit Count, First Visit, Path Trail, Referrer, Time Spent, Timezone, Source Page Path, Source Page Title, Local Time
+ * Works flexibly with any Sheet naming:
+ * - "Registered Students" or "Registered_Students"
+ * - "Attendance Logs" or "Attendance_Logs"
+ * - "Settings"
  */
 
 function doPost(e) {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     
-    let params = e.parameter || {};
-    if (e.postData && e.postData.contents) {
+    // Parse incoming payload safely
+    let params = {};
+    if (e && e.parameter) {
+      params = Object.assign({}, e.parameter);
+    }
+    if (e && e.postData && e.postData.contents) {
       try {
         const parsed = JSON.parse(e.postData.contents);
-        params = Object.assign({}, params, parsed);
-      } catch (parseErr) {}
+        params = Object.assign(params, parsed);
+      } catch (_) {}
     }
 
-    const inputEmail = (params.email || "").trim().toLowerCase();
-    const action = (params.action || "join").toLowerCase(); // "join" or "dashboard_access"
+    const inputEmail = (params.email || "").toString().trim().toLowerCase();
+    const action = (params.action || "join").toString().trim().toLowerCase();
 
     if (!inputEmail) {
-      return jsonResponse({ success: false, verified: false, message: "Email is required." });
+      return jsonResponse({ success: false, verified: false, message: "Please enter your email ID." });
     }
 
-    const regSheet = ss.getSheetByName("Registered_Students");
-    const settingsSheet = ss.getSheetByName("Settings");
-    const logSheet = ss.getSheetByName("Attendance_Logs");
+    // Flexible sheet discovery (handles spaces, underscores, and case differences)
+    const regSheet = findSheet(ss, ["Registered_Students", "Registered Students", "Students", "Registered"]);
+    const settingsSheet = findSheet(ss, ["Settings", "Config", "Setting"]);
+    const logSheet = findSheet(ss, ["Attendance_Logs", "Attendance Logs", "Logs", "Attendance"]);
 
-    // 1. Read Settings tab for Meeting URL & Admin Emails
+    // 1. Read Settings (Meeting URL & Admins)
     let meetingUrl = "https://teams.microsoft.com";
-    const adminEmailsSet = new Set();
+    const adminEmails = new Set();
 
     if (settingsSheet) {
-      const settingsData = settingsSheet.getDataRange().getValues();
-      for (let i = 0; i < settingsData.length; i++) {
-        const key = (settingsData[i][0] || "").toString().trim().toLowerCase();
-        const val = (settingsData[i][1] || "").toString().trim();
+      const sData = settingsSheet.getDataRange().getValues();
+      for (let r = 0; r < sData.length; r++) {
+        const row = sData[r];
+        const key = (row[0] || "").toString().trim().toLowerCase();
+        const val = (row[1] || "").toString().trim();
 
-        if (key === "meeting_url" || key === "meeting url" || key === "teams_link" || key === "teams link") {
-          if (val) meetingUrl = val;
-        } else if (key.includes("admin")) {
-          val.split(",").forEach(em => {
-            const trimmed = em.trim().toLowerCase();
-            if (trimmed) adminEmailsSet.add(trimmed);
+        if (key.includes("meeting") || key.includes("teams") || key.includes("url") || key.includes("link")) {
+          if (val.startsWith("http")) meetingUrl = val;
+        }
+
+        // Look for Admin in any column or key
+        if (key.includes("admin")) {
+          val.split(/[,\s;]+/).forEach(em => {
+            const clean = em.toLowerCase().trim();
+            if (clean && clean.includes("@")) adminEmails.add(clean);
           });
         }
-      }
-    }
-
-    // 2. Check Admin Permission
-    const isAdmin = adminEmailsSet.has(inputEmail);
-    let isStudent = false;
-    let userName = isAdmin ? "Admin" : "";
-    let batchName = "";
-
-    // 3. Check Registered_Students Tab if not admin
-    if (!isAdmin && regSheet) {
-      const regData = regSheet.getDataRange().getValues();
-      for (let i = 1; i < regData.length; i++) {
-        const sEmail = (regData[i][1] || "").toString().trim().toLowerCase();
-        if (sEmail === inputEmail) {
-          isStudent = true;
-          userName = regData[i][0] || inputEmail.split("@")[0];
-          batchName = formatCleanBatch(regData[i][3]);
-          break;
+        
+        // Also check if Column B or C has an admin email
+        for (let c = 0; c < row.length; c++) {
+          const cellStr = (row[c] || "").toString().trim().toLowerCase();
+          if (key.includes("admin") && cellStr.includes("@")) {
+            adminEmails.add(cellStr);
+          }
         }
       }
     }
 
-    if (!isAdmin && !isStudent) {
-      return jsonResponse({
-        success: false,
-        verified: false,
-        message: "This portal is strictly for registered members."
-      });
+    // 2. Check if user is an Admin
+    let isAdmin = adminEmails.has(inputEmail);
+    let isStudent = false;
+    let studentName = isAdmin ? "Admin" : "";
+    let batchName = "";
+
+    // 3. Check Registered Students
+    if (regSheet) {
+      const regData = regSheet.getDataRange().getValues();
+      if (regData.length > 0) {
+        // Detect Email Column (default to column 1 if not found)
+        let emailCol = 1;
+        let nameCol = 0;
+        let batchCol = 3;
+
+        const headerRow = regData[0];
+        for (let c = 0; c < headerRow.length; c++) {
+          const h = headerRow[c].toString().toLowerCase();
+          if (h.includes("email")) emailCol = c;
+          else if (h.includes("name")) nameCol = c;
+          else if (h.includes("batch")) batchCol = c;
+        }
+
+        for (let r = 1; r < regData.length; r++) {
+          const rowEmail = (regData[r][emailCol] || "").toString().trim().toLowerCase();
+          
+          // Also check across all cells in the row just in case columns shifted
+          let matchedRow = false;
+          if (rowEmail === inputEmail) {
+            matchedRow = true;
+          } else {
+            for (let c = 0; c < regData[r].length; c++) {
+              if ((regData[r][c] || "").toString().trim().toLowerCase() === inputEmail) {
+                matchedRow = true;
+                break;
+              }
+            }
+          }
+
+          if (matchedRow) {
+            isStudent = true;
+            if (!isAdmin) {
+              studentName = (regData[r][nameCol] || "").toString().trim() || inputEmail.split("@")[0];
+              batchName = formatCleanBatch(regData[r][batchCol]);
+            }
+            break;
+          }
+        }
+      }
     }
 
-    // 4. Log attendance ONLY when action === "join" and user is a student
-    if (action === "join" && isStudent && logSheet) {
+    const isVerified = (isAdmin || isStudent);
+
+    // 4. ALWAYS log to Attendance_Logs (even wrong/unregistered emails so they become leads!)
+    if (logSheet) {
       const now = new Date();
       const ip = params["Geo: IP Address"] || params.ip || "";
       const city = params["Geo: City"] || params.city || "";
@@ -113,10 +146,37 @@ function doPost(e) {
       const localTime = params["Session: Local Time Submitted"] || params.local_time || now.toString();
 
       logSheet.appendRow([
-        now, inputEmail, ip, city, region, country, os, browser, device, screen,
-        lang, visitorType, visitorId, visitCount, firstVisit, pathTrail,
-        referrer, timeOnPage, timezone, pagePath, pageTitle, localTime
+        now,
+        inputEmail,
+        ip,
+        city,
+        region,
+        country,
+        os,
+        browser,
+        device,
+        screen,
+        lang,
+        visitorType,
+        visitorId,
+        visitCount,
+        firstVisit,
+        pathTrail,
+        referrer,
+        timeOnPage,
+        timezone,
+        pagePath,
+        pageTitle,
+        localTime
       ]);
+    }
+
+    if (!isVerified) {
+      return jsonResponse({
+        success: false,
+        verified: false,
+        message: "This portal is strictly for registered members."
+      });
     }
 
     return jsonResponse({
@@ -125,7 +185,7 @@ function doPost(e) {
       isAdmin: isAdmin,
       redirectUrl: meetingUrl,
       student: {
-        name: userName,
+        name: studentName,
         email: inputEmail,
         batch: batchName,
         isAdmin: isAdmin
@@ -140,39 +200,54 @@ function doPost(e) {
 function doGet(e) {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const regSheet = ss.getSheetByName("Registered_Students");
-    const logSheet = ss.getSheetByName("Attendance_Logs");
+    const regSheet = findSheet(ss, ["Registered_Students", "Registered Students", "Students", "Registered"]);
+    const logSheet = findSheet(ss, ["Attendance_Logs", "Attendance Logs", "Logs", "Attendance"]);
 
     const regData = regSheet ? regSheet.getDataRange().getValues() : [];
     const logData = logSheet ? logSheet.getDataRange().getValues() : [];
 
-    // 1. Extract all registered students
+    // 1. Extract registered students
     const studentsMap = {};
     const registeredList = [];
     let detectedBatch = "Live RPA Batch";
 
-    for (let i = 1; i < regData.length; i++) {
-      const name = regData[i][0];
-      const email = (regData[i][1] || "").toString().trim().toLowerCase();
-      const mobile = regData[i][2] || "";
-      const rawBatch = regData[i][3];
-      const cleanBatch = formatCleanBatch(rawBatch);
-      if (cleanBatch) detectedBatch = cleanBatch;
+    if (regData.length > 1) {
+      let emailCol = 1;
+      let nameCol = 0;
+      let mobileCol = 2;
+      let batchCol = 3;
 
-      if (email) {
-        studentsMap[email] = {
-          id: i,
-          name: name || email.split("@")[0],
-          email: email,
-          mobile: mobile,
-          batch: cleanBatch,
-          presentDates: new Set()
-        };
-        registeredList.push(studentsMap[email]);
+      const headerRow = regData[0];
+      for (let c = 0; c < headerRow.length; c++) {
+        const h = headerRow[c].toString().toLowerCase();
+        if (h.includes("email")) emailCol = c;
+        else if (h.includes("name")) nameCol = c;
+        else if (h.includes("mobile") || h.includes("phone")) mobileCol = c;
+        else if (h.includes("batch")) batchCol = c;
+      }
+
+      for (let i = 1; i < regData.length; i++) {
+        const name = (regData[i][nameCol] || "").toString().trim();
+        const email = (regData[i][emailCol] || "").toString().trim().toLowerCase();
+        const mobile = (regData[i][mobileCol] || "").toString().trim();
+        const cleanBatch = formatCleanBatch(regData[i][batchCol]);
+        if (cleanBatch) detectedBatch = cleanBatch;
+
+        if (email && email.includes("@")) {
+          studentsMap[email] = {
+            id: i,
+            name: name || email.split("@")[0],
+            email: email,
+            mobile: mobile,
+            batch: cleanBatch,
+            presentDates: new Set()
+          };
+          registeredList.push(studentsMap[email]);
+        }
       }
     }
 
-    // 2. Extract unique class dates and map attendance
+    // 2. Extract unique class dates and map student attendance
     const uniqueDatesSet = new Set();
     const dateCountsMap = {};
 
@@ -184,16 +259,14 @@ function doGet(e) {
         const dateObj = new Date(rawTimestamp);
         if (!isNaN(dateObj.getTime())) {
           const dateStr = Utilities.formatDate(dateObj, Session.getScriptTimeZone(), "yyyy-MM-dd");
-          uniqueDatesSet.add(dateStr);
-
-          if (!dateCountsMap[dateStr]) {
-            dateCountsMap[dateStr] = new Set();
-          }
-          if (email) {
-            dateCountsMap[dateStr].add(email);
-          }
-
+          
+          // Only count dates if it matches a registered student (filter out random non-student test entries from skewing batch stats)
           if (studentsMap[email]) {
+            uniqueDatesSet.add(dateStr);
+            if (!dateCountsMap[dateStr]) {
+              dateCountsMap[dateStr] = new Set();
+            }
+            dateCountsMap[dateStr].add(email);
             studentsMap[email].presentDates.add(dateStr);
           }
         }
@@ -257,7 +330,6 @@ function doGet(e) {
         perfectAttendanceCount++;
       }
 
-      // Streaks
       let maxStreak = 0;
       let curStreak = 0;
       let activeStreak = 0;
@@ -279,7 +351,6 @@ function doGet(e) {
         }
       }
 
-      // Calendar tiles
       const calendarTiles = sortedDates.map(d => {
         const isPresent = s.presentDates.has(d);
         const dayNum = parseInt(d.split("-")[2], 10);
@@ -292,7 +363,6 @@ function doGet(e) {
         };
       });
 
-      // Absent dates list
       const absentDates = sortedDates
         .filter(d => !s.presentDates.has(d))
         .map(formatShortDate);
@@ -368,6 +438,19 @@ function doGet(e) {
 
 function jsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Case-insensitive & symbol-insensitive tab finder
+function findSheet(ss, possibleNames) {
+  const sheets = ss.getSheets();
+  for (let i = 0; i < sheets.length; i++) {
+    const sName = sheets[i].getName().toLowerCase().replace(/[\s_-]+/g, "");
+    for (let j = 0; j < possibleNames.length; j++) {
+      const pName = possibleNames[j].toLowerCase().replace(/[\s_-]+/g, "");
+      if (sName === pName) return sheets[i];
+    }
+  }
+  return null;
 }
 
 function formatCleanBatch(rawBatch) {
