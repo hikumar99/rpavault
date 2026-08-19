@@ -208,7 +208,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     box-shadow: 0 12px 28px rgba(0, 88, 176, 0.12);
   }
 
-  /* Dashboard Auth Inline Card */
+  /* Dashboard Auth Inline Card (Hidden initially) */
   .dashboard-auth-card {
     display: none;
     max-width: 580px;
@@ -807,7 +807,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       <span>View Attendance Dashboard</span>
     </button>
 
-    <!-- Inline Dashboard Email Verification Form -->
+    <!-- Inline Dashboard Email Verification Form (Hidden on load) -->
     <div class="dashboard-auth-card" id="dashboardAuthCard">
       <h3 style="font-family: var(--font-heading, 'Sora', sans-serif); font-size: 1.15rem; font-weight: 800; margin: 0 0 0.35rem 0; color: var(--ink, #1a181b);">
         Access Attendance Dashboard
@@ -844,13 +844,13 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       </div>
       <div class="batch-badge" id="batchBadgeDisplay">
         <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
-        <span id="batchNameLabel">Batch: Loading...</span>
+        <span id="batchNameLabel">Batch: Live Batch</span>
       </div>
     </div>
 
     <!-- Last 2 Days Absentees Callout Grid -->
     <div class="recent-absentees-container" id="recentAbsenteesContainer" style="display: none;">
-      <!-- Injected dynamically with date titles like "Thu, 20 Aug 2026 Absentees" -->
+      <!-- Injected dynamically -->
     </div>
 
     <!-- Metrics KPI Grid -->
@@ -1005,13 +1005,6 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     initJoinForm();
     initDashboardToggleAndForm();
     initSearch();
-    
-    // Auto-unlock if previously authorized
-    const cachedVerifiedEmail = sessionStorage.getItem('rpv_verified_dashboard_email');
-    if (cachedVerifiedEmail) {
-      document.getElementById('dashboardEmail').value = cachedVerifiedEmail;
-      unlockAndLoadDashboard(cachedVerifiedEmail);
-    }
   });
 
   // Telemetry helper functions
@@ -1116,6 +1109,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
         const result = await response.json();
 
         if (result.verified) {
+          sessionStorage.setItem('rpv_verified_user_email', email);
           const redirectUrl = result.redirectUrl || "https://teams.microsoft.com";
           window.open(redirectUrl, '_blank');
 
@@ -1137,15 +1131,30 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     });
   }
 
-  // 2. Separate Dashboard Toggle & Unlock Form Handler
+  // 2. Dashboard Toggle & Unlock Form Handler
   function initDashboardToggleAndForm() {
     const toggleBtn = document.getElementById('btnToggleDashboardAuth');
     const authCard = document.getElementById('dashboardAuthCard');
     const dashForm = document.getElementById('dashboardAccessForm');
     const dashSubmitBtn = document.getElementById('dashSubmitBtn');
     const dashErrorMsg = document.getElementById('dashErrorMessage');
+    const dashSection = document.getElementById('dashboardSection');
 
     toggleBtn.addEventListener('click', () => {
+      // If dashboard is already visible, toggle it
+      if (dashSection.style.display === 'block') {
+        dashSection.style.display = 'none';
+        return;
+      }
+
+      // If already verified in this session, reveal directly
+      const sessionEmail = sessionStorage.getItem('rpv_verified_user_email');
+      if (sessionEmail) {
+        unlockAndLoadDashboard(sessionEmail);
+        return;
+      }
+
+      // Otherwise show inline auth card
       authCard.style.display = authCard.style.display === 'block' ? 'none' : 'block';
       if (authCard.style.display === 'block') {
         document.getElementById('dashboardEmail').focus();
@@ -1172,14 +1181,9 @@ description: Student live class sign-in portal and dynamic batch attendance anal
         const result = await response.json();
 
         if (result.verified) {
-          sessionStorage.setItem('rpv_verified_dashboard_email', email);
+          sessionStorage.setItem('rpv_verified_user_email', email);
           authCard.style.display = 'none';
           unlockAndLoadDashboard(email);
-          
-          setTimeout(() => {
-            const dashEl = document.getElementById('dashboardSection');
-            if (dashEl) dashEl.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
         } else {
           dashErrorMsg.textContent = result.message || "This portal is strictly for registered members.";
           dashErrorMsg.style.display = 'block';
@@ -1198,6 +1202,10 @@ description: Student live class sign-in portal and dynamic batch attendance anal
   async function unlockAndLoadDashboard(userEmail) {
     const section = document.getElementById('dashboardSection');
     section.style.display = 'block';
+
+    setTimeout(() => {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
 
     try {
       const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard');

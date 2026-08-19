@@ -99,7 +99,6 @@ function doPost(e) {
           
           let match = (rowEmail === inputEmail);
           if (!match) {
-            // Backup check: search any cell in this row for the email
             for (let c = 0; c < row.length; c++) {
               if ((row[c] || "").toString().trim().toLowerCase() === inputEmail) {
                 match = true;
@@ -450,7 +449,7 @@ function doGet(e) {
   }
 }
 
-// Resilient sheet finder (exact match or fuzzy match)
+// Resilient sheet finder
 function getSheet(ss, name) {
   if (!ss) return null;
   const direct = ss.getSheetByName(name);
@@ -467,17 +466,21 @@ function getSheet(ss, name) {
 
 function formatCleanBatch(rawBatch) {
   if (!rawBatch) return "Live Batch";
-  if (rawBatch instanceof Date) {
-    return Utilities.formatDate(rawBatch, Session.getScriptTimeZone(), "dd MMM yyyy Batch");
-  }
-  const str = rawBatch.toString().trim();
-  if (str.includes("T") && str.includes("Z")) {
-    const d = new Date(str);
-    if (!isNaN(d.getTime())) {
-      return Utilities.formatDate(d, Session.getScriptTimeZone(), "dd MMM yyyy Batch");
+  try {
+    if (rawBatch instanceof Date) {
+      return Utilities.formatDate(rawBatch, Session.getScriptTimeZone(), "dd MMM yyyy") + " Batch";
     }
+    const str = rawBatch.toString().trim();
+    if (str.indexOf("T") !== -1 && str.indexOf("Z") !== -1) {
+      const d = new Date(str);
+      if (!isNaN(d.getTime())) {
+        return Utilities.formatDate(d, Session.getScriptTimeZone(), "dd MMM yyyy") + " Batch";
+      }
+    }
+    return str;
+  } catch (_) {
+    return rawBatch.toString();
   }
-  return str;
 }
 
 function formatShortDate(dateStr) {
