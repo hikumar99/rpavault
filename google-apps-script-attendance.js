@@ -1,22 +1,24 @@
 /**
  * Google Apps Script for RPAVault Live Class Attendance & Dynamic Dashboard
  * 
- * Google Sheet Tab Structure:
+ * Google Sheet Tab Structure (3 Tabs Total):
  * 1. "Registered_Students" tab:
  *    - Column A: Name
  *    - Column B: Email
  *    - Column C: Mobile Number
  *    - Column D: Batch
  * 
- * 2. "Admins" tab:
- *    - Column A: Name
- *    - Column B: Email
+ * 2. "Settings" tab (Manages both Meeting Link & Admin Emails):
+ *    - Column A: Key
+ *    - Column B: Value
+ *    Example rows:
+ *      Row 1: Key | Value
+ *      Row 2: Meeting_URL | https://teams.microsoft.com/...
+ *      Row 3: Admin_Email | rpakumardev@gmail.com
+ *      Row 4: Admin_Email | instructor@rpavault.com
+ *      (Or comma-separated: Admin_Emails | admin1@gmail.com, admin2@gmail.com)
  * 
- * 3. "Settings" tab:
- *    - Column A: Key (e.g. "Meeting_URL")
- *    - Column B: Value (e.g. "https://teams.microsoft.com/...")
- * 
- * 4. "Attendance_Logs" tab (22 Columns):
+ * 3. "Attendance_Logs" tab (22 Columns):
  *    - Columns: Timestamp, Email, IP, City, Region, Country, OS, Browser, Device Type, Screen, Language, Visitor Type, Visitor ID, Visit Count, First Visit, Path Trail, Referrer, Time Spent, Timezone, Source Page Path, Source Page Title, Local Time
  */
 
@@ -40,41 +42,38 @@ function doPost(e) {
     }
 
     const regSheet = ss.getSheetByName("Registered_Students");
-    const adminSheet = ss.getSheetByName("Admins");
     const settingsSheet = ss.getSheetByName("Settings");
     const logSheet = ss.getSheetByName("Attendance_Logs");
 
-    // 1. Fetch meeting link from Settings tab
+    // 1. Read Settings tab for Meeting URL & Admin Emails
     let meetingUrl = "https://teams.microsoft.com";
+    const adminEmailsSet = new Set();
+
     if (settingsSheet) {
       const settingsData = settingsSheet.getDataRange().getValues();
       for (let i = 0; i < settingsData.length; i++) {
         const key = (settingsData[i][0] || "").toString().trim().toLowerCase();
+        const val = (settingsData[i][1] || "").toString().trim();
+
         if (key === "meeting_url" || key === "meeting url" || key === "teams_link" || key === "teams link") {
-          if (settingsData[i][1]) meetingUrl = settingsData[i][1].toString().trim();
-          break;
+          if (val) meetingUrl = val;
+        } else if (key.includes("admin")) {
+          // Supports comma-separated emails or single email per row
+          val.split(",").forEach(em => {
+            const trimmed = em.trim().toLowerCase();
+            if (trimmed) adminEmailsSet.add(trimmed);
+          });
         }
       }
     }
 
-    // 2. Check Admins Tab
-    let isAdmin = false;
-    let userName = "";
-    if (adminSheet) {
-      const adminData = adminSheet.getDataRange().getValues();
-      for (let i = 1; i < adminData.length; i++) {
-        const aEmail = (adminData[i][1] || "").toString().trim().toLowerCase();
-        if (aEmail === inputEmail) {
-          isAdmin = true;
-          userName = adminData[i][0] || "Admin";
-          break;
-        }
-      }
-    }
+    // 2. Check Admin Permission
+    const isAdmin = adminEmailsSet.has(inputEmail);
+    let isStudent = false;
+    let userName = isAdmin ? "Admin" : "";
+    let batchName = "";
 
     // 3. Check Registered_Students Tab if not admin
-    let isStudent = false;
-    let batchName = "";
     if (!isAdmin && regSheet) {
       const regData = regSheet.getDataRange().getValues();
       for (let i = 1; i < regData.length; i++) {
@@ -96,7 +95,7 @@ function doPost(e) {
       });
     }
 
-    // 4. Log attendance (Only log student entries)
+    // 4. Log attendance for students
     if (isStudent && logSheet) {
       const now = new Date();
       const ip = params["Geo: IP Address"] || params.ip || "";
@@ -179,7 +178,7 @@ function doGet(e) {
       }
     }
 
-    // 2. Extract unique class dates and map student attendance
+    // 2. Extract unique class dates and map attendance
     const uniqueDatesSet = new Set();
     const dateCountsMap = {};
 
@@ -253,7 +252,7 @@ function doGet(e) {
       }
     });
 
-    // 5. Compute candidate details (Streaks, full calendar tiles, absent dates)
+    // 5. Compute candidate details
     let perfectAttendanceCount = 0;
     const totalStudentsCount = registeredList.length || 0;
 
@@ -266,7 +265,7 @@ function doGet(e) {
         perfectAttendanceCount++;
       }
 
-      // Compute best streak and current streak
+      // Streaks
       let maxStreak = 0;
       let curStreak = 0;
       let activeStreak = 0;
@@ -280,7 +279,6 @@ function doGet(e) {
         }
       });
 
-      // Active streak backwards from last held date
       for (let i = sortedDates.length - 1; i >= 0; i--) {
         if (s.presentDates.has(sortedDates[i])) {
           activeStreak++;
@@ -289,7 +287,7 @@ function doGet(e) {
         }
       }
 
-      // Calendar tiles array
+      // Calendar tiles
       const calendarTiles = sortedDates.map(d => {
         const isPresent = s.presentDates.has(d);
         const dayNum = parseInt(d.split("-")[2], 10);
@@ -307,7 +305,6 @@ function doGet(e) {
         .filter(d => !s.presentDates.has(d))
         .map(formatShortDate);
 
-      // First class attended
       const firstAttended = sortedDates.find(d => s.presentDates.has(d));
       const joinedFormatted = firstAttended ? formatFullDate(firstAttended) : (sortedDates[0] ? formatFullDate(sortedDates[0]) : "N/A");
 
