@@ -208,7 +208,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     box-shadow: 0 12px 28px rgba(0, 88, 176, 0.12);
   }
 
-  /* Dashboard Auth Modal/Card */
+  /* Dashboard Auth Inline Card */
   .dashboard-auth-card {
     display: none;
     max-width: 580px;
@@ -303,15 +303,6 @@ description: Student live class sign-in portal and dynamic batch attendance anal
   }
 
   /* Batch Header & Metrics Grid */
-  .batch-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
   .batch-badge {
     display: inline-flex;
     align-items: center;
@@ -822,7 +813,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
         Access Attendance Dashboard
       </h3>
       <p style="font-size: 0.86rem; color: var(--muted, #607987); margin: 0 0 1rem 0;">
-        Enter your registered student or admin email to view batch statistics and candidate drilldowns.
+        Enter your registered email to view batch statistics and candidate drilldowns.
       </p>
 
       <form id="dashboardAccessForm">
@@ -843,7 +834,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     </div>
   </div>
 
-  <!-- Dynamic Dashboard Section (Unlocked upon verification) -->
+  <!-- Dynamic Dashboard Section (HIDDEN BY DEFAULT, SHOWN ONLY ONCE VERIFIED) -->
   <div class="dashboard-section" id="dashboardSection" style="display: none;">
     
     <div class="dashboard-section-header">
@@ -853,12 +844,12 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       </div>
       <div class="batch-badge" id="batchBadgeDisplay">
         <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
-        <span id="batchNameLabel">Batch: Live Batch</span>
+        <span id="batchNameLabel">Batch: Loading...</span>
       </div>
     </div>
 
     <!-- Last 2 Days Absentees Callout Grid -->
-    <div class="recent-absentees-container" id="recentAbsenteesContainer">
+    <div class="recent-absentees-container" id="recentAbsenteesContainer" style="display: none;">
       <!-- Injected dynamically with date titles like "Thu, 20 Aug 2026 Absentees" -->
     </div>
 
@@ -945,43 +936,43 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       <div class="detail-panel" id="candidateDetailPanel">
         <div class="candidate-profile-header">
           <div class="profile-left">
-            <div class="avatar-circle" id="detailAvatar">V</div>
+            <div class="avatar-circle" id="detailAvatar">--</div>
             <div class="profile-text">
-              <h4 id="detailName">vineel</h4>
-              <p id="detailEmail">kannayavineelkumar@gmail.com</p>
+              <h4 id="detailName">Select a Candidate</h4>
+              <p id="detailEmail">--</p>
             </div>
           </div>
           <div class="profile-rate">
-            <div class="rate-num" id="detailRate">63%</div>
+            <div class="rate-num" id="detailRate">--%</div>
             <div class="rate-sub">Attendance Rate</div>
           </div>
         </div>
 
         <div class="joined-banner" id="detailJoinedBanner">
-          ✦ Joined <strong>Mon, 23 Jun 2025</strong> &bull; First class attended out of 49 held
+          Select a candidate from the table to view their complete attendance record.
         </div>
 
         <!-- 4-Box Stats -->
         <div class="stats-four-grid">
           <div class="stat-badge-box">
-            <div class="count count-present" id="detailPresentCount">31/49</div>
+            <div class="count count-present" id="detailPresentCount">--</div>
             <div class="label">Present</div>
           </div>
           <div class="stat-badge-box">
-            <div class="count count-absent" id="detailAbsentCount">18</div>
+            <div class="count count-absent" id="detailAbsentCount">--</div>
             <div class="label">Absent</div>
           </div>
           <div class="stat-badge-box">
-            <div class="count count-streak" id="detailBestStreak">9 cls</div>
+            <div class="count count-streak" id="detailBestStreak">-- cls</div>
             <div class="label">Best streak</div>
           </div>
           <div class="stat-badge-box">
-            <div class="count count-streak" id="detailCurrentStreak">0 cls</div>
+            <div class="count count-streak" id="detailCurrentStreak">-- cls</div>
             <div class="label">Current streak</div>
           </div>
         </div>
 
-        <div class="calendar-section-title" id="calendarHeading">Attendance Calendar &bull; 49 Classes</div>
+        <div class="calendar-section-title" id="calendarHeading">Attendance Calendar</div>
         <div class="calendar-tiles-grid" id="calendarTilesGrid">
           <!-- Injected dynamically -->
         </div>
