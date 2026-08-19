@@ -1,0 +1,1194 @@
+---
+layout: layouts/base.html
+title: Live Class Join & Batch Attendance Portal — RPAVault
+description: Student live class verification portal and dynamic attendance analytics for RPAVault training batches.
+---
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+  /* RPAVault Theme Alignment */
+  .portal-container {
+    max-width: var(--container, 1180px);
+    margin: 0 auto;
+    padding: clamp(1.8rem, 3.5vw, 3rem) var(--gutter, 1.5rem) 5rem;
+    font-family: var(--font, 'Inter', sans-serif);
+    color: var(--ink, #1a181b);
+  }
+
+  .portal-hero {
+    text-align: center;
+    margin-bottom: 2.2rem;
+  }
+
+  .portal-hero .eyebrow {
+    margin: 0 auto 0.9rem;
+  }
+
+  .portal-hero h1 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-weight: 800;
+    font-size: clamp(2rem, 3.6vw, 2.9rem);
+    line-height: 1.12;
+    color: var(--ink, #1a181b);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  .portal-hero p {
+    color: var(--muted, #607987);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Form Card */
+  .join-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: clamp(1.6rem, 3vw, 2.2rem);
+    box-shadow: 0 18px 42px rgba(0, 88, 176, 0.08);
+    max-width: 580px;
+    margin: 0 auto 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .join-card:before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue, #0058b0), var(--green, #39b87f));
+  }
+
+  .join-card h2 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 1.1rem;
+    color: var(--ink, #1a181b);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .field-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--ink-soft, #303030);
+    margin-bottom: 0.35rem;
+    display: block;
+  }
+
+  .field-input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 14px;
+    font-size: 1rem;
+    color: var(--ink, #1a181b);
+    background: var(--canvas, #f6fcff);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--blue, #0058b0);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.15);
+  }
+
+  .btn-join {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 1.02rem;
+    color: #ffffff;
+    background: var(--blue, #0058b0);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 14px 28px rgba(0, 88, 176, 0.22);
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .btn-join:hover {
+    background: var(--blue-deep, #004182);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(0, 88, 176, 0.28);
+  }
+
+  .btn-join:active {
+    transform: translateY(0);
+  }
+
+  /* Status messages */
+  .status-box {
+    display: none;
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .status-box.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+  }
+
+  .status-box.success {
+    background: #dcfce7;
+    color: #14532d;
+    border: 1px solid #86efac;
+  }
+
+  .meeting-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #16a34a;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    transition: background 0.2s ease;
+  }
+
+  .meeting-link-btn:hover {
+    background: #15803d;
+  }
+
+  /* Loading State */
+  .dashboard-loading {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--muted, #607987);
+    font-weight: 600;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(0, 88, 176, 0.2);
+    border-top-color: var(--blue, #0058b0);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 0.75rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Absentees Callout */
+  .absentee-card {
+    background: linear-gradient(145deg, #fff5f5, #ffe4e6);
+    border: 1px solid #fecdd3;
+    border-radius: 20px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem;
+    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.06);
+  }
+
+  .absentee-badge-label {
+    background: #e11d48;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+  }
+
+  .absentee-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+  }
+
+  .absentee-pill {
+    background: #ffffff;
+    border: 1px solid #fda4af;
+    color: #9f1239;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  /* Batch Header & Metrics Grid */
+  .batch-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .batch-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    background: var(--blue-soft, #e6f1fb);
+    color: var(--blue, #0058b0);
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .kpi-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 22px;
+    padding: 1.3rem 1.4rem;
+    box-shadow: 0 10px 24px rgba(0, 88, 176, 0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted, #607987);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-value {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.95rem;
+    font-weight: 800;
+    color: var(--blue-deep, #004182);
+    line-height: 1.1;
+  }
+
+  .kpi-sub {
+    font-size: 0.8rem;
+    color: var(--muted, #607987);
+    font-weight: 600;
+    margin-top: 0.35rem;
+  }
+
+  /* Trend Chart Card */
+  .chart-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 2.8rem;
+    box-shadow: 0 14px 32px rgba(0, 88, 176, 0.07);
+  }
+
+  .chart-card h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 1.2rem 0;
+    color: var(--ink, #1a181b);
+  }
+
+  .chart-wrapper {
+    position: relative;
+    height: 270px;
+    width: 100%;
+  }
+
+  /* Leaderboard & Drilldown Split Grid */
+  .section-headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .section-headline h2 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0;
+  }
+
+  .search-input {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    min-width: 260px;
+    background: #ffffff;
+    color: var(--ink, #1a181b);
+    box-shadow: 0 4px 14px rgba(0, 88, 176, 0.04);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--blue, #0058b0);
+  }
+
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr 430px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .split-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Table Card */
+  .table-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 88, 176, 0.06);
+  }
+
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+  }
+
+  .leaderboard-table th {
+    background: var(--canvas, #f6fcff);
+    padding: 0.9rem 1.1rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted, #607987);
+    border-bottom: 1px solid var(--line, #cce8f3);
+  }
+
+  .leaderboard-table td {
+    padding: 0.95rem 1.1rem;
+    border-bottom: 1px solid var(--line, #cce8f3);
+    color: var(--ink-soft, #303030);
+  }
+
+  .leaderboard-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .leaderboard-table tbody tr:hover {
+    background: var(--blue-soft, #e6f1fb);
+  }
+
+  .leaderboard-table tbody tr.active-row {
+    background: var(--blue-soft, #e6f1fb) !important;
+    border-left: 4px solid var(--blue, #0058b0);
+  }
+
+  .candidate-name {
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+  }
+
+  .rate-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .rate-bar-bg {
+    flex: 1;
+    height: 7px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    min-width: 60px;
+  }
+
+  .rate-bar-fill {
+    height: 100%;
+    background: var(--green, #39b87f);
+    border-radius: 999px;
+  }
+
+  .rate-percent {
+    font-weight: 800;
+    font-size: 0.88rem;
+    min-width: 38px;
+    color: var(--blue-deep, #004182);
+  }
+
+  /* Candidate Detail Panel */
+  .detail-panel {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: 1.7rem;
+    box-shadow: 0 16px 36px rgba(0, 88, 176, 0.08);
+    position: sticky;
+    top: 2rem;
+  }
+
+  .candidate-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+
+  .profile-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .avatar-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--blue, #0058b0), var(--blue-deep, #004182));
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+
+  .profile-text h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0 0 0.15rem 0;
+  }
+
+  .profile-text p {
+    font-size: 0.85rem;
+    color: var(--muted, #607987);
+    margin: 0;
+  }
+
+  .profile-rate {
+    text-align: right;
+  }
+
+  .profile-rate .rate-num {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--blue, #0058b0);
+    line-height: 1;
+  }
+
+  .profile-rate .rate-sub {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--muted, #607987);
+  }
+
+  .joined-banner {
+    background: var(--canvas, #f6fcff);
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 12px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft, #303030);
+    margin-bottom: 1.2rem;
+  }
+
+  .stats-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .stat-badge-box {
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 16px;
+    padding: 0.8rem;
+    text-align: center;
+    background: var(--canvas-2, #ecf8fc);
+  }
+
+  .stat-badge-box .count {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .stat-badge-box .label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--muted, #607987);
+    margin-top: 0.2rem;
+  }
+
+  .count-present { color: var(--green, #39b87f); }
+  .count-absent { color: #dc2626; }
+
+  .calendar-section-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted, #607987);
+    margin-bottom: 0.75rem;
+  }
+
+  .calendar-tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .tile-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border-radius: 8px;
+    user-select: none;
+    transition: transform 0.1s ease;
+  }
+
+  .tile-cell:hover {
+    transform: scale(1.1);
+  }
+
+  .tile-present {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+  }
+
+  .tile-absent {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+  }
+
+  .calendar-legend {
+    display: flex;
+    gap: 1.2rem;
+    font-size: 0.76rem;
+    color: var(--muted, #607987);
+    margin-bottom: 1.3rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+  }
+
+  .dot-present { background: #dcfce7; border: 1px solid #86efac; }
+  .dot-absent { background: #fee2e2; border: 1px solid #fca5a5; }
+
+  .absent-dates-list {
+    font-size: 0.84rem;
+    color: var(--muted, #607987);
+    line-height: 1.6;
+  }
+</style>
+
+<div class="portal-container">
+  <!-- Page Header -->
+  <div class="portal-hero">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> Live Class Portal</div>
+    <h1>Student Sign-in & Attendance Dashboard</h1>
+    <p>Sign in with your registered email to join today's session and monitor live attendance benchmarks.</p>
+  </div>
+
+  <!-- Verification Form -->
+  <div class="join-card">
+    <h2>Join Today's Live Class</h2>
+    <form id="classJoinForm">
+      <div class="form-group">
+        <div>
+          <label class="field-label" for="studentEmail">Registered Email ID *</label>
+          <input class="field-input" type="email" id="studentEmail" placeholder="e.g. name@example.com" required autocomplete="email">
+        </div>
+        <button type="submit" class="btn-join" id="submitBtn">
+          <span>Verify & Join Meeting &rarr;</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Error Message -->
+    <div class="status-box error" id="errorMessage">
+      <strong>Access Restricted:</strong> This session is reserved for enrolled candidates. Please verify your email or reach out to your instructor.
+    </div>
+
+    <!-- Success Message -->
+    <div class="status-box success" id="successMessage">
+      <strong>Verified Successfully!</strong> Redirecting to your live class in a new tab...
+      <div>
+        <a href="/go/join-rpa-meeting" target="_blank" class="meeting-link-btn" id="meetingRedirectBtn">
+          Open Meeting Directly &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Dashboard Loading Placeholder -->
+  <div class="dashboard-loading" id="dashboardLoading">
+    <div class="spinner"></div>
+    <div>Loading live attendance metrics...</div>
+  </div>
+
+  <!-- Dynamic Dashboard Section (Hidden until loaded) -->
+  <div class="dashboard-section" id="dashboardSection" style="display: none;">
+    
+    <!-- Absentees Alert Block -->
+    <div class="absentee-card" id="absenteeBlock" style="display: none;">
+      <span class="absentee-badge-label" id="absenteeDateLabel">Today's Absentees</span>
+      <div class="absentee-tags" id="absenteeList">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- Batch Header Row -->
+    <div class="batch-header-row">
+      <div class="batch-badge" id="batchBadgeDisplay">
+        <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
+        <span id="batchNameLabel">Batch: --</span>
+      </div>
+    </div>
+
+    <!-- Metrics KPI Grid -->
+    <div class="kpi-grid">
+      <!-- 1. Overall attendance -->
+      <div class="kpi-card">
+        <div class="kpi-title">Overall attendance</div>
+        <div class="kpi-value" id="kpiOverallRate">--%</div>
+        <div class="kpi-sub" id="kpiOverallSub">-- of -- marks</div>
+      </div>
+
+      <!-- 2. Avg present / class -->
+      <div class="kpi-card">
+        <div class="kpi-title">Avg present / class</div>
+        <div class="kpi-value" id="kpiAvgPresent">--</div>
+        <div class="kpi-sub" id="kpiAvgPresentSub">out of -- candidates</div>
+      </div>
+
+      <!-- 3. Classes held -->
+      <div class="kpi-card">
+        <div class="kpi-title">Classes held</div>
+        <div class="kpi-value" id="kpiClassesHeld">--</div>
+        <div class="kpi-sub" id="kpiDateRangeSub">--</div>
+      </div>
+
+      <!-- 4. Perfect attendance -->
+      <div class="kpi-card">
+        <div class="kpi-title">Perfect attendance</div>
+        <div class="kpi-value" id="kpiPerfectCount">0</div>
+        <div class="kpi-sub" id="kpiPerfectSub">candidates, 0 absences</div>
+      </div>
+
+      <!-- 5. Peak turnout -->
+      <div class="kpi-card">
+        <div class="kpi-title">Peak turnout</div>
+        <div class="kpi-value" id="kpiPeakTurnout">--</div>
+        <div class="kpi-sub" id="kpiPeakTurnoutSub">--</div>
+      </div>
+    </div>
+
+    <!-- Attendance Over Time Chart -->
+    <div class="chart-card">
+      <h3>Attendance Volume Over Time</h3>
+      <div class="chart-wrapper">
+        <canvas id="attendanceChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Leaderboard & Candidate Detail Section -->
+    <div class="section-headline">
+      <h2>Leaderboard & Candidate Details</h2>
+      <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email...">
+    </div>
+
+    <div class="split-grid">
+      <!-- Left: Leaderboard Table -->
+      <div class="table-card">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>Candidate</th>
+              <th>Present</th>
+              <th>Absent</th>
+              <th style="width: 140px;">Rate</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardTbody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right: Candidate Drilldown -->
+      <div class="detail-panel" id="candidateDetailPanel">
+        <div class="candidate-profile-header">
+          <div class="profile-left">
+            <div class="avatar-circle" id="detailAvatar">--</div>
+            <div class="profile-text">
+              <h3 id="detailName">Select a Candidate</h3>
+              <p id="detailEmail">--</p>
+            </div>
+          </div>
+          <div class="profile-rate">
+            <div class="rate-num" id="detailRate">--%</div>
+            <div class="rate-sub">Rate</div>
+          </div>
+        </div>
+
+        <div class="joined-banner" id="detailJoinedBanner">
+          --
+        </div>
+
+        <div class="stats-two-col">
+          <div class="stat-badge-box">
+            <div class="count count-present" id="detailPresentCount">--</div>
+            <div class="label">Present</div>
+          </div>
+          <div class="stat-badge-box">
+            <div class="count count-absent" id="detailAbsentCount">--</div>
+            <div class="label">Absent</div>
+          </div>
+        </div>
+
+        <div class="calendar-section-title" id="calendarHeading">Attendance Calendar</div>
+        <div class="calendar-tiles-grid" id="calendarTilesGrid">
+          <!-- Injected dynamically -->
+        </div>
+
+        <div class="calendar-legend">
+          <div class="legend-item"><span class="legend-dot dot-present"></span> Present</div>
+          <div class="legend-item"><span class="legend-dot dot-absent"></span> Absent</div>
+        </div>
+
+        <div class="calendar-section-title">Days Absent</div>
+        <div class="absent-dates-list" id="absentDatesList">
+          None
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Live Deployed Google Apps Script Endpoint
+  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznElaeu12Au1PerwixvIdJSrX4ynm1RNWUAXY7UKwII9UNUSrW5Xy0PcWi-iHieE_7/exec"; 
+
+  let currentDashboardData = null;
+  let selectedStudentId = null;
+  let chartInstance = null;
+  const pageStartTime = Date.now();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initForm();
+    initSearch();
+    loadDashboardData();
+  });
+
+  // Telemetry helper functions matching site tracking
+  function getDeviceOS() {
+    const ua = navigator.userAgent;
+    if (ua.indexOf("Win") !== -1) return "Windows";
+    if (ua.indexOf("Mac") !== -1) return (navigator.maxTouchPoints > 1) ? "iOS (iPad)" : "macOS";
+    if (ua.indexOf("Linux") !== -1) return "Linux";
+    if (/Android/i.test(ua)) return "Android";
+    if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+    return "Unknown OS";
+  }
+
+  function getBrowserString() {
+    const ua = navigator.userAgent;
+    let b = 'Unknown';
+    if (/edg\//i.test(ua)) b = 'Microsoft Edge';
+    else if (/opr\//i.test(ua)) b = 'Opera';
+    else if (/chrome|crios/i.test(ua)) b = 'Chrome';
+    else if (/firefox|fxios/i.test(ua)) b = 'Firefox';
+    else if (/safari/i.test(ua)) b = 'Safari';
+    const dev = /mobi|android|iphone|ipad/i.test(ua) ? 'Mobile' : 'Desktop';
+    return b + ' · ' + dev;
+  }
+
+  function getDeviceType() {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
+    if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle/i.test(ua)) return "Mobile";
+    return "Desktop";
+  }
+
+  // Form submission handler
+  function initForm() {
+    const form = document.getElementById('classJoinForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMsg = document.getElementById('errorMessage');
+    const successMsg = document.getElementById('successMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+      successMsg.style.display = 'none';
+
+      const email = document.getElementById('studentEmail').value.trim().toLowerCase();
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verifying & Signing In...</span>';
+
+      // Read session storage / local storage tracking items
+      let geoData = {};
+      try {
+        const cached = sessionStorage.getItem('rpv_geo');
+        if (cached) geoData = JSON.parse(cached);
+      } catch (_) {}
+
+      const visitorId = localStorage.getItem('rpv_visitor_id') || ('v-' + Date.now() + '-' + Math.floor(Math.random()*1000000));
+      const visitCount = localStorage.getItem('rpv_visit_count') || "1";
+      const firstVisit = localStorage.getItem('rpv_first_visit') || new Date().toISOString();
+      const pathTrail = sessionStorage.getItem('rpv_path_trail') || location.pathname;
+      const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
+      // Exact enriched telemetry payload matching site structure
+      const payload = {
+        form_type: "Class Join (Live Portal)",
+        email: email,
+        "=== GEOGRAPHIC & NETWORK ===": "==============================",
+        "Geo: IP Address": geoData.ip || "",
+        "Geo: City": geoData.city || "",
+        "Geo: Region": geoData.region || "",
+        "Geo: Country": geoData.country_name || "",
+        "=== DEVICE & BROWSER ===": "==============================",
+        "Device: OS": getDeviceOS(),
+        "Device: Browser": getBrowserString(),
+        "Device: Type": getDeviceType(),
+        "Device: Screen Size": (window.screen ? (window.screen.width + 'x' + window.screen.height) : 'Unknown'),
+        "Device: Browser Language": navigator.language || 'Unknown',
+        "=== VISITOR SESSION INFO ===": "==============================",
+        "Session: Visitor Type": (parseInt(visitCount, 10) <= 1) ? 'New' : 'Returning',
+        "Session: Visitor ID": visitorId,
+        "Session: Visit Count": visitCount,
+        "Session: First Visit Date": new Date(firstVisit).toLocaleString(),
+        "Session: Path Trail": pathTrail,
+        "Session: Referrer": document.referrer || 'direct',
+        "Session: Time Spent on Page (sec)": timeOnPage.toString(),
+        "Session: Timezone": timezone,
+        "Session: Source Page Path": location.pathname || '/',
+        "Session: Source Page Title": document.title || 'Live Class Portal',
+        "Session: Local Time Submitted": new Date().toString()
+      };
+
+      try {
+        if (GOOGLE_APPS_SCRIPT_URL) {
+          const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+          const result = await response.json();
+
+          if (result.verified) {
+            handleVerificationSuccess(result.redirectUrl || '/go/join-rpa-meeting', email);
+            // Refresh dashboard silently to show newly logged attendance
+            loadDashboardData();
+          } else {
+            errorMsg.style.display = 'block';
+          }
+        }
+      } catch (err) {
+        console.error('Submission error:', err);
+        errorMsg.textContent = 'Unable to verify at the moment. Please try again or reach out to support.';
+        errorMsg.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Verify & Join Meeting &rarr;</span>';
+      }
+    });
+  }
+
+  function handleVerificationSuccess(redirectUrl, email) {
+    const successMsg = document.getElementById('successMessage');
+    const redirectBtn = document.getElementById('meetingRedirectBtn');
+    
+    redirectBtn.href = redirectUrl;
+    successMsg.style.display = 'block';
+    
+    // Auto open meeting in a new tab
+    window.open(redirectUrl, '_blank');
+
+    if (currentDashboardData && currentDashboardData.students) {
+      const matched = currentDashboardData.students.find(s => s.email.toLowerCase() === email);
+      if (matched) {
+        selectStudent(matched.id);
+      }
+    }
+  }
+
+  // Fetch live dashboard data from Google Apps Script
+  async function loadDashboardData() {
+    const loader = document.getElementById('dashboardLoading');
+    const section = document.getElementById('dashboardSection');
+
+    if (!GOOGLE_APPS_SCRIPT_URL) {
+      loader.innerHTML = '<div>Please configure <code>GOOGLE_APPS_SCRIPT_URL</code> to load live data.</div>';
+      return;
+    }
+
+    try {
+      const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard');
+      const data = await res.json();
+      
+      if (data && data.students) {
+        currentDashboardData = data;
+        loader.style.display = 'none';
+        section.style.display = 'block';
+        renderDashboard(data);
+      } else {
+        loader.innerHTML = '<div>No attendance data found in the connected sheet yet.</div>';
+      }
+    } catch (err) {
+      console.warn('Dashboard fetch error:', err);
+      loader.innerHTML = '<div>Unable to load live dashboard data. Please check Apps Script connection.</div>';
+    }
+  }
+
+  function renderDashboard(data) {
+    // 1. Absentees Block
+    const absenteeCard = document.getElementById('absenteeBlock');
+    const absenteeList = document.getElementById('absenteeList');
+    const absenteeDateLabel = document.getElementById('absenteeDateLabel');
+
+    if (data.latestClass && data.latestClass.absentees && data.latestClass.absentees.length > 0) {
+      absenteeCard.style.display = 'flex';
+      absenteeDateLabel.textContent = `Absentees (${data.latestClass.date})`;
+      absenteeList.innerHTML = data.latestClass.absentees.map(name => 
+        `<span class="absentee-pill">${name}</span>`
+      ).join('');
+    } else {
+      absenteeCard.style.display = 'none';
+    }
+
+    // 2. Batch KPI Cards
+    if (data.batchInfo) {
+      const b = data.batchInfo;
+      if (b.batchName) document.getElementById('batchNameLabel').textContent = `Batch: ${b.batchName}`;
+      document.getElementById('kpiOverallRate').textContent = b.overallAttendanceRate || "0%";
+      document.getElementById('kpiOverallSub').textContent = b.overallAttendanceSub || "";
+      document.getElementById('kpiAvgPresent').textContent = b.avgPresentPerClass !== undefined ? b.avgPresentPerClass : "0";
+      document.getElementById('kpiAvgPresentSub').textContent = b.avgPresentSub || "";
+      document.getElementById('kpiClassesHeld').textContent = b.classesHeld !== undefined ? b.classesHeld : "0";
+      document.getElementById('kpiDateRangeSub').textContent = b.dateRangeSub || "";
+      document.getElementById('kpiPerfectCount').textContent = b.perfectAttendanceCount !== undefined ? b.perfectAttendanceCount : "0";
+      document.getElementById('kpiPerfectSub').textContent = b.perfectAttendanceSub || "candidates, 0 absences";
+      document.getElementById('kpiPeakTurnout').textContent = b.peakTurnout !== undefined ? b.peakTurnout : "0";
+      document.getElementById('kpiPeakTurnoutSub').textContent = b.peakTurnoutSub || "";
+    }
+
+    // 3. Render Chart
+    if (data.trend && data.trend.dates && data.trend.dates.length > 0) {
+      renderChart(data.trend);
+    }
+
+    // 4. Render Table (Sorted by Percentage Descending)
+    if (data.students && data.students.length > 0) {
+      renderLeaderboard(data.students);
+
+      // Select top student or currently selected
+      const selected = data.students.find(s => s.id === selectedStudentId) || data.students[0];
+      if (selected) {
+        selectedStudentId = selected.id;
+        renderStudentDetail(selected);
+      }
+    }
+  }
+
+  function renderChart(trend) {
+    const ctx = document.getElementById('attendanceChart');
+    if (!ctx) return;
+
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: trend.dates,
+        datasets: [{
+          label: 'Students Present',
+          data: trend.counts,
+          borderColor: '#0058b0',
+          backgroundColor: 'rgba(0, 88, 176, 0.08)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: '#0058b0',
+          borderWidth: 2.5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            padding: 10,
+            cornerRadius: 8
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: '#ecf8fc' },
+            ticks: { font: { size: 11, family: 'Inter' }, precision: 0 }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 11, family: 'Inter' } }
+          }
+        }
+      }
+    });
+  }
+
+  function renderLeaderboard(students, filterText = "") {
+    const tbody = document.getElementById('leaderboardTbody');
+    const sorted = [...students].sort((a, b) => b.rate - a.rate);
+
+    const filtered = sorted.filter(s => 
+      s.name.toLowerCase().includes(filterText.toLowerCase()) || 
+      s.email.toLowerCase().includes(filterText.toLowerCase())
+    );
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: #64748b;">No matching candidates found.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = filtered.map((s, index) => `
+      <tr class="${s.id === selectedStudentId ? 'active-row' : ''}" onclick="selectStudent(${s.id})">
+        <td style="font-weight: 700; color: #94a3b8;">${index + 1}</td>
+        <td><div class="candidate-name">${s.name}</div></td>
+        <td style="font-weight: 700; color: var(--green, #39b87f);">${s.present}</td>
+        <td style="color: #64748b;">${s.absent}</td>
+        <td>
+          <div class="rate-cell">
+            <div class="rate-bar-bg">
+              <div class="rate-bar-fill" style="width: ${s.rate}%;"></div>
+            </div>
+            <span class="rate-percent">${s.rate}%</span>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function selectStudent(studentId) {
+    selectedStudentId = studentId;
+    if (currentDashboardData && currentDashboardData.students) {
+      const student = currentDashboardData.students.find(s => s.id === studentId);
+      if (student) {
+        renderStudentDetail(student);
+        const query = document.getElementById('candidateSearch').value;
+        renderLeaderboard(currentDashboardData.students, query);
+      }
+    }
+  }
+
+  function renderStudentDetail(s) {
+    document.getElementById('detailAvatar').textContent = s.name.charAt(0).toUpperCase();
+    document.getElementById('detailName').textContent = s.name;
+    document.getElementById('detailEmail').textContent = s.email;
+    document.getElementById('detailRate').textContent = `${s.rate}%`;
+    const joinedText = s.batch ? `Batch: <strong>${s.batch}</strong>` : `Enrolled Candidate`;
+    document.getElementById('detailJoinedBanner').innerHTML = joinedText;
+    document.getElementById('detailPresentCount').textContent = s.present;
+    document.getElementById('detailAbsentCount').textContent = s.absent;
+
+    const totalClasses = s.present + s.absent;
+    document.getElementById('calendarHeading').textContent = `Attendance Calendar \u2022 ${totalClasses} Classes`;
+
+    const tilesGrid = document.getElementById('calendarTilesGrid');
+    let tilesHtml = '';
+    
+    for (let i = 1; i <= totalClasses; i++) {
+      const isAbsent = i > s.present;
+      tilesHtml += `<div class="tile-cell ${isAbsent ? 'tile-absent' : 'tile-present'}">${i}</div>`;
+    }
+    tilesGrid.innerHTML = tilesHtml;
+
+    const absentList = document.getElementById('absentDatesList');
+    if (s.absentDates && s.absentDates.length > 0) {
+      absentList.innerHTML = s.absentDates.join(' &bull; ') + ` &bull; (${s.absent} missed sessions total)`;
+    } else if (s.absent > 0) {
+      absentList.textContent = `${s.absent} missed sessions total.`;
+    } else {
+      absentList.textContent = "Perfect Attendance! No classes missed.";
+    }
+  }
+
+  function initSearch() {
+    const searchInput = document.getElementById('candidateSearch');
+    searchInput.addEventListener('input', (e) => {
+      if (currentDashboardData && currentDashboardData.students) {
+        renderLeaderboard(currentDashboardData.students, e.target.value);
+      }
+    });
+  }
+</script>
