@@ -253,55 +253,6 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     margin: 0;
   }
 
-  /* Last 2 Days Absentees Callout Grid */
-  .recent-absentees-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .absentee-card {
-    background: linear-gradient(145deg, #fff5f5, #ffe4e6);
-    border: 1px solid #fecdd3;
-    border-radius: 20px;
-    padding: 1.1rem 1.3rem;
-    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.06);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .absentee-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .absentee-date-title {
-    font-size: 0.88rem;
-    font-weight: 800;
-    color: #9f1239;
-  }
-
-  .absentee-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    align-items: center;
-  }
-
-  .absentee-pill {
-    background: #ffffff;
-    border: 1px solid #fda4af;
-    color: #9f1239;
-    padding: 0.2rem 0.7rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
-    font-weight: 700;
-  }
-
   /* Batch Header & Metrics Grid */
   .batch-badge {
     display: inline-flex;
@@ -364,7 +315,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     border: 1px solid var(--line, #cce8f3);
     border-radius: 26px;
     padding: 1.5rem 1.8rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.2rem;
     box-shadow: 0 12px 28px rgba(0, 88, 176, 0.05);
   }
 
@@ -401,6 +352,55 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     height: 6px;
     border-radius: 50%;
     background: var(--green, #39b87f);
+  }
+
+  /* Last 2 Days Absentees Callout Grid (Positioned After Class Schedule Dates) */
+  .recent-absentees-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .absentee-card {
+    background: linear-gradient(145deg, #fff5f5, #ffe4e6);
+    border: 1px solid #fecdd3;
+    border-radius: 20px;
+    padding: 1.1rem 1.3rem;
+    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .absentee-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .absentee-date-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #9f1239;
+  }
+
+  .absentee-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+  }
+
+  .absentee-pill {
+    background: #ffffff;
+    border: 1px solid #fda4af;
+    color: #9f1239;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
   }
 
   /* Trend Chart Card */
@@ -770,7 +770,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
   <!-- Form Card: Join Live Class -->
   <div class="join-card">
     <h2>Join Live Class</h2>
-    <div class="join-card-sub">Enter your registered email to join today's session.</div>
+    <div class="join-card-sub">Enter your registered student or admin email to join today's session.</div>
     
     <form id="classJoinForm">
       <div class="form-group">
@@ -813,14 +813,14 @@ description: Student live class sign-in portal and dynamic batch attendance anal
         Access Attendance Dashboard
       </h3>
       <p style="font-size: 0.86rem; color: var(--muted, #607987); margin: 0 0 1rem 0;">
-        Enter your registered email to view batch statistics and candidate drilldowns.
+        Enter your registered student or admin email to view batch statistics and candidate drilldowns.
       </p>
 
       <form id="dashboardAccessForm">
         <div class="form-group">
           <div>
             <label class="field-label" for="dashboardEmail">Email ID *</label>
-            <input class="field-input" type="email" id="dashboardEmail" placeholder="Enter your email" required autocomplete="email">
+            <input class="field-input" type="email" id="dashboardEmail" placeholder="Enter your registered email" required autocomplete="email">
           </div>
           <button type="submit" class="btn-join" id="dashSubmitBtn">
             <span>Verify &amp; Unlock Dashboard &rarr;</span>
@@ -848,12 +848,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       </div>
     </div>
 
-    <!-- Last 2 Days Absentees Callout Grid -->
-    <div class="recent-absentees-container" id="recentAbsenteesContainer" style="display: none;">
-      <!-- Injected dynamically -->
-    </div>
-
-    <!-- Metrics KPI Grid -->
+    <!-- 1. Metrics KPI Grid -->
     <div class="kpi-grid">
       <!-- 1. Overall attendance -->
       <div class="kpi-card">
@@ -891,7 +886,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       </div>
     </div>
 
-    <!-- Classes Held Schedule Timeline Card -->
+    <!-- 2. Classes Held Schedule Timeline Card -->
     <div class="schedule-card" id="scheduleCard" style="display: none;">
       <h3>Class Schedule Dates (<span id="scheduleTotalClasses">0</span> Held)</h3>
       <div class="schedule-dates-flow" id="scheduleDatesFlow">
@@ -899,7 +894,12 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       </div>
     </div>
 
-    <!-- Attendance Over Time Chart -->
+    <!-- 3. Last 2 Days Absentees Callout Grid (Moved after Schedule Dates) -->
+    <div class="recent-absentees-container" id="recentAbsenteesContainer" style="display: none;">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- 4. Attendance Over Time Chart -->
     <div class="chart-card">
       <h3>Attendance Volume Over Time</h3>
       <div class="chart-wrapper">
@@ -907,7 +907,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       </div>
     </div>
 
-    <!-- Leaderboard & Candidate Detail Section -->
+    <!-- 5. Leaderboard & Candidate Detail Section -->
     <div class="section-headline">
       <h3>Leaderboard &amp; Candidate Details</h3>
       <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email...">
@@ -1081,7 +1081,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     };
   }
 
-  // 1. Join Live Class Handler
+  // 1. Join Live Class Handler (Supports both Students & Admins)
   function initJoinForm() {
     const form = document.getElementById('classJoinForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -1110,7 +1110,7 @@ description: Student live class sign-in portal and dynamic batch attendance anal
 
         if (result.verified) {
           sessionStorage.setItem('rpv_verified_user_email', email);
-          const redirectUrl = result.redirectUrl || "https://teams.microsoft.com";
+          const redirectUrl = result.redirectUrl || "/go/join-rpa-meeting";
           window.open(redirectUrl, '_blank');
 
           const redirectBtn = document.getElementById('meetingRedirectBtn');
@@ -1141,23 +1141,22 @@ description: Student live class sign-in portal and dynamic batch attendance anal
     const dashSection = document.getElementById('dashboardSection');
 
     toggleBtn.addEventListener('click', () => {
-      // If dashboard is already visible, toggle it
+      // If dashboard is currently visible, toggle it closed
       if (dashSection.style.display === 'block') {
         dashSection.style.display = 'none';
+        authCard.style.display = 'none';
         return;
       }
 
-      // If already verified in this session, reveal directly
-      const sessionEmail = sessionStorage.getItem('rpv_verified_user_email');
-      if (sessionEmail) {
-        unlockAndLoadDashboard(sessionEmail);
-        return;
-      }
-
-      // Otherwise show inline auth card
+      // Always show inline auth form if not yet unlocked
       authCard.style.display = authCard.style.display === 'block' ? 'none' : 'block';
       if (authCard.style.display === 'block') {
-        document.getElementById('dashboardEmail').focus();
+        const emailInput = document.getElementById('dashboardEmail');
+        if (!emailInput.value) {
+          const sessionEmail = sessionStorage.getItem('rpv_verified_user_email');
+          if (sessionEmail) emailInput.value = sessionEmail;
+        }
+        emailInput.focus();
       }
     });
 
@@ -1221,7 +1220,35 @@ description: Student live class sign-in portal and dynamic batch attendance anal
   }
 
   function renderDashboard(data, userEmail = "") {
-    // 1. Absentees of Last Two Days with Clean Date Titles
+    // 1. Batch KPI Cards
+    if (data.batchInfo) {
+      const b = data.batchInfo;
+      if (b.batchName) document.getElementById('batchNameLabel').textContent = `Batch: ${b.batchName}`;
+      document.getElementById('kpiOverallRate').textContent = b.overallAttendanceRate || "0%";
+      document.getElementById('kpiOverallSub').textContent = b.overallAttendanceSub || "";
+      document.getElementById('kpiAvgPresent').textContent = b.avgPresentPerClass !== undefined ? b.avgPresentPerClass : "0";
+      document.getElementById('kpiAvgPresentSub').textContent = b.avgPresentSub || "";
+      document.getElementById('kpiClassesHeld').textContent = b.classesHeld !== undefined ? b.classesHeld : "0";
+      document.getElementById('kpiDateRangeSub').textContent = b.dateRangeSub || "";
+      document.getElementById('kpiPerfectCount').textContent = b.perfectAttendanceCount !== undefined ? b.perfectAttendanceCount : "0";
+      document.getElementById('kpiPerfectSub').textContent = b.perfectAttendanceSub || "candidates, 0 absences";
+      document.getElementById('kpiPeakTurnout').textContent = b.peakTurnout !== undefined ? b.peakTurnout : "0";
+      document.getElementById('kpiPeakTurnoutSub').textContent = b.peakTurnoutSub || "";
+
+      // 2. Class Schedule Timeline
+      if (b.allClassDates && b.allClassDates.length > 0) {
+        document.getElementById('scheduleCard').style.display = 'block';
+        document.getElementById('scheduleTotalClasses').textContent = b.allClassDates.length;
+        document.getElementById('scheduleDatesFlow').innerHTML = b.allClassDates.map(item => `
+          <div class="schedule-date-badge" title="${item.full} - Turnout: ${item.turnout}">
+            <span class="turnout-dot"></span>
+            <span>${item.short}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // 3. Absentees of Last Two Days with Clean Date Titles (Rendered right after Schedule Dates)
     const container = document.getElementById('recentAbsenteesContainer');
     if (data.recentAbsentees && data.recentAbsentees.length > 0) {
       container.innerHTML = data.recentAbsentees.map(item => `
@@ -1239,34 +1266,6 @@ description: Student live class sign-in portal and dynamic batch attendance anal
       container.style.display = 'grid';
     } else {
       container.style.display = 'none';
-    }
-
-    // 2. Batch KPI Cards
-    if (data.batchInfo) {
-      const b = data.batchInfo;
-      if (b.batchName) document.getElementById('batchNameLabel').textContent = `Batch: ${b.batchName}`;
-      document.getElementById('kpiOverallRate').textContent = b.overallAttendanceRate || "0%";
-      document.getElementById('kpiOverallSub').textContent = b.overallAttendanceSub || "";
-      document.getElementById('kpiAvgPresent').textContent = b.avgPresentPerClass !== undefined ? b.avgPresentPerClass : "0";
-      document.getElementById('kpiAvgPresentSub').textContent = b.avgPresentSub || "";
-      document.getElementById('kpiClassesHeld').textContent = b.classesHeld !== undefined ? b.classesHeld : "0";
-      document.getElementById('kpiDateRangeSub').textContent = b.dateRangeSub || "";
-      document.getElementById('kpiPerfectCount').textContent = b.perfectAttendanceCount !== undefined ? b.perfectAttendanceCount : "0";
-      document.getElementById('kpiPerfectSub').textContent = b.perfectAttendanceSub || "candidates, 0 absences";
-      document.getElementById('kpiPeakTurnout').textContent = b.peakTurnout !== undefined ? b.peakTurnout : "0";
-      document.getElementById('kpiPeakTurnoutSub').textContent = b.peakTurnoutSub || "";
-
-      // 3. Class Schedule Timeline
-      if (b.allClassDates && b.allClassDates.length > 0) {
-        document.getElementById('scheduleCard').style.display = 'block';
-        document.getElementById('scheduleTotalClasses').textContent = b.allClassDates.length;
-        document.getElementById('scheduleDatesFlow').innerHTML = b.allClassDates.map(item => `
-          <div class="schedule-date-badge" title="${item.full} - Turnout: ${item.turnout}">
-            <span class="turnout-dot"></span>
-            <span>${item.short}</span>
-          </div>
-        `).join('');
-      }
     }
 
     // 4. Render Chart
