@@ -60,7 +60,7 @@ noindex: true
 
 {# 2. Populate Course Pages dynamically with content body (Resolving exact thumbnail extensions) #}
 {% for item in collections.all %}
-  {% if "/course/" in item.url and item.data.title and item.url != "/course/" %}
+  {% if item.url and "/course/" in item.url and item.data.title and item.url != "/course/" %}
     {% set clean_title = item.data.title | replace(" | RPAVault", "") | replace(" — Live Online Course", "") %}
     {% set course_cat = "IT Training" %}
     {% if "uipath" in item.url or "rpa" in item.url %}
