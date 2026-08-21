@@ -15,6 +15,11 @@ To build successful enterprise analytics solutions, you must master the complete
 
 This reference guide is designed as a complete developer handbook. It covers the end-to-end process of taking raw source data and turning it into clean, interactive, decision-ready dashboards.
 
+> ### 📘 Download the Complete 60-Page PDF Handbook
+> You can download the full, high-resolution, print-ready PDF edition of this reference manual directly from our [Gumroad Page](https://rpavault.gumroad.com/l/power-bi-developer-handbook).
+> 
+> 🎁 **Get it 100% FREE:** We want to support developers in their learning path. Simply send us a DM on [Instagram (@rpavault)](https://www.instagram.com/rpavault/) asking for the voucher code, and we'll send you a 100% discount link, honestly!
+
 ---
 
 ## 1. Business Intelligence & Data Warehousing
