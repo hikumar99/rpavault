@@ -32,9 +32,9 @@ export async function onRequest(context) {
   const urlObj = new URL(request.url);
   const origin = urlObj.origin;
   const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-  const title = esc(link.og_title || "RPAVault");
-  const desc = esc(link.og_description || "Automation consultancy, enterprise automation and IT training.");
-  const img = esc(link.og_image || `${origin}/assets/images/og-image.png`);
+  const title = esc(link.og_title || link.title || "RPAVault");
+  const desc = esc(link.og_description || link.description || "Automation consultancy, enterprise automation and IT training.");
+  const img = esc(link.og_image || link.image || `${origin}/assets/images/og-image.png`);
   const url = `${origin}/go/${esc(slug)}`;
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>${title}</title>
