@@ -34,9 +34,13 @@ title: Internal Image Uploader
     <h2 style="margin-bottom: 0.5rem;">Secure Portal</h2>
     <p style="color: #666; margin-bottom: 2rem;">Please enter your authorization key.</p>
     
-    <div class="input-group">
-      <input type="password" id="password" placeholder="Enter password..." required>
+    <div class="input-group" style="position: relative;">
+      <input type="password" id="password" placeholder="Enter password..." required style="padding-right: 40px;">
+      <span id="toggle-pwd" style="position: absolute; right: 12px; top: 15px; cursor: pointer; font-size: 1.2rem;" title="Show Password">👁️</span>
     </div>
+    
+    <div id="pwd-error" style="color: red; margin-bottom: 1rem; font-weight: bold; display: none;"></div>
+
     <button class="btn" id="unlock-btn">Unlock Uploader</button>
   </div>
 
@@ -87,11 +91,27 @@ title: Internal Image Uploader
   let base64Image = null;
   let activePassword = "";
 
+  // Toggle Password
+  const togglePwd = document.getElementById('toggle-pwd');
+  togglePwd.addEventListener('click', () => {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      togglePwd.innerText = '🙈';
+    } else {
+      passwordInput.type = 'password';
+      togglePwd.innerText = '👁️';
+    }
+  });
+
   // Handle Unlock
   unlockBtn.addEventListener('click', async () => {
+    const pwdError = document.getElementById('pwd-error');
+    pwdError.style.display = 'none';
     const pwd = passwordInput.value.trim();
+    
     if (!pwd) {
-      alert("Please enter a password.");
+      pwdError.innerText = "Please enter a password.";
+      pwdError.style.display = 'block';
       return;
     }
     
@@ -112,11 +132,12 @@ title: Internal Image Uploader
         lockScreen.style.display = 'none';
         uploadScreen.style.display = 'block';
       } else {
-        alert(data.error || "Wrong pwd, contact kumar");
-        passwordInput.value = '';
+        pwdError.innerText = data.error + (data.debug ? ` (${data.debug})` : '');
+        pwdError.style.display = 'block';
       }
     } catch (e) {
-      alert("Network Error: Could not verify password.");
+      pwdError.innerText = "Network Error: Could not verify password.";
+      pwdError.style.display = 'block';
     }
     
     unlockBtn.innerText = originalText;
