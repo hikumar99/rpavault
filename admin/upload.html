@@ -1,0 +1,158 @@
+---
+permalink: /internal/upload/index.html
+layout: layouts/base.html
+noindex: true
+title: Internal Image Uploader
+---
+<style>
+  .upload-container { max-width: 600px; margin: 4rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .drop-zone { border: 2px dashed #ccc; border-radius: 8px; padding: 3rem; text-align: center; cursor: pointer; transition: border 0.3s; margin-bottom: 1rem; }
+  .drop-zone.dragover { border-color: var(--blue); background: #f0f8ff; }
+  .input-group { margin-bottom: 1rem; text-align: left; }
+  .input-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+  .input-group input { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+  .btn { width: 100%; padding: 1rem; background: var(--blue); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+  .btn:disabled { background: #ccc; cursor: not-allowed; }
+  #result { margin-top: 1.5rem; display: none; padding: 1rem; background: #e8f5e9; border-radius: 6px; word-break: break-all; }
+  #preview { max-width: 100%; margin-top: 1rem; border-radius: 6px; }
+  main { background: #f9f9fb; min-height: 80vh; padding: 1rem; }
+</style>
+
+<div class="upload-container">
+  <h2 style="text-align: center; margin-bottom: 0.5rem;">Internal Image Uploader</h2>
+  <p style="text-align: center; color: #666; margin-bottom: 1.5rem;">Images are auto-compressed and saved to <code>assets/uploads/</code></p>
+  
+  <div class="input-group">
+    <label>Internal Password</label>
+    <input type="password" id="password" placeholder="Enter the team password" required>
+  </div>
+
+  <div class="drop-zone" id="drop-zone">
+    <p>Drag & Drop an image here or click to select</p>
+    <input type="file" id="file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+  </div>
+
+  <button class="btn" id="upload-btn" disabled>Upload Image</button>
+  
+  <div id="status" style="margin-top: 1rem; text-align: center; font-weight: bold;"></div>
+
+  <div id="result">
+    <strong style="color: green;">✅ Success!</strong><br><br>
+    Your image link will be ready in ~2 minutes (once the site rebuilds). Copy it below:<br><br>
+    <a href="" id="result-link" target="_blank" style="font-weight:bold; color:var(--blue);"></a>
+    <br><br>
+    <button onclick="copyToClipboard()" style="padding:8px 16px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:4px; font-weight:bold;">Copy Link</button>
+    <img id="preview" src="">
+  </div>
+</div>
+
+<script>
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const uploadBtn = document.getElementById('upload-btn');
+  const statusDiv = document.getElementById('status');
+  const passwordInput = document.getElementById('password');
+  let currentFile = null;
+  let base64Image = null;
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'); });
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+  });
+
+  function handleFile(file) {
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file (PNG, JPG, WebP).');
+      return;
+    }
+    currentFile = file;
+    dropZone.innerHTML = `<p>Selected: <strong>${file.name}</strong></p><p style="color:var(--blue);">Optimizing...</p>`;
+    uploadBtn.disabled = true;
+
+    // Compress Image
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const MAX_WIDTH = 1200; // Resize large images so they load instantly on phones
+        
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Convert to highly optimized WebP format (0.8 quality)
+        base64Image = canvas.toDataURL('image/webp', 0.8).split(',')[1];
+        
+        dropZone.innerHTML = `<p>Selected: <strong>${file.name}</strong><br><span style="color:green;font-size:0.9em;">(Optimized and Ready!)</span></p>`;
+        uploadBtn.disabled = false;
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  uploadBtn.addEventListener('click', async () => {
+    if (!base64Image || !passwordInput.value) {
+      alert("Please select an image and enter the internal password.");
+      return;
+    }
+    
+    uploadBtn.disabled = true;
+    statusDiv.innerText = "⏳ Uploading to GitHub & Triggering Site Build...";
+    statusDiv.style.color = "orange";
+    
+    const timestamp = new Date().getTime();
+    const filename = 'img-' + timestamp + '.webp';
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: passwordInput.value,
+          filename: filename,
+          image: base64Image
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        statusDiv.innerText = "";
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('result-link').href = data.url;
+        document.getElementById('result-link').innerText = data.url;
+        document.getElementById('preview').src = 'data:image/webp;base64,' + base64Image;
+        uploadBtn.disabled = true; // prevent double clicks
+      } else {
+        statusDiv.innerText = "❌ Error: " + data.error;
+        statusDiv.style.color = "red";
+        uploadBtn.disabled = false;
+      }
+    } catch (e) {
+      statusDiv.innerText = "❌ Network Error: " + e.message;
+      statusDiv.style.color = "red";
+      uploadBtn.disabled = false;
+    }
+  });
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(document.getElementById('result-link').innerText);
+    alert("✅ Link copied! Note: It will be a broken link for about 2 minutes while the site builds, then it will work perfectly everywhere.");
+  }
+</script>
