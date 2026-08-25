@@ -3,21 +3,25 @@ export async function onRequestPost(context) {
   
   try {
     const body = await request.json();
+    const submittedPwd = (body.password || "").trim();
     
     // 1. Verify Internal Password
-    // Secure Way: Prioritize the password from Cloudflare KV (synced from Google Sheets)
     let expectedPassword = null;
     
+    // Secure Way: Prioritize the password from Cloudflare KV (synced from Google Sheets)
     if (env.SETTINGS) {
-      expectedPassword = await env.SETTINGS.get('upload_pwd');
+      const kvVal = await env.SETTINGS.get('upload_pwd');
+      if (kvVal && kvVal.trim() !== '') {
+        expectedPassword = kvVal.trim();
+      }
     }
     
     // Fallback to Environment Variable if KV is not set up yet
-    if (!expectedPassword) {
-      expectedPassword = env.UPLOAD_PASSWORD;
+    if (!expectedPassword && env.UPLOAD_PASSWORD) {
+      expectedPassword = env.UPLOAD_PASSWORD.trim();
     }
 
-    if (!expectedPassword || body.password !== expectedPassword) {
+    if (!expectedPassword || submittedPwd !== expectedPassword) {
       return Response.json({ success: false, error: "Wrong pwd, contact kumar" }, { status: 401 });
     }
 

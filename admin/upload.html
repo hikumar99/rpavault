@@ -88,14 +88,39 @@ title: Internal Image Uploader
   let activePassword = "";
 
   // Handle Unlock
-  unlockBtn.addEventListener('click', () => {
-    if (passwordInput.value.trim().length > 0) {
-      activePassword = passwordInput.value;
-      lockScreen.style.display = 'none';
-      uploadScreen.style.display = 'block';
-    } else {
+  unlockBtn.addEventListener('click', async () => {
+    const pwd = passwordInput.value.trim();
+    if (!pwd) {
       alert("Please enter a password.");
+      return;
     }
+    
+    const originalText = unlockBtn.innerText;
+    unlockBtn.innerText = "Verifying...";
+    unlockBtn.disabled = true;
+    
+    try {
+      const response = await fetch('/api/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pwd })
+      });
+      const data = await response.json();
+      
+      if (data.success) {
+        activePassword = pwd;
+        lockScreen.style.display = 'none';
+        uploadScreen.style.display = 'block';
+      } else {
+        alert(data.error || "Wrong pwd, contact kumar");
+        passwordInput.value = '';
+      }
+    } catch (e) {
+      alert("Network Error: Could not verify password.");
+    }
+    
+    unlockBtn.innerText = originalText;
+    unlockBtn.disabled = false;
   });
 
   // Handle Drag & Drop
