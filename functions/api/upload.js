@@ -18,7 +18,7 @@ export async function onRequestPost(context) {
     }
 
     if (!expectedPassword || body.password !== expectedPassword) {
-      return Response.json({ success: false, error: "Unauthorized: Incorrect Internal Password" }, { status: 401 });
+      return Response.json({ success: false, error: "Wrong pwd, contact kumar" }, { status: 401 });
     }
 
     // 2. Prepare GitHub API details
