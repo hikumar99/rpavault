@@ -5,56 +5,100 @@ noindex: true
 title: Internal Image Uploader
 ---
 <style>
-  .upload-container { max-width: 600px; margin: 4rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .upload-container { max-width: 600px; margin: 4rem auto; padding: 3rem 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+  
+  /* Lock Screen */
+  #lock-screen { text-align: center; }
+  .lock-icon { font-size: 3rem; margin-bottom: 1rem; }
+  
+  /* Upload Screen */
+  #upload-screen { display: none; }
+  
   .drop-zone { border: 2px dashed #ccc; border-radius: 8px; padding: 3rem; text-align: center; cursor: pointer; transition: border 0.3s; margin-bottom: 1rem; }
   .drop-zone.dragover { border-color: var(--blue); background: #f0f8ff; }
-  .input-group { margin-bottom: 1rem; text-align: left; }
-  .input-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-  .input-group input { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-  .btn { width: 100%; padding: 1rem; background: var(--blue); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+  .input-group { margin-bottom: 1.5rem; text-align: left; }
+  .input-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333; font-size: 0.9rem;}
+  .input-group input { width: 100%; padding: 0.9rem; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+  .btn { width: 100%; padding: 1rem; background: var(--blue); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
   .btn:disabled { background: #ccc; cursor: not-allowed; }
-  #result { margin-top: 1.5rem; display: none; padding: 1rem; background: #e8f5e9; border-radius: 6px; word-break: break-all; }
-  #preview { max-width: 100%; margin-top: 1rem; border-radius: 6px; }
+  #result { margin-top: 1.5rem; display: none; padding: 1.5rem; background: #e8f5e9; border-radius: 6px; word-break: break-all; }
+  #preview { max-width: 100%; margin-top: 1rem; border-radius: 6px; border: 1px solid #ddd; }
   main { background: #f9f9fb; min-height: 80vh; padding: 1rem; }
 </style>
 
 <div class="upload-container">
-  <h2 style="text-align: center; margin-bottom: 0.5rem;">Internal Image Uploader</h2>
-  <p style="text-align: center; color: #666; margin-bottom: 1.5rem;">Images are auto-compressed and saved to <code>assets/uploads/</code></p>
   
-  <div class="input-group">
-    <label>Internal Password</label>
-    <input type="password" id="password" placeholder="Enter the team password" required>
+  <!-- Step 1: Password Gate -->
+  <div id="lock-screen">
+    <div class="lock-icon">🔒</div>
+    <h2 style="margin-bottom: 0.5rem;">Secure Portal</h2>
+    <p style="color: #666; margin-bottom: 2rem;">Please enter your authorization key.</p>
+    
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Enter password..." required>
+    </div>
+    <button class="btn" id="unlock-btn">Unlock Uploader</button>
   </div>
 
-  <div class="drop-zone" id="drop-zone">
-    <p>Drag & Drop an image here or click to select</p>
-    <input type="file" id="file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+  <!-- Step 2: Hidden Uploader -->
+  <div id="upload-screen">
+    <h2 style="text-align: center; margin-bottom: 1.5rem;">Image Uploader</h2>
+    
+    <div class="input-group">
+      <label>Custom Image Name (Optional)</label>
+      <input type="text" id="custom-name" placeholder="e.g., hero-background (no spaces)">
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <p>Drag & Drop an image here or click to select</p>
+      <input type="file" id="file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+    </div>
+
+    <button class="btn" id="upload-btn" disabled>Upload Image</button>
+    
+    <div id="status" style="margin-top: 1rem; text-align: center; font-weight: bold;"></div>
+
+    <div id="result">
+      <strong style="color: green;">✅ Success!</strong><br><br>
+      Your image link will be ready in ~2 minutes (once the site rebuilds). Copy it below:<br><br>
+      <a href="" id="result-link" target="_blank" style="font-weight:bold; color:var(--blue);"></a>
+      <br><br>
+      <button onclick="copyToClipboard()" style="padding:8px 16px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:4px; font-weight:bold;">Copy Link</button>
+      <img id="preview" src="">
+    </div>
   </div>
 
-  <button class="btn" id="upload-btn" disabled>Upload Image</button>
-  
-  <div id="status" style="margin-top: 1rem; text-align: center; font-weight: bold;"></div>
-
-  <div id="result">
-    <strong style="color: green;">✅ Success!</strong><br><br>
-    Your image link will be ready in ~2 minutes (once the site rebuilds). Copy it below:<br><br>
-    <a href="" id="result-link" target="_blank" style="font-weight:bold; color:var(--blue);"></a>
-    <br><br>
-    <button onclick="copyToClipboard()" style="padding:8px 16px; cursor:pointer; background:#eee; border:1px solid #ccc; border-radius:4px; font-weight:bold;">Copy Link</button>
-    <img id="preview" src="">
-  </div>
 </div>
 
 <script>
+  // UI Elements
+  const lockScreen = document.getElementById('lock-screen');
+  const uploadScreen = document.getElementById('upload-screen');
+  const unlockBtn = document.getElementById('unlock-btn');
+  const passwordInput = document.getElementById('password');
+  
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-input');
   const uploadBtn = document.getElementById('upload-btn');
   const statusDiv = document.getElementById('status');
-  const passwordInput = document.getElementById('password');
+  const customNameInput = document.getElementById('custom-name');
+  
   let currentFile = null;
   let base64Image = null;
+  let activePassword = "";
 
+  // Handle Unlock
+  unlockBtn.addEventListener('click', () => {
+    if (passwordInput.value.trim().length > 0) {
+      activePassword = passwordInput.value;
+      lockScreen.style.display = 'none';
+      uploadScreen.style.display = 'block';
+    } else {
+      alert("Please enter a password.");
+    }
+  });
+
+  // Handle Drag & Drop
   dropZone.addEventListener('click', () => fileInput.click());
   dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
   dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'); });
@@ -84,7 +128,7 @@ title: Internal Image Uploader
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
-        const MAX_WIDTH = 1200; // Resize large images so they load instantly on phones
+        const MAX_WIDTH = 1200;
         
         if (width > MAX_WIDTH) {
           height = Math.round((height * MAX_WIDTH) / width);
@@ -96,7 +140,6 @@ title: Internal Image Uploader
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
         
-        // Convert to highly optimized WebP format (0.8 quality)
         base64Image = canvas.toDataURL('image/webp', 0.8).split(',')[1];
         
         dropZone.innerHTML = `<p>Selected: <strong>${file.name}</strong><br><span style="color:green;font-size:0.9em;">(Optimized and Ready!)</span></p>`;
@@ -107,25 +150,30 @@ title: Internal Image Uploader
     reader.readAsDataURL(file);
   }
 
+  // Handle Upload
   uploadBtn.addEventListener('click', async () => {
-    if (!base64Image || !passwordInput.value) {
-      alert("Please select an image and enter the internal password.");
+    if (!base64Image || !activePassword) {
+      alert("Missing image or password.");
       return;
     }
     
     uploadBtn.disabled = true;
-    statusDiv.innerText = "⏳ Uploading to GitHub & Triggering Site Build...";
+    statusDiv.innerText = "⏳ Uploading securely...";
     statusDiv.style.color = "orange";
     
-    const timestamp = new Date().getTime();
-    const filename = 'img-' + timestamp + '.webp';
+    // Determine filename
+    let finalName = customNameInput.value.trim().toLowerCase().replace(/[^a-z0-9]/g, '-');
+    if (!finalName) {
+      finalName = 'img-' + new Date().getTime();
+    }
+    const filename = finalName + '.webp';
 
     try {
       const response = await fetch('/api/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          password: passwordInput.value,
+          password: activePassword,
           filename: filename,
           image: base64Image
         })
@@ -138,7 +186,7 @@ title: Internal Image Uploader
         document.getElementById('result-link').href = data.url;
         document.getElementById('result-link').innerText = data.url;
         document.getElementById('preview').src = 'data:image/webp;base64,' + base64Image;
-        uploadBtn.disabled = true; // prevent double clicks
+        uploadBtn.disabled = true; 
       } else {
         statusDiv.innerText = "❌ Error: " + data.error;
         statusDiv.style.color = "red";
