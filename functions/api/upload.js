@@ -7,29 +7,20 @@ export async function onRequestPost(context) {
     
     // 1. Verify Internal Password
     let expectedPassword = null;
-    let sourceInfo = "No password bound";
-    let kvValueFound = false;
     
     if (env.SETTINGS) {
       const kvVal = await env.SETTINGS.get('upload_pwd');
-      if (kvVal !== null) kvValueFound = true;
       if (kvVal && kvVal.trim() !== '') {
         expectedPassword = kvVal.trim();
-        sourceInfo = "Google Sheet (KV)";
       }
     }
     
     if (!expectedPassword && env.UPLOAD_PASSWORD) {
       expectedPassword = env.UPLOAD_PASSWORD.trim();
-      sourceInfo = "Cloudflare Env Var";
     }
 
     if (!expectedPassword || submittedPwd !== expectedPassword) {
-      let debugMsg = `Checked: ${sourceInfo}`;
-      if (!env.SETTINGS) debugMsg += " | KV not bound";
-      else if (!kvValueFound) debugMsg += " | 'upload_pwd' key not found in KV";
-      
-      return Response.json({ success: false, error: "Wrong pwd, contact kumar", debug: debugMsg }, { status: 401 });
+      return Response.json({ success: false, error: "Wrong pwd, contact kumar" }, { status: 401 });
     }
 
     // 2. Prepare GitHub API details
