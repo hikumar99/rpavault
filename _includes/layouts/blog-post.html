@@ -127,12 +127,42 @@ layout: layouts/base.html
     margin: 2.2rem 0 !important;
   }
   
+  /* Code Blocks (Boxes) & Inline Code Styling */
+  .article-content pre {
+    background: #1e1e24 !important;
+    color: #f8f8f2 !important;
+    padding: 1.25rem 1.5rem !important;
+    border-radius: 12px !important;
+    overflow-x: auto !important;
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
+    margin: 1.8rem 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    max-width: 100% !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .article-content code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+  }
+  .article-content p code, .article-content li code {
+    background: var(--canvas-2) !important;
+    color: var(--blue) !important;
+    padding: 3px 6px !important;
+    border-radius: 6px !important;
+    font-size: 0.9em !important;
+    border: 1px solid var(--line) !important;
+    word-break: break-word !important;
+  }
+  
   /* Styled Table in post */
   .article-content table {
     width: 100% !important;
     border-collapse: collapse !important;
     margin: 2rem 0 !important;
     font-size: 0.95rem !important;
+    display: block !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
   }
   .article-content th, .article-content td {
     padding: 12px 16px !important;
