@@ -128,6 +128,36 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
     safeStorage.session.setItem('rpv_path_trail', JSON.stringify(pathTrail));
   }
 
+  // Track Entry Referrer (the original source that brought them to our site)
+  let entryReferrer = safeStorage.session.getItem('rpv_entry_referrer');
+  if (!entryReferrer) {
+    entryReferrer = document.referrer || 'direct';
+    safeStorage.session.setItem('rpv_entry_referrer', entryReferrer);
+  }
+
+  // Parse and track UTM / Marketing campaign parameters on entry
+  let marketingParams = {};
+  try {
+    const cachedParams = safeStorage.session.getItem('rpv_marketing_params');
+    if (cachedParams) {
+      marketingParams = JSON.parse(cachedParams);
+    }
+  } catch (_) {}
+
+  const urlParams = new URLSearchParams(location.search);
+  const keysToCapture = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+  let hasNewParams = false;
+  keysToCapture.forEach(key => {
+    if (urlParams.has(key)) {
+      marketingParams[key] = urlParams.get(key);
+      hasNewParams = true;
+    }
+  });
+
+  if (hasNewParams) {
+    safeStorage.session.setItem('rpv_marketing_params', JSON.stringify(marketingParams));
+  }
+
   // Helper to format path trail nicely as: path1 -> path2 -> path3
   function formatPathTrail(trail) {
     return (trail || []).join(' → ');
@@ -219,7 +249,28 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
     enriched['Session: Visit Count'] = visitCount;
     enriched['Session: First Visit Date'] = firstVisit ? new Date(firstVisit).toLocaleString() : 'Unknown';
     enriched['Session: Path Trail'] = formatPathTrail(pathTrail);
-    enriched['Session: Referrer'] = originalPayload.referrer || document.referrer || 'direct';
+    
+    // Entry attribution
+    const entryRefVal = safeStorage.session.getItem('rpv_entry_referrer') || originalPayload.referrer || document.referrer || 'direct';
+    enriched['Session: Entry Referrer'] = entryRefVal;
+    
+    let mkt = {};
+    try {
+      const cachedParams = safeStorage.session.getItem('rpv_marketing_params');
+      if (cachedParams) {
+        mkt = JSON.parse(cachedParams);
+      }
+    } catch (_) {}
+    
+    if (mkt.utm_source) enriched['Session: UTM Source'] = mkt.utm_source;
+    if (mkt.utm_medium) enriched['Session: UTM Medium'] = mkt.utm_medium;
+    if (mkt.utm_campaign) enriched['Session: UTM Campaign'] = mkt.utm_campaign;
+    if (mkt.utm_term) enriched['Session: UTM Term'] = mkt.utm_term;
+    if (mkt.utm_content) enriched['Session: UTM Content'] = mkt.utm_content;
+    if (mkt.gclid) enriched['Session: Google Click ID'] = mkt.gclid;
+    if (mkt.fbclid) enriched['Session: Facebook Click ID'] = mkt.fbclid;
+
+    enriched['Session: Current Referrer'] = originalPayload.referrer || document.referrer || 'direct';
     enriched['Session: Time Spent on Page (sec)'] = timeOnPage.toString();
     enriched['Session: Timezone'] = tzVal;
     enriched['Session: Source Page Path'] = originalPayload.source_page || location.pathname || '/';
@@ -285,6 +336,9 @@ gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[
       setField(form, 'visit_count', visitCount);
       setField(form, 'first_visit_date', firstVisit);
       setField(form, 'session_path', formatPathTrail(pathTrail));
+      setField(form, 'entry_referrer', entryReferrer);
+      if (marketingParams.utm_source) setField(form, 'utm_source', marketingParams.utm_source);
+      if (marketingParams.utm_campaign) setField(form, 'utm_campaign', marketingParams.utm_campaign);
     });
   }
   
