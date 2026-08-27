@@ -324,7 +324,520 @@ layout: layouts/base.html
   </section>
 
   <!-- CURRICULUM TIMELINE -->
-  {% if curriculum %}
+  {% if custom_curriculum_layout == "test-suite-pdf" %}
+  <section id="curriculum" class="sec-sand2">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>THE LEARNING JOURNEY</span>
+        <h2>Curriculum <em>roadmap</em></h2>
+        <p>A complete UiPath Test Automation program. Explore the 6 comprehensive learning phases below.</p>
+      </div>
+      <div class="curr-layout">
+        <div class="curr-nav" id="curr-nav">
+          <div class="curr-nav-item active" data-target="phase-0">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">OVERVIEW</div>
+              <div class="cn-title">Course Overview &amp; Journey</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-1">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11a4 4 0 0 1 0 8H9"/><path d="m7 12-3 3 3 3"/><circle cx="19" cy="7" r="2"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 01</div>
+              <div class="cn-title">Foundations, Studio &amp; BDD</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-2">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 02</div>
+              <div class="cn-title">UI Automation &amp; Data Extraction</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-3">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2.5"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/><circle cx="9.5" cy="13" r="1.2" fill="currentColor"/><circle cx="14.5" cy="13" r="1.2" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 03</div>
+              <div class="cn-title">Workflow Logic, Strings &amp; Dates</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-4">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 04</div>
+              <div class="cn-title">Reliability, OS &amp; DataTables</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-5">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 05</div>
+              <div class="cn-title">Test Manager &amp; Orchestrator</div>
+            </div>
+          </div>
+          
+          <button type="button" class="btn btn-primary btn-block curr-pdf-btn" data-open-syllabus data-pdf="{{ syllabus_pdf | default('/assets/docs/uipath-test-suite-syllabus.pdf') }}" data-course="{{ name | default(title) }}">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Download Syllabus PDF
+          </button>
+        </div>
+
+        <div class="curr-panels" id="curr-panels">
+          
+          <!-- OVERVIEW (PDF PAGE 01) -->
+          <div class="curr-panel" id="phase-0">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>THE LEARNING JOURNEY</span>
+                <h3 class="ts-title">A complete UiPath Test Automation program</h3>
+                <p class="ts-subtitle">This course is built for learners who want to move beyond simple workflow recording and develop the practical test-automation discipline used in real automation projects.</p>
+              </div>
+
+              <div class="ts-pillar-grid">
+                <div class="ts-pillar-card">
+                  <div class="tp-ic">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <h4>Learn the language of quality</h4>
+                  <p>Understand how test cases, BDD scenarios, assertions, test data, defects, and evidence connect to a dependable release process.</p>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <div class="tp-ic">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                  </div>
+                  <h4>Build workflows that resist change</h4>
+                  <p>Use selectors, anchors, browser activities, validation, loops, logging, and recovery paths to create robust automations.</p>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <div class="tp-ic">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                  </div>
+                  <h4>Connect work to enterprise delivery</h4>
+                  <p>Use Test Manager, Orchestrator, Data Fabric, reporting, and execution governance to understand how automation scales.</p>
+                </div>
+              </div>
+
+              <div class="ts-structure-sec">
+                <h3>Course structure</h3>
+                <p>The complete curriculum groups the original source material into eight teachable learning blocks. Each block combines explanation, demonstration, and guided practice.</p>
+                
+                <div class="ts-table-wrap">
+                  <table class="ts-table">
+                    <thead>
+                      <tr>
+                        <th style="width:14%">Block</th>
+                        <th style="width:30%">Core focus</th>
+                        <th style="width:56%">Topics and practice</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span class="block-badge">Block 01</span></td>
+                        <td class="focus-title">Foundations &amp; Studio</td>
+                        <td class="topics-desc">Process vs. test automation; Test Automation package; Community Edition; Studio workspace, activities, robot integration, variables, debugging, and Git.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="block-badge">Block 02</span></td>
+                        <td class="focus-title">BDD &amp; test design</td>
+                        <td class="topics-desc">Given–When–Then; preconditions, actions, assertions; UiDemo login and transaction scenario.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="block-badge">Block 03</span></td>
+                        <td class="focus-title">UI automation</td>
+                        <td class="topics-desc">Dynamic selectors, wildcards, Anchor Base, browser control, user interaction, element validation, and output capture.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="block-badge">Block 04</span></td>
+                        <td class="focus-title">Data extraction</td>
+                        <td class="topics-desc">Pattern-based data, web tables, screen scraping, DataTables, CSV output, and the Smart Search directory scraper bot.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="block-badge">Block 05</span></td>
+                        <td class="focus-title">Workflow logic</td>
+                        <td class="topics-desc">Variables, types, conditions, loops, collections, strings, DateTime, and Report Mover file routing.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="block-badge">Block 06</span></td>
+                        <td class="focus-title">Reliable delivery</td>
+                        <td class="topics-desc">Annotations, logging, debugging, Try/Catch/Finally, business vs. application exceptions, OS activities, Excel, and DataTables.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="block-badge">Block 07–08</span></td>
+                        <td class="focus-title">Enterprise testing</td>
+                        <td class="topics-desc">Test Manager, test cases, test sets, execution, defect tracking, reporting, Orchestrator, robots, jobs, assets, queues, Data Fabric, and monitoring.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 01 (PDF PAGE 02 / MODULE 01) -->
+          <div class="curr-panel" id="phase-1">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 01 · FOUNDATIONS, STUDIO &amp; BDD</span>
+                <h3 class="ts-title">Start with test intent—not just clicks</h3>
+                <p class="ts-subtitle">Effective test automation begins with a clear distinction between executing business work and validating a system’s expected behavior.</p>
+              </div>
+
+              <div class="ts-compare-grid">
+                <div class="ts-compare-card">
+                  <h4>Process automation</h4>
+                  <ul>
+                    <li>Automates repetitive, rule-based tasks and human application interactions.</li>
+                    <li>Uses UiPath workflows (.xaml) running on attended or unattended Robots.</li>
+                    <li>Commonly connects Studio, Robot, Orchestrator, files, spreadsheets, and applications.</li>
+                  </ul>
+                </div>
+                <div class="ts-compare-card featured">
+                  <h4>Test automation <span style="font-size:11px; font-weight:700; color:var(--green); background:var(--green-tint); padding:3px 8px; border-radius:99px;">QA Engineering Focus</span></h4>
+                  <ul>
+                    <li>Automates quality-assurance and quality-engineering scenarios.</li>
+                    <li>Validates functionality and regression behavior using actual versus expected results.</li>
+                    <li>Supports BDD-style scenarios and can be integrated into CI/CD pipelines.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-feature-grid">
+                <div class="ts-feature-card">
+                  <h4>UiPath Studio</h4>
+                  <p>Design activity-based tests, use Selenium-like web automation patterns, support API and database validation, connect version control, and build reusable test libraries.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Test Manager</h4>
+                  <p>Manage test cases and test sets; run and review execution; link defects; connect Jenkins or Azure pipelines; and use dashboards and reports.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Studio workspace</h4>
+                  <p>Work with the Workflow Designer, Activity Library, Robot Integration, Variable Panel, Debug/Breakpoints, and Source Control.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">BDD FRAMEWORK PATTERN</span>
+                <h4>BDD framework: turn business language into a testable contract</h4>
+                <p><strong>Given</strong> the UiDemo application is open and valid credentials are available. <strong>When</strong> the user enters the username and password and selects Login. <strong>Then</strong> the dashboard appears; otherwise the expected error is shown and the app closes after three failed attempts.</p>
+              </div>
+
+              <div class="ts-outcome-bar">
+                <strong>Student outcome:</strong> Create a readable test case with explicit setup, action, validation, and cleanup—so the expected behavior is clear to both technical and business reviewers.
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 02 (PDF PAGE 03 / MODULE 02) -->
+          <div class="curr-panel" id="phase-2">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 02 · UI AUTOMATION &amp; DATA EXTRACTION</span>
+                <h3 class="ts-title">Build UI workflows that remain stable and produce useful data</h3>
+                <p class="ts-subtitle">Students learn to handle changing interface elements, interact with browsers, validate what occurred, and transform screen content into structured records.</p>
+              </div>
+
+              <div class="ts-two-grid">
+                <div class="ts-sub-box">
+                  <h4>Dynamic selectors</h4>
+                  <ul>
+                    <li><strong>Selector with Variable:</strong> replace static attributes with runtime values such as a changing window title or identifier.</li>
+                    <li><strong>Wildcard Characters:</strong> use <code>*</code> for multiple characters and <code>?</code> for a single character in partial matches.</li>
+                    <li><strong>Anchor Base:</strong> find changing elements relative to a stable control on the same screen.</li>
+                  </ul>
+                  <div class="ts-code-box">
+                    <div style="font-weight:700; margin-bottom:4px;">Selector examples:</div>
+                    <code>&lt;wnd title='&#123;&#123;windowTitle&#125;&#125;' .../&gt;</code><br>
+                    <code>title='Invoice *' matches invoice windows regardless of number.</code>
+                  </div>
+                </div>
+
+                <div class="ts-sub-box">
+                  <h4>Web automation activities</h4>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                    <div>
+                      <strong style="font-size:12.5px; color:var(--ink); display:block; margin-bottom:6px;">Browser control</strong>
+                      <ul style="gap:5px;">
+                        <li>Open Browser</li>
+                        <li>Navigate To</li>
+                        <li>Attach Browser</li>
+                        <li>Close Tab</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <strong style="font-size:12.5px; color:var(--ink); display:block; margin-bottom:6px;">Interaction &amp; validation</strong>
+                      <ul style="gap:5px;">
+                        <li>Click Text / Type Into</li>
+                        <li>Set Text / Send Hot Key</li>
+                        <li>Find Element / Exists</li>
+                        <li>Get Text / Attribute</li>
+                        <li>Check / Select Item</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div style="background:#eaf5ec; border:1px solid #c9e8d1; border-radius:10px; padding:10px 14px; font-size:12.5px; color:#146333; line-height:1.45;">
+                    <strong>Test-design habit:</strong> Validate the target state after a key action. Do not infer success simply because a click completed.
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-feature-grid">
+                <div class="ts-feature-card">
+                  <h4>Pattern-Based Data</h4>
+                  <p>Extract repeated text patterns from application screens. Useful for legacy or visually inconsistent interfaces.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Web Table Scraping</h4>
+                  <p>Extract HTML tables into DataTables and support multi-page navigation through a Next button.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Screen Scraping</h4>
+                  <p>Capture visible text with Full Text, Native, or OCR techniques from PDFs, images, or non-standard windows.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">APPLIED CASE STUDY</span>
+                <h4>Applied case: Smart Search Directory Scraper Bot</h4>
+                <p>Read search keywords from <code>Smart Search.xlsx</code> &rarr; loop through each item &rarr; open directory search portal &rarr; search &rarr; scrape results into a DataTable &rarr; write a keyword-named CSV &rarr; close the browser &rarr; continue. Students identify selector risk, data-quality checks, and recovery points.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 03 (PDF PAGE 04 / MODULE 03) -->
+          <div class="curr-panel" id="phase-3">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 03 · WORKFLOW LOGIC, STRINGS &amp; DATES</span>
+                <h3 class="ts-title">Move from isolated activities to reusable workflow logic</h3>
+                <p class="ts-subtitle">Students gain the data and decision-making skills that let an automation adapt to input, apply business rules, and produce predictable outputs.</p>
+              </div>
+
+              <div class="ts-two-grid">
+                <div class="ts-sub-box">
+                  <h4>Variables &amp; data types</h4>
+                  <ul>
+                    <li>Use names with letters, numbers, and underscores; start with a letter or underscore.</li>
+                    <li>Avoid spaces, reserved words, and special characters other than underscore.</li>
+                    <li>Practice String, Int32, Double, Boolean, DateTime, and DataTable.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <h4>Conditions, loops &amp; collections</h4>
+                  <ul>
+                    <li>Use Single Line If, If/Else, Decision Flow, Switch, and Flow Switch for branching.</li>
+                    <li>Use For Each, While, Do While, and For Each Row for repeatable processing.</li>
+                    <li>Use <code>List&lt;T&gt;</code> and <code>Dictionary&lt;K,V&gt;</code> to manage collections; use <code>CType()</code> conversions when types must change safely.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-two-grid">
+                <div class="ts-sub-box">
+                  <h4>String methods</h4>
+                  <p style="font-size:12.5px; color:var(--body-soft); margin:0 0 6px;">Essential manipulation functions practiced in test assertions:</p>
+                  <div class="ts-method-pills">
+                    <span class="ts-method-pill">Contains()</span>
+                    <span class="ts-method-pill">EndsWith()</span>
+                    <span class="ts-method-pill">Equals()</span>
+                    <span class="ts-method-pill">IndexOf()</span>
+                    <span class="ts-method-pill">ToLower()</span>
+                    <span class="ts-method-pill">ToUpper()</span>
+                    <span class="ts-method-pill">LastIndexOf()</span>
+                    <span class="ts-method-pill">Length</span>
+                    <span class="ts-method-pill">Remove()</span>
+                    <span class="ts-method-pill">Replace()</span>
+                    <span class="ts-method-pill">Split()</span>
+                    <span class="ts-method-pill">StartsWith()</span>
+                    <span class="ts-method-pill">Substring()</span>
+                    <span class="ts-method-pill">ToCharArray()</span>
+                    <span class="ts-method-pill">Trim()</span>
+                    <span class="ts-method-pill">PadLeft()</span>
+                    <span class="ts-method-pill">PadRight()</span>
+                  </div>
+                </div>
+
+                <div class="ts-sub-box">
+                  <h4>DateTime methods</h4>
+                  <p style="font-size:12.5px; color:var(--body-soft); margin:0 0 6px;">Date-sensitive rules, schedules, and report or filename formatting:</p>
+                  <div class="ts-method-pills">
+                    <span class="ts-method-pill">AddDays(n)</span>
+                    <span class="ts-method-pill">AddMonths(n)</span>
+                    <span class="ts-method-pill">AddYears(n)</span>
+                    <span class="ts-method-pill">Subtract(dt)</span>
+                    <span class="ts-method-pill">DayOfWeek</span>
+                    <span class="ts-method-pill">ToString(fmt)</span>
+                  </div>
+                  <p style="font-size:12.5px; color:var(--body); line-height:1.45; margin-top:10px;">Used for timestamped audit trails, batch execution cycles, and dynamic artifact naming.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">APPLIED CASE STUDY</span>
+                <h4>Applied case: Report Mover Bot</h4>
+                <p>Select input and output folders &rarr; loop through files &rarr; detect Daily, Weekly, Monthly, or Yearly in the filename &rarr; check whether the matching subfolder exists &rarr; create it when necessary &rarr; move the file &rarr; record the outcome. This case connects strings, conditions, loops, folder logic, and auditable output.</p>
+              </div>
+
+              <div class="ts-check-grid">
+                <div class="ts-check-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Inputs are validated before a loop begins</span>
+                </div>
+                <div class="ts-check-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Variable names make the workflow readable</span>
+                </div>
+                <div class="ts-check-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Date and string transformations are explicit</span>
+                </div>
+                <div class="ts-check-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>Each file operation confirms its target path</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 04 (PDF PAGE 05 / MODULE 04) -->
+          <div class="curr-panel" id="phase-4">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 04 · RELIABILITY, OS, DATATABLES &amp; EXCEL</span>
+                <h3 class="ts-title">Create automations that are easier to debug, recover, and support</h3>
+                <p class="ts-subtitle">A production-ready workflow does more than complete the happy path. It leaves evidence, handles known failure patterns, and manages its operating environment carefully.</p>
+              </div>
+
+              <div class="ts-two-grid">
+                <div class="ts-sub-box">
+                  <h4>Logging &amp; debugging</h4>
+                  <ul>
+                    <li><strong>Annotations:</strong> document canvas logic without changing execution.</li>
+                    <li><strong>Comments:</strong> clarify decisions and isolate sections during review.</li>
+                    <li><strong>Log Message:</strong> write Verbose, Info, Warn, Error, and Fatal evidence for monitoring.</li>
+                    <li><strong>Write Line:</strong> output focused values during development.</li>
+                    <li><strong>Breakpoints:</strong> pause a run and inspect properties and data.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <h4>Exception handling</h4>
+                  <ul>
+                    <li><strong>Try:</strong> hold activities that may fail.</li>
+                    <li><strong>Catch:</strong> respond to a specific failure type.</li>
+                    <li><strong>Finally:</strong> close browsers or clear temporary resources.</li>
+                    <li><strong>Throw / ReThrow:</strong> raise or preserve an error for an upstream handler.</li>
+                    <li><strong>Business Exception:</strong> invalid data or rule issue; <strong>Application Exception:</strong> timeout, crash, or unavailable element.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-two-grid">
+                <div class="ts-sub-box">
+                  <h4>Operating-system activities</h4>
+                  <ul>
+                    <li><strong>Files &amp; CSV:</strong> Read/Write Text File, Move/Copy/Delete File, Read/Write/Append CSV.</li>
+                    <li><strong>Folders:</strong> Create, Delete, Move, Get Files in Folder.</li>
+                    <li><strong>Clipboard &amp; processes:</strong> Get/Set Clipboard, Start Process, Kill Process, Get Process Info, Open/Close Application.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <h4>DataTables &amp; Excel Automation</h4>
+                  <ul>
+                    <li><strong>DataTables:</strong> Build Data Table, Add/Remove Data Row, Filter, Sort, For Each Row, Get Row Item, and Write Range.</li>
+                    <li><strong>Excel:</strong> Application Scope, Read/Write Range, Read/Write Cell, Append Range, Get Last Row, Delete Row/Column, Save/Save As.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-outcome-bar">
+                <strong>Reliability standard:</strong> Log the input and key branch, capture the failure context, clean up safely, preserve useful output, and return a result that a reviewer can understand immediately.
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 05 (PDF PAGE 06 / MODULE 05) -->
+          <div class="curr-panel" id="phase-5">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 05 · TEST MANAGER, ORCHESTRATOR &amp; DATA FABRIC</span>
+                <h3 class="ts-title">Turn a workflow into a managed enterprise test practice</h3>
+                <p class="ts-subtitle">The final course block connects individual automation work to governance, traceability, scheduled execution, secure runtime assets, and operational visibility.</p>
+              </div>
+
+              <div class="ts-feature-grid">
+                <div class="ts-feature-card">
+                  <h4>UiPath Test Manager</h4>
+                  <ul style="padding-left:14px; margin:0; font-size:13px; color:var(--body); line-height:1.5;">
+                    <li>Create, edit, and organize manual and automated test cases.</li>
+                    <li>Link cases directly to Studio automation projects and business requirements.</li>
+                    <li>Manage test sets, runs, results, defects, dashboards, and reports.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-feature-card">
+                  <h4>Test cases &amp; test sets</h4>
+                  <ul style="padding-left:14px; margin:0; font-size:13px; color:var(--body); line-height:1.5;">
+                    <li>A test case is an individual manual or automated scenario, often created in Studio as .xaml.</li>
+                    <li>Use Given–When–Then, tagging, filtering, requirements links, and data-driven parameters.</li>
+                    <li>Group cases into test sets; control execution order, environment, reuse, pass/fail tracking, and exports.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-feature-card">
+                  <h4>Orchestrator &amp; Data Fabric</h4>
+                  <ul style="padding-left:14px; margin:0; font-size:13px; color:var(--body); line-height:1.5;">
+                    <li>Provision, monitor, and control attended and unattended robots.</li>
+                    <li>Schedule jobs; manage assets, credentials, configuration, queues, and work items.</li>
+                    <li>Connect governed application, database, and API data; monitor logs, alerts, and audit trails.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">END-TO-END EXECUTION PIPELINE</span>
+                <h4>End-to-end execution model</h4>
+                <p>Define a requirement &rarr; create a linked test case &rarr; group it into a test set &rarr; trigger a run through Test Manager or CI/CD &rarr; execute on robots through Orchestrator &rarr; review outcomes, logs, defects, and evidence &rarr; report coverage and quality status.</p>
+              </div>
+
+              <div class="ts-feature-card" style="background:#f8fcfe; margin-bottom:18px;">
+                <h4 style="color:var(--green-deep); margin-bottom:6px;">Next-level topics</h4>
+                <p style="font-size:13.5px; line-height:1.55; color:var(--body);">Students can extend this foundation into Studio Web, self-healing automation, performance testing, AI-assisted test design, live execution review, API/database validation, Document Understanding, REFramework, queues, and broader agentic automation practices.</p>
+              </div>
+
+              <div class="ts-outcome-bar">
+                <strong>Capstone direction:</strong> Combine a UiDemo or Smart Search directory scraper workflow with BDD test design, resilient selectors, structured data, logging, exception handling, test-case evidence, and an enterprise execution plan.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  {% elif curriculum %}
   <section id="curriculum" class="sec-sand2">
     <div class="wrap">
       <div class="head-block">
@@ -353,10 +866,10 @@ layout: layouts/base.html
             </div>
           </div>
           {% endfor %}
-          <a href="/go/{{ course_slug }}-pdf/" target="_blank" rel="noopener" class="btn btn-primary btn-block curr-pdf-btn">
+          <button type="button" class="btn btn-primary btn-block curr-pdf-btn" data-open-syllabus data-pdf="{{ syllabus_pdf | default('/assets/docs/' + course_slug + '-syllabus.pdf') }}" data-course="{{ name | default(title) }}">
             <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             Download Syllabus PDF
-          </a>
+          </button>
         </div>
         <div class="curr-panels" id="curr-panels">
           {% for phase in curriculum %}
@@ -629,7 +1142,7 @@ layout: layouts/base.html
     </div>
     <div class="modal-foot">
       <button class="btn btn-primary btn-sm" onclick="closeModal();" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
-      <a href="/go/{{ course_slug }}-pdf/" target="_blank" rel="noopener" class="btn btn-white btn-sm">Full Syllabus PDF</a>
+      <button type="button" class="btn btn-white btn-sm" onclick="closeModal();" data-open-syllabus data-pdf="{{ syllabus_pdf | default('/assets/docs/' + course_slug + '-syllabus.pdf') }}" data-course="{{ name | default(title) }}">Full Syllabus PDF</button>
     </div>
   </div>
 </div>

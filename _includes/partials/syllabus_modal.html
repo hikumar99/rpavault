@@ -1,0 +1,47 @@
+<div class="rpv-modal" data-syllabus-modal role="dialog" aria-modal="true" aria-label="Download Course Syllabus">
+  <div class="rpv-modal-card">
+    <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--green); background:var(--green-tint); padding:4px 10px; border-radius:99px;">Curriculum PDF</span>
+    </div>
+    <h2>Download Course Syllabus</h2>
+    <p class="modal-sub">Enter your details to receive the comprehensive curriculum guide on WhatsApp &amp; Email, and start your direct download immediately.</p>
+    
+    <form class="form-grid js-lead-form syllabus-lead-form" action="{{ settings.forms.formsubmit_endpoint | default('https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2') }}" method="POST" data-pdf-url="{{ syllabus_pdf | default('/assets/docs/uipath-test-suite-syllabus.pdf') }}">
+      <input type="hidden" name="_subject" value="Syllabus Download Request — {{ name | default(title) | default('Course Syllabus') }} — RPAVault">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="form_type" value="Syllabus Download (Email & WhatsApp)">
+      <input type="hidden" name="course_interest" value="{{ name | default(title) | default('UiPath Test Suite') }}">
+      <input type="hidden" name="_next" value="{{ settings.footer.domain_url | default('https://rpavault.com') }}/contact/?sent=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      
+      <div class="form-field">
+        <label for="syl-name">Full Name *</label>
+        <input id="syl-name" name="name" type="text" required placeholder="e.g. Rahul Sharma" autocomplete="name">
+      </div>
+      <div class="form-field">
+        <label for="syl-email">Email Address *</label>
+        <input id="syl-email" name="email" type="email" required placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-field">
+        <label for="syl-phone">Mobile / WhatsApp Number *</label>
+        <input id="syl-phone" name="phone" type="tel" required placeholder="+91 98765 43210" autocomplete="tel">
+      </div>
+      
+      <div class="form-field" style="margin-top:-4px; margin-bottom:14px;">
+        <div style="font-size:12px; color:var(--body-soft); display:flex; align-items:center; gap:8px; line-height:1.45;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--green); flex:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Immediate direct download + copy sent to your WhatsApp &amp; Email. No spam.</span>
+        </div>
+      </div>
+      
+      <div class="section-cta">
+        <button class="btn btn-primary btn-block btn-lg" type="submit" style="display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Download Syllabus PDF Now
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

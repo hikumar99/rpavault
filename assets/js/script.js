@@ -16,7 +16,7 @@ const yearTarget=document.querySelector('[data-current-year]'); if(yearTarget){y
 const closeNav=()=>{if(siteNav&&siteNav.classList.contains('is-open')){siteNav.classList.remove('is-open');navToggle?.setAttribute('aria-expanded','false');}services?.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');};
 document.addEventListener('click',(e)=>{if(services&&services.classList.contains('is-open')&&!services.contains(e.target)){services.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');}
 if(siteNav&&siteNav.classList.contains('is-open')&&!siteNav.contains(e.target)&&!navToggle.contains(e.target)){closeNav();}});
-document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeNav();closeModal();closeConsultingModal();closeDiscoveryModal();closeCollegeModal();closeCorporateModal();}});
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){closeNav();closeModal();closeConsultingModal();closeDiscoveryModal();closeCollegeModal();closeCorporateModal();closeGuidanceModal();closeSyllabusModal();}});
 siteNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeNav()));
 services?.addEventListener('keydown',(e)=>{if(e.key==='Escape'){services.classList.remove('is-open');servicesTrigger?.setAttribute('aria-expanded','false');servicesTrigger?.focus();}});
 
@@ -78,6 +78,46 @@ function closeGuidanceModal(){if(!gModal||!gModal.classList.contains('is-open'))
 window.rpvOpenGuidance=openGuidanceModal;
 document.querySelectorAll('[data-open-guidance]').forEach(el=>{el.addEventListener('click',(e)=>{if(gModal){e.preventDefault();closeNav();openGuidanceModal();}});});
 gModal?.addEventListener('click',(e)=>{if(e.target===gModal||e.target.closest('[data-close-modal]')){closeGuidanceModal();}});
+
+/* ---------- Syllabus modal ---------- */
+const sModal=document.querySelector('[data-syllabus-modal]');
+function openSyllabusModal(pdfUrl, courseName){
+  if(!sModal)return;
+  lastFocus=document.activeElement;
+  if(pdfUrl){
+    const sForm=sModal.querySelector('form.syllabus-lead-form');
+    if(sForm) sForm.setAttribute('data-pdf-url', pdfUrl);
+  }
+  if(courseName){
+    const cInput=sModal.querySelector('input[name="course_name"]');
+    if(cInput) cInput.value=courseName;
+    const sInput=sModal.querySelector('input[name="_subject"]');
+    if(sInput) sInput.value='Syllabus Download Request — ' + courseName + ' — RPAVault';
+  }
+  sModal.classList.add('is-open');
+  document.body.classList.add('modal-open');
+  const first=sModal.querySelector('input[name="name"]');
+  setTimeout(()=>first?.focus(),60);
+}
+function closeSyllabusModal(){
+  if(!sModal||!sModal.classList.contains('is-open'))return;
+  sModal.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+  lastFocus?.focus();
+}
+window.rpvOpenSyllabus=openSyllabusModal;
+document.querySelectorAll('[data-open-syllabus], .curr-pdf-btn').forEach(el=>{
+  el.addEventListener('click',(e)=>{
+    if(sModal){
+      e.preventDefault();
+      closeNav();
+      const pdf=el.getAttribute('data-pdf')||el.getAttribute('href')||'';
+      const course=el.getAttribute('data-course')||'';
+      openSyllabusModal(pdf, course);
+    }
+  });
+});
+sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[data-close-modal]')){closeSyllabusModal();}});
 
   // Safe Storage wrappers to handle strict cookie/storage blocking or private modes
   const safeStorage = {
@@ -459,17 +499,47 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
         throw new Error(resJson.message || "FormSubmit rejected submission");
       }
 
-      form.innerHTML = `
-        <div style="text-align: center; padding: 2.5rem 1.5rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
-          <div style="width: 56px; height: 56px; background: #e6f9f0; color: #10b981; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 1.5rem auto; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
-            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      const pdfUrl = form.getAttribute('data-pdf-url');
+      if (pdfUrl) {
+        try {
+          const dlLink = document.createElement('a');
+          dlLink.href = pdfUrl;
+          dlLink.target = '_blank';
+          dlLink.rel = 'noopener';
+          dlLink.download = '';
+          document.body.appendChild(dlLink);
+          dlLink.click();
+          dlLink.remove();
+        } catch(_) {}
+
+        form.innerHTML = `
+          <div style="text-align: center; padding: 2rem 1.2rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
+            <div style="width: 56px; height: 56px; background: #e6f9f0; color: #10b981; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 1.2rem auto; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--ink); margin: 0 0 0.5rem 0;">Syllabus Dispatched!</h3>
+            <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.5; margin: 0 0 1.25rem 0;">
+              Your download is starting now. A copy has also been sent to your <strong>WhatsApp</strong> and <strong>Email</strong>.
+            </p>
+            <a href="${pdfUrl}" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:6px; padding:8px 18px; border-radius:99px; text-decoration:none;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+              Click here if download doesn't start
+            </a>
           </div>
-          <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--ink); margin: 0 0 0.75rem 0;">Request Received!</h3>
-          <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.5; margin: 0;">
-            Thank you. Your details have been submitted securely. Our coordinator will contact you shortly.
-          </p>
-        </div>
-      `;
+        `;
+      } else {
+        form.innerHTML = `
+          <div style="text-align: center; padding: 2.5rem 1.5rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
+            <div style="width: 56px; height: 56px; background: #e6f9f0; color: #10b981; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 1.5rem auto; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--ink); margin: 0 0 0.75rem 0;">Request Received!</h3>
+            <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.5; margin: 0;">
+              Thank you. Your details have been submitted securely. Our coordinator will contact you shortly.
+            </p>
+          </div>
+        `;
+      }
 
       const parentModal = form.closest('.rpv-modal');
       if (parentModal) {
