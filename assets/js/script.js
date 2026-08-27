@@ -89,10 +89,12 @@ function openSyllabusModal(pdfUrl, courseName){
     if(sForm) sForm.setAttribute('data-pdf-url', pdfUrl);
   }
   if(courseName){
-    const cInput=sModal.querySelector('input[name="course_name"]');
+    const cInput=sModal.querySelector('input[name="course_interest"]') || sModal.querySelector('input[name="course_name"]');
     if(cInput) cInput.value=courseName;
     const sInput=sModal.querySelector('input[name="_subject"]');
     if(sInput) sInput.value='Syllabus Download Request — ' + courseName + ' — RPAVault';
+    const h2=sModal.querySelector('h2');
+    if(h2) h2.textContent='Download ' + courseName + ' Syllabus';
   }
   sModal.classList.add('is-open');
   document.body.classList.add('modal-open');

@@ -60,7 +60,7 @@ what_you_get:
   - "REFramework, Orchestrator and real interview-grade project work"
   - "Power Automate cloud flows plus agentic automation exposure"
   - "Resume, interview and placement guidance until you're hired"
-syllabus_pdf: "/go/uipath-pa-syllabus-pdf"
+syllabus_pdf: "/assets/docs/rpa-agentic-uipath-power-automate-curriculum.pdf"
 # Modular Curriculum structure with Session-by-Session Details
 curriculum:
   - phase: "Module 1 · Foundations & Desktop Automation"
