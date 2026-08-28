@@ -2,13 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
 
+const logoWhitePath = path.join(__dirname, '../assets/images/logo-rpavault-white.png');
+const logoWhiteBase64 = fs.existsSync(logoWhitePath)
+  ? `data:image/png;base64,${fs.readFileSync(logoWhitePath).toString('base64')}`
+  : '';
+
 const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MSBI Training Course Syllabus - RPA Vault</title>
+<title>MSBI Masterclass Curriculum Guide - SSIS, SSAS, SSRS - RPA Vault</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Sora:wght@600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700;800&family=Sora:wght@600;700;800&display=swap');
 
   @page {
     size: 210mm 297mm;
@@ -25,7 +30,7 @@ const htmlContent = `<!DOCTYPE html>
     margin: 0;
     padding: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #1e293b;
+    color: #0f172a;
     background: #ffffff;
     -webkit-font-smoothing: antialiased;
   }
@@ -36,12 +41,23 @@ const htmlContent = `<!DOCTYPE html>
     page-break-after: always;
     page-break-inside: avoid;
     position: relative;
-    padding: 22mm 20mm;
+    padding: 16mm 18mm 14mm;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: #ffffff;
+    box-sizing: border-box;
     overflow: hidden;
+  }
+
+  .page-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    min-height: 0;
+    gap: 7px;
+    margin: 2mm 0;
   }
 
   /* TOP HEADER & FOOTER */
@@ -55,11 +71,22 @@ const htmlContent = `<!DOCTYPE html>
     letter-spacing: 0.12em;
     color: #0d9488;
     text-transform: uppercase;
-    margin-bottom: 5mm;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 2.5mm;
   }
   .doc-header .dh-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     color: #0f172a;
-    letter-spacing: 0.08em;
+    font-weight: 800;
+  }
+  .doc-header .dh-right {
+    color: #0d9488;
+    background: #f0fdfa;
+    border: 1px solid #ccfbf1;
+    padding: 2.5px 8px;
+    border-radius: 4px;
   }
 
   .doc-footer {
@@ -69,1227 +96,898 @@ const htmlContent = `<!DOCTYPE html>
     font-family: 'IBM Plex Mono', monospace;
     font-size: 9.5px;
     color: #64748b;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 4mm;
-    margin-top: auto;
+    border-top: 1.5px solid #e2e8f0;
+    padding-top: 2.5mm;
   }
   .doc-footer a {
     color: #0d9488;
     text-decoration: none;
-    font-weight: 600;
-  }
-
-  /* HEADINGS */
-  .section-tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9.5px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #0d9488;
-    margin-bottom: 2mm;
   }
 
-  h1.page-title {
-    font-family: 'Sora', sans-serif;
-    font-size: 24px;
-    font-weight: 800;
-    color: #0f172a;
-    line-height: 1.22;
-    margin: 0 0 2.5mm 0;
-    letter-spacing: -0.02em;
-  }
-
-  p.page-desc {
-    font-size: 11px;
-    line-height: 1.55;
-    color: #475569;
-    margin: 0 0 5mm 0;
-  }
-
-  /* GRIDS & CARDS */
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4mm;
-  }
-  .grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3.5mm;
-  }
-  .grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 3mm;
-  }
-
-  .card-soft {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 3.5mm;
-    padding: 3.5mm 4mm;
-  }
-  .card-soft h4 {
-    font-family: 'Sora', sans-serif;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: #0f172a;
-    margin: 0 0 1.5mm 0;
-  }
-  .card-soft p, .card-soft li {
-    font-size: 9.5px;
-    line-height: 1.45;
-    color: #475569;
-  }
-  .card-soft ul {
-    margin: 0;
-    padding-left: 3.5mm;
-  }
-  .card-soft li {
-    margin-bottom: 1mm;
-  }
-
-  /* CALLOUTS */
-  .navy-callout {
-    background: linear-gradient(135deg, #091e36, #003666);
-    border-radius: 3.5mm;
-    padding: 4mm 5mm;
-    color: #ffffff;
-    margin: 3.5mm 0;
-  }
-  .navy-callout h4 {
-    font-family: 'Sora', sans-serif;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 1.5mm 0;
-  }
-  .navy-callout p {
-    font-size: 9.5px;
-    line-height: 1.5;
-    color: #cbd5e1;
-    margin: 0;
-  }
-
-  .dark-bar {
-    background: #091e36;
-    border-radius: 3mm;
-    padding: 3mm 4mm;
-    color: #ffffff;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9.5px;
-    font-weight: 700;
-    text-align: center;
-    letter-spacing: 0.1em;
-    margin-top: 3.5mm;
-  }
-
-  /* COVER PAGE */
-  .page-cover {
-    background: linear-gradient(160deg, #091e36 0%, #031326 100%);
-    color: #ffffff;
-    padding: 28mm 24mm;
-    justify-content: center;
-  }
-  .brand-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: #0d9488;
-    color: #ffffff;
-    margin-bottom: 6mm;
-  }
-  .cover-pill {
-    display: inline-block;
+  /* TYPOGRAPHY */
+  .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.14em;
-    color: #2dd4bf;
     text-transform: uppercase;
-    margin-bottom: 4mm;
-  }
-  .cover-h1 {
-    font-family: 'Sora', sans-serif;
-    font-size: 48px;
-    font-weight: 800;
-    color: #ffffff;
-    line-height: 1;
-    margin: 0 0 4mm 0;
-    letter-spacing: -0.03em;
-  }
-  .cover-sub {
-    font-family: 'Sora', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8mm;
-  }
-  .cover-desc {
-    font-size: 14px;
-    color: #cbd5e1;
-    line-height: 1.6;
-    max-width: 130mm;
-    margin-bottom: 8mm;
-  }
-  .tag-practical {
+    color: #0d9488;
+    margin-bottom: 1.5mm;
     display: inline-block;
-    background: #f97316;
-    color: #ffffff;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    font-weight: 700;
-    padding: 2mm 5mm;
-    border-radius: 99px;
-    margin-bottom: 8mm;
   }
-  .cover-stack-card {
-    border-radius: 3.5mm;
-    padding: 3mm 4mm;
-    margin-bottom: 2.5mm;
-    max-width: 80mm;
+  .page-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0f172a;
+    margin: 0 0 2mm;
+    letter-spacing: -0.02em;
   }
-  .cover-stack-card.ssis { background: #0d9488; color: #fff; }
-  .cover-stack-card.ssas { background: #eab308; color: #000; }
-  .cover-stack-card.ssrs { background: #f87171; color: #fff; }
-  .cover-stack-card strong { display: block; font-size: 11px; }
-  .cover-stack-card span { font-size: 9px; opacity: 0.9; }
+  .page-title em {
+    font-style: italic;
+    color: #0d9488;
+    font-weight: 800;
+  }
+  .page-subtitle {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #475569;
+    margin: 0;
+  }
 
-  /* TIMELINE LIST (PAGE 2) */
-  .timeline-item {
+  /* PREMIUM DARK CYBER COVER & CLOSING PAGES */
+  .cover-page {
+    background: radial-gradient(circle at 85% 15%, rgba(13, 148, 136, 0.3), transparent 45%),
+                radial-gradient(circle at 15% 85%, rgba(2, 132, 199, 0.22), transparent 45%),
+                linear-gradient(165deg, #040914 0%, #061e24 50%, #030712 100%);
+    color: #ffffff;
+    padding: 22mm 22mm 18mm;
     display: flex;
-    gap: 3.5mm;
-    margin-bottom: 3.5mm;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .circle-num {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+  .cover-brand {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-bottom: 5mm;
+  }
+  .cover-logo-img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+  }
+  .cover-badge {
+    background: rgba(13, 148, 136, 0.15);
+    border: 1px solid rgba(13, 148, 136, 0.4);
+    border-radius: 99px;
+    padding: 7px 18px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     font-weight: 700;
-    color: #ffffff;
-    flex-shrink: 0;
+    color: #2dd4bf;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
-  .c-teal { background: #0d9488; }
-  .c-navy { background: #0f172a; }
-  .c-coral { background: #f87171; }
-  .c-yellow { background: #eab308; }
-
-  /* TOPIC TABLE */
-  .topic-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 9.5px;
+  .cover-main {
+    margin: 4mm 0;
   }
-  .topic-table th {
+  .cover-audience {
     font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
     font-weight: 700;
-    text-align: left;
-    padding: 2mm 2.5mm;
-    border-bottom: 1.5px solid #cbd5e1;
+    color: #38bdf8;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 4mm;
+  }
+  .cover-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 5mm;
+  }
+  .cover-desc {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #cbd5e1;
+    max-width: 168mm;
+    margin-bottom: 6mm;
+  }
+  .cover-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 6mm;
+  }
+  .cover-box strong {
+    color: #2dd4bf;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Sora', sans-serif;
+  }
+  .cover-box p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #e2e8f0;
+  }
+  .cover-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 6mm;
+  }
+  .cover-stat-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 13px 15px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .cover-stat-val {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+  .cover-stat-sub {
+    font-size: 10.5px;
+    color: #cbd5e1;
+    margin-top: 3px;
+    line-height: 1.35;
+  }
+  .cover-cta-row {
+    display: flex;
+    gap: 14px;
+    margin-top: 5mm;
+  }
+  .cover-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Sora', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 11px 22px;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(13, 148, 136, 0.4);
+  }
+  .cover-cta-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: none;
+  }
+  .cover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 4mm;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #94a3b8;
+  }
+
+  /* GHOSTED WATERMARKS */
+  .ghost-num {
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1;
+    opacity: 0.12;
+    pointer-events: none;
     color: #0f172a;
   }
-  .topic-table td {
-    padding: 2.5mm 2.5mm;
-    border-bottom: 1px solid #e2e8f0;
-    vertical-align: top;
+  .ghost-num.teal { color: #0d9488; opacity: 0.16; }
+  .ghost-num.cyan { color: #0284c7; opacity: 0.16; }
+  .ghost-num.purple { color: #7c3aed; opacity: 0.16; }
+  .ghost-num.gold { color: #d97706; opacity: 0.18; }
+
+  /* CARDS & GRIDS */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
-  .topic-table tr:hover td {
-    background: #f8fafc;
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
   }
 
-  /* LIST CHIPS */
-  .chip-grid {
+  .card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card.teal { border: 1.5px solid #99f6e4; }
+  .card.cyan { border: 1.5px solid #bae6fd; }
+  .card.purple { border: 1.5px solid #e9d5ff; }
+  .card.gold { border: 1.5px solid #fde68a; }
+
+  .card-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2.5px 8px;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    width: fit-content;
+  }
+  .card-tag.teal { background: #ccfbf1; color: #0f766e; }
+  .card-tag.cyan { background: #e0f2fe; color: #0369a1; }
+  .card-tag.purple { background: #f3e8ff; color: #7e22ce; }
+  .card-tag.gold { background: #fef3c7; color: #b45309; }
+
+  .card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 5px;
+    line-height: 1.3;
+  }
+  .card-desc {
+    font-size: 11.5px;
+    line-height: 1.48;
+    color: #475569;
+    margin: 0 0 6px;
+  }
+
+  /* BULLET LIST */
+  .bullet-list {
+    margin: 3px 0 0;
+    padding-left: 15px;
+  }
+  .bullet-list li {
+    font-size: 11px;
+    line-height: 1.45;
+    color: #334155;
+    margin-bottom: 2.5px;
+  }
+  .bullet-list li strong {
+    color: #0f172a;
+  }
+
+  .tags-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5mm;
-    margin-top: 2mm;
+    gap: 5px;
+    margin-top: 5px;
   }
-  .chip {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 8.5px;
-    font-weight: 600;
+  .pill-tag {
     background: #f1f5f9;
     border: 1px solid #cbd5e1;
-    border-radius: 1.5mm;
-    padding: 1mm 2.5mm;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
     color: #334155;
+  }
+
+  /* MINI CHECKLIST CARDS */
+  .mini-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .mini-card h5 {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 3px;
+  }
+  .mini-card p {
+    font-size: 10px;
+    line-height: 1.35;
+    color: #64748b;
+    margin: 0;
+  }
+
+  /* CALLOUT BOXES */
+  .callout-box {
+    background: #f8fafc;
+    border-left: 3.5px solid #0d9488;
+    border-radius: 0 8px 8px 0;
+    padding: 9px 13px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #334155;
+  }
+  .callout-box strong { color: #0d9488; }
+
+  .callout-box.cyan { border-left-color: #0284c7; }
+  .callout-box.cyan strong { color: #0284c7; }
+  .callout-box.purple { border-left-color: #7c3aed; }
+  .callout-box.purple strong { color: #7c3aed; }
+
+  .navy-callout {
+    background: linear-gradient(145deg, #041f24, #0f404a);
+    border-radius: 10px;
+    padding: 11px 15px;
+    color: #ffffff;
+  }
+  .navy-callout .tn-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #2dd4bf;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .navy-callout h4 {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0 0 3px;
+    color: #ffffff;
+  }
+  .navy-callout p {
+    font-size: 10.5px;
+    line-height: 1.45;
+    color: #cbd5e1;
+    margin: 0;
+  }
+
+  /* PAGE FOOTER CTA BAR */
+  .page-cta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-size: 10.5px;
+  }
+  .page-cta-bar a {
+    color: #0d9488;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
 </style>
 </head>
 <body>
 
-  <!-- ==================== PAGE 1: COVER ==================== -->
-  <div class="page page-cover">
-    <div>
-      <div class="brand-badge">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+  <!-- ================= PAGE 1: COVER PAGE ================= -->
+  <div class="page cover-page">
+    <div class="cover-brand">
+      <img src="${logoWhiteBase64}" alt="RPA Vault" class="cover-logo-img" />
+      <div class="cover-badge">Microsoft Data Stack</div>
+    </div>
+
+    <div class="cover-main">
+      <div class="cover-audience">DATA ENGINEERING · BUSINESS INTELLIGENCE</div>
+      <div class="cover-title">MSBI Masterclass:<br>SSIS, SSAS &amp; SSRS</div>
+      <div class="cover-desc">
+        A topic-complete practical masterclass through SQL Server Integration Services (SSIS), Analysis Services (SSAS), and Reporting Services (SSRS). Build enterprise ETL pipelines, multidimensional analytical cubes, tabular models, and paginated dashboards.
       </div>
 
-      <div class="cover-pill">MICROSOFT BUSINESS INTELLIGENCE</div>
-      <div class="cover-h1">MSBI</div>
-      <div class="cover-sub">TRAINING COURSE SYLLABUS</div>
-      <p class="cover-desc">A topic-complete practical path through SSIS, SSAS, and SSRS.</p>
+      <div class="cover-box">
+        <strong>THE COMPLETE MICROSOFT DATA PLATFORM</strong>
+        <p>Master the end-to-end flow: Ingest and clean messy transactional data with SSIS ETL, structure analytical cubes with SSAS, and distribute parameterized executive reports with SSRS.</p>
+      </div>
 
-      <div class="tag-practical">100% PRACTICAL CLASSES</div>
-
-      <div style="margin-bottom: 8mm;">
-        <div class="cover-stack-card ssis">
-          <strong>SSIS</strong>
-          <span>Integration &amp; ETL</span>
+      <div class="cover-stats-grid">
+        <div class="cover-stat-card">
+          <div class="cover-stat-label">SSIS ETL</div>
+          <div class="cover-stat-val">75+</div>
+          <div class="cover-stat-sub">Transformations &amp; tasks</div>
         </div>
-        <div class="cover-stack-card ssas">
-          <strong>SSAS</strong>
-          <span>Analytical services</span>
+        <div class="cover-stat-card">
+          <div class="cover-stat-label">SSAS CUBES</div>
+          <div class="cover-stat-val">15+</div>
+          <div class="cover-stat-sub">Multidimensional &amp; Tabular</div>
         </div>
-        <div class="cover-stack-card ssrs">
-          <strong>SSRS</strong>
-          <span>Report services</span>
+        <div class="cover-stat-card">
+          <div class="cover-stat-label">SSRS REPORTS</div>
+          <div class="cover-stat-val">08+</div>
+          <div class="cover-stat-sub">Enterprise report types</div>
+        </div>
+        <div class="cover-stat-card">
+          <div class="cover-stat-label">FORMAT</div>
+          <div class="cover-stat-val">100%</div>
+          <div class="cover-stat-sub">Practical live coding</div>
         </div>
       </div>
 
-      <div class="navy-callout" style="max-width: 140mm; margin:0;">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">TRAINING DOCUMENT</span>
-        <p>Complete syllabus coverage, organized for practical classes.</p>
+      <div class="cover-cta-row">
+        <a href="https://rpavault.com/course/msbi-masterclass/" class="cover-cta-btn">
+          Explore Course Webpage &rarr;
+        </a>
+        <a href="https://rpavault.com/contact/" class="cover-cta-btn secondary">
+          Talk to MSBI Mentors &rarr;
+        </a>
       </div>
     </div>
 
-    <div class="doc-footer" style="border-top-color:rgba(255,255,255,0.15); color:#94a3b8;">
-      <span>MSBI / A4 TRAINING COURSE SYLLABUS</span>
-      <span>RPAVault.com</span>
+    <div class="cover-footer">
+      <div>RPA Vault · Microsoft BI Career Track · Hyderabad / Global Online</div>
+      <div>rpavault.com</div>
     </div>
   </div>
 
-  <!-- ==================== PAGE 2: ORIENTATION (02) ==================== -->
+  <!-- ================= PAGE 2: ARCHITECTURE & TRACK BLUEPRINT ================= -->
   <div class="page">
     <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>02 / COURSE ORIENTATION</span>
+      <div class="dh-left">RPA VAULT · MSBI MASTERCLASS</div>
+      <div class="dh-right">TRACK BLUEPRINT</div>
     </div>
 
-    <div>
-      <div class="section-tag">COURSE ORIENTATION</div>
-      <h1 class="page-title">How to use this syllabus</h1>
-      <p class="page-desc">This is a training-course blueprint: each page exposes the actual topics to be covered in class.</p>
+    <div class="page-main">
+      <div>
+        <span class="eyebrow">END-TO-END PIPELINE ARCHITECTURE</span>
+        <h2 class="page-title">The Enterprise <em>Microsoft BI Ecosystem</em></h2>
+        <p class="page-subtitle">Understand how raw transactional databases are extracted, transformed, modeled, and visualized through the unified Microsoft BI stack.</p>
+      </div>
 
-      <div class="grid-2" style="margin-bottom: 4mm;">
-        <div>
-          <div class="timeline-item">
-            <div class="circle-num c-teal">01</div>
-            <div>
-              <strong style="font-family:'Sora',sans-serif; font-size:12px; display:block;">SSIS</strong>
-              <span style="font-size:9.5px; color:#64748b;">Build integration and ETL fluency.</span>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="circle-num c-navy">02</div>
-            <div>
-              <strong style="font-family:'Sora',sans-serif; font-size:12px; display:block;">SSAS</strong>
-              <span style="font-size:9.5px; color:#64748b;">Build analytical models and explore them.</span>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="circle-num c-coral">03</div>
-            <div>
-              <strong style="font-family:'Sora',sans-serif; font-size:12px; display:block;">SSRS</strong>
-              <span style="font-size:9.5px; color:#64748b;">Build reports and reporting interactions.</span>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="circle-num c-yellow">04</div>
-            <div>
-              <strong style="font-family:'Sora',sans-serif; font-size:12px; color:#0f172a; display:block;">PROJECTS</strong>
-              <span style="font-size:9.5px; color:#64748b;">Apply the connected BI path.</span>
-            </div>
+      <!-- 3 Core Tiers -->
+      <div class="grid-3">
+        <div class="card teal" style="border-top: 3.5px solid #0d9488;">
+          <span class="ghost-num teal">01</span>
+          <span class="card-tag teal">TIER 1 · ETL</span>
+          <h4 class="card-title">SSIS (Integration Services)</h4>
+          <p class="card-desc">High-throughput data extraction, cleansing, transformation, and warehouse loading:</p>
+          <ul class="bullet-list">
+            <li><strong>Control Flow:</strong> Loop containers, Execute SQL.</li>
+            <li><strong>Data Flow:</strong> 20+ built-in transformations.</li>
+            <li><strong>SCD Engine:</strong> Type 1 &amp; Type 2 historical data.</li>
+            <li><strong>Deployment:</strong> SSISDB &amp; SQL Agent automation.</li>
+          </ul>
+        </div>
+
+        <div class="card cyan" style="border-top: 3.5px solid #0284c7;">
+          <span class="ghost-num cyan">02</span>
+          <span class="card-tag cyan">TIER 2 · MODELING</span>
+          <h4 class="card-title">SSAS (Analysis Services)</h4>
+          <p class="card-desc">Multidimensional cubes and modern in-memory Tabular analytical models:</p>
+          <ul class="bullet-list">
+            <li><strong>Cubes &amp; DSVs:</strong> Star and Snowflake schemas.</li>
+            <li><strong>Hierarchies &amp; KPIs:</strong> Drill-downs &amp; status trends.</li>
+            <li><strong>Tabular Models:</strong> VertiPaq memory engine.</li>
+            <li><strong>DAX &amp; MDX:</strong> Calculated measures &amp; time intelligence.</li>
+          </ul>
+        </div>
+
+        <div class="card purple" style="border-top: 3.5px solid #7c3aed;">
+          <span class="ghost-num purple">03</span>
+          <span class="card-tag purple">TIER 3 · REPORTING</span>
+          <h4 class="card-title">SSRS (Reporting Services)</h4>
+          <p class="card-desc">Pixel-perfect paginated reports, dynamic charts, and automated distribution:</p>
+          <ul class="bullet-list">
+            <li><strong>Layout Types:</strong> Table, Matrix pivot &amp; Charts.</li>
+            <li><strong>Parameters:</strong> Cascading &amp; multi-select filters.</li>
+            <li><strong>Drill-Through:</strong> Master-detail subreports.</li>
+            <li><strong>Subscriptions:</strong> Scheduled email &amp; file share.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4 Strategic Pillars -->
+      <div class="grid-2">
+        <div class="card teal">
+          <span class="card-tag teal">AUDIENCE</span>
+          <h4 class="card-title">Who This Is Designed For</h4>
+          <p class="card-desc">SQL Developers, Database Administrators, Data Analysts, and QA Engineers wanting to transition to Microsoft BI &amp; Data Engineering.</p>
+          <div class="tags-row">
+            <span class="pill-tag">SQL Developers</span>
+            <span class="pill-tag">Data Analysts</span>
+            <span class="pill-tag">ETL Engineers</span>
           </div>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:2.5mm;">
-          <div class="card-soft" style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#0d9488;">SSIS</strong>
-              <span style="font-size:9px; color:#64748b; display:block;">12 syllabus sections</span>
-            </div>
-            <span style="font-family:'Sora',sans-serif; font-size:18px; font-weight:800; color:#0d9488;">75</span>
-          </div>
-
-          <div class="card-soft" style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#0f172a;">SSAS</strong>
-              <span style="font-size:9px; color:#64748b; display:block;">2 syllabus sections</span>
-            </div>
-            <span style="font-family:'Sora',sans-serif; font-size:18px; font-weight:800; color:#0f172a;">15</span>
-          </div>
-
-          <div class="card-soft" style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#f87171;">SSRS</strong>
-              <span style="font-size:9px; color:#64748b; display:block;">1 syllabus section</span>
-            </div>
-            <span style="font-family:'Sora',sans-serif; font-size:18px; font-weight:800; color:#f87171;">8</span>
-          </div>
-
-          <div class="card-soft" style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#d97706;">PROJECTS</strong>
-              <span style="font-size:9px; color:#64748b; display:block;">Source project section</span>
-            </div>
-            <span style="font-family:'Sora',sans-serif; font-size:14px; font-weight:800; color:#d97706;">Full Stack</span>
+        <div class="card cyan">
+          <span class="card-tag cyan">PREREQUISITES</span>
+          <h4 class="card-title">What You Need Before Starting</h4>
+          <p class="card-desc">Basic SQL querying (SELECT, JOIN, GROUP BY). All SSIS, SSAS, SSRS, Data Warehousing, and SSDT concepts are taught from scratch.</p>
+          <div class="tags-row">
+            <span class="pill-tag">Basic SQL</span>
+            <span class="pill-tag">SSDT Tools</span>
+            <span class="pill-tag">No Prior BI Required</span>
           </div>
         </div>
       </div>
 
       <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">TRAINING-FIRST FORMAT</span>
-        <h4 style="font-size:12px;">The course document shows the complete topic path—not just the headline technologies.</h4>
-        <p>Use the section labels to move from foundations through advanced topics, then into the project thread.</p>
+        <span class="tn-tag">THE ENTERPRISE ADVANTAGE</span>
+        <h4>Master the data platform powering Fortune 500 decision systems.</h4>
+        <p>Learn Data Warehousing · Build SSIS Pipelines · Design Multidimensional Cubes · Publish Paginated SSRS Reports with automated distribution.</p>
+      </div>
+
+      <div class="page-cta-bar">
+        <span>Ready to master the Microsoft BI stack? View batch schedules and enroll</span>
+        <a href="https://rpavault.com/course/msbi-masterclass/">View Course Webpage &rarr;</a>
       </div>
     </div>
 
     <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>02</span>
+      <div>RPA Vault · MSBI Masterclass Curriculum</div>
+      <div>Page 2 of 6 · <a href="https://rpavault.com/course/msbi-masterclass/">rpavault.com/course/msbi-masterclass/</a></div>
     </div>
   </div>
 
-  <!-- ==================== PAGE 3: SSIS MODULE 01 (03) ==================== -->
+  <!-- ================= PAGE 3: SSIS DEEP DIVE (CLASSES 1–10) ================= -->
   <div class="page">
     <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>03 / SSIS / MODULE 01</span>
+      <div class="dh-left">PHASE 01 &amp; 02 · SSIS MODULES</div>
+      <div class="dh-right">INTEGRATION SERVICES (ETL)</div>
     </div>
 
-    <div>
-      <div class="section-tag">03 / SSIS / MODULE 01</div>
-      <h1 class="page-title">Foundations and data flow</h1>
-      <p class="page-desc">Introduction to SSIS, data warehousing, package architecture, ETL entities, and the data-flow model.</p>
+    <div class="page-main">
+      <div>
+        <span class="eyebrow">PHASE 01 &amp; 02 · HIGH-THROUGHPUT ETL</span>
+        <h2 class="page-title">SSIS Architecture, <em>Control Flow &amp; Transformations</em></h2>
+        <p class="page-subtitle">Master Data Warehousing fundamentals, Control Flow tasks, loop containers, 20+ transformations, SCD, and SQL Agent deployment.</p>
+      </div>
 
-      <div class="grid-2" style="margin-bottom: 4mm;">
-        <div style="display:flex; flex-direction:column; gap:2.5mm;">
-          <div class="card-soft" style="background:#091e36; color:#fff; border-color:#1e3a5f;">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block;">PACKAGE</span>
-            <h4 style="color:#fff;">Architecture &amp; Tools</h4>
-            <p style="color:#cbd5e1; margin:0;">Architecture, ETL entities, and management tools.</p>
-          </div>
-          <div class="card-soft" style="background:#0d9488; color:#fff; border-color:#0f766e;">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#ccfbf1; text-transform:uppercase; display:block;">FLOW</span>
-            <h4 style="color:#fff;">Data Flow Model</h4>
-            <p style="color:#e0f2fe; margin:0;">Sources, destinations, transformations, viewers.</p>
-          </div>
-          <div class="card-soft" style="background:#f87171; color:#fff; border-color:#ef4444;">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#fee2e2; text-transform:uppercase; display:block;">PRACTICE</span>
-            <h4 style="color:#fff;">Execution Trace</h4>
-            <p style="color:#fff; margin:0;">Trace a record end-to-end through the package.</p>
-          </div>
+      <!-- SSIS Section 1: Control Flow & Containers -->
+      <div class="grid-2">
+        <div class="card teal">
+          <span class="ghost-num teal">01</span>
+          <span class="card-tag teal">CONTROL FLOW</span>
+          <h4 class="card-title">Tasks, Containers &amp; Precedence</h4>
+          <p class="card-desc">Orchestrating complex ETL task workflows and looping logic:</p>
+          <ul class="bullet-list">
+            <li><strong>Core Tasks:</strong> Execute SQL, File System, Send Mail, Script Task (C#), FTP Task.</li>
+            <li><strong>Containers:</strong> Sequence Containers, For Loop &amp; Foreach Loop (Files &amp; ADO objects).</li>
+            <li><strong>Precedence Constraints:</strong> Success, Failure, Completion, and Expression rules.</li>
+          </ul>
         </div>
 
-        <div>
-          <div class="card-soft" style="margin-bottom:3mm; border-left:3px solid #0d9488;">
-            <h4 style="color:#0d9488;">Introduction to SSIS</h4>
-            <ul>
-              <li>SSIS Package Architecture Overview</li>
-              <li>Introduction to SSIS &amp; Data Warehouse</li>
-              <li>Basic ETL Entities in SSIS</li>
-              <li>Data and Management Tools</li>
-            </ul>
-          </div>
-          <div class="card-soft" style="border-left:3px solid #f87171;">
-            <h4 style="color:#f87171;">Introduction to Data Flow</h4>
-            <ul>
-              <li>Data Flow Overview</li>
-              <li>Data Sources</li>
-              <li>Data Destinations</li>
-              <li>Data Flow Transformations</li>
-              <li>Data Viewers</li>
-            </ul>
-          </div>
+        <div class="card teal">
+          <span class="ghost-num teal">02</span>
+          <span class="card-tag teal">DATA FLOW</span>
+          <h4 class="card-title">Data Flow Engine &amp; Buffers</h4>
+          <p class="card-desc">High-speed in-memory data pipeline execution:</p>
+          <ul class="bullet-list">
+            <li><strong>Sources &amp; Destinations:</strong> OLE DB, ADO.NET, Flat File, Excel, XML, Raw Files.</li>
+            <li><strong>Buffer Tuning:</strong> DefaultBufferMaxRows, DefaultBufferSize, and thread management.</li>
+            <li><strong>Data Viewers:</strong> Live pipeline debugging and grid inspection.</li>
+          </ul>
         </div>
       </div>
 
-      <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">CLASS FOCUS</span>
-        <h4>Understand how a package is organized and how data moves through a flow.</h4>
-        <p>The next modules build directly on this source &rarr; flow &rarr; destination model.</p>
+      <!-- SSIS Section 2: Transformations & SCD -->
+      <div class="grid-2">
+        <div class="card teal">
+          <span class="ghost-num teal">03</span>
+          <span class="card-tag teal">TRANSFORMATIONS</span>
+          <h4 class="card-title">20+ Built-in Transformations</h4>
+          <p class="card-desc">Cleansing, shaping, routing, and aggregating streaming data:</p>
+          <ul class="bullet-list">
+            <li><strong>Row Level:</strong> Data Conversion, Derived Column, Conditional Split, Copy Column.</li>
+            <li><strong>Lookups &amp; Joins:</strong> Lookup (Full / Partial / No Cache), Merge, Merge Join (Inner/Left/Full).</li>
+            <li><strong>Aggregations &amp; Routing:</strong> Aggregate, Sort, Multicast, Union All.</li>
+          </ul>
+        </div>
+
+        <div class="card teal">
+          <span class="ghost-num teal">04</span>
+          <span class="card-tag teal">SCD &amp; DEPLOYMENT</span>
+          <h4 class="card-title">Slowly Changing Dimensions &amp; Catalog</h4>
+          <p class="card-desc">Managing dimension history and production scheduling:</p>
+          <ul class="bullet-list">
+            <li><strong>SCD Type 1 &amp; Type 2:</strong> SCD Wizard, custom lookup &amp; historical row tracking.</li>
+            <li><strong>Error Handling:</strong> Event Handlers (OnError, OnWarning), Row Redirects, Logging.</li>
+            <li><strong>Deployment:</strong> Project Deployment Model, SSISDB Catalog, SQL Agent automation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout-box">
+        <strong>SSIS PRACTICE LAB &amp; CHECKPOINT:</strong> Build an end-to-end SSIS ETL pipeline extracting raw CSVs, cleansing data via Derived Column &amp; Lookup transformations, implementing SCD Type 2 dimension loads, and scheduling automated runs via SQL Server Agent.
+      </div>
+
+      <div class="page-cta-bar">
+        <span>Have questions about SSIS packages? Connect with our mentors</span>
+        <a href="https://rpavault.com/contact/">Schedule Mentor Call &rarr;</a>
       </div>
     </div>
 
     <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>03</span>
+      <div>RPA Vault · MSBI Masterclass Curriculum</div>
+      <div>Page 3 of 6 · <a href="https://rpavault.com/course/msbi-masterclass/">rpavault.com/course/msbi-masterclass/</a></div>
     </div>
   </div>
 
-  <!-- ==================== PAGE 4: SSIS MODULE 02 (04) ==================== -->
+  <!-- ================= PAGE 4: SSAS DEEP DIVE (CLASSES 11–15) ================= -->
   <div class="page">
     <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>04 / SSIS / MODULE 02</span>
+      <div class="dh-left">PHASE 03 · SSAS MODULES</div>
+      <div class="dh-right">ANALYSIS SERVICES (CUBES)</div>
     </div>
 
-    <div>
-      <div class="section-tag">04 / SSIS / MODULE 02</div>
-      <h1 class="page-title">Sources, transformations, destinations</h1>
-      <p class="page-desc">A complete component register for building and shaping a data flow.</p>
+    <div class="page-main">
+      <div>
+        <span class="eyebrow">PHASE 03 · ANALYTICAL MODELING</span>
+        <h2 class="page-title">SSAS Multidimensional Cubes &amp; <em>Tabular DAX</em></h2>
+        <p class="page-subtitle">Design high-performance analytical data models, dimension hierarchies, Key Performance Indicators (KPIs), and in-memory Tabular DAX models.</p>
+      </div>
 
-      <div class="grid-2" style="margin-bottom: 3.5mm;">
-        <div class="card-soft" style="border-top:3px solid #091e36;">
-          <h4 style="color:#091e36;">DATA SOURCES</h4>
-          <ul>
-            <li>Excel Source</li>
-            <li>Flat File Source</li>
-            <li>OLE DB Source</li>
-            <li>XML Source</li>
+      <!-- SSAS Section 1: Multidimensional Cubes -->
+      <div class="grid-2">
+        <div class="card cyan">
+          <span class="ghost-num cyan">01</span>
+          <span class="card-tag cyan">DATA MODELING</span>
+          <h4 class="card-title">Data Source Views &amp; Dimensions</h4>
+          <p class="card-desc">Structuring Star and Snowflake data schemas in SSDT:</p>
+          <ul class="bullet-list">
+            <li><strong>DSVs:</strong> Creating Data Sources, Data Source Views, logical primary keys &amp; calculations.</li>
+            <li><strong>Dimensions:</strong> Standard, Time, and Degenerate dimensions. Key &amp; Name columns.</li>
+            <li><strong>Attribute Relationships:</strong> Optimization for query performance and aggregation paths.</li>
           </ul>
         </div>
 
-        <div class="card-soft" style="border-top:3px solid #f87171;">
-          <h4 style="color:#f87171;">DATA FLOW DESTINATIONS</h4>
-          <ul>
-            <li>Data Reader Destination</li>
-            <li>Excel Destination</li>
-            <li>Flat File Destination</li>
-            <li>OLE DB Destination</li>
+        <div class="card cyan">
+          <span class="ghost-num cyan">02</span>
+          <span class="card-tag cyan">CUBE DESIGN</span>
+          <h4 class="card-title">Measure Groups &amp; Hierarchies</h4>
+          <p class="card-desc">Building and processing multidimensional OLAP cubes:</p>
+          <ul class="bullet-list">
+            <li><strong>Measure Groups:</strong> Additive, Semi-additive, and Non-additive measures.</li>
+            <li><strong>User Hierarchies:</strong> Multi-level drill-down paths (Year &rarr; Quarter &rarr; Month &rarr; Day).</li>
+            <li><strong>Cube Processing:</strong> ProcessFull, ProcessData, ProcessIndex, and automated refreshes.</li>
           </ul>
         </div>
       </div>
 
-      <div class="card-soft" style="border-top:3px solid #0d9488; margin-bottom:3.5mm;">
-        <h4 style="color:#0d9488; margin-bottom:2mm;">DATA FLOW TRANSFORMATIONS</h4>
-        <div class="grid-3">
-          <ul>
-            <li>Aggregate Transformation</li>
-            <li>Audit Transformation</li>
-            <li>Character Map Transformation</li>
-            <li>Conditional Split Transformation</li>
-            <li>Copy Column Transformation</li>
+      <!-- SSAS Section 2: Calculations, KPIs & Tabular -->
+      <div class="grid-2">
+        <div class="card cyan">
+          <span class="ghost-num cyan">03</span>
+          <span class="card-tag cyan">CALCULATIONS &amp; KPIS</span>
+          <h4 class="card-title">Calculated Members &amp; KPI Metrics</h4>
+          <p class="card-desc">Writing custom business metrics and visual performance indicators:</p>
+          <ul class="bullet-list">
+            <li><strong>MDX Expressions:</strong> Calculated members, growth percentages, and ratios.</li>
+            <li><strong>KPIs:</strong> Value, Goal, Status, and Trend graphics (traffic lights, arrows).</li>
+            <li><strong>Perspectives &amp; Actions:</strong> Defining focused cube slices and URL/Drill-through actions.</li>
           </ul>
-          <ul>
-            <li>Derived Column Transformation</li>
-            <li>Data Conversion Transformation</li>
-            <li>Multicast Transformation</li>
-            <li>OLE DB Command Transformation</li>
-          </ul>
-          <ul>
-            <li>Percentage Sampling Transformation</li>
-            <li>Row Count Transformation</li>
-            <li>Sort Transformation</li>
-            <li>Union All Transformation</li>
+        </div>
+
+        <div class="card cyan">
+          <span class="ghost-num cyan">04</span>
+          <span class="card-tag cyan">TABULAR &amp; DAX</span>
+          <h4 class="card-title">Tabular Models &amp; DAX Measures</h4>
+          <p class="card-desc">Modern in-memory column-store analytical modeling:</p>
+          <ul class="bullet-list">
+            <li><strong>VertiPaq Engine:</strong> In-memory column storage and relationship definitions.</li>
+            <li><strong>Calculated Columns vs Measures:</strong> Row context vs Filter context.</li>
+            <li><strong>DAX Basics:</strong> CALCULATE, FILTER, RELATED, SUM, and Time Intelligence (YTD/MTD).</li>
           </ul>
         </div>
       </div>
 
-      <div class="dark-bar">
-        SOURCE &rarr; TRANSFORM &rarr; DESTINATION
+      <div class="callout-box cyan">
+        <strong>SSAS PRACTICE LAB &amp; CHECKPOINT:</strong> Build a complete Retail Sales Analysis Cube in SSDT with 3 Dimensions, a Date Hierarchy, 4 Measure Groups, Custom KPI indicators with status graphics, and deploy to an Analysis Services instance.
+      </div>
+
+      <div class="page-cta-bar">
+        <span>Master Multidimensional &amp; Tabular data modeling</span>
+        <a href="https://rpavault.com/course/msbi-masterclass/">Apply on Course Webpage &rarr;</a>
       </div>
     </div>
 
     <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>04</span>
+      <div>RPA Vault · MSBI Masterclass Curriculum</div>
+      <div>Page 4 of 6 · <a href="https://rpavault.com/course/msbi-masterclass/">rpavault.com/course/msbi-masterclass/</a></div>
     </div>
   </div>
 
-  <!-- ==================== PAGE 5: SSIS MODULE 03 (05) ==================== -->
+  <!-- ================= PAGE 5: SSRS & CAPSTONE PROJECT (CLASSES 16–20) ================= -->
   <div class="page">
     <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>05 / SSIS / MODULE 03</span>
+      <div class="dh-left">PHASE 04 · SSRS &amp; CAPSTONE</div>
+      <div class="dh-right">REPORTING SERVICES</div>
     </div>
 
-    <div>
-      <div class="section-tag">05 / SSIS / MODULE 03</div>
-      <h1 class="page-title">Advanced data flow</h1>
-      <p class="page-desc">Matching, merging, dimensional preparation, reshaping, and text intelligence.</p>
+    <div class="page-main">
+      <div>
+        <span class="eyebrow">PHASE 04 · ENTERPRISE VISUALIZATION</span>
+        <h2 class="page-title">SSRS Reporting &amp; <em>End-to-End Capstone</em></h2>
+        <p class="page-subtitle">Build pixel-perfect paginated reports, dynamic matrix pivots, cascading parameters, automated subscriptions, and connect the end-to-end BI pipeline.</p>
+      </div>
 
-      <div class="grid-4" style="margin-bottom: 4mm;">
-        <div class="card-soft">
-          <div class="circle-num c-teal" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">01</div>
-          <strong style="font-size:10px; color:#0d9488; display:block;">MATCH</strong>
-          <ul>
-            <li>Lookup</li>
-            <li>Merge</li>
-            <li>Merge Join</li>
+      <!-- SSRS Section 1: Report Design & Interactivity -->
+      <div class="grid-2">
+        <div class="card purple">
+          <span class="ghost-num purple">01</span>
+          <span class="card-tag purple">REPORT AUTHORING</span>
+          <h4 class="card-title">Datasets, Tables &amp; Matrix Pivots</h4>
+          <p class="card-desc">Designing professional enterprise report layouts:</p>
+          <ul class="bullet-list">
+            <li><strong>Data Sources &amp; Datasets:</strong> Shared vs Embedded data connections.</li>
+            <li><strong>Data Regions:</strong> Table, Matrix (Pivot), List, and Chart visualizations.</li>
+            <li><strong>Expressions:</strong> Dynamic formatting, IIF logic, conditional background styling.</li>
           </ul>
         </div>
 
-        <div class="card-soft">
-          <div class="circle-num c-navy" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">02</div>
-          <strong style="font-size:10px; color:#0f172a; display:block;">DIMENSION</strong>
-          <ul>
-            <li>Slowly Changing Dimension (SCD)</li>
-          </ul>
-        </div>
-
-        <div class="card-soft">
-          <div class="circle-num c-coral" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">03</div>
-          <strong style="font-size:10px; color:#f87171; display:block;">RESHAPE</strong>
-          <ul>
-            <li>Pivot</li>
-            <li>Export</li>
-            <li>Import</li>
-            <li>Unpivot</li>
-          </ul>
-        </div>
-
-        <div class="card-soft">
-          <div class="circle-num c-yellow" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">04</div>
-          <strong style="font-size:10px; color:#d97706; display:block;">TEXT</strong>
-          <ul>
-            <li>Term Extraction</li>
-            <li>Term Lookup</li>
-            <li>Fuzzy Lookup</li>
-            <li>Fuzzy Grouping</li>
+        <div class="card purple">
+          <span class="ghost-num purple">02</span>
+          <span class="card-tag purple">INTERACTIVITY &amp; DELIVERY</span>
+          <h4 class="card-title">Parameters, Drill-Downs &amp; Subscriptions</h4>
+          <p class="card-desc">Adding user interactive controls and automated delivery:</p>
+          <ul class="bullet-list">
+            <li><strong>Parameters:</strong> Multi-value, default values, and Cascading dropdown filters.</li>
+            <li><strong>Interactive Navigation:</strong> Drill-down toggle visibility, Document Maps, Subreports.</li>
+            <li><strong>Report Manager Portal:</strong> Security roles, Scheduled email &amp; file-share Subscriptions.</li>
           </ul>
         </div>
       </div>
 
-      <div class="card-soft" style="margin-bottom:3.5mm;">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#0d9488; text-transform:uppercase; font-weight:700; display:block; margin-bottom:1.5mm;">COMPLETE ADVANCED REGISTER</span>
-        <div class="grid-2">
-          <ul>
-            <li>Lookup Transformation</li>
-            <li>Merge Transformation</li>
-            <li>Merge Join Transformation</li>
-            <li>Slowly Changing Dimension Transformation</li>
-            <li>Pivot Transformation</li>
-            <li>Export Transformation</li>
-          </ul>
-          <ul>
-            <li>Import Transformation</li>
-            <li>Unpivot Transformation</li>
-            <li>Term Extraction Transformation</li>
-            <li>Term Lookup Transformation</li>
-            <li>Fuzzy Lookup Transformation</li>
-            <li>Fuzzy Grouping Transformation</li>
-          </ul>
+      <!-- Capstone Architecture Project -->
+      <div class="card purple" style="border-top: 3.5px solid #7c3aed;">
+        <span class="ghost-num purple">03</span>
+        <span class="card-tag purple">END-TO-END CAPSTONE PROJECT</span>
+        <h4 class="card-title" style="font-size: 14px;">Enterprise Financial &amp; Retail Data Warehouse</h4>
+        <p class="card-desc">Connect the full Microsoft BI stack into a production-grade automated analytics pipeline:</p>
+        <div class="grid-3" style="margin-top: 4px;">
+          <div class="mini-card" style="border-top: 2px solid #0d9488;">
+            <h5>1. SSIS ETL Engine</h5>
+            <p>Ingest dirty transactional data, clean fields, apply SCD Type 2, and load Star Schema Data Warehouse.</p>
+          </div>
+          <div class="mini-card" style="border-top: 2px solid #0284c7;">
+            <h5>2. SSAS Analytical Cube</h5>
+            <p>Model Fact &amp; Dim tables, user hierarchies, custom KPIs, and in-memory Tabular DAX measures.</p>
+          </div>
+          <div class="mini-card" style="border-top: 2px solid #7c3aed;">
+            <h5>3. SSRS Dashboards</h5>
+            <p>Publish parameterized Matrix reports with drill-down, charts, and automated executive email subscriptions.</p>
+          </div>
         </div>
       </div>
 
-      <div class="dark-bar">
-        MATCH &bull; MERGE &bull; RESHAPE &bull; ENRICH
+      <div class="callout-box purple">
+        <strong>CAPSTONE VERIFICATION &amp; CODE REVIEW:</strong> Deploy the complete automated pipeline on SQL Server, execute automated ETL refreshes, query the SSAS cube with Excel/Power BI, and schedule daily SSRS executive PDF dispatches.
+      </div>
+
+      <div class="page-cta-bar">
+        <span>The complete end-to-end Microsoft BI portfolio project</span>
+        <a href="https://rpavault.com/course/msbi-masterclass/">View Capstone Details &rarr;</a>
       </div>
     </div>
 
     <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>05</span>
+      <div>RPA Vault · MSBI Masterclass Curriculum</div>
+      <div>Page 5 of 6 · <a href="https://rpavault.com/course/msbi-masterclass/">rpavault.com/course/msbi-masterclass/</a></div>
     </div>
   </div>
 
-  <!-- ==================== PAGE 6: SSIS MODULE 04 (06) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>06 / SSIS / MODULE 04</span>
+  <!-- ================= PAGE 6: CLOSING & NEXT STEPS ================= -->
+  <div class="page cover-page">
+    <div class="cover-brand">
+      <img src="${logoWhiteBase64}" alt="RPA Vault" class="cover-logo-img" />
+      <div class="cover-badge">Career Pathway</div>
     </div>
 
-    <div>
-      <div class="section-tag">06 / SSIS / MODULE 04</div>
-      <h1 class="page-title">Control flow and tasks</h1>
-      <p class="page-desc">Orchestrate package execution through control flow, precedence constraints, and package tasks.</p>
+    <div class="cover-main" style="text-align:center; max-width:155mm; margin:0 auto;">
+      <div class="cover-audience">YOUR PRACTICAL DATA BI PATHWAY</div>
+      <div class="cover-title" style="font-size:38px;">Master the tools.<br>Build the evidence.</div>
+      <div class="cover-desc" style="font-size:14.5px; margin:0 auto 6mm;">
+        Explore the complete MSBI masterclass, review live batch timings, and connect with RPA Vault mentors to accelerate your data engineering career.
+      </div>
 
-      <div class="grid-2" style="margin-bottom: 4mm;">
-        <div style="display:flex; flex-direction:column; gap:2.5mm;">
-          <div class="card-soft">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; color:#0d9488;">01 · CONTROL FLOW OVERVIEW</span>
-            <p style="margin:1mm 0 0;">Package execution tree and precedence logic.</p>
-          </div>
-          <div class="card-soft">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; color:#0d9488;">02 · PRECEDENCE CONSTRAINTS</span>
-            <p style="margin:1mm 0 0;">Success, failure, completion, and expression branching.</p>
-          </div>
-          <div class="card-soft">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; color:#0d9488;">03 · TASK EXECUTION</span>
-            <p style="margin:1mm 0 0;">Data manipulation, bulk loads, file and system operations.</p>
-          </div>
-          <div class="card-soft">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; color:#0d9488;">04 · PACKAGE PROCESSING</span>
-            <p style="margin:1mm 0 0;">Trigger SSAS processing and cross-system tasks.</p>
-          </div>
+      <div class="grid-2" style="text-align:left; margin-bottom:6mm;">
+        <div class="cover-box" style="margin-bottom:0;">
+          <strong>Explore the complete course</strong>
+          <p>See the full curriculum, learning model, project path, and course details online.</p>
+          <a href="https://rpavault.com/course/msbi-masterclass/" style="color:#2dd4bf; font-weight:700; font-size:12px; text-decoration:none; display:inline-block; margin-top:5px;">rpavault.com/course/msbi-masterclass/ &rarr;</a>
         </div>
-
-        <div class="card-soft" style="border-left:3px solid #0d9488;">
-          <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#0d9488; text-transform:uppercase; font-weight:700; display:block; margin-bottom:2mm;">CONTROL FLOW TOPIC REGISTER</span>
-          <div class="grid-2">
-            <ul>
-              <li>Control Flow Overview</li>
-              <li>Precedence Constraints</li>
-              <li>Execute SQL Task</li>
-              <li>Bulk Insert Task</li>
-              <li>File System Task</li>
-              <li>FTP Task</li>
-              <li>Send Mail Task</li>
-            </ul>
-            <ul>
-              <li>Data Flow Task</li>
-              <li>Execute Package Task</li>
-              <li>Execute Process Task</li>
-              <li>Web Service Task</li>
-              <li>Backup Database Task</li>
-              <li>Analysis Services Processing Task</li>
-            </ul>
-          </div>
+        <div class="cover-box" style="margin-bottom:0;">
+          <strong>Talk to RPA Vault Mentors</strong>
+          <p>Discuss your background, course fit, batch options, and enrollment steps.</p>
+          <a href="https://rpavault.com/contact/" style="color:#2dd4bf; font-weight:700; font-size:12px; text-decoration:none; display:inline-block; margin-top:5px;">rpavault.com/contact/ &rarr;</a>
         </div>
       </div>
 
-      <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">CLASS FOCUS</span>
-        <h4>Connect control-flow decisions with the tasks that perform work inside an SSIS package.</h4>
-        <p>Control Flow Overview &bull; Precedence Constraints &bull; Task execution &bull; Package processing</p>
+      <div class="cover-cta-row" style="justify-content:center; margin-top:4mm;">
+        <a href="https://rpavault.com/course/msbi-masterclass/" class="cover-cta-btn">
+          Explore Course Webpage &rarr;
+        </a>
+        <a href="https://rpavault.com/contact/" class="cover-cta-btn secondary">
+          Talk to RPA Vault Mentors &rarr;
+        </a>
       </div>
     </div>
 
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>06</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 7: SSIS MODULE 05 (07) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>07 / SSIS / MODULE 05</span>
-    </div>
-
-    <div>
-      <div class="section-tag">07 / SSIS / MODULE 05</div>
-      <h1 class="page-title">Containers, variables, configurations, and logging</h1>
-      <p class="page-desc">The topics that make package behavior reusable, configurable, diagnosable, and easier to manage.</p>
-
-      <div class="card-soft" style="border-left:3px solid #091e36; margin-bottom:3.5mm;">
-        <h4 style="color:#091e36;">ADVANCED CONTROL FLOW</h4>
-        <div class="grid-3">
-          <p><strong>For Loop Container:</strong> Standard counting loops.</p>
-          <p><strong>For Each Loop Container:</strong> Multi-file &amp; dataset enumeration.</p>
-          <p><strong>Sequence Container:</strong> Grouping tasks &amp; transaction boundaries.</p>
-        </div>
-      </div>
-
-      <div class="card-soft" style="border-left:3px solid #0d9488; margin-bottom:3.5mm;">
-        <h4 style="color:#0d9488;">VARIABLES AND CONFIGURATIONS</h4>
-        <div class="grid-3">
-          <ul>
-            <li>Variables Overview</li>
-            <li>Variable scope</li>
-            <li>SSIS system variables</li>
-          </ul>
-          <ul>
-            <li>Using variables in control flow</li>
-            <li>Using variables in data flow</li>
-            <li>Property expressions</li>
-          </ul>
-          <ul>
-            <li>Configuration Overview</li>
-            <li>Configuration options</li>
-            <li>Configuration discipline</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card-soft" style="border-left:3px solid #f87171; margin-bottom:3.5mm;">
-        <h4 style="color:#f87171;">ERROR HANDLING AND LOGGING</h4>
-        <div class="grid-2">
-          <ul>
-            <li>Control Flow: The On Error event handler</li>
-            <li>Data Flow: Error data flow</li>
-          </ul>
-          <ul>
-            <li>Built-in log providers (SQL, Text, XML, Event Log)</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">OPERATING PRINCIPLE</span>
-        <h4>A training course must cover both the happy path and the behavior when a package needs to loop, change, fail, or log.</h4>
-      </div>
-    </div>
-
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>07</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 8: SSIS MODULE 06 (08) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>08 / SSIS / MODULE 06</span>
-    </div>
-
-    <div>
-      <div class="section-tag">08 / SSIS / MODULE 06</div>
-      <h1 class="page-title">Deployment and package management</h1>
-      <p class="page-desc">Finish the SSIS track with deployment options, service management, SSMS, and SQL Server Agent.</p>
-
-      <div class="grid-4" style="margin-bottom: 4mm;">
-        <div class="card-soft">
-          <div class="circle-num c-teal" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">01</div>
-          <strong style="font-size:10px; color:#0d9488; display:block;">CONFIGURE</strong>
-          <p>Configurations and deployment setup.</p>
-        </div>
-        <div class="card-soft">
-          <div class="circle-num c-coral" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">02</div>
-          <strong style="font-size:10px; color:#f87171; display:block;">DEPLOY</strong>
-          <p>Project &amp; package deployment options.</p>
-        </div>
-        <div class="card-soft">
-          <div class="circle-num c-navy" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">03</div>
-          <strong style="font-size:10px; color:#0f172a; display:block;">MANAGE</strong>
-          <p>The SSIS Service &amp; SSMS management.</p>
-        </div>
-        <div class="card-soft">
-          <div class="circle-num c-yellow" style="width:22px; height:22px; font-size:9.5px; margin-bottom:1.5mm;">04</div>
-          <strong style="font-size:10px; color:#d97706; display:block;">SCHEDULE</strong>
-          <p>Scheduling packages with SQL Server Agent.</p>
-        </div>
-      </div>
-
-      <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">PACKAGE MANAGEMENT TOPICS</span>
-        <h4>The SSIS Service &bull; Managing packages with SQL Server Management Studio &bull; Scheduling packages with SQL Server Agent</h4>
-        <p>Configurations and deployment &bull; Deployment options</p>
-      </div>
-    </div>
-
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>08</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 9: SSAS MODULE 01 (09) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>09 / SSAS / MODULE 01</span>
-    </div>
-
-    <div>
-      <div class="section-tag">09 / SSAS / MODULE 01</div>
-      <h1 class="page-title">Microsoft BI and SSAS foundations</h1>
-      <p class="page-desc">Move from prepared data into data sources, data source views, cubes, tabular models, and Excel exploration.</p>
-
-      <div class="grid-4" style="margin-bottom: 4mm;">
-        <div class="card-soft" style="background:#091e36; color:#fff;">
-          <span style="font-size:9px; color:#2dd4bf; font-weight:700;">DATA SOURCES</span>
-          <h4 style="color:#fff; font-size:11px; margin-top:1mm;">Create Data Sources</h4>
-        </div>
-        <div class="card-soft" style="background:#0d9488; color:#fff;">
-          <span style="font-size:9px; color:#ccfbf1; font-weight:700;">VIEWS</span>
-          <h4 style="color:#fff; font-size:11px; margin-top:1mm;">Create Data Source Views</h4>
-        </div>
-        <div class="card-soft" style="background:#005a9e; color:#fff;">
-          <span style="font-size:9px; color:#bae6fd; font-weight:700;">MODEL</span>
-          <h4 style="color:#fff; font-size:11px; margin-top:1mm;">Cubes / TabularModel</h4>
-        </div>
-        <div class="card-soft" style="background:#f87171; color:#fff;">
-          <span style="font-size:9px; color:#fee2e2; font-weight:700;">EXPLORE</span>
-          <h4 style="color:#fff; font-size:11px; margin-top:1mm;">View via Excel</h4>
-        </div>
-      </div>
-
-      <div class="card-soft" style="border-left:3px solid #0d9488; margin-bottom:3.5mm;">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#0d9488; font-weight:700; text-transform:uppercase; display:block; margin-bottom:2mm;">SSAS FOUNDATION TOPICS</span>
-        <div class="grid-2">
-          <ul>
-            <li>Defining Microsoft Business Intelligence</li>
-            <li>Viewing a Cube Using Excel</li>
-            <li>Using SSAS in SSDT</li>
-            <li>Understanding SSDT</li>
-          </ul>
-          <ul>
-            <li>Creating Data Sources</li>
-            <li>Creating Data Source Views</li>
-            <li>Creating a multidimensional cube</li>
-            <li>Creating a TabularModel</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">TRAINING THREAD</span>
-        <h4>Define Microsoft Business Intelligence, work in SSDT, create the model, and view the result.</h4>
-        <p>The analytical layer begins with the source and view definitions above.</p>
-      </div>
-    </div>
-
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>09</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 10: SSAS MODULE 02 (10) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>10 / SSAS / MODULE 02</span>
-    </div>
-
-    <div>
-      <div class="section-tag">10 / SSAS / MODULE 02</div>
-      <h1 class="page-title">Intermediate analytical modeling</h1>
-      <p class="page-desc">Explicit topics for extending the model with KPIs, actions, aggregations, perspectives, translations, and multi-fact scenarios.</p>
-
-      <table class="topic-table" style="margin-bottom: 4mm;">
-        <thead>
-          <tr>
-            <th style="width: 35%;">TOPIC</th>
-            <th>TRAINING FOCUS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong style="color:#0d9488;">KPI</strong></td>
-            <td>Add a visible performance indicator.</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#f87171;">Action</strong></td>
-            <td>Add a business-facing action.</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#eab308;">Aggregation</strong></td>
-            <td>Create a summarized analytical path.</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#091e36;">Creating Perspectives</strong></td>
-            <td>Create focused views of the model.</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#0d9488;">Creating Translations</strong></td>
-            <td>Add alternate labels and language context.</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#f87171;">Working with Multiple Fact Tables</strong></td>
-            <td>Work with multiple fact structures.</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#091e36;">Using the Business Intelligence Wizard</strong></td>
-            <td>Apply BI modeling patterns through the wizard.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">SSAS INTERMEDIATE REGISTER</span>
-        <h4>KPI &bull; Action &bull; Aggregation &bull; Perspectives &bull; Translations</h4>
-        <p>Working with Multiple Fact Tables &bull; Using the Business Intelligence Wizard</p>
-      </div>
-    </div>
-
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>10</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 11: SSRS MODULE 01 (11) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>11 / SSRS / MODULE 01</span>
-    </div>
-
-    <div>
-      <div class="section-tag">11 / SSRS / MODULE 01</div>
-      <h1 class="page-title">Report formats and report construction</h1>
-      <p class="page-desc">Build the report layer with the complete set of basic formats and data-foundation topics in the source syllabus.</p>
-
-      <div class="grid-2" style="margin-bottom: 4mm;">
-        <div>
-          <div class="card-soft" style="margin-bottom:3mm;">
-            <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#0d9488; text-transform:uppercase;">DATA SOURCE + DATASET</span>
-            <h4 style="font-size:13px; margin:1mm 0 2mm;">Build the report from its data foundation.</h4>
-            <p style="font-size:9.5px; margin:0;">Construct data sources and datasets before designing visual components.</p>
-          </div>
-
-          <div class="grid-2">
-            <div class="card-soft" style="background:#0d9488; color:#fff; text-align:center; padding:2.5mm;">
-              <strong style="font-size:10px;">TABULAR</strong>
-            </div>
-            <div class="card-soft" style="background:#0f172a; color:#fff; text-align:center; padding:2.5mm;">
-              <strong style="font-size:10px;">LIST</strong>
-            </div>
-            <div class="card-soft" style="background:#f87171; color:#fff; text-align:center; padding:2.5mm;">
-              <strong style="font-size:10px;">MATRIX</strong>
-            </div>
-            <div class="card-soft" style="background:#eab308; color:#000; text-align:center; padding:2.5mm;">
-              <strong style="font-size:10px;">CHART</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-soft" style="border-left:3px solid #f87171;">
-          <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#f87171; text-transform:uppercase; font-weight:700; display:block; margin-bottom:2mm;">SSRS TOPIC REGISTER</span>
-          <ul>
-            <li>Tabular Reports</li>
-            <li>List Reports</li>
-            <li>Matrix Reports</li>
-            <li>Chart Reports</li>
-            <li>Parameterized Reports</li>
-            <li>Drilldown Reports</li>
-            <li>DrillThrough Reports</li>
-            <li>Constructing data sources and Datasets</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="navy-callout">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">REPORTING THREAD</span>
-        <h4>Construct data sources and datasets, then build reports that support scanning, comparison, parameters, and navigation.</h4>
-        <p>Tabular &bull; List &bull; Matrix &bull; Chart &bull; Parameterized &bull; Drilldown &bull; DrillThrough</p>
-      </div>
-    </div>
-
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>11</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 12: COMPLETE REGISTER (12) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>12 / COMPLETE REGISTER</span>
-    </div>
-
-    <div>
-      <div class="section-tag">12 / COMPLETE REGISTER</div>
-      <h1 class="page-title">Topic coverage at a glance</h1>
-      <p class="page-desc">A compact cross-track index showing how the training syllabus moves from platform fundamentals to practical delivery.</p>
-
-      <table class="topic-table" style="margin-bottom: 4mm;">
-        <thead>
-          <tr>
-            <th style="width: 18%;">MODULE</th>
-            <th style="width: 32%;">FOCUS</th>
-            <th style="width: 15%;">TOPICS</th>
-            <th>HIGHLIGHTS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong style="color:#0d9488;">SSIS 01</strong></td>
-            <td>Foundations + data flow</td>
-            <td><strong>9 topics</strong></td>
-            <td>SSIS Architecture, Data Warehouse, ETL entities, tools…</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#f87171;">SSIS 02</strong></td>
-            <td>Sources + transformations</td>
-            <td><strong>21 topics</strong></td>
-            <td>Excel, Flat File, OLE DB, Multicast, Derived Column…</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#005a9e;">SSIS 03</strong></td>
-            <td>Advanced data flow</td>
-            <td><strong>12 topics</strong></td>
-            <td>Lookup, Merge, SCD, Pivot, Fuzzy Lookup/Grouping…</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#d97706;">SSIS 04</strong></td>
-            <td>Control flow + tasks</td>
-            <td><strong>13 topics</strong></td>
-            <td>Execute SQL, Bulk Insert, File System, Precedence…</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#107c41;">SSIS 05</strong></td>
-            <td>Containers + resilience</td>
-            <td><strong>15 topics</strong></td>
-            <td>For Loop, ForEach Loop, Sequence, Variables, Logging…</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#091e36;">SSIS 06</strong></td>
-            <td>Deployment + management</td>
-            <td><strong>5 topics</strong></td>
-            <td>Configurations, SSIS Service, SSMS, SQL Agent…</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#0078d4;">SSAS</strong></td>
-            <td>Foundations + intermediate</td>
-            <td><strong>15 topics</strong></td>
-            <td>Cubes, TabularModel, SSDT, KPIs, Perspectives, Translations…</td>
-          </tr>
-          <tr>
-            <td><strong style="color:#e11d48;">SSRS</strong></td>
-            <td>Basic reports</td>
-            <td><strong>8 topics</strong></td>
-            <td>Tabular, List, Matrix, Chart, Drilldown, Parameters…</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="dark-bar" style="font-size:8.5px;">
-        SOURCE TOPICS RETAINED &bull; TRUE DUPLICATES CONSOLIDATED &bull; NO UNSUPPORTED CLAIMS ADDED
-      </div>
-    </div>
-
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>12</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 13: PROJECTS (13) ==================== -->
-  <div class="page">
-    <div class="doc-header">
-      <span class="dh-left">RPA VAULT · MSBI</span>
-      <span>13 / PROJECTS / PRACTICAL THREAD</span>
-    </div>
-
-    <div>
-      <div class="section-tag">13 / PROJECTS / PRACTICAL THREAD</div>
-      <h1 class="page-title">Use the full stack</h1>
-      <p class="page-desc">The source syllabus closes with Projects. This page positions the supplied SSIS, SSAS, and SSRS topics as one connected training path.</p>
-
-      <div class="grid-3" style="margin-bottom: 4mm;">
-        <div class="card-soft" style="text-align:center; border-top:3px solid #0d9488;">
-          <div class="circle-num c-teal" style="margin:0 auto 2mm;">01</div>
-          <strong style="font-size:12px; color:#0d9488; display:block;">SSIS</strong>
-          <span style="font-size:9.5px; color:#64748b;">Integration topics</span>
-        </div>
-        <div class="card-soft" style="text-align:center; border-top:3px solid #0f172a;">
-          <div class="circle-num c-navy" style="margin:0 auto 2mm;">02</div>
-          <strong style="font-size:12px; color:#0f172a; display:block;">SSAS</strong>
-          <span style="font-size:9.5px; color:#64748b;">Analytical topics</span>
-        </div>
-        <div class="card-soft" style="text-align:center; border-top:3px solid #f87171;">
-          <div class="circle-num c-coral" style="margin:0 auto 2mm;">03</div>
-          <strong style="font-size:12px; color:#f87171; display:block;">SSRS</strong>
-          <span style="font-size:9.5px; color:#64748b;">Reporting topics</span>
-        </div>
-      </div>
-
-      <div class="card-soft" style="margin-bottom:3.5mm;">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#0d9488; font-weight:700; text-transform:uppercase; display:block; margin-bottom:2mm;">TRAINING THREAD</span>
-        <div style="display:flex; flex-direction:column; gap:2mm;">
-          <div style="display:grid; grid-template-columns:auto 1fr; gap:3mm; align-items:flex-start;">
-            <strong style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:#0d9488; min-width:22mm;">INTEGRATE</strong>
-            <span style="font-size:9.5px; color:#475569;">SSIS topics: sources, transformations, data flow, control flow, variables, logging, deployment.</span>
-          </div>
-          <div style="display:grid; grid-template-columns:auto 1fr; gap:3mm; align-items:flex-start;">
-            <strong style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:#0f172a; min-width:22mm;">MODEL</strong>
-            <span style="font-size:9.5px; color:#475569;">SSAS topics: data sources, views, cubes, tabular models, KPIs, actions, perspectives, and more.</span>
-          </div>
-          <div style="display:grid; grid-template-columns:auto 1fr; gap:3mm; align-items:flex-start;">
-            <strong style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:#f87171; min-width:22mm;">REPORT</strong>
-            <span style="font-size:9.5px; color:#475569;">SSRS topics: tabular, list, matrix, chart, parameters, drilldown, drillthrough, data sources, datasets.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="dark-bar">
-        PROJECTS / SSIS &rarr; SSAS &rarr; SSRS
-      </div>
-    </div>
-
-    <div class="doc-footer">
-      <span>MSBI / TRAINING COURSE SYLLABUS</span>
-      <span>13</span>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 14: CLOSING (14) ==================== -->
-  <div class="page page-cover">
-    <div>
-      <div class="brand-badge">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-      </div>
-
-      <div class="cover-pill">MSBI / TOPIC-COMPLETE TRAINING COURSE</div>
-      <div class="cover-h1">Ready to build<br>the stack.</div>
-      
-      <p class="cover-desc" style="font-size:16px;">
-        SSIS for integration.<br>
-        SSAS for analysis.<br>
-        SSRS for reporting.
-      </p>
-
-      <div class="tag-practical">100% PRACTICAL CLASSES</div>
-
-      <div style="display:flex; gap:3mm; margin-bottom: 8mm;">
-        <div class="cover-stack-card ssis" style="min-width:32mm; text-align:center;">
-          <strong>SSIS</strong>
-          <span>Integration</span>
-        </div>
-        <div class="cover-stack-card ssas" style="min-width:32mm; text-align:center;">
-          <strong>SSAS</strong>
-          <span>Analysis</span>
-        </div>
-        <div class="cover-stack-card ssrs" style="min-width:32mm; text-align:center;">
-          <strong>SSRS</strong>
-          <span>Reporting</span>
-        </div>
-      </div>
-
-      <div class="navy-callout" style="max-width: 140mm; margin:0;">
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:1mm;">COURSE DOCUMENT CLOSE</span>
-        <p>A complete training syllabus built from the supplied MSBI topics.</p>
-      </div>
-    </div>
-
-    <div class="doc-footer" style="border-top-color:rgba(255,255,255,0.15); color:#94a3b8;">
-      <span>Source coverage retained; duplicate entries consolidated only where they repeated.</span>
-      <span>RPAVault.com</span>
+    <div class="cover-footer">
+      <div>RPA Vault · MSBI Masterclass · SSIS · SSAS · SSRS · Data Warehousing</div>
+      <div><a href="https://rpavault.com/contact/" style="color:#94a3b8; text-decoration:none;">rpavault.com/contact/</a></div>
     </div>
   </div>
 
 </body>
 </html>`;
 
-async function generatePdf() {
-  const tempHtmlPath = path.join(__dirname, 'temp_msbi_syllabus.html');
-  const msbiPdfPath = path.join(__dirname, '..', 'assets', 'docs', 'msbi-syllabus.pdf');
-  const siteMsbiPdfPath = path.join(__dirname, '..', '_site', 'assets', 'docs', 'msbi-syllabus.pdf');
+(async () => {
+  try {
+    const tempHtmlPath = path.join(__dirname, 'temp_msbi.html');
+    fs.writeFileSync(tempHtmlPath, htmlContent, 'utf-8');
 
-  fs.writeFileSync(tempHtmlPath, htmlContent, 'utf-8');
+    console.log('Launching browser to generate MSBI syllabus PDF...');
+    const chromePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+    const browser = await puppeteer.launch({
+      executablePath: fs.existsSync(chromePath) ? chromePath : undefined,
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
+    });
 
-  console.log('[MSBI PDF Generator] Launching browser...');
-  const chromePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-  const browser = await puppeteer.launch({
-    executablePath: fs.existsSync(chromePath) ? chromePath : undefined,
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-  });
+    const page = await browser.newPage();
+    await page.goto('file://' + tempHtmlPath, { waitUntil: 'load' });
 
-  const page = await browser.newPage();
-  await page.goto('file://' + tempHtmlPath, { waitUntil: 'networkidle0' });
+    const outputPath = path.join(__dirname, '../assets/docs/msbi-syllabus.pdf');
+    await page.pdf({
+      path: outputPath,
+      format: 'A4',
+      printBackground: true,
+      margin: { top: 0, right: 0, bottom: 0, left: 0 }
+    });
 
-  console.log('[MSBI PDF Generator] Printing to PDF...');
-  await page.pdf({
-    path: msbiPdfPath,
-    format: 'A4',
-    printBackground: true,
-    margin: { top: 0, right: 0, bottom: 0, left: 0 }
-  });
+    // Also copy to _site if _site/assets/docs exists
+    const siteDocsDir = path.join(__dirname, '../_site/assets/docs');
+    if (fs.existsSync(siteDocsDir)) {
+      fs.copyFileSync(outputPath, path.join(siteDocsDir, 'msbi-syllabus.pdf'));
+    }
 
-  if (fs.existsSync(path.dirname(siteMsbiPdfPath))) {
-    fs.copyFileSync(msbiPdfPath, siteMsbiPdfPath);
+    await browser.close();
+    if (fs.existsSync(tempHtmlPath)) {
+      fs.unlinkSync(tempHtmlPath);
+    }
+
+    const stats = fs.statSync(outputPath);
+    console.log(`Successfully generated MSBI syllabus PDF at: ${outputPath} (${stats.size} bytes)`);
+  } catch (err) {
+    console.error('Error generating MSBI PDF:', err);
+    process.exit(1);
   }
-
-  await browser.close();
-  fs.unlinkSync(tempHtmlPath);
-
-  const stats = fs.statSync(msbiPdfPath);
-  console.log(`[MSBI PDF Generator] Success! Generated ${msbiPdfPath} (${stats.size} bytes).`);
-}
-
-generatePdf().catch(err => {
-  console.error('[MSBI PDF Generator] Error generating PDF:', err);
-  process.exit(1);
-});
+})();
