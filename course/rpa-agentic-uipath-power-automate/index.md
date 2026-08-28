@@ -8,6 +8,8 @@ card_blurb: "Flagship job-ready program: UiPath + Power Automate + agentic autom
 title: "RPA Agentic (UiPath + Power Automate) | RPAVault"
 description: "Flagship job-ready program: UiPath + Power Automate + agentic automation with 15–25 mini projects and placement support."
 course_slug: "rpa-agentic-uipath-power-automate"
+custom_curriculum_layout: "rpa-agentic-pdf"
+syllabus_pdf: "/assets/docs/rpa-agentic-syllabus.pdf"
 category: "RPA & Agentic Automation"
 eyebrow: "RPA & Agentic Automation"
 name: "RPA Agentic (UiPath + Power Automate)"
@@ -60,7 +62,6 @@ what_you_get:
   - "REFramework, Orchestrator and real interview-grade project work"
   - "Power Automate cloud flows plus agentic automation exposure"
   - "Resume, interview and placement guidance until you're hired"
-syllabus_pdf: "/assets/docs/rpa-agentic-uipath-power-automate-curriculum.pdf"
 # Modular Curriculum structure with Session-by-Session Details
 curriculum:
   - phase: "Module 1 · Foundations & Desktop Automation"
