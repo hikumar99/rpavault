@@ -837,6 +837,1405 @@ layout: layouts/base.html
       </div>
     </div>
   </section>
+  {% elif custom_curriculum_layout == "sql-pdf" %}
+  <section id="curriculum" class="sec-sand2">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>THE COMPLETE SQL &amp; T-SQL LEARNING PATH</span>
+        <h2>Curriculum <em>roadmap</em></h2>
+        <p>From your first SQL connection to reusable database logic. Explore the 5 structured learning phases below.</p>
+      </div>
+      <div class="curr-layout">
+        <div class="curr-nav" id="curr-nav">
+          <div class="curr-nav-item active" data-target="phase-0">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">OVERVIEW</div>
+              <div class="cn-title">Curriculum Map &amp; Skills</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-1">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11a4 4 0 0 1 0 8H9"/><path d="m7 12-3 3 3 3"/><circle cx="19" cy="7" r="2"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">MODULE 01</div>
+              <div class="cn-title">Environment, DDL &amp; DML</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-2">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">MODULE 02</div>
+              <div class="cn-title">DQL, Analytics &amp; Joins</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-3">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2.5"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/><circle cx="9.5" cy="13" r="1.2" fill="currentColor"/><circle cx="14.5" cy="13" r="1.2" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">MODULE 03</div>
+              <div class="cn-title">SQL Programming &amp; Objects</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-4">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">OUTCOMES</div>
+              <div class="cn-title">Demonstrable Skills &amp; Portfolio</div>
+            </div>
+          </div>
+          
+          <button type="button" class="btn btn-primary btn-block curr-pdf-btn" data-open-syllabus data-pdf="{{ syllabus_pdf | default('/assets/docs/sql-server-syllabus.pdf') }}" data-course="{{ name | default(title) }}">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Download Syllabus PDF
+          </button>
+        </div>
+
+        <div class="curr-panels" id="curr-panels">
+          
+          <!-- OVERVIEW (PDF PAGE 02 / CURRICULUM MAP) -->
+          <div class="curr-panel" id="phase-0">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>THE COMPLETE SQL &amp; T-SQL LEARNING PATH</span>
+                <h3 class="ts-title">From your first SQL connection to reusable database logic</h3>
+                <p class="ts-subtitle">The syllabus is structured as a practical progression. Each stage builds directly on the objects, statements, and query patterns introduced before it.</p>
+              </div>
+
+              <div class="sql-overview-grid">
+                <div class="sql-stages-list">
+                  <div class="sql-stage-item">
+                    <h4><span class="st-num">01</span> Work inside SQL Server</h4>
+                    <p>Connect to Server; navigate SQL Server Management Studio, Object Explorer, Object Explorer Details, and Query Editor.</p>
+                  </div>
+                  <div class="sql-stage-item">
+                    <h4><span class="st-num">02</span> Define reliable structures</h4>
+                    <p>Learn T-SQL foundations, DDL, database and table creation, alteration and deletion, data types, constraints, primary keys, and foreign keys.</p>
+                  </div>
+                  <div class="sql-stage-item">
+                    <h4><span class="st-num">03</span> Create and retrieve records</h4>
+                    <p>Use INSERT, IDENTITY, INSERT…SELECT, UPDATE, DELETE, TRUNCATE, SELECT, WHERE, ORDER BY, DISTINCT, aliases, and common filters.</p>
+                  </div>
+                  <div class="sql-stage-item">
+                    <h4><span class="st-num">04</span> Analyze relationships and results</h4>
+                    <p>Use functions, groups, HAVING, OVER/PARTITION BY, ranking, CTEs, TOP, operators, subqueries, set operators, and joins.</p>
+                  </div>
+                  <div class="sql-stage-item">
+                    <h4><span class="st-num">05</span> Package database capability</h4>
+                    <p>Understand clustered/nonclustered indexes, views, cursors, stored procedures, user-defined functions, and triggers.</p>
+                  </div>
+                </div>
+
+                <div class="sql-skill-stack">
+                  <h3>Skill stack</h3>
+                  <div class="sql-stack-block">
+                    <strong>Design</strong>
+                    <span>Database · Table · Types · Keys</span>
+                  </div>
+                  <div class="sql-stack-block">
+                    <strong>Manipulate</strong>
+                    <span>Insert · Update · Delete · Truncate</span>
+                  </div>
+                  <div class="sql-stack-block">
+                    <strong>Query</strong>
+                    <span>Select · Filter · Group · Join</span>
+                  </div>
+                  <div class="sql-stack-block">
+                    <strong>Program</strong>
+                    <span>View · Procedure · Function · Trigger</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-feature-grid" style="margin-bottom:20px;">
+                <div class="ts-feature-card">
+                  <h4>Database objects</h4>
+                  <p>Database creation, alteration, deletion, tables, and data types.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Integrity rules</h4>
+                  <p>Constraints, primary keys, and foreign-key relationships.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Data changes</h4>
+                  <p>INSERT, IDENTITY, INSERT…SELECT, UPDATE, DELETE, and TRUNCATE.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Result filtering</h4>
+                  <p>SELECT, WHERE, BETWEEN, IN, LIKE, IS NULL, aliases, DISTINCT, and ORDER BY.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Analytical queries</h4>
+                  <p>Functions, GROUP BY, HAVING, window functions, ranking, CTEs, and TOP.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Reusable programming</h4>
+                  <p>Indexes, views, cursors, procedures, functions, and triggers.</p>
+                </div>
+              </div>
+
+              <div>
+                <h4 style="font-family:'Sora',sans-serif; font-size:14px; font-weight:700; color:var(--ink); margin:0 0 6px;">Evolution pipeline</h4>
+                <div class="sql-pipeline-grid">
+                  <div class="sql-pipe-card">
+                    <strong>Workspace</strong>
+                    <p>SSMS, Object Explorer, Query Editor</p>
+                  </div>
+                  <div class="sql-pipe-card">
+                    <strong>DDL</strong>
+                    <p>Databases, tables, types, constraints</p>
+                  </div>
+                  <div class="sql-pipe-card">
+                    <strong>DML &amp; DQL</strong>
+                    <p>Insert, update, select, filters, sorting</p>
+                  </div>
+                  <div class="sql-pipe-card">
+                    <strong>Analysis</strong>
+                    <p>Functions, groups, windows, CTEs, joins</p>
+                  </div>
+                  <div class="sql-pipe-card">
+                    <strong>Programming</strong>
+                    <p>Indexes, views, cursors, procedures, UDFs, triggers</p>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top:20px;">
+                <h4 style="font-family:'Sora',sans-serif; font-size:14px; font-weight:700; color:var(--ink); margin:0 0 6px;">Applied learning sequence</h4>
+                <div class="sql-step-grid">
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">1. Model</h4>
+                    <p>Create tables, choose data types, and enforce integrity with primary and foreign keys.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">2. Populate</h4>
+                    <p>Insert and update records, then move data between tables through INSERT…SELECT.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">3. Query</h4>
+                    <p>Filter, group, join, rank, and package results into reusable database components.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODULE 01 (PDF PAGE 03) -->
+          <div class="curr-panel" id="phase-1">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 01 · SQL SERVER FOUNDATION: DDL + DML</span>
+                <h3 class="ts-title">Build the structure before you query the data</h3>
+                <p class="ts-subtitle">Establish the environment, database objects, data types, and integrity rules that make later SQL work reliable and understandable. This module covers both database design and maintenance statements.</p>
+              </div>
+
+              <div class="ts-feature-grid">
+                <div class="ts-feature-card">
+                  <h4>SQL Server workspace</h4>
+                  <p>Connect to the server, navigate Object Explorer, inspect details, and use Query Editor to create, run, and refine T-SQL statements.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Database and table DDL</h4>
+                  <p>Create, alter, and delete databases and tables. Select data types that fit the information being stored.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Constraints and integrity</h4>
+                  <p>Use a primary key to identify a record and a foreign key to enforce the relationship between related tables.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Insert and identity</h4>
+                  <p>Add records with INSERT, use IDENTITY when an automatically generated value is appropriate, and create/populate a table from another table.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Change and remove rows</h4>
+                  <p>Use UPDATE for targeted modification. Compare DELETE and TRUNCATE so the scope and effect of a removal action is understood.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Move data between tables</h4>
+                  <p>Use INSERT…SELECT patterns to add rows from one table to another with a clear source and destination.</p>
+                </div>
+              </div>
+
+              <div class="sql-build-box">
+                <strong>PRACTICAL BUILD:</strong> Create two related tables &rarr; define types, primary key, and foreign key &rarr; insert records &rarr; copy selected records to a second table &rarr; update one value &rarr; explain the difference between DELETE and TRUNCATE.
+              </div>
+
+              <div class="sql-step-grid">
+                <div class="sql-step-card">
+                  <h4>1. Design</h4>
+                  <p>Name tables and columns, assign data types, and identify the field that must stay unique.</p>
+                </div>
+                <div class="sql-step-card">
+                  <h4>2. Relate</h4>
+                  <p>Use a foreign key to connect the two tables and test the integrity rule with valid and invalid values.</p>
+                </div>
+                <div class="sql-step-card">
+                  <h4>3. Maintain</h4>
+                  <p>Populate rows, update a selected record, create a copy using INSERT…SELECT, and explain a safe deletion decision.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODULE 02 (PDF PAGE 04) -->
+          <div class="curr-panel" id="phase-2">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 02 · DQL &amp; ANALYTICS: QUERY WITH PRECISION</span>
+                <h3 class="ts-title">Retrieve, refine, summarize, and compare</h3>
+                <p class="ts-subtitle">This phase turns table data into useful information through filters, grouping, analytical functions, reusable query logic, and relational joins.</p>
+              </div>
+
+              <div class="ts-two-grid">
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--green); display:block; margin-bottom:4px;">01 · SELECT &amp; FILTER</span>
+                  <h4>Shape the right result set</h4>
+                  <ul>
+                    <li>SELECT and column aliases</li>
+                    <li>WHERE and SQL operators</li>
+                    <li>BETWEEN…AND, IN, LIKE, IS NULL</li>
+                    <li>DISTINCT and ORDER BY</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--green); display:block; margin-bottom:4px;">02 · GROUP &amp; ANALYZE</span>
+                  <h4>Find the pattern in the data</h4>
+                  <ul>
+                    <li>Aggregate functions (SUM, AVG, COUNT, MIN, MAX)</li>
+                    <li>GROUP BY and HAVING</li>
+                    <li>OVER (PARTITION BY …)</li>
+                    <li>Ranking functions (ROW_NUMBER, RANK, DENSE_RANK) and TOP n</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--green); display:block; margin-bottom:4px;">03 · REUSE LOGIC</span>
+                  <h4>Break a complex question into steps</h4>
+                  <ul>
+                    <li>Common Table Expressions (CTEs)</li>
+                    <li>Subqueries &amp; correlated expressions</li>
+                    <li>Operators inside expressions</li>
+                    <li>Intermediate query results</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--green); display:block; margin-bottom:4px;">04 · CONNECT &amp; COMPARE</span>
+                  <h4>Work across tables and result sets</h4>
+                  <ul>
+                    <li>INNER, OUTER, LEFT, RIGHT, FULL, and CROSS joins</li>
+                    <li>UNION and UNION ALL</li>
+                    <li>INTERSECT and EXCEPT</li>
+                    <li>Join keys and null-aware output</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sql-build-box">
+                <strong>PRACTICAL BUILD:</strong> Write a SELECT query &rarr; filter with WHERE, LIKE, and IS NULL &rarr; group and apply HAVING &rarr; rank rows within a partition &rarr; move the logic into a CTE &rarr; join a second table &rarr; compare results with UNION ALL or EXCEPT.
+              </div>
+            </div>
+          </div>
+
+          <!-- MODULE 03 (PDF PAGE 05) -->
+          <div class="curr-panel" id="phase-3">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 03 · SQL PROGRAMMING: PERFORMANCE, REUSE &amp; CONTROL</span>
+                <h3 class="ts-title">Move beyond one-off queries</h3>
+                <p class="ts-subtitle">The final technical stage covers objects that support controlled data access, reusable logic, and well-organized database behavior.</p>
+              </div>
+
+              <div class="ts-two-grid" style="align-items:stretch; margin-bottom:20px;">
+                <div class="ts-navy-callout" style="margin:0; display:flex; flex-direction:column; justify-content:space-between;">
+                  <div>
+                    <span class="tn-tag">DATABASE ARCHITECTURE</span>
+                    <h4 style="font-size:18px; margin-bottom:10px;">Build a database layer that can be understood and reused.</h4>
+                    <p style="margin-bottom:16px;">Students learn the role of indexes, views, procedures, functions, cursors, and triggers—then connect those components into a clear database project narrative.</p>
+                  </div>
+                  <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:12px 14px;">
+                    <strong style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#38bdf8; text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:4px;">CAPSTONE DIRECTION</strong>
+                    <p style="font-size:12px; line-height:1.45; color:#cbd5e1; margin:0;">Create a small database; populate it; build joined reporting queries; add a view or stored procedure; and explain how the object design supports reliable access and maintenance.</p>
+                  </div>
+                </div>
+
+                <div class="ts-sub-box" style="display:flex; flex-direction:column; gap:10px;">
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:8px;">
+                    <strong style="font-size:13px; color:var(--ink);">Clustered &amp; NonClustered Indexes</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Understand table data organization vs separate query access paths without changing core tables.</p>
+                  </div>
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:8px;">
+                    <strong style="font-size:13px; color:var(--ink);">Views</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Create reusable query-based representations of data for simplified access, reporting, or controlled exposure.</p>
+                  </div>
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:8px;">
+                    <strong style="font-size:13px; color:var(--ink);">Stored Procedures</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Package repeatable database actions behind a named interface that can be executed consistently.</p>
+                  </div>
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:8px;">
+                    <strong style="font-size:13px; color:var(--ink);">User Defined Functions</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Create reusable logic that returns a single scalar value or a table-like result.</p>
+                  </div>
+                  <div>
+                    <strong style="font-size:13px; color:var(--ink);">Cursors &amp; Triggers</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Understand row-by-row processing and event-driven database behavior with clear operational intent.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-pillar-grid" style="margin-bottom:20px;">
+                <div class="ts-pillar-card">
+                  <div class="tp-ic">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  </div>
+                  <h4>Read</h4>
+                  <p>Use indexes and well-structured queries to consider how data is accessed and retrieved.</p>
+                </div>
+                <div class="ts-pillar-card">
+                  <div class="tp-ic">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+                  </div>
+                  <h4>Reuse</h4>
+                  <p>Use views, stored procedures, and user-defined functions to package logic for later use.</p>
+                </div>
+                <div class="ts-pillar-card">
+                  <div class="tp-ic">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  </div>
+                  <h4>Respond</h4>
+                  <p>Use cursors and triggers with intent when row-by-row or event-driven behavior is required.</p>
+                </div>
+              </div>
+
+              <div>
+                <h4 style="font-family:'Sora',sans-serif; font-size:14px; font-weight:700; color:var(--ink); margin:0 0 8px;">Project delivery brief</h4>
+                <div class="sql-step-grid">
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">Model the data</h4>
+                    <p>Create related tables and apply primary-key and foreign-key integrity.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">Answer questions</h4>
+                    <p>Use joins, groups, rankings, or subqueries to produce useful output.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">Package the logic</h4>
+                    <p>Add a view, stored procedure, or user-defined function and explain its purpose.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OUTCOMES & NEXT STEPS (PDF PAGE 06) -->
+          <div class="curr-panel" id="phase-4">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>FROM SYLLABUS TO DEMONSTRABLE SKILL</span>
+                <h3 class="ts-title">What you will be ready to demonstrate</h3>
+                <p class="ts-subtitle">The course connects essential database design to advanced analysis and database programming, producing a practical, explainable SQL project outcome.</p>
+              </div>
+
+              <div class="ts-feature-grid" style="margin-bottom:20px;">
+                <div class="ts-feature-card">
+                  <h4>Workspace confidence</h4>
+                  <p>Connect to SQL Server, use SQL Server Management Studio, navigate Object Explorer, and work productively in Query Editor.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Database design</h4>
+                  <p>Create databases and tables; choose data types; and apply primary/foreign-key constraints that protect relational integrity.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Query fluency</h4>
+                  <p>Write DML and DQL statements, manage data changes carefully, and create readable SELECT output with targeted filtering and sorting.</p>
+                </div>
+                <div class="ts-feature-card">
+                  <h4>Analysis &amp; programming</h4>
+                  <p>Use functions, groups, windows, CTEs, joins, indexes, views, procedures, functions, cursors, and triggers in a structured project context.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout" style="margin-bottom:20px;">
+                <span class="tn-tag">YOUR NEXT MOVE</span>
+                <h4>Build a portfolio-ready SQL narrative</h4>
+                <p>Plan a relational database. Populate it with meaningful records. Query it to answer reporting questions. Package selected logic for reuse. Then explain the design and results clearly in technical interviews.</p>
+              </div>
+
+              <div>
+                <h4 style="font-family:'Sora',sans-serif; font-size:14px; font-weight:700; color:var(--ink); margin:0 0 8px;">Demonstration workflow</h4>
+                <div class="sql-step-grid">
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">1. Design</h4>
+                    <p>Create a database, tables, types, and integrity rules that model a business situation.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">2. Populate</h4>
+                    <p>Insert, update, copy, and maintain records while making deliberate change decisions.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">3. Analyze</h4>
+                    <p>Filter, group, rank, join, and compare data to answer a focused reporting question.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <h4 style="color:var(--green-deep);">4. Package</h4>
+                    <p>Use a view or programmable object to present a reusable database solution.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-outcome-bar" style="margin-top:20px;">
+                <strong>Ready to start?</strong> Review course options, enroll in the live batch, or contact RPA Vault to discuss the right learning path for your technical goals.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  {% elif custom_curriculum_layout == "azure-data-engineer-pdf" %}
+  <section id="curriculum" class="sec-sand2">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>AZURE DATA ENGINEERING · 40 DAYS · 1 HOUR / DAY</span>
+        <h2>Program <em>blueprint</em></h2>
+        <p>Follow the data, from source to insight. Explore the 5 structured learning phases below.</p>
+      </div>
+      <div class="curr-layout">
+        <div class="curr-nav" id="curr-nav">
+          <div class="curr-nav-item active" data-target="phase-0">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">OVERVIEW</div>
+              <div class="cn-title">Program Blueprint &amp; Flow</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-1">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11a4 4 0 0 1 0 8H9"/><path d="m7 12-3 3 3 3"/><circle cx="19" cy="7" r="2"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 01</div>
+              <div class="cn-title">Warehousing, SQL &amp; Cloud</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-2">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 02</div>
+              <div class="cn-title">Azure SQL, Storage &amp; Lake</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-3">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2.5"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/><circle cx="9.5" cy="13" r="1.2" fill="currentColor"/><circle cx="14.5" cy="13" r="1.2" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 03</div>
+              <div class="cn-title">Azure Data Factory Pipelines</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-4">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 04</div>
+              <div class="cn-title">Databricks &amp; Production</div>
+            </div>
+          </div>
+
+          <div class="curr-nav-item" data-target="phase-5">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 05</div>
+              <div class="cn-title">Synapse Analytics &amp; Power BI</div>
+            </div>
+          </div>
+          
+          <button type="button" class="btn btn-primary btn-block curr-pdf-btn" data-open-syllabus data-pdf="{{ syllabus_pdf | default('/assets/docs/azure-data-engineer-syllabus.pdf') }}" data-course="{{ name | default(title) }}">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Download Syllabus PDF
+          </button>
+        </div>
+
+        <div class="curr-panels" id="curr-panels">
+          
+          <!-- OVERVIEW (PDF PAGE 02 / BLUEPRINT) -->
+          <div class="curr-panel" id="phase-0">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>THE COMPLETE LEARNING SEQUENCE</span>
+                <h3 class="ts-title">Follow the data, from source to insight</h3>
+                <p class="ts-subtitle">The curriculum is organized around how modern data systems are planned, built, operated, and analyzed. Each phase brings together platform concepts and applied labs.</p>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
+                <div class="ts-sub-box" style="border-top: 3px solid #0078d4;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">01 · FOUNDATIONS</span>
+                  <h4>Model the data</h4>
+                  <p>Build data-warehouse and SQL fluency before working in the cloud.</p>
+                </div>
+                <div class="ts-sub-box" style="border-top: 3px solid #107c41;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#107c41; display:block; margin-bottom:4px;">02 · DATA PLATFORM</span>
+                  <h4>Store &amp; govern it</h4>
+                  <p>Learn the core services that host, protect, and organize enterprise data.</p>
+                </div>
+                <div class="ts-sub-box" style="border-top: 3px solid #0078d4;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">03 · ORCHESTRATION</span>
+                  <h4>Move &amp; transform it</h4>
+                  <p>Design Data Factory pipelines with activities, triggers, runtime options, and production controls.</p>
+                </div>
+                <div class="ts-sub-box" style="border-top: 3px solid #107c41;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#107c41; display:block; margin-bottom:4px;">04 · ANALYTICS</span>
+                  <h4>Scale &amp; analyze it</h4>
+                  <p>Complete the platform with Databricks, Synapse Analytics, Power BI, and career readiness.</p>
+                </div>
+              </div>
+
+              <div class="ts-panel-card" style="background:var(--sand-tint); border:1px solid var(--border-subtle); padding:16px; margin-bottom:20px;">
+                <h4 style="font-family:'Sora',sans-serif; font-size:14px; font-weight:700; color:var(--ink); margin:0 0 12px;">End-to-end data progression</h4>
+                <div class="sql-step-grid">
+                  <div class="sql-step-card">
+                    <strong style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#0078d4; display:block; margin-bottom:4px;">Model</strong>
+                    <p>Warehouse architecture, SQL, and business rules.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <strong style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#0078d4; display:block; margin-bottom:4px;">Store</strong>
+                    <p>Azure SQL, Storage, secure access, and Data Lake Gen2.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <strong style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#0078d4; display:block; margin-bottom:4px;">Orchestrate</strong>
+                    <p>ADF, Databricks, activities, triggers, and production control.</p>
+                  </div>
+                  <div class="sql-step-card">
+                    <strong style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#0078d4; display:block; margin-bottom:4px;">Analyze</strong>
+                    <p>Synapse, Serverless SQL, Power BI, and career readiness.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-outcome-bar">
+                <strong>Applied by design:</strong> The learning path combines labs, quizzes, interface tours, and realistic data scenarios. Students learn how individual Azure services connect into a dependable end-to-end data platform.
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 01 (PDF PAGE 03 / FOUNDATIONS) -->
+          <div class="curr-panel" id="phase-1">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>01 · DATA WAREHOUSING, SQL &amp; CLOUD</span>
+                <h3 class="ts-title">Start with the systems that make data useful</h3>
+                <p class="ts-subtitle">Before a pipeline can move data, teams need to understand what data is for, how it is modeled, and where each platform component fits.</p>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
+                <div>
+                  <div class="ts-sub-box" style="margin-bottom:12px; border-left:3px solid #0078d4;">
+                    <h4 style="color:#0078d4;">Data warehouse fundamentals</h4>
+                    <ul>
+                      <li>Data warehouse introduction, definitions, architecture, and schemas.</li>
+                      <li>Facts and dimensions: identify the measures and descriptive business context that shape analytical models.</li>
+                      <li>OLTP vs. OLAP: compare transaction processing with analytical workloads.</li>
+                    </ul>
+                  </div>
+
+                  <div class="ts-sub-box" style="border-left:3px solid #0078d4;">
+                    <h4 style="color:#0078d4;">SQL essentials for data work</h4>
+                    <ul>
+                      <li>SQL introduction and installation.</li>
+                      <li>DDL, DML, and DRL command families.</li>
+                      <li>Inner, left outer, right outer, and full outer joins.</li>
+                      <li>Select, Case, Switch, and If statements for data selection and business-rule logic.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                  <div class="ts-sub-box" style="background:#091e36; color:#fff; border-color:#1e3a5f;">
+                    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#38bdf8; text-transform:uppercase; display:block; margin-bottom:4px;">Cloud</span>
+                    <h4 style="color:#fff;">Service models</h4>
+                    <p style="color:#cbd5e1; font-size:13px;">Understand IaaS, PaaS, SaaS, and serverless, then explore the Azure Management Portal.</p>
+                  </div>
+
+                  <div class="ts-sub-box" style="background:#005a9e; color:#fff; border-color:#004578;">
+                    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#bae6fd; text-transform:uppercase; display:block; margin-bottom:4px;">Role</span>
+                    <h4 style="color:#fff;">Data engineering practice</h4>
+                    <p style="color:#e0f2fe; font-size:13px;">Review database-engineering responsibilities, DevOps support for data automation, and the broader data-engineering process.</p>
+                  </div>
+
+                  <div class="ts-sub-box" style="background:#107c41; color:#fff; border-color:#0b5a2f;">
+                    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#bbf7d0; text-transform:uppercase; display:block; margin-bottom:4px;">Services</span>
+                    <h4 style="color:#fff;">Azure data landscape</h4>
+                    <p style="color:#dcfce7; font-size:13px;">Survey relational and NoSQL databases, storage, ETL, Big Data, and Stream Analytics services.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-outcome-bar">
+                <strong>Foundation outcome:</strong> Students can explain how a warehouse model, SQL logic, cloud service choice, and engineering process fit together before they begin building Azure data solutions.
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 02 (PDF PAGE 04 / DATA PLATFORM) -->
+          <div class="curr-panel" id="phase-2">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>02 · DATABASE, STORAGE &amp; DATA LAKE</span>
+                <h3 class="ts-title">Build the secure foundation beneath every pipeline</h3>
+                <p class="ts-subtitle">This module brings together the database, storage, security, and recovery capabilities that support reliable cloud data workloads.</p>
+              </div>
+
+              <div class="ts-pillar-grid" style="margin-bottom: 20px;">
+                <div class="ts-pillar-card">
+                  <div class="tp-ic" style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:#0078d4;">SQL</div>
+                  <h4>Azure SQL Database</h4>
+                  <ul style="font-size:13px; color:var(--body-soft); margin-top:8px; padding-left:16px;">
+                    <li>Hosting options for SQL Server workloads in Azure.</li>
+                    <li>Create Logical SQL Server and SQL Database.</li>
+                    <li>Compare DTU and vCore tiers; scale capacity up and down.</li>
+                    <li>Point-in-time recovery and long-term backup retention.</li>
+                    <li>Geo-replication for disaster recovery.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <div class="tp-ic" style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:#0078d4;">ST</div>
+                  <h4>Azure Storage</h4>
+                  <ul style="font-size:13px; color:var(--body-soft); margin-top:8px; padding-left:16px;">
+                    <li>Create a storage account.</li>
+                    <li>Create containers and blobs.</li>
+                    <li>Install and explore Azure Storage Explorer.</li>
+                    <li>Create SAS tokens and understand scoped, time-bound access.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <div class="tp-ic" style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:#0078d4;">DL</div>
+                  <h4>Data Lake Gen2</h4>
+                  <ul style="font-size:13px; color:var(--body-soft); margin-top:8px; padding-left:16px;">
+                    <li>Azure Data Lake overview and architecture.</li>
+                    <li>Create a Data Lake Store Gen2 through the Portal.</li>
+                    <li>Manage data with Data Lake Store Gen2.</li>
+                    <li>Position lake storage for downstream integration and analytics.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout" style="margin-bottom: 20px;">
+                <span class="tn-tag">SECURITY &amp; ACCESS</span>
+                <h4>Protected data access</h4>
+                <p>Configure firewall rules to whitelist required IP addresses at server and database level. Manage sensitive data through Dynamic Data Masking and encryption—then connect storage and data-lake patterns to controlled, scalable access.</p>
+              </div>
+
+              <div class="ts-outcome-bar">
+                <strong>Platform deliverable:</strong> Students can provision an Azure SQL Database, choose a capacity model, plan recovery and geo-replication, configure controlled access, protect sensitive data, create blob storage with scoped SAS access, and organize data in Data Lake Gen2 for downstream engineering workloads.
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 03 (PDF PAGE 05 / AZURE DATA FACTORY) -->
+          <div class="curr-panel" id="phase-3">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>03 · ORCHESTRATION FOUNDATIONS</span>
+                <h3 class="ts-title">Turn disconnected data into a controlled pipeline</h3>
+                <p class="ts-subtitle">Azure Data Factory becomes the operating layer: it connects source and target systems, coordinates activity execution, and makes pipeline status observable.</p>
+              </div>
+
+              <div class="ts-pillar-grid" style="margin-bottom: 20px;">
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">STAGE 01</span>
+                  <h4>Define</h4>
+                  <p style="margin-bottom:8px;">Create an ADF instance and tour the Pipeline, Data Flow, Monitor, Debug, Trigger, and Management Hub interfaces.</p>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>Pipelines</li>
+                    <li>Linked Services</li>
+                    <li>Datasets</li>
+                    <li>Integration Runtime: Azure, Self-Hosted &amp; SSIS</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">STAGE 02</span>
+                  <h4>Execute</h4>
+                  <p style="margin-bottom:8px;">Build the first pipeline for a fictional company's data, then copy data from a Storage Account to Azure SQL Database.</p>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>Lookup &amp; Stored Procedure</li>
+                    <li>Filter &amp; Get Metadata</li>
+                    <li>ForEach &amp; Set Variable</li>
+                    <li>If Condition &amp; Fail</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">STAGE 03</span>
+                  <h4>Extend</h4>
+                  <p style="margin-bottom:8px;">Connect related services and reusable logic to make the pipeline responsive and scalable.</p>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>Logic Apps + Outlook email</li>
+                    <li>Web Activity validation</li>
+                    <li>Parameters</li>
+                    <li>Execute Pipeline / nested pipeline</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-two-grid">
+                <div class="ts-sub-box" style="background:#f0fdf4; border-color:#bbf7d0;">
+                  <h4 style="color:#166534;">Lab flow</h4>
+                  <p style="color:#14532d;">Create the service, build a first pipeline, explore the user experience, model a company’s data need, and move data from cloud storage to Azure SQL Database.</p>
+                </div>
+
+                <div class="ts-sub-box" style="background:#f0f9ff; border-color:#bae6fd;">
+                  <h4 style="color:#0369a1;">Control flow</h4>
+                  <p style="color:#0c4a6e;">Filter records, retrieve storage blobs, iterate through stored-procedure results, assign variables, branch on a flag, and intentionally raise a controlled pipeline failure.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 04 (PDF PAGE 06 / PRODUCTION PIPELINES & DATABRICKS) -->
+          <div class="curr-panel" id="phase-4">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>04 · SCALE, TRANSFORM &amp; DEPLOY</span>
+                <h3 class="ts-title">Move from a working pipeline to a production-grade one</h3>
+                <p class="ts-subtitle">Students extend Data Factory into the patterns required for dependable operations, then introduce Databricks as scalable transformation compute.</p>
+              </div>
+
+              <div class="ts-two-grid" style="align-items:stretch; margin-bottom:20px;">
+                <div class="ts-navy-callout" style="margin:0; display:flex; flex-direction:column; justify-content:center;">
+                  <span class="tn-tag">DATA FACTORY IN PRODUCTION</span>
+                  <h4 style="font-size:20px; margin-bottom:12px;">Trigger, transform, operate &amp; promote.</h4>
+                  <p style="font-size:14px; line-height:1.6;">Trigger the right workload, transform it correctly, see what happened, and move it safely between environments.</p>
+                </div>
+
+                <div class="ts-sub-box" style="display:flex; flex-direction:column; gap:10px;">
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <strong style="font-size:13px; color:var(--ink);">Schedule</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Use scheduled jobs, Tumbling Window vs standard Schedule triggers, and blob-creation events.</p>
+                  </div>
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <strong style="font-size:13px; color:var(--ink);">Transform</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Mapping Data Flows &amp; Power Query: remove nulls, handle error rows, and shape data.</p>
+                  </div>
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <strong style="font-size:13px; color:var(--ink);">Operate</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Monitor pipeline behavior, optimize performance, and multi-file ingestion into Azure SQL.</p>
+                  </div>
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <strong style="font-size:13px; color:var(--ink);">Promote</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Prepare Data Factory pipelines for multiple environments for repeatable deployments.</p>
+                  </div>
+                  <div style="border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                    <strong style="font-size:13px; color:var(--ink);">Compute (Databricks)</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Create Azure Databricks, launch a Spark cluster, transform data using Scala, and develop ETL notebooks.</p>
+                  </div>
+                  <div>
+                    <strong style="font-size:13px; color:var(--ink);">Orchestrate</strong>
+                    <p style="font-size:12px; color:var(--body-soft); margin:2px 0 0;">Parameterize Databricks pipelines and invoke them directly from Azure Data Factory.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sql-build-box">
+                <strong>Lab progression:</strong> Event-driven pipeline execution &rarr; Data Flow transformations &rarr; error handling &rarr; multi-file ingestion &rarr; performance improvement &rarr; environment promotion &rarr; Databricks ETL integration.
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 05 (PDF PAGE 07 / SYNAPSE, POWER BI & CAREER) -->
+          <div class="curr-panel" id="phase-5">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>05 · ANALYZE, REPORT &amp; EXPLAIN YOUR WORK</span>
+                <h3 class="ts-title">Bring the data platform together with Azure Synapse Analytics</h3>
+                <p class="ts-subtitle">The final technical module connects Lakehouse concepts, serverless analysis, pipeline orchestration, business reporting, and career preparation.</p>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">01 · SYNAPSE FOUNDATION</span>
+                  <h4>Understand the workspace</h4>
+                  <ul>
+                    <li>Explore traditional analytics vs Data Lakehouse concepts.</li>
+                    <li>Dedicated, Serverless &amp; Spark pools.</li>
+                    <li>Synapse Workspace lab &amp; RBAC permissions.</li>
+                    <li>Control Node, Compute Node, DMS &amp; sharding patterns.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">02 · SERVERLESS SQL</span>
+                  <h4>Analyze the lake</h4>
+                  <ul>
+                    <li>Overview of SQL Serverless Pools.</li>
+                    <li>Database and External Tables lab.</li>
+                    <li>Explore &amp; analyze data with Serverless SQL.</li>
+                    <li>Build Power BI reports connected to Serverless SQL &amp; Data Lakes.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">03 · SYNAPSE PIPELINES</span>
+                  <h4>Transform &amp; monitor</h4>
+                  <ul>
+                    <li>Overview of Synapse Pipelines and components.</li>
+                    <li>Transform data with Mapping Data Flows.</li>
+                    <li>Orchestrate, run &amp; monitor pipelines.</li>
+                    <li>Quizzes reinforce each technical stage.</li>
+                  </ul>
+                </div>
+
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0078d4; display:block; margin-bottom:4px;">04 · POWER BI &amp; CAREER</span>
+                  <h4>Make the work visible</h4>
+                  <ul>
+                    <li>Power BI basics, DB/Excel connections &amp; publishing.</li>
+                    <li>CV preparation and sample role explanation.</li>
+                    <li>Interview-question preparation.</li>
+                    <li>Explain an end-to-end project with confidence.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout" style="margin-bottom: 20px;">
+                <span class="tn-tag">INSIGHT ROUTE</span>
+                <div class="ts-two-grid" style="gap:16px;">
+                  <div>
+                    <strong style="color:#fff; font-size:14px; display:block; margin-bottom:4px;">Query the lake</strong>
+                    <p style="font-size:12.5px; color:#cbd5e1;">Use serverless SQL, external tables, and Data Lake data to investigate information without first moving it into a traditional database.</p>
+                  </div>
+                  <div>
+                    <strong style="color:#fff; font-size:14px; display:block; margin-bottom:4px;">Make it useful</strong>
+                    <p style="font-size:12.5px; color:#cbd5e1;">Build and publish Power BI reports, then use project stories, CV preparation, and interview practice to communicate the work.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-outcome-bar">
+                <strong>Final outcome:</strong> Students can describe how data is stored, moved, transformed, analyzed, and reported across Azure—and explain the role they played in that solution during CV and interview discussions.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  {% elif custom_curriculum_layout == "msbi-pdf" %}
+  <section id="curriculum" class="sec-sand2">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>MICROSOFT BUSINESS INTELLIGENCE (MSBI)</span>
+        <h2>Curriculum <em>blueprint</em></h2>
+        <p>A topic-complete practical path through SSIS, SSAS, and SSRS. 100% practical classes.</p>
+      </div>
+      <div class="curr-layout">
+        <div class="curr-nav" id="curr-nav">
+          <div class="curr-nav-item active" data-target="phase-0">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">OVERVIEW</div>
+              <div class="cn-title">Orientation &amp; Topic Map</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-1">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11a4 4 0 0 1 0 8H9"/><path d="m7 12-3 3 3 3"/><circle cx="19" cy="7" r="2"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">SSIS CORE</div>
+              <div class="cn-title">Data Flow &amp; Transforms</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-2">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">SSIS ADVANCED</div>
+              <div class="cn-title">Control Flow &amp; Logging</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-3">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2.5"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/><circle cx="9.5" cy="13" r="1.2" fill="currentColor"/><circle cx="14.5" cy="13" r="1.2" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">SSIS DEPLOY</div>
+              <div class="cn-title">SSMS &amp; SQL Agent</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-4">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">SSAS CUBES</div>
+              <div class="cn-title">Analytical Modeling</div>
+            </div>
+          </div>
+
+          <div class="curr-nav-item" data-target="phase-5">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">SSRS &amp; PROJECTS</div>
+              <div class="cn-title">Reports &amp; Full Stack BI</div>
+            </div>
+          </div>
+          
+          <button type="button" class="btn btn-primary btn-block curr-pdf-btn" data-open-syllabus data-pdf="{{ syllabus_pdf | default('/assets/docs/msbi-syllabus.pdf') }}" data-course="{{ name | default(title) }}">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Download Syllabus PDF
+          </button>
+        </div>
+
+        <div class="curr-panels" id="curr-panels">
+          
+          <!-- OVERVIEW (PDF PAGE 02 / ORIENTATION) -->
+          <div class="curr-panel" id="phase-0">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>TOPIC-COMPLETE TRAINING PROGRAM</span>
+                <h3 class="ts-title">How to use this syllabus</h3>
+                <p class="ts-subtitle">This is a training-course blueprint: each section exposes the actual topics, components, and projects covered in class.</p>
+              </div>
+
+              <div class="msbi-stats-grid">
+                <div class="msbi-stat-card" style="border-top: 3px solid #0d9488;">
+                  <div class="m-top">
+                    <span class="m-title" style="color:#0d9488;">SSIS</span>
+                    <span class="m-num">75</span>
+                  </div>
+                  <p class="m-sub">12 syllabus sections · Integration &amp; ETL</p>
+                </div>
+                <div class="msbi-stat-card" style="border-top: 3px solid #0f172a;">
+                  <div class="m-top">
+                    <span class="m-title" style="color:#0f172a;">SSAS</span>
+                    <span class="m-num">15</span>
+                  </div>
+                  <p class="m-sub">2 syllabus sections · Analytical modeling</p>
+                </div>
+                <div class="msbi-stat-card" style="border-top: 3px solid #f87171;">
+                  <div class="m-top">
+                    <span class="m-title" style="color:#f87171;">SSRS</span>
+                    <span class="m-num">8</span>
+                  </div>
+                  <p class="m-sub">1 syllabus section · Reporting services</p>
+                </div>
+                <div class="msbi-stat-card" style="border-top: 3px solid #d97706;">
+                  <div class="m-top">
+                    <span class="m-title" style="color:#d97706;">PROJECTS</span>
+                    <span class="m-num" style="font-size:16px;">Full Stack</span>
+                  </div>
+                  <p class="m-sub">Source project section · Connected BI</p>
+                </div>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
+                <div class="ts-sub-box">
+                  <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <span style="display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#0d9488; color:#fff; font-weight:700; font-size:12px;">01</span>
+                    <strong style="font-size:14px; color:var(--ink);">SSIS — Build integration and ETL fluency</strong>
+                  </div>
+                  <p>Master Data Flow, sources, destinations, 20+ transformations, containers, variables, event handlers, logging, and SQL Server Agent scheduling.</p>
+                </div>
+
+                <div class="ts-sub-box">
+                  <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <span style="display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#0f172a; color:#fff; font-weight:700; font-size:12px;">02</span>
+                    <strong style="font-size:14px; color:var(--ink);">SSAS — Build analytical models &amp; cubes</strong>
+                  </div>
+                  <p>Design multidimensional cubes, TabularModels, Data Source Views, KPIs, actions, aggregations, perspectives, translations, and multi-fact schemas.</p>
+                </div>
+
+                <div class="ts-sub-box">
+                  <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <span style="display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#f87171; color:#fff; font-weight:700; font-size:12px;">03</span>
+                    <strong style="font-size:14px; color:var(--ink);">SSRS — Build reports &amp; interactions</strong>
+                  </div>
+                  <p>Construct data sources and datasets. Build Tabular, List, Matrix, Chart, Parameterized, Drilldown, and DrillThrough enterprise reports.</p>
+                </div>
+
+                <div class="ts-sub-box">
+                  <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <span style="display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#d97706; color:#fff; font-weight:700; font-size:12px;">04</span>
+                    <strong style="font-size:14px; color:var(--ink);">PROJECTS — Apply the connected BI path</strong>
+                  </div>
+                  <p>Integrate source systems via SSIS &rarr; Model business dimensions in SSAS &rarr; Publish interactive reports in SSRS.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">TRAINING-FIRST FORMAT</span>
+                <h4>The course document shows the complete topic path—not just the headline technologies.</h4>
+                <p>Use the section labels to move from foundations through advanced topics, then into the project thread.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SSIS CORE (PDF PAGES 03 & 04) -->
+          <div class="curr-panel" id="phase-1">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>SSIS MODULE 01 &amp; 02 · DATA FLOW &amp; TRANSFORMS</span>
+                <h3 class="ts-title">Foundations, sources &amp; transformations</h3>
+                <p class="ts-subtitle">A complete component register for building, shaping, and tracing records across a high-performance ETL pipeline.</p>
+              </div>
+
+              <div class="ts-pillar-grid" style="margin-bottom: 20px;">
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0d9488; display:block; margin-bottom:4px;">A · PACKAGE</span>
+                  <h4>Architecture &amp; Tools</h4>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>SSIS Package Architecture Overview</li>
+                    <li>Introduction to SSIS &amp; Data Warehouse</li>
+                    <li>Basic ETL Entities in SSIS</li>
+                    <li>SSDT &amp; Data Management Tools</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0d9488; display:block; margin-bottom:4px;">B · FLOW</span>
+                  <h4>Data Flow Model</h4>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>Data Flow Engine Overview</li>
+                    <li>Sources &amp; Destinations</li>
+                    <li>Data Flow Transformations</li>
+                    <li>Data Viewers (Grid, Histogram, Column Chart)</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0d9488; display:block; margin-bottom:4px;">C · PRACTICE</span>
+                  <h4>Execution Trace</h4>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>Trace a record end-to-end through the package</li>
+                    <li>Buffer allocation and memory tuning</li>
+                    <li>Row count validation &amp; audit trails</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom:20px;">
+                <div class="ts-sub-box" style="border-top:3px solid #091e36;">
+                  <h4 style="color:#091e36;">Data Sources</h4>
+                  <div class="msbi-topic-chips">
+                    <span class="msbi-topic-chip">Excel Source</span>
+                    <span class="msbi-topic-chip">Flat File Source</span>
+                    <span class="msbi-topic-chip">OLE DB Source</span>
+                    <span class="msbi-topic-chip">XML Source</span>
+                  </div>
+                </div>
+
+                <div class="ts-sub-box" style="border-top:3px solid #f87171;">
+                  <h4 style="color:#f87171;">Data Flow Destinations</h4>
+                  <div class="msbi-topic-chips">
+                    <span class="msbi-topic-chip">Data Reader Destination</span>
+                    <span class="msbi-topic-chip">Excel Destination</span>
+                    <span class="msbi-topic-chip">Flat File Destination</span>
+                    <span class="msbi-topic-chip">OLE DB Destination</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-sub-box" style="border-top:3px solid #0d9488; margin-bottom:20px;">
+                <h4 style="color:#0d9488; margin-bottom:8px;">Data Flow Transformations</h4>
+                <div class="msbi-topic-chips">
+                  <span class="msbi-topic-chip">Aggregate</span>
+                  <span class="msbi-topic-chip">Audit</span>
+                  <span class="msbi-topic-chip">Character Map</span>
+                  <span class="msbi-topic-chip">Conditional Split</span>
+                  <span class="msbi-topic-chip">Copy Column</span>
+                  <span class="msbi-topic-chip">Derived Column</span>
+                  <span class="msbi-topic-chip">Data Conversion</span>
+                  <span class="msbi-topic-chip">Multicast</span>
+                  <span class="msbi-topic-chip">OLE DB Command</span>
+                  <span class="msbi-topic-chip">Percentage Sampling</span>
+                  <span class="msbi-topic-chip">Row Count</span>
+                  <span class="msbi-topic-chip">Sort</span>
+                  <span class="msbi-topic-chip">Union All</span>
+                </div>
+              </div>
+
+              <div class="sql-build-box">
+                <strong>Source &rarr; Transform &rarr; Destination:</strong> Connect source adapters, apply in-memory row/column conversions and filters, then stream outputs into optimized database staging destinations.
+              </div>
+            </div>
+          </div>
+
+          <!-- SSIS ADVANCED (PDF PAGES 05, 06, 07) -->
+          <div class="curr-panel" id="phase-2">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>SSIS MODULE 03, 04 &amp; 05 · ADVANCED FLOW &amp; CONTROL</span>
+                <h3 class="ts-title">Advanced data flow, tasks &amp; resilience</h3>
+                <p class="ts-subtitle">Matching, merging, dimensional preparation (SCD), fuzzy intelligence, precedence logic, loop containers, variables, and error handling.</p>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0d9488; display:block; margin-bottom:4px;">01 · MATCH &amp; MERGE</span>
+                  <h4>Lookups &amp; Joins</h4>
+                  <p>Lookup Transformation, Merge Transformation, and Merge Join Transformation with full sort-order enforcement.</p>
+                </div>
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0f172a; display:block; margin-bottom:4px;">02 · DIMENSIONS</span>
+                  <h4>Slowly Changing Dimension</h4>
+                  <p>Implement Type 1 (overwrite), Type 2 (historical versioning), and Type 3 SCD patterns with automated wizard workflows.</p>
+                </div>
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#f87171; display:block; margin-bottom:4px;">03 · RESHAPE</span>
+                  <h4>Pivot, Unpivot &amp; Export</h4>
+                  <p>Pivot Transformation, Unpivot Transformation, Export Transformation, and Import Transformation for unstructured files.</p>
+                </div>
+                <div class="ts-sub-box">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#d97706; display:block; margin-bottom:4px;">04 · TEXT INTELLIGENCE</span>
+                  <h4>Fuzzy Matching &amp; Extraction</h4>
+                  <p>Fuzzy Lookup Transformation, Fuzzy Grouping Transformation, Term Extraction, and Term Lookup for dirty data cleaning.</p>
+                </div>
+              </div>
+
+              <div class="ts-sub-box" style="margin-bottom:20px; border-left:3px solid #0d9488;">
+                <h4 style="color:#0d9488;">Control Flow Tasks Register</h4>
+                <div class="msbi-topic-chips">
+                  <span class="msbi-topic-chip">Execute SQL Task</span>
+                  <span class="msbi-topic-chip">Bulk Insert Task</span>
+                  <span class="msbi-topic-chip">Data Flow Task</span>
+                  <span class="msbi-topic-chip">File System Task</span>
+                  <span class="msbi-topic-chip">FTP Task</span>
+                  <span class="msbi-topic-chip">Send Mail Task</span>
+                  <span class="msbi-topic-chip">Execute Package Task</span>
+                  <span class="msbi-topic-chip">Execute Process Task</span>
+                  <span class="msbi-topic-chip">Web Service Task</span>
+                  <span class="msbi-topic-chip">Backup Database Task</span>
+                  <span class="msbi-topic-chip">Analysis Services Processing Task</span>
+                </div>
+              </div>
+
+              <div class="ts-pillar-grid" style="margin-bottom: 20px;">
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#091e36; display:block; margin-bottom:4px;">CONTAINERS</span>
+                  <h4>Loop &amp; Group</h4>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>For Loop Container</li>
+                    <li>For Each Loop Container</li>
+                    <li>Sequence Container</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#0d9488; display:block; margin-bottom:4px;">CONFIGURATIONS</span>
+                  <h4>Dynamic Variables</h4>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>Package &amp; system variables</li>
+                    <li>Property expressions</li>
+                    <li>Environment configurations</li>
+                  </ul>
+                </div>
+
+                <div class="ts-pillar-card">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:#f87171; display:block; margin-bottom:4px;">RESILIENCE</span>
+                  <h4>Logging &amp; Errors</h4>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li>On Error event handler</li>
+                    <li>Error Data Flow output</li>
+                    <li>SQL &amp; Text Log providers</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">OPERATING PRINCIPLE</span>
+                <h4>A training course must cover both the happy path and the behavior when a package needs to loop, change, fail, or log.</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- SSIS DEPLOYMENT (PDF PAGE 08) -->
+          <div class="curr-panel" id="phase-3">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>SSIS MODULE 06 · DEPLOYMENT &amp; OPERATIONS</span>
+                <h3 class="ts-title">Deployment and package management</h3>
+                <p class="ts-subtitle">Finish the SSIS track with deployment models, catalog management, SSMS administration, and SQL Server Agent automation.</p>
+              </div>
+
+              <div class="ts-pillar-grid" style="margin-bottom: 20px;">
+                <div class="ts-pillar-card">
+                  <div class="tp-ic" style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:#0d9488;">01</div>
+                  <h4>Configure</h4>
+                  <p>Configurations and project deployment preparation.</p>
+                </div>
+                <div class="ts-pillar-card">
+                  <div class="tp-ic" style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:#f87171;">02</div>
+                  <h4>Deploy</h4>
+                  <p>Project Deployment Model &amp; SSISDB catalog deployment.</p>
+                </div>
+                <div class="ts-pillar-card">
+                  <div class="tp-ic" style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:#0f172a;">03</div>
+                  <h4>Manage</h4>
+                  <p>The SSIS Service &amp; package monitoring in SSMS.</p>
+                </div>
+                <div class="ts-pillar-card">
+                  <div class="tp-ic" style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:#d97706;">04</div>
+                  <h4>Schedule</h4>
+                  <p>Scheduling automated packages with SQL Server Agent jobs.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">PACKAGE MANAGEMENT TOPICS</span>
+                <h4>The SSIS Service • Managing packages with SQL Server Management Studio • Scheduling packages with SQL Server Agent</h4>
+                <p>Configurations and deployment • Deployment options</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SSAS CUBES (PDF PAGES 09 & 10) -->
+          <div class="curr-panel" id="phase-4">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>SSAS MODULE 01 &amp; 02 · ANALYTICAL SERVICES</span>
+                <h3 class="ts-title">Microsoft BI and SSAS analytical modeling</h3>
+                <p class="ts-subtitle">Move from prepared data into data sources, data source views, multidimensional cubes, tabular models, and Excel exploration.</p>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
+                <div class="ts-sub-box" style="background:#091e36; color:#fff; border-color:#1e3a5f;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#2dd4bf; text-transform:uppercase; display:block; margin-bottom:4px;">Data Sources</span>
+                  <h4 style="color:#fff;">Create Data Sources</h4>
+                  <p style="color:#cbd5e1; font-size:13px;">Establish reliable connections to relational data warehouses and staging tables.</p>
+                </div>
+
+                <div class="ts-sub-box" style="background:#0d9488; color:#fff; border-color:#0f766e;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ccfbf1; text-transform:uppercase; display:block; margin-bottom:4px;">Views</span>
+                  <h4 style="color:#fff;">Data Source Views (DSV)</h4>
+                  <p style="color:#e0f2fe; font-size:13px;">Define logical schemas, relationships, and named calculations without altering source databases.</p>
+                </div>
+
+                <div class="ts-sub-box" style="background:#005a9e; color:#fff; border-color:#004578;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#bae6fd; text-transform:uppercase; display:block; margin-bottom:4px;">Model</span>
+                  <h4 style="color:#fff;">Cubes &amp; Tabular Models</h4>
+                  <p style="color:#e0f2fe; font-size:13px;">Create multidimensional cubes with measures, dimensions, hierarchies, and in-memory TabularModels.</p>
+                </div>
+
+                <div class="ts-sub-box" style="background:#f87171; color:#fff; border-color:#ef4444;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#fee2e2; text-transform:uppercase; display:block; margin-bottom:4px;">Explore</span>
+                  <h4 style="color:#fff;">Excel &amp; BI Exploration</h4>
+                  <p style="color:#fff; font-size:13px;">Connect Excel PivotTables and client tools directly to live SSAS cubes.</p>
+                </div>
+              </div>
+
+              <div class="ts-sub-box" style="margin-bottom:20px; border-left:3px solid #0d9488;">
+                <h4 style="color:#0d9488;">Intermediate Analytical Modeling Register</h4>
+                <div class="ts-two-grid" style="gap:10px; margin-top:10px;">
+                  <div>
+                    <strong style="color:var(--ink); font-size:13px;">KPIs:</strong> Add visible performance indicators.<br>
+                    <strong style="color:var(--ink); font-size:13px;">Actions:</strong> Add drillthrough and URL actions.<br>
+                    <strong style="color:var(--ink); font-size:13px;">Aggregations:</strong> Pre-calculate summarized query paths.
+                  </div>
+                  <div>
+                    <strong style="color:var(--ink); font-size:13px;">Perspectives:</strong> Create focused subsets of large cubes.<br>
+                    <strong style="color:var(--ink); font-size:13px;">Translations:</strong> Multi-language cube metadata.<br>
+                    <strong style="color:var(--ink); font-size:13px;">Multi-Fact:</strong> Integrate multiple fact tables &amp; BI Wizard.
+                  </div>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">SSAS INTERMEDIATE REGISTER</span>
+                <h4>KPI • Action • Aggregation • Perspectives • Translations</h4>
+                <p>Working with Multiple Fact Tables • Using the Business Intelligence Wizard</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SSRS & PROJECTS (PDF PAGES 11, 12, 13) -->
+          <div class="curr-panel" id="phase-5">
+            <div class="ts-panel-card">
+              <div class="ts-header">
+                <span class="ts-eyebrow"><span class="dotchip"></span>SSRS &amp; FULL STACK PROJECTS · REPORTING &amp; CAPSTONE</span>
+                <h3 class="ts-title">Report formats, SSRS construction &amp; full stack project</h3>
+                <p class="ts-subtitle">Build the presentation layer with paginated reports, parameters, and drilldown navigation, then tie together SSIS, SSAS, and SSRS.</p>
+              </div>
+
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
+                <div class="ts-sub-box">
+                  <h4 style="color:#0d9488; margin-bottom:8px;">SSRS Report Canvas Formats</h4>
+                  <div class="msbi-topic-chips">
+                    <span class="msbi-topic-chip">Tabular Reports</span>
+                    <span class="msbi-topic-chip">List Reports</span>
+                    <span class="msbi-topic-chip">Matrix (Cross-tab)</span>
+                    <span class="msbi-topic-chip">Chart Reports</span>
+                    <span class="msbi-topic-chip">Parameterized Reports</span>
+                    <span class="msbi-topic-chip">Drilldown Reports</span>
+                    <span class="msbi-topic-chip">DrillThrough Reports</span>
+                    <span class="msbi-topic-chip">Data Sources &amp; Datasets</span>
+                  </div>
+                </div>
+
+                <div class="ts-sub-box">
+                  <h4 style="color:#0f172a; margin-bottom:8px;">Full Stack Project Thread</h4>
+                  <ul style="font-size:12.5px; color:var(--body-soft); padding-left:16px;">
+                    <li><strong>Integrate (SSIS):</strong> Ingest diverse source files, clean data, and populate star schemas.</li>
+                    <li><strong>Model (SSAS):</strong> Build cubes, hierarchies, KPIs, and aggregations.</li>
+                    <li><strong>Report (SSRS):</strong> Deliver parameterized, drilldown reports to business users.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sql-build-box" style="margin-bottom:20px;">
+                <strong>Connected End-to-End Capstone:</strong> Raw files &rarr; SSIS ETL &rarr; SQL Data Warehouse &rarr; SSAS Analytical Cube &rarr; SSRS Paginated Enterprise Dashboard.
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">PROJECTS / SSIS → SSAS → SSRS</span>
+                <h4>Construct data sources and datasets, then build reports that support scanning, comparison, parameters, and navigation.</h4>
+                <p>Tabular • List • Matrix • Chart • Parameterized • Drilldown • DrillThrough</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
   {% elif curriculum %}
   <section id="curriculum" class="sec-sand2">
     <div class="wrap">

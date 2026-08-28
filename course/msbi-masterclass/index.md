@@ -3,22 +3,23 @@ layout: layouts/course-detail.html
 tags: ["course"]
 card_image: "/assets/images/courses/msbi-masterclass.webp"
 card_category: "data"
-card_live: false
+card_live: true
 card_blurb: "Complete Microsoft BI stack — SSIS ETL packages, SSAS cubes and SSRS reporting on SQL Server."
 title: "MSBI Masterclass — Live Online Course | RPAVault"
 description: "Complete Microsoft BI stack — SSIS ETL packages, SSAS cubes and SSRS reporting on SQL Server."
 course_slug: "msbi-masterclass"
+custom_curriculum_layout: "msbi-pdf"
 
 category: "Data & Business Intelligence"
 eyebrow: "Data & Business Intelligence"
 name: "MSBI Masterclass"
-lead: "Become a certified enterprise BI developer. Master the complete Microsoft SQL Server Business Intelligence stack from scratch. Design controlled ETL package flows in SSIS, build analytical cubes in SSAS, and deliver parameterized SSRS reports using realistic industrial warehousing scenarios."
+lead: "A topic-complete practical path through SSIS, SSAS, and SSRS. Master the complete Microsoft Business Intelligence stack from ETL data flow and slowly changing dimensions to analytical cubes, tabular models, paginated reports, and connected end-to-end projects."
 chips:
-  - "⏱ Live batch program"
+  - "⏱ 100% Practical Classes"
   - "🎓 Live online sessions"
-  - "💻 Live online"
+  - "💻 SSIS · SSAS · SSRS · SSDT"
 
-duration: "Live batch program"
+duration: "100% Practical Classes"
 classes: "Live online sessions"
 mode: "Live online"
 level: "Beginner friendly — SQL basics help"
@@ -30,23 +31,23 @@ price_usd: "$349"
 price_usd_strike: "$499"
 payment_inr_url: "https://tally.so/r/waa7gZ"
 payment_usd_url: "https://tally.so/r/waa7gZ"
-next_batch: "Open for interest — contact us for dates"
+next_batch: "New cohort starting soon — enroll now"
 
 whatsapp_group_url: "/go/msbi-masterclass-whatsapp"
 whatsapp_jobs_url: "/go/remote-jobs-whatsapp"
 syllabus_pdf: "/assets/docs/msbi-syllabus.pdf"
 
 fit_check:
-  - "SQL developers moving into BI and data engineering"
-  - "Manual testers and support engineers pivoting to data careers"
-  - "Professionals working in reporting who want the full Microsoft stack"
+  - "SQL developers and database engineers moving into BI and ETL engineering"
+  - "Data analysts looking to build automated data flows, multidimensional cubes, and paginated reports"
+  - "Professionals preparing for Microsoft BI Developer and ETL specialist job roles"
+  - "Manual QA testers and support engineers transitioning into data engineering"
 
 what_you_get:
-  - "SSIS: ETL package design, transformations, deployment and scheduling"
-  - "SSAS: cubes, dimensions and analytical models"
-  - "SSRS: paginated, parameterized enterprise reports"
-  - "Data-warehousing concepts: facts, dimensions, star schemas"
-  - "End-to-end project: source systems to finished reports"
+  - "SSIS (75 topics): Package architecture, 20+ transformations, SCD, loop containers, error logging, and SQL Agent scheduling"
+  - "SSAS (15 topics): Data Source Views, Multidimensional cubes, TabularModels, SSDT, KPIs, perspectives, and translations"
+  - "SSRS (8 topics): Data sources, datasets, Tabular, List, Matrix, Chart, Parameterized, Drilldown, and DrillThrough reports"
+  - "End-to-end Capstone: Connect SSIS ETL &rarr; SSAS Analytical Model &rarr; SSRS Enterprise Reporting"
 
 curriculum:
   - phase: "Phase 1: Data Warehousing & SSIS Basics"
