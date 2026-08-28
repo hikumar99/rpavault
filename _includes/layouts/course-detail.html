@@ -497,6 +497,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-1">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 1–5 · Foundations, Studio &amp; BDD</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 01 · FOUNDATIONS, STUDIO &amp; BDD</span>
                 <h3 class="ts-title">Start with test intent—not just clicks</h3>
                 <p class="ts-subtitle">Effective test automation begins with a clear distinction between executing business work and validating a system’s expected behavior.</p>
@@ -552,6 +553,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-2">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 6–10 · UI Automation &amp; Data Extraction</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 02 · UI AUTOMATION &amp; DATA EXTRACTION</span>
                 <h3 class="ts-title">Build UI workflows that remain stable and produce useful data</h3>
                 <p class="ts-subtitle">Students learn to handle changing interface elements, interact with browsers, validate what occurred, and transform screen content into structured records.</p>
@@ -628,6 +630,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-3">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 11–15 · Workflow Logic, Strings &amp; Dates</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 03 · WORKFLOW LOGIC, STRINGS &amp; DATES</span>
                 <h3 class="ts-title">Move from isolated activities to reusable workflow logic</h3>
                 <p class="ts-subtitle">Students gain the data and decision-making skills that let an automation adapt to input, apply business rules, and produce predictable outputs.</p>
@@ -724,6 +727,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-4">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 16–20 · Reliability, DataTables &amp; Excel</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 04 · RELIABILITY, OS, DATATABLES &amp; EXCEL</span>
                 <h3 class="ts-title">Create automations that are easier to debug, recover, and support</h3>
                 <p class="ts-subtitle">A production-ready workflow does more than complete the happy path. It leaves evidence, handles known failure patterns, and manages its operating environment carefully.</p>
@@ -782,6 +786,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-5">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 21–25 · Test Manager, Orchestrator &amp; CI/CD</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 05 · TEST MANAGER, ORCHESTRATOR &amp; DATA FABRIC</span>
                 <h3 class="ts-title">Turn a workflow into a managed enterprise test practice</h3>
                 <p class="ts-subtitle">The final course block connects individual automation work to governance, traceability, scheduled execution, secure runtime assets, and operational visibility.</p>
@@ -1036,6 +1041,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-1">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 1–8 · DDL &amp; DML Foundations</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 01 · SQL SERVER FOUNDATION: DDL + DML</span>
                 <h3 class="ts-title">Build the structure before you query the data</h3>
                 <p class="ts-subtitle">Establish the environment, database objects, data types, and integrity rules that make later SQL work reliable and understandable. This module covers both database design and maintenance statements.</p>
@@ -1072,18 +1078,21 @@ layout: layouts/base.html
                 <strong>PRACTICAL BUILD:</strong> Create two related tables &rarr; define types, primary key, and foreign key &rarr; insert records &rarr; copy selected records to a second table &rarr; update one value &rarr; explain the difference between DELETE and TRUNCATE.
               </div>
 
-              <div class="sql-step-grid">
-                <div class="sql-step-card">
-                  <h4>1. Design</h4>
-                  <p>Name tables and columns, assign data types, and identify the field that must stay unique.</p>
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 1–2</span>
+                  <h5>SSMS Setup &amp; Databases</h5>
+                  <p>Connecting to server, Object Explorer, Query Editor, CREATE/ALTER/DROP DATABASE.</p>
                 </div>
-                <div class="sql-step-card">
-                  <h4>2. Relate</h4>
-                  <p>Use a foreign key to connect the two tables and test the integrity rule with valid and invalid values.</p>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 3–5</span>
+                  <h5>Tables, Types &amp; Keys</h5>
+                  <p>Data types, CREATE TABLE, Primary Keys, Foreign Keys, Unique &amp; Check constraints.</p>
                 </div>
-                <div class="sql-step-card">
-                  <h4>3. Maintain</h4>
-                  <p>Populate rows, update a selected record, create a copy using INSERT…SELECT, and explain a safe deletion decision.</p>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 6–8</span>
+                  <h5>Data Modification (DML)</h5>
+                  <p>INSERT, IDENTITY, UPDATE, DELETE vs TRUNCATE, and INSERT…SELECT table copies.</p>
                 </div>
               </div>
             </div>
@@ -1093,6 +1102,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-2">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 9–16 · Querying &amp; Analytics</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 02 · DQL &amp; ANALYTICS: QUERY WITH PRECISION</span>
                 <h3 class="ts-title">Retrieve, refine, summarize, and compare</h3>
                 <p class="ts-subtitle">This phase turns table data into useful information through filters, grouping, analytical functions, reusable query logic, and relational joins.</p>
@@ -1147,6 +1157,24 @@ layout: layouts/base.html
               <div class="sql-build-box">
                 <strong>PRACTICAL BUILD:</strong> Write a SELECT query &rarr; filter with WHERE, LIKE, and IS NULL &rarr; group and apply HAVING &rarr; rank rows within a partition &rarr; move the logic into a CTE &rarr; join a second table &rarr; compare results with UNION ALL or EXCEPT.
               </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 9–11</span>
+                  <h5>SELECT, WHERE &amp; Filtering</h5>
+                  <p>Column aliases, logical operators, LIKE pattern matching, NULL checking, ORDER BY.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 12–14</span>
+                  <h5>Multi-Table Joins &amp; Sets</h5>
+                  <p>INNER, LEFT, RIGHT, FULL joins, CROSS joins, UNION ALL, INTERSECT, EXCEPT.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 15–16</span>
+                  <h5>Aggregations &amp; Windows</h5>
+                  <p>GROUP BY, HAVING, ROW_NUMBER, RANK, DENSE_RANK, PARTITION BY, and CTEs.</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1154,6 +1182,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-3">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 17–24 · SQL Programmability &amp; Indexing</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>MODULE 03 · SQL PROGRAMMING: PERFORMANCE, REUSE &amp; CONTROL</span>
                 <h3 class="ts-title">Move beyond one-off queries</h3>
                 <p class="ts-subtitle">The final technical stage covers objects that support controlled data access, reusable logic, and well-organized database behavior.</p>
@@ -1237,6 +1266,24 @@ layout: layouts/base.html
                   </div>
                 </div>
               </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 17–19</span>
+                  <h5>Views &amp; Stored Procedures</h5>
+                  <p>Creating views, schema binding, parameterized procedures, output variables.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 20–22</span>
+                  <h5>UDFs, Triggers &amp; Cursors</h5>
+                  <p>Scalar &amp; inline table-valued functions, AFTER/INSTEAD OF triggers, cursor loops.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 23–24</span>
+                  <h5>Indexes &amp; Performance</h5>
+                  <p>Clustered vs NonClustered indexes, execution plans, query optimization &amp; tuning.</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1244,6 +1291,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-4">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 25–28 · Demonstrable Outcomes &amp; Portfolio</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>FROM SYLLABUS TO DEMONSTRABLE SKILL</span>
                 <h3 class="ts-title">What you will be ready to demonstrate</h3>
                 <p class="ts-subtitle">The course connects essential database design to advanced analysis and database programming, producing a practical, explainable SQL project outcome.</p>
@@ -1256,26 +1304,21 @@ layout: layouts/base.html
                 </div>
                 <div class="ts-feature-card">
                   <h4>Database design</h4>
-                  <p>Create databases and tables; choose data types; and apply primary/foreign-key constraints that protect relational integrity.</p>
+                  <p>Create databases, tables, data types, primary keys, and foreign keys with clear integrity rules.</p>
                 </div>
                 <div class="ts-feature-card">
                   <h4>Query fluency</h4>
-                  <p>Write DML and DQL statements, manage data changes carefully, and create readable SELECT output with targeted filtering and sorting.</p>
+                  <p>Use SELECT, WHERE, ORDER BY, aggregate functions, GROUP BY, HAVING, and joins across tables.</p>
                 </div>
                 <div class="ts-feature-card">
                   <h4>Analysis &amp; programming</h4>
-                  <p>Use functions, groups, windows, CTEs, joins, indexes, views, procedures, functions, cursors, and triggers in a structured project context.</p>
+                  <p>Apply CTEs, ranking, window functions, and package reusable capability into views, procedures, and functions.</p>
                 </div>
               </div>
 
               <div class="ts-navy-callout" style="margin-bottom:20px;">
                 <span class="tn-tag">YOUR NEXT MOVE</span>
                 <h4>Build a portfolio-ready SQL narrative</h4>
-                <p>Plan a relational database. Populate it with meaningful records. Query it to answer reporting questions. Package selected logic for reuse. Then explain the design and results clearly in technical interviews.</p>
-              </div>
-
-              <div>
-                <h4 style="font-family:'Sora',sans-serif; font-size:14px; font-weight:700; color:var(--ink); margin:0 0 8px;">Demonstration workflow</h4>
                 <div class="sql-step-grid">
                   <div class="sql-step-card">
                     <h4 style="color:var(--green-deep);">1. Design</h4>
@@ -1293,6 +1336,19 @@ layout: layouts/base.html
                     <h4 style="color:var(--green-deep);">4. Package</h4>
                     <p>Use a view or programmable object to present a reusable database solution.</p>
                   </div>
+                </div>
+              </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 25–26</span>
+                  <h5>Portfolio Analytics Project</h5>
+                  <p>End-to-end relational schema modeling, data loading, and executive business KPIs.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 27–28</span>
+                  <h5>Interview &amp; Query Challenges</h5>
+                  <p>Live coding scenarios, complex window function questions, CV &amp; portfolio review.</p>
                 </div>
               </div>
 
@@ -1448,6 +1504,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-1">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 1–8 · Foundations &amp; Warehousing</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>01 · DATA WAREHOUSING, SQL &amp; CLOUD</span>
                 <h3 class="ts-title">Start with the systems that make data useful</h3>
                 <p class="ts-subtitle">Before a pipeline can move data, teams need to understand what data is for, how it is modeled, and where each platform component fits.</p>
@@ -1496,6 +1553,24 @@ layout: layouts/base.html
                 </div>
               </div>
 
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 1–3</span>
+                  <h5>Data Warehouse &amp; Schemas</h5>
+                  <p>OLTP vs OLAP, Star &amp; Snowflake schemas, facts, dimensions, and analytical modeling.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 4–6</span>
+                  <h5>SQL Essentials &amp; Joins</h5>
+                  <p>DDL/DML/DRL, multi-table joins, CASE/IF expressions, filtering, and aggregation logic.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 7–8</span>
+                  <h5>Cloud Models &amp; Azure Portal</h5>
+                  <p>IaaS, PaaS, SaaS, Serverless, and navigation of Azure Management Portal services.</p>
+                </div>
+              </div>
+
               <div class="ts-outcome-bar">
                 <strong>Foundation outcome:</strong> Students can explain how a warehouse model, SQL logic, cloud service choice, and engineering process fit together before they begin building Azure data solutions.
               </div>
@@ -1506,6 +1581,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-2">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 9–16 · Azure SQL, Storage &amp; Lake</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>02 · DATABASE, STORAGE &amp; DATA LAKE</span>
                 <h3 class="ts-title">Build the secure foundation beneath every pipeline</h3>
                 <p class="ts-subtitle">This module brings together the database, storage, security, and recovery capabilities that support reliable cloud data workloads.</p>
@@ -1553,6 +1629,24 @@ layout: layouts/base.html
                 <p>Configure firewall rules to whitelist required IP addresses at server and database level. Manage sensitive data through Dynamic Data Masking and encryption—then connect storage and data-lake patterns to controlled, scalable access.</p>
               </div>
 
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 9–11</span>
+                  <h5>Azure SQL Database &amp; Sizing</h5>
+                  <p>Provisioning, DTU vs vCore models, scaling, backup retention, and geo-replication.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 12–14</span>
+                  <h5>Storage Accounts &amp; SAS</h5>
+                  <p>Containers, blobs, Azure Storage Explorer tool, and scoped SAS token generation.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 15–16</span>
+                  <h5>Data Lake Gen2 &amp; Security</h5>
+                  <p>Hierarchical namespaces, data lake layout, IP firewall whitelisting, and data masking.</p>
+                </div>
+              </div>
+
               <div class="ts-outcome-bar">
                 <strong>Platform deliverable:</strong> Students can provision an Azure SQL Database, choose a capacity model, plan recovery and geo-replication, configure controlled access, protect sensitive data, create blob storage with scoped SAS access, and organize data in Data Lake Gen2 for downstream engineering workloads.
               </div>
@@ -1563,6 +1657,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-3">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 17–25 · ADF Orchestration</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>03 · ORCHESTRATION FOUNDATIONS</span>
                 <h3 class="ts-title">Turn disconnected data into a controlled pipeline</h3>
                 <p class="ts-subtitle">Azure Data Factory becomes the operating layer: it connects source and target systems, coordinates activity execution, and makes pipeline status observable.</p>
@@ -1606,7 +1701,7 @@ layout: layouts/base.html
                 </div>
               </div>
 
-              <div class="ts-two-grid">
+              <div class="ts-two-grid" style="margin-bottom: 20px;">
                 <div class="ts-sub-box" style="background:#f0fdf4; border-color:#bbf7d0;">
                   <h4 style="color:#166534;">Lab flow</h4>
                   <p style="color:#14532d;">Create the service, build a first pipeline, explore the user experience, model a company’s data need, and move data from cloud storage to Azure SQL Database.</p>
@@ -1617,6 +1712,24 @@ layout: layouts/base.html
                   <p style="color:#0c4a6e;">Filter records, retrieve storage blobs, iterate through stored-procedure results, assign variables, branch on a flag, and intentionally raise a controlled pipeline failure.</p>
                 </div>
               </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 17–19</span>
+                  <h5>ADF Setup &amp; Runtimes</h5>
+                  <p>Creating ADF instance, Linked Services, Datasets, Azure vs Self-Hosted IR setup.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 20–22</span>
+                  <h5>Copy &amp; Lookup Activities</h5>
+                  <p>Copy Data from Blob to SQL, Lookup, Stored Procedure, Get Metadata, and Filter activities.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 23–25</span>
+                  <h5>Control Flow &amp; Logic Apps</h5>
+                  <p>ForEach, Set Variable, If Conditions, Fail activities, Web Activity, Logic Apps alerts.</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1624,6 +1737,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-4">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 26–33 · Production Pipelines &amp; Databricks</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>04 · SCALE, TRANSFORM &amp; DEPLOY</span>
                 <h3 class="ts-title">Move from a working pipeline to a production-grade one</h3>
                 <p class="ts-subtitle">Students extend Data Factory into the patterns required for dependable operations, then introduce Databricks as scalable transformation compute.</p>
@@ -1667,6 +1781,24 @@ layout: layouts/base.html
               <div class="sql-build-box">
                 <strong>Lab progression:</strong> Event-driven pipeline execution &rarr; Data Flow transformations &rarr; error handling &rarr; multi-file ingestion &rarr; performance improvement &rarr; environment promotion &rarr; Databricks ETL integration.
               </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 26–28</span>
+                  <h5>Triggers &amp; Data Flows</h5>
+                  <p>Tumbling Window, event triggers, Mapping Data Flows, Power Query transformations.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 29–30</span>
+                  <h5>Monitoring &amp; CI/CD</h5>
+                  <p>Multi-file ingestion, error row routing, monitoring hubs, ARM templates, environment promotion.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 31–33</span>
+                  <h5>Databricks &amp; Spark ETL</h5>
+                  <p>Databricks cluster setup, Scala/Python notebooks, Spark DataFrames, ADF orchestration.</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1674,6 +1806,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-5">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 34–40 · Synapse, Power BI &amp; Capstone</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>05 · ANALYZE, REPORT &amp; EXPLAIN YOUR WORK</span>
                 <h3 class="ts-title">Bring the data platform together with Azure Synapse Analytics</h3>
                 <p class="ts-subtitle">The final technical module connects Lakehouse concepts, serverless analysis, pipeline orchestration, business reporting, and career preparation.</p>
@@ -1736,6 +1869,24 @@ layout: layouts/base.html
                     <strong style="color:#fff; font-size:14px; display:block; margin-bottom:4px;">Make it useful</strong>
                     <p style="font-size:12.5px; color:#cbd5e1;">Build and publish Power BI reports, then use project stories, CV preparation, and interview practice to communicate the work.</p>
                   </div>
+                </div>
+              </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 34–36</span>
+                  <h5>Synapse Pools &amp; External Tables</h5>
+                  <p>Dedicated vs Serverless SQL pools, querying data lake parquet/csv without loading.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 37–38</span>
+                  <h5>Lakehouse Power BI Reporting</h5>
+                  <p>Connecting Power BI directly to Serverless SQL, creating dashboards, and publishing.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 39–40</span>
+                  <h5>End-to-End Capstone &amp; Interviews</h5>
+                  <p>Full-stack project walkthrough, CV alignment, DP-203 exam tips, and interview Q&amp;A.</p>
                 </div>
               </div>
 
@@ -1913,6 +2064,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-1">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 1–10 · SSIS Core &amp; Data Flow</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>SSIS MODULE 01 &amp; 02 · DATA FLOW &amp; TRANSFORMS</span>
                 <h3 class="ts-title">Foundations, sources &amp; transformations</h3>
                 <p class="ts-subtitle">A complete component register for building, shaping, and tracing records across a high-performance ETL pipeline.</p>
@@ -1993,8 +2145,26 @@ layout: layouts/base.html
                 </div>
               </div>
 
-              <div class="sql-build-box">
+              <div class="sql-build-box" style="margin-bottom:20px;">
                 <strong>Source &rarr; Transform &rarr; Destination:</strong> Connect source adapters, apply in-memory row/column conversions and filters, then stream outputs into optimized database staging destinations.
+              </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 1–3</span>
+                  <h5>Package Architecture &amp; SSDT</h5>
+                  <p>ETL concepts, package structure, connection managers, SSDT tools walkthrough.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 4–6</span>
+                  <h5>Sources, Destinations &amp; Viewers</h5>
+                  <p>Configuring Excel, Flat File, OLE DB adapters, and in-flight Data Viewers debugging.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 7–10</span>
+                  <h5>13 Core Transformations</h5>
+                  <p>Derived Column, Data Conversion, Conditional Split, Multicast, Aggregate, Sort, Union All.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -2003,6 +2173,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-2">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 11–20 · SSIS Advanced Flow &amp; Control</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>SSIS MODULE 03, 04 &amp; 05 · ADVANCED FLOW &amp; CONTROL</span>
                 <h3 class="ts-title">Advanced data flow, tasks &amp; resilience</h3>
                 <p class="ts-subtitle">Matching, merging, dimensional preparation (SCD), fuzzy intelligence, precedence logic, loop containers, variables, and error handling.</p>
@@ -2080,9 +2251,27 @@ layout: layouts/base.html
                 </div>
               </div>
 
-              <div class="ts-navy-callout">
+              <div class="ts-navy-callout" style="margin-bottom: 20px;">
                 <span class="tn-tag">OPERATING PRINCIPLE</span>
                 <h4>A training course must cover both the happy path and the behavior when a package needs to loop, change, fail, or log.</h4>
+              </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 11–13</span>
+                  <h5>Lookup, Merge &amp; SCD</h5>
+                  <p>Lookup caches, Merge Joins, Slowly Changing Dimension wizard (Type 1/2/3 historical versioning).</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 14–16</span>
+                  <h5>Reshape &amp; Fuzzy Matching</h5>
+                  <p>Pivot, Unpivot, Export/Import, Fuzzy Lookup, Fuzzy Grouping, and Term Extraction.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 17–20</span>
+                  <h5>Control Flow &amp; Precedence</h5>
+                  <p>Execute SQL Task, Bulk Insert, File System, Send Mail, Precedence constraint expressions.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -2091,6 +2280,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-3">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 21–28 · Containers &amp; Deployment</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>SSIS MODULE 06 · DEPLOYMENT &amp; OPERATIONS</span>
                 <h3 class="ts-title">Deployment and package management</h3>
                 <p class="ts-subtitle">Finish the SSIS track with deployment models, catalog management, SSMS administration, and SQL Server Agent automation.</p>
@@ -2119,10 +2309,23 @@ layout: layouts/base.html
                 </div>
               </div>
 
-              <div class="ts-navy-callout">
+              <div class="ts-navy-callout" style="margin-bottom: 20px;">
                 <span class="tn-tag">PACKAGE MANAGEMENT TOPICS</span>
                 <h4>The SSIS Service • Managing packages with SQL Server Management Studio • Scheduling packages with SQL Server Agent</h4>
                 <p>Configurations and deployment • Deployment options</p>
+              </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 21–24</span>
+                  <h5>Containers &amp; Resilience</h5>
+                  <p>For/ForEach Loops (file enumeration), Sequence containers, variables, On Error logging.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 25–28</span>
+                  <h5>SSISDB &amp; SQL Agent</h5>
+                  <p>Project deployment model, environment parameters, SSMS execution catalog, SQL Agent jobs.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -2131,6 +2334,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-4">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 29–35 · SSAS Cubes &amp; Tabular</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>SSAS MODULE 01 &amp; 02 · ANALYTICAL SERVICES</span>
                 <h3 class="ts-title">Microsoft BI and SSAS analytical modeling</h3>
                 <p class="ts-subtitle">Move from prepared data into data sources, data source views, multidimensional cubes, tabular models, and Excel exploration.</p>
@@ -2178,10 +2382,23 @@ layout: layouts/base.html
                 </div>
               </div>
 
-              <div class="ts-navy-callout">
+              <div class="ts-navy-callout" style="margin-bottom: 20px;">
                 <span class="tn-tag">SSAS INTERMEDIATE REGISTER</span>
                 <h4>KPI • Action • Aggregation • Perspectives • Translations</h4>
                 <p>Working with Multiple Fact Tables • Using the Business Intelligence Wizard</p>
+              </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 29–31</span>
+                  <h5>Data Sources &amp; Cubes</h5>
+                  <p>Defining Data Sources, DSV logical views, Multidimensional cubes, measures, and hierarchies.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 32–35</span>
+                  <h5>TabularModels &amp; KPIs</h5>
+                  <p>In-memory TabularModels, Excel PivotTable exploration, KPIs, Perspectives, and multi-fact schemas.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -2190,6 +2407,7 @@ layout: layouts/base.html
           <div class="curr-panel" id="phase-5">
             <div class="ts-panel-card">
               <div class="ts-header">
+                <span class="curr-class-badge">Classes 36–40 · SSRS Reports &amp; Full Stack</span>
                 <span class="ts-eyebrow"><span class="dotchip"></span>SSRS &amp; FULL STACK PROJECTS · REPORTING &amp; CAPSTONE</span>
                 <h3 class="ts-title">Report formats, SSRS construction &amp; full stack project</h3>
                 <p class="ts-subtitle">Build the presentation layer with paginated reports, parameters, and drilldown navigation, then tie together SSIS, SSAS, and SSRS.</p>
@@ -2224,10 +2442,23 @@ layout: layouts/base.html
                 <strong>Connected End-to-End Capstone:</strong> Raw files &rarr; SSIS ETL &rarr; SQL Data Warehouse &rarr; SSAS Analytical Cube &rarr; SSRS Paginated Enterprise Dashboard.
               </div>
 
-              <div class="ts-navy-callout">
+              <div class="ts-navy-callout" style="margin-bottom: 20px;">
                 <span class="tn-tag">PROJECTS / SSIS → SSAS → SSRS</span>
                 <h4>Construct data sources and datasets, then build reports that support scanning, comparison, parameters, and navigation.</h4>
                 <p>Tabular • List • Matrix • Chart • Parameterized • Drilldown • DrillThrough</p>
+              </div>
+
+              <div class="curr-class-timeline">
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 36–38</span>
+                  <h5>Paginated Reports &amp; Drilldown</h5>
+                  <p>Data sources, datasets, Tabular, Matrix, Chart, Parameterized, and Drilldown reports.</p>
+                </div>
+                <div class="curr-class-step">
+                  <span class="step-tag">Classes 39–40</span>
+                  <h5>Full-Stack BI Capstone</h5>
+                  <p>Connected end-to-end project: SSIS ETL &rarr; SSAS Cube &rarr; SSRS Dashboard, plus interview prep.</p>
+                </div>
               </div>
             </div>
           </div>
