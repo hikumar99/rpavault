@@ -3196,6 +3196,779 @@ layout: layouts/base.html
       </div>
     </div>
   </section>
+  {% elif custom_curriculum_layout == "advance-agentic-pdf" %}
+  <!-- CUSTOM ADVANCE AGENTIC RPA & UIPATH CURRICULUM (MULTI-THEME BESPOKE SYSTEM) -->
+  <section id="curriculum" class="sec-sand2">
+    <div class="wrap">
+      <div class="head-block">
+        <span class="eyebrow"><span class="dotchip"></span>BEYOND TRADITIONAL RPA</span>
+        <h2>Curriculum <em>blueprint</em></h2>
+        <p>A comprehensive 35-session live progression from Document Understanding &amp; AI Center to MCP servers, Python coded agents, and UiPath Maestro orchestration.</p>
+      </div>
+      <div class="curr-layout">
+        <div class="curr-nav" id="curr-nav">
+          <div class="curr-nav-item active" data-target="phase-0">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">OVERVIEW</div>
+              <div class="cn-title">Executive Blueprint</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-1">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 01 · DAYS 1–11</div>
+              <div class="cn-title">Doc Intelligence &amp; IXP</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-2">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 02 · DAYS 12–17</div>
+              <div class="cn-title">Native AI &amp; Autopilot</div>
+            </div>
+          </div>
+          
+          <div class="curr-nav-item" data-target="phase-3">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 03 · DAYS 18–25</div>
+              <div class="cn-title">Agent Builder &amp; Score</div>
+            </div>
+          </div>
+
+          <div class="curr-nav-item" data-target="phase-4">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">PHASE 04 · DAYS 26–35</div>
+              <div class="cn-title">MCP, Coded &amp; Maestro</div>
+            </div>
+          </div>
+
+          <div class="curr-nav-item" data-target="phase-5">
+            <div class="cn-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <div class="cn-num">OUTCOMES</div>
+              <div class="cn-title">Delivery &amp; Proof</div>
+            </div>
+          </div>
+          
+          <button type="button" class="btn btn-primary btn-block curr-pdf-btn" data-open-syllabus data-pdf="{{ syllabus_pdf | default('/assets/docs/advance-agentic-rpa-syllabus.pdf') }}" data-course="{{ name | default(title) }}">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Download Syllabus PDF
+          </button>
+        </div>
+
+        <div class="curr-panels" id="curr-panels">
+          
+          <!-- OVERVIEW (BEYOND RPA BLUEPRINT - SLATE THEME) -->
+          <div class="curr-panel theme-overview" id="phase-0">
+            <div class="agent-bespoke-container">
+              
+              <div class="agent-theme-header">
+                <div>
+                  <span class="agent-card-tag" style="background:#e2e8f0; color:#334155;">FLAGSHIP ADVANCED TRACK</span>
+                  <h3>Beyond RPA: Stop training for the platform of two years ago</h3>
+                  <p>UiPath has evolved far beyond basic screen scraping into Autopilot, Self-Healing Agents, Model Context Protocol (MCP), Python Coded Agents, and UiPath Maestro orchestration.</p>
+                </div>
+              </div>
+
+              <div class="agent-stats-grid">
+                <div class="agent-stat-card" style="border-top: 3px solid #ea580c; position:relative;">
+                  <span class="agent-ghost-num">35</span>
+                  <div class="m-top">
+                    <span class="m-title" style="color:#ea580c;">SESSIONS</span>
+                    <span class="m-num">35</span>
+                  </div>
+                  <p class="m-sub">Live interactive builds</p>
+                </div>
+                <div class="agent-stat-card" style="border-top: 3px solid #0f766e; position:relative;">
+                  <span class="agent-ghost-num">12</span>
+                  <div class="m-top">
+                    <span class="m-title" style="color:#0f766e;">MODULES</span>
+                    <span class="m-num">12</span>
+                  </div>
+                  <p class="m-sub">Enterprise modules</p>
+                </div>
+                <div class="agent-stat-card" style="border-top: 3px solid #0284c7; position:relative;">
+                  <span class="agent-ghost-num">03</span>
+                  <div class="m-top">
+                    <span class="m-title" style="color:#0284c7;">PHASES</span>
+                    <span class="m-num">3</span>
+                  </div>
+                  <p class="m-sub">Structured progression</p>
+                </div>
+                <div class="agent-stat-card" style="border-top: 3px solid #7c3aed; position:relative;">
+                  <span class="agent-ghost-num">100%</span>
+                  <div class="m-top">
+                    <span class="m-title" style="color:#7c3aed;">FORMAT</span>
+                    <span class="m-num" style="font-size:15px;">100% Build</span>
+                  </div>
+                  <p class="m-sub">Hands-on code architecture</p>
+                </div>
+              </div>
+
+              <div class="agent-overview-grid">
+                <div class="agent-overview-card" style="border-top: 3px solid #ea580c;">
+                  <span class="agent-ghost-num amber">01</span>
+                  <span class="agent-card-tag amber">THE PAST</span>
+                  <h4 class="agent-card-h4" style="color:#ea580c;">Where Most Courses Stop</h4>
+                  <p class="agent-card-desc">Brittle UI selectors that break on minor DOM changes, basic regex and out-of-the-box invoice templates, manual try/catch exception blocks, and linear bots without LLM reasoning.</p>
+                </div>
+
+                <div class="agent-overview-card" style="border-top: 3px solid #0f766e;">
+                  <span class="agent-ghost-num emerald">02</span>
+                  <span class="agent-card-tag emerald">THE FUTURE</span>
+                  <h4 class="agent-card-h4" style="color:#0f766e;">What You Build in This Track</h4>
+                  <p class="agent-card-desc">Autonomous LLM agents with custom system instructions, Model Context Protocol (MCP) servers, dynamic Self-Healing selectors with ScreenPlay, and enterprise BPMN orchestration with Maestro.</p>
+                </div>
+
+                <div class="agent-overview-card" style="border-top: 3px solid #0284c7;">
+                  <span class="agent-ghost-num cyan">03</span>
+                  <span class="agent-card-tag cyan">AUDIENCE</span>
+                  <h4 class="agent-card-h4" style="color:#0284c7;">Who This Is Designed For</h4>
+                  <p class="agent-card-desc">Working UiPath developers with 1–3+ years of experience, RPA leads, and automation architects who want to break into ₹12–20L+ roles by mastering Agentic AI and Intelligent Document Processing.</p>
+                </div>
+
+                <div class="agent-overview-card" style="border-top: 3px solid #7c3aed;">
+                  <span class="agent-ghost-num purple">04</span>
+                  <span class="agent-card-tag purple">PREREQUISITES</span>
+                  <h4 class="agent-card-h4" style="color:#7c3aed;">What You Need &amp; Prerequisites</h4>
+                  <p class="agent-card-desc">A working knowledge of UiPath Studio (Variables, Selectors, Basic Flows). Zero prior AI/ML experience required — all agentic concepts, MCP protocols, and Python scripts are taught from first principles.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">THE AGENTIC ADVANTAGE</span>
+                <h4>Build systems that reason, heal, and orchestrate across the modern AI stack.</h4>
+                <p>Learn Document Intelligence · Deploy AI Center ML models · Build Python MCP Servers · Orchestrate Multi-Agent Swarms with Maestro.</p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PHASE 01: DAYS 01-11 (DOCUMENT INTELLIGENCE & IXP - WARM AMBER BENTO THEME) -->
+          <div class="curr-panel theme-amber" id="phase-1">
+            <div class="agent-bespoke-container">
+              
+              <div class="agent-theme-header">
+                <div>
+                  <span class="agent-card-tag amber">PHASE 01 · DAYS 01–11</span>
+                  <h3>Document Intelligence, AI Center &amp; Process Foundations</h3>
+                  <p>Master Taxonomy, Digitization OCR, ML classification, AI Center model retraining, Action Center HITL, REST APIs, and Intelligent Xtraction (IXP).</p>
+                </div>
+              </div>
+
+              <!-- Bento Hero Box: Core DU 4-Stage Engine (Days 01-05) -->
+              <div class="agent-bento-hero">
+                <span class="agent-ghost-num amber">01–05</span>
+                <span class="agent-card-tag amber">CORE FOUNDATION · DAYS 01–05</span>
+                <h4 class="agent-card-h4">The 4-Stage Document Understanding Framework &amp; Modern DU</h4>
+                <p class="agent-card-desc">Comprehensive mastery of document digitization, intelligent taxonomy schemas, and production invoice extraction pipelines.</p>
+                
+                <div class="agent-day-list">
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill amber">Day 01</span>
+                      <span class="agent-focused-title">DU Fundamentals &amp; Enterprise Document Types</span>
+                    </div>
+                    <p class="agent-day-desc">Structured vs semi-structured vs unstructured documents, and why Document Understanding is mandatory in modern enterprise automation.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill amber">Day 02</span>
+                      <span class="agent-focused-title">The 4-Stage DU Framework &amp; Taxonomy Manager</span>
+                    </div>
+                    <p class="agent-day-desc">Deep dive into Taxonomy Manager, Digitization OCR engines, Document Classification, and Data Extraction methods.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill amber">Day 03</span>
+                      <span class="agent-focused-title">End-to-End Production Invoice Processing Capstone</span>
+                    </div>
+                    <p class="agent-day-desc">Full practical demo implementing invoice processing, extraction rules validation, exception handling, and enterprise debugging.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill amber">Day 04</span>
+                      <span class="agent-focused-title">Studio Document Understanding Framework Template</span>
+                    </div>
+                    <p class="agent-day-desc">Understanding and customizing the enterprise Document Understanding framework template inside UiPath Studio.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill amber">Day 05</span>
+                      <span class="agent-focused-title">Modern DU Architecture &amp; Pre-Trained Models</span>
+                    </div>
+                    <p class="agent-day-desc">Comparing traditional DU vs Modern DU, utilizing out-of-the-box pre-trained document models, and establishing new project pipelines.</p>
+                  </div>
+                </div>
+
+                <div class="agent-tags-row">
+                  <span class="agent-pill-tag">Taxonomy Manager</span>
+                  <span class="agent-pill-tag">Digitizer OCR</span>
+                  <span class="agent-pill-tag">Modern DU Models</span>
+                  <span class="agent-pill-tag">Invoice Engine</span>
+                </div>
+              </div>
+
+              <!-- 6-Pillar Amber Grid for Days 06 to 11 (Matching Mentorship/Proof Pillar Structure) -->
+              <div class="agent-amber-grid">
+                
+                <!-- Day 06 -->
+                <div class="agent-amber-card">
+                  <span class="agent-ghost-num amber">06</span>
+                  <span class="agent-card-tag amber">DAY 06</span>
+                  <h4 class="agent-card-h4">AI Center ML Training &amp; Custom Pipelines</h4>
+                  <p class="agent-card-desc">Deploying ML packages, building dataset pipelines, retraining models with enterprise domain documents, and consuming ML Skills inside Studio.</p>
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">AI Center</span>
+                    <span class="agent-pill-tag">ML Packages</span>
+                    <span class="agent-pill-tag">Dataset Pipelines</span>
+                  </div>
+                </div>
+
+                <!-- Day 07 -->
+                <div class="agent-amber-card">
+                  <span class="agent-ghost-num amber">07</span>
+                  <span class="agent-card-tag amber">DAY 07</span>
+                  <h4 class="agent-card-h4">Action Center &amp; Human-in-the-Loop (HITL)</h4>
+                  <p class="agent-card-desc">Human-in-the-Loop validation concepts, creating validation tasks, Action Center user routing workflows, and approval orchestration.</p>
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Action Center</span>
+                    <span class="agent-pill-tag">HITL Tasks</span>
+                    <span class="agent-pill-tag">User Routing</span>
+                  </div>
+                </div>
+
+                <!-- Day 08 -->
+                <div class="agent-amber-card">
+                  <span class="agent-ghost-num amber">08</span>
+                  <span class="agent-card-tag amber">DAY 08</span>
+                  <h4 class="agent-card-h4">Validation Station &amp; Confidence Thresholds</h4>
+                  <p class="agent-card-desc">Presenting Validation Station to users, configuring confidence thresholds (&lt;85%), field-level overrides, and validation station best practices.</p>
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Validation Station</span>
+                    <span class="agent-pill-tag">Thresholds</span>
+                    <span class="agent-pill-tag">Field Overrides</span>
+                  </div>
+                </div>
+
+                <!-- Day 09 -->
+                <div class="agent-amber-card">
+                  <span class="agent-ghost-num amber">09</span>
+                  <span class="agent-card-tag amber">DAY 09</span>
+                  <h4 class="agent-card-h4">REST API Workflows &amp; Web Services</h4>
+                  <p class="agent-card-desc">REST API architecture, executing HTTP Request activities, parsing JSON responses, and integrating web services into Document Understanding.</p>
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">HTTP Requests</span>
+                    <span class="agent-pill-tag">JSON Parsing</span>
+                    <span class="agent-pill-tag">REST APIs</span>
+                  </div>
+                </div>
+
+                <!-- Day 10 -->
+                <div class="agent-amber-card">
+                  <span class="agent-ghost-num amber">10</span>
+                  <span class="agent-card-tag amber">DAY 10</span>
+                  <h4 class="agent-card-h4">Intelligent Xtraction (IXP) Architecture</h4>
+                  <p class="agent-card-desc">What Intelligent Xtraction &amp; Processing (IXP) is, why it is required for complex layouts, and IXP vs traditional extraction comparison.</p>
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">IXP Engine</span>
+                    <span class="agent-pill-tag">Complex Layouts</span>
+                    <span class="agent-pill-tag">Extraction Matrix</span>
+                  </div>
+                </div>
+
+                <!-- Day 11 -->
+                <div class="agent-amber-card">
+                  <span class="agent-ghost-num amber">11</span>
+                  <span class="agent-card-tag amber">DAY 11</span>
+                  <h4 class="agent-card-h4">Live IXP Multi-Page Production Capstone</h4>
+                  <p class="agent-card-desc">Real-time production use case implementing IXP on complex unstructured multi-page documents with end-to-end downstream ERP sync.</p>
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Multi-Page Docs</span>
+                    <span class="agent-pill-tag">Production Demo</span>
+                    <span class="agent-pill-tag">ERP Ingestion</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Phase 1 Practice Lab -->
+              <div class="sql-build-box" style="border-color:#fdba74; background:#fff7ed;">
+                <strong style="color:#c2410c;">PRACTICE LAB &amp; EXIT CHECK:</strong> Build a complete Document Understanding pipeline with AI Center ML skill integration, Action Center validation triggers on low confidence (&lt;85%), and downstream REST API ERP sync.
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PHASE 02: DAYS 12-17 (ADVANCED AI INSIDE UIPATH - ELECTRIC CYAN BALANCED 2-CARD THEME) -->
+          <div class="curr-panel theme-cyan" id="phase-2">
+            <div class="agent-bespoke-container">
+              
+              <div class="agent-theme-header">
+                <div>
+                  <span class="agent-card-tag cyan">PHASE 02 · DAYS 12–17</span>
+                  <h3>Advanced AI Inside UiPath: Autopilot, Healing &amp; Vision</h3>
+                  <p>Master the newest enterprise AI capabilities: Generative AI activities, Autopilot in Studio, Clipboard AI, Self-Healing Agents, ScreenPlay, and Semantic Activities.</p>
+                </div>
+              </div>
+
+              <div class="agent-bento-grid">
+                
+                <!-- Card 1: Studio GenAI, Autopilot & Clipboard AI (Days 12-14) -->
+                <div class="agent-cyan-card">
+                  <span class="agent-ghost-num cyan">12–14</span>
+                  <span class="agent-card-tag cyan">DAYS 12–14</span>
+                  <h4 class="agent-card-h4">Studio Gen AI Activities, Autopilot &amp; Clipboard AI</h4>
+                  <p class="agent-card-desc">Generating workflows from plain English, controlling LLM parameters, and automating cross-application data flow.</p>
+                  
+                  <div class="agent-day-list">
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill cyan">Day 12</span>
+                        <span class="agent-focused-title">Gen AI Activities in Studio</span>
+                      </div>
+                      <p class="agent-day-desc">Prompt grounding, temperature tuning, and real-time business use cases.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill cyan">Day 13</span>
+                        <span class="agent-focused-title">Autopilot in Studio &amp; Workflow Synthesis</span>
+                      </div>
+                      <p class="agent-day-desc">Generating complex automation workflows from natural language prompts and automated expression building.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill cyan">Day 14</span>
+                        <span class="agent-focused-title">Clipboard AI Cross-App Transfer</span>
+                      </div>
+                      <p class="agent-day-desc">Cross-app intelligent copy-paste and autonomous field mapping between spreadsheets, web portals, and legacy desktop apps.</p>
+                    </div>
+                  </div>
+
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Gen AI Activities</span>
+                    <span class="agent-pill-tag">Autopilot Studio</span>
+                    <span class="agent-pill-tag">Clipboard AI</span>
+                  </div>
+                </div>
+
+                <!-- Card 2: Self-Healing & ScreenPlay Vision (Days 15-17) -->
+                <div class="agent-cyan-card">
+                  <span class="agent-ghost-num cyan">15–17</span>
+                  <span class="agent-card-tag cyan">DAYS 15–17</span>
+                  <h4 class="agent-card-h4">Self-Healing Agents, ScreenPlay Vision &amp; Semantic Actions</h4>
+                  <p class="agent-card-desc">Building resilient bots that automatically repair broken selectors, see remote desktops with computer vision, and execute business intent.</p>
+                  
+                  <div class="agent-day-list">
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill cyan">Day 15</span>
+                        <span class="agent-focused-title">Self-Healing Agents &amp; Dynamic Recovery</span>
+                      </div>
+                      <p class="agent-day-desc">Dynamic selector recovery, self-healing runtime execution, and zero maintenance when web interfaces change.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill cyan">Day 16</span>
+                        <span class="agent-focused-title">ScreenPlay Vision-Based Automation</span>
+                      </div>
+                      <p class="agent-day-desc">Next-generation vision-based automation patterns for automating challenging remote desktop environments.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill cyan">Day 17</span>
+                        <span class="agent-focused-title">Semantic Activities &amp; Intent Execution</span>
+                      </div>
+                      <p class="agent-day-desc">Executing automation tasks using natural language business intent rather than brittle CSS or XPath selectors.</p>
+                    </div>
+                  </div>
+
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Self-Healing Runtime</span>
+                    <span class="agent-pill-tag">ScreenPlay Vision</span>
+                    <span class="agent-pill-tag">Semantic Intent</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Phase 2 Practice Lab -->
+              <div class="sql-build-box" style="border-color:#7dd3fc; background:#f0f9ff;">
+                <strong style="color:#0369a1;">PRACTICE LAB &amp; EXIT CHECK:</strong> Deploy a self-healing bot utilizing ScreenPlay vision that automatically recovers from simulated UI element updates and passes semantic parameters to Gen AI activities.
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PHASE 03: DAYS 18-25 (AGENT BUILDER & EVALUATIONS - EMERALD THEME) -->
+          <div class="curr-panel theme-emerald" id="phase-3">
+            <div class="agent-bespoke-container">
+              
+              <div class="agent-theme-header">
+                <div>
+                  <span class="agent-card-tag emerald">PHASE 03 · DAYS 18–25</span>
+                  <h3>Agent Builder, Prompt Engineering &amp; Agent Evaluations</h3>
+                  <p>Step into autonomous agent architecture. Build reasoning agents in UiPath Agent Builder, define system prompt guardrails, and evaluate agent performance with Agent Score.</p>
+                </div>
+              </div>
+
+              <div class="agent-bento-grid">
+                
+                <!-- Card 1: Agent Builder & Prompt Guardrails (Days 18-21) -->
+                <div class="agent-emerald-card">
+                  <span class="agent-ghost-num emerald">18–21</span>
+                  <span class="agent-card-tag emerald">DAYS 18–21</span>
+                  <h4 class="agent-card-h4">Agent Builder &amp; Prompt Guardrails Architecture</h4>
+                  <p class="agent-card-desc">Transitioning from deterministic automation to autonomous decision loops with structured system instructions and memory context.</p>
+                  
+                  <div class="agent-day-list">
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 18</span>
+                        <span class="agent-focused-title">Agentic AI Fundamentals &amp; Agent Builder</span>
+                      </div>
+                      <p class="agent-day-desc">Agent vs traditional automation architecture, autonomous decision loops, and the Agent Builder platform.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 19</span>
+                        <span class="agent-focused-title">Agent Builder Core Concepts &amp; Memory</span>
+                      </div>
+                      <p class="agent-day-desc">Context grounding, system instructions, short/long-term memory, and tool integration.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 20</span>
+                        <span class="agent-focused-title">Prompt Engineering &amp; Guardrails</span>
+                      </div>
+                      <p class="agent-day-desc">Techniques for prompt engineering, system instructions, few-shot prompting, schema validation, and guardrails.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 21</span>
+                        <span class="agent-focused-title">Build Your First Autonomous Agent</span>
+                      </div>
+                      <p class="agent-day-desc">Live production build configuring autonomous agent parameters, input/output schemas, and testing.</p>
+                    </div>
+                  </div>
+
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Agent Builder</span>
+                    <span class="agent-pill-tag">System Instructions</span>
+                    <span class="agent-pill-tag">Few-Shot Prompting</span>
+                    <span class="agent-pill-tag">Guardrails</span>
+                  </div>
+                </div>
+
+                <!-- Card 2: HITL & AgentScore Benchmarking (Days 22-25) -->
+                <div class="agent-emerald-card">
+                  <span class="agent-ghost-num emerald">22–25</span>
+                  <span class="agent-card-tag emerald">DAYS 22–25</span>
+                  <h4 class="agent-card-h4">HITL Escalations &amp; AgentScore Benchmarking Matrix</h4>
+                  <p class="agent-card-desc">Governing agent behavior in production: measuring reasoning accuracy, stress-testing edge cases, and invoking agents from RPA.</p>
+                  
+                  <div class="agent-day-list">
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 22</span>
+                        <span class="agent-focused-title">Agent Escalations (HITL) &amp; Action Center</span>
+                      </div>
+                      <p class="agent-day-desc">Human validation, escalation thresholds, approval workflows, and Action Center integration.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 23</span>
+                        <span class="agent-focused-title">Agent Evaluations &amp; Agent Score</span>
+                      </div>
+                      <p class="agent-day-desc">Evaluation benchmarks, metrics, ground truth datasets, and Agent Score calculation.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 24</span>
+                        <span class="agent-focused-title">Agent Tools Selection &amp; Edge Cases</span>
+                      </div>
+                      <p class="agent-day-desc">Evaluating agent accuracy, testing edge cases, tool selection benchmarks, and continuous monitoring.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill emerald">Day 25</span>
+                        <span class="agent-focused-title">Bidirectional Agent + RPA Integration</span>
+                      </div>
+                      <p class="agent-day-desc">Invoking autonomous agents from deterministic RPA workflows and passing structured context bidirectionally.</p>
+                    </div>
+                  </div>
+
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Agent Score</span>
+                    <span class="agent-pill-tag">Evaluation Datasets</span>
+                    <span class="agent-pill-tag">Action Center Escalation</span>
+                    <span class="agent-pill-tag">RPA Invocation</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Phase 3 Practice Lab -->
+              <div class="sql-build-box" style="border-color:#86efac; background:#f0fdf4;">
+                <strong style="color:#0f766e;">PRACTICE LAB &amp; EXIT CHECK:</strong> Create an autonomous Customer Escalation Agent with custom prompt guardrails, measure its Agent Score over a 50-item evaluation dataset, and trigger Action Center tasks on uncertainty.
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PHASE 04: DAYS 26-35 (MCP SERVERS, CODED AGENTS & MAESTRO - FUTURISTIC PURPLE THEME) -->
+          <div class="curr-panel theme-purple" id="phase-4">
+            <div class="agent-bespoke-container">
+              
+              <div class="agent-theme-header">
+                <div>
+                  <span class="agent-card-tag purple">PHASE 04 · DAYS 26–35</span>
+                  <h3>MCP Servers, Python Coded Agents &amp; UiPath Maestro</h3>
+                  <p>The flagship layer that separates you from the market. Build Model Context Protocol (MCP) servers in Python, code custom agents, and orchestrate multi-agent swarms with UiPath Maestro.</p>
+                </div>
+              </div>
+
+              <!-- Purple Card 1: The MCP Server Ecosystem (Days 26-30) -->
+              <div class="agent-purple-card">
+                <span class="agent-ghost-num purple">26–30</span>
+                <span class="agent-card-tag purple">MODULE 01 · DAYS 26–30</span>
+                <h4 class="agent-card-h4">The Model Context Protocol (MCP) Server Suite</h4>
+                <p class="agent-card-desc">Mastering Anthropic's open standard for connecting LLMs to enterprise tools and data sources across UiPath, Python, and local CLIs.</p>
+                
+                <div class="agent-day-list">
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill purple">Day 26</span>
+                      <span class="agent-focused-title">Introduction to Model Context Protocol (MCP)</span>
+                    </div>
+                    <p class="agent-day-desc">What Model Context Protocol is, why it matters for autonomous agents, and client-server tool registration architecture.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill purple">Day 27</span>
+                      <span class="agent-focused-title">UiPath MCP Server Configuration &amp; Tool Registration</span>
+                    </div>
+                    <p class="agent-day-desc">Practical demo configuring and registering enterprise automation tools inside the native UiPath MCP Server.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill purple">Day 28</span>
+                      <span class="agent-focused-title">Coded MCP Server Development with Python + UiPath</span>
+                    </div>
+                    <p class="agent-day-desc">Practical demo building a custom Coded MCP Server using Python + UiPath to expose custom business logic to LLMs.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill purple">Day 29</span>
+                      <span class="agent-focused-title">Command MCP Server for Local CLI &amp; Process Tools</span>
+                    </div>
+                    <p class="agent-day-desc">Local tool execution, process invocation, and command-line Model Context Protocol integration.</p>
+                  </div>
+
+                  <div class="agent-day-item">
+                    <div class="agent-day-header">
+                      <span class="agent-day-pill purple">Day 30</span>
+                      <span class="agent-focused-title">Remote MCP Server Enterprise Deployment &amp; Security</span>
+                    </div>
+                    <p class="agent-day-desc">Distributed enterprise MCP server deployment, remote endpoint hosting, and network security protocols.</p>
+                  </div>
+                </div>
+
+                <div class="agent-tags-row">
+                  <span class="agent-pill-tag">Model Context Protocol</span>
+                  <span class="agent-pill-tag">Python FastMCP</span>
+                  <span class="agent-pill-tag">UiPath MCP</span>
+                  <span class="agent-pill-tag">Remote MCP Security</span>
+                </div>
+              </div>
+
+              <div class="agent-bento-grid">
+                
+                <!-- Purple Card 2: Python Coded Agents (Days 31-32) -->
+                <div class="agent-purple-card">
+                  <span class="agent-ghost-num purple">31–32</span>
+                  <span class="agent-card-tag purple">MODULE 02 · DAYS 31–32</span>
+                  <h4 class="agent-card-h4">Python Coded Agents &amp; AI Coding Skills</h4>
+                  <p class="agent-card-desc">Writing pure Python automation scripts, deploying to Orchestrator, and synthesizing workflows using Claude 3.5 Sonnet &amp; Codex.</p>
+                  
+                  <div class="agent-day-list">
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill purple">Day 31</span>
+                        <span class="agent-focused-title">Python Coded Agents &amp; Orchestrator Deployment</span>
+                      </div>
+                      <p class="agent-day-desc">Building a Coded Agent using Python, packaging custom tool sets, and deploying to Orchestrator.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill purple">Day 32</span>
+                        <span class="agent-focused-title">Coding Agent Skills (Claude 3.5 Sonnet &amp; Codex)</span>
+                      </div>
+                      <p class="agent-day-desc">Using AI coding agents (Claude 3.5 Sonnet, Codex) to synthesize, optimize, and deploy complete RPA workflows automatically.</p>
+                    </div>
+                  </div>
+
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">Python Coded Agent</span>
+                    <span class="agent-pill-tag">Claude 3.5 Sonnet</span>
+                    <span class="agent-pill-tag">Orchestrator Tools</span>
+                  </div>
+                </div>
+
+                <!-- Purple Card 3: UiPath Maestro BPMN & Multi-Agent Swarms (Days 33-35) -->
+                <div class="agent-purple-card">
+                  <span class="agent-ghost-num purple">33–35</span>
+                  <span class="agent-card-tag purple">MODULE 03 · DAYS 33–35</span>
+                  <h4 class="agent-card-h4">UiPath Maestro BPMN &amp; Multi-Agent Swarms</h4>
+                  <p class="agent-card-desc">Enterprise BPMN 2.0 process modeling, state management, event orchestration, and coordinating autonomous CrewAI swarms.</p>
+                  
+                  <div class="agent-day-list">
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill purple">Day 33</span>
+                        <span class="agent-focused-title">UiPath Maestro &amp; BPMN 2.0 Process Workflows</span>
+                      </div>
+                      <p class="agent-day-desc">BPMN standard introduction, creating BPMN flows in Maestro, tasks, events, and complex decision gateways.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill purple">Day 34</span>
+                        <span class="agent-focused-title">Full Maestro Demo &amp; Multi-Agent Process Execution</span>
+                      </div>
+                      <p class="agent-day-desc">End-to-end multi-agent business process execution, event orchestration, and state management inside UiPath Maestro.</p>
+                    </div>
+
+                    <div class="agent-day-item">
+                      <div class="agent-day-header">
+                        <span class="agent-day-pill purple">Day 35</span>
+                        <span class="agent-focused-title">External Agents (CrewAI Swarms) &amp; Orchestration</span>
+                      </div>
+                      <p class="agent-day-desc">Calling external multi-agent frameworks (CrewAI) from UiPath and coordinating autonomous agent swarms across systems.</p>
+                    </div>
+                  </div>
+
+                  <div class="agent-tags-row">
+                    <span class="agent-pill-tag">UiPath Maestro</span>
+                    <span class="agent-pill-tag">BPMN 2.0 Gateways</span>
+                    <span class="agent-pill-tag">CrewAI Swarms</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Phase 4 Flagship Capstone -->
+              <div class="sql-build-box" style="border-color:#d8b4fe; background:#faf5ff;">
+                <strong style="color:#7e22ce;">FLAGSHIP CAPSTONE ARCHITECTURE PROJECT:</strong> Architect an end-to-end autonomous enterprise system connecting a Python FastMCP Server, an Agent Builder reasoning agent, and a UiPath Maestro BPMN gateway for end-to-end order fulfillment.
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PHASE 05: OUTCOMES & WHAT'S INCLUDED - ROYAL GOLD THEME -->
+          <div class="curr-panel theme-gold" id="phase-5">
+            <div class="agent-bespoke-container">
+              
+              <div class="agent-theme-header">
+                <div>
+                  <span class="agent-card-tag gold">DELIVERY, MENTORSHIP &amp; PROOF</span>
+                  <h3>Everything you need to master next-generation automation</h3>
+                  <p>Live interactive coding, production codebases, 1-on-1 mentor code reviews, and industry-recognized credentials.</p>
+                </div>
+              </div>
+
+              <div class="agent-gold-grid">
+                <div class="agent-gold-card">
+                  <span class="agent-ghost-num gold">01</span>
+                  <span class="agent-card-tag gold">PILLAR 01</span>
+                  <h4 class="agent-card-h4">Live Instructor-Led Builds</h4>
+                  <p class="agent-card-desc">Interactive coding sessions in every class — not pre-recorded slides or generic videos. You build real pipelines alongside senior architects.</p>
+                </div>
+
+                <div class="agent-gold-card">
+                  <span class="agent-ghost-num gold">02</span>
+                  <span class="agent-card-tag gold">PILLAR 02</span>
+                  <h4 class="agent-card-h4">Production-Grade Architecture</h4>
+                  <p class="agent-card-desc">Build real Document Understanding pipelines, AI Center ML models, Python MCP servers, Coded Agents, and Maestro BPMN flows.</p>
+                </div>
+
+                <div class="agent-gold-card">
+                  <span class="agent-ghost-num gold">03</span>
+                  <span class="agent-card-tag gold">PILLAR 03</span>
+                  <h4 class="agent-card-h4">Lifetime Recording &amp; Code Access</h4>
+                  <p class="agent-card-desc">Full HD recordings of every class with complete project source code repositories for continuous reference and production reuse.</p>
+                </div>
+
+                <div class="agent-gold-card">
+                  <span class="agent-ghost-num gold">04</span>
+                  <span class="agent-card-tag gold">PILLAR 04</span>
+                  <h4 class="agent-card-h4">Direct Mentor Code Review</h4>
+                  <p class="agent-card-desc">1-on-1 architecture guidance and pull-request reviews on your agent workflows from practicing RPA and AI architects.</p>
+                </div>
+
+                <div class="agent-gold-card">
+                  <span class="agent-ghost-num gold">05</span>
+                  <span class="agent-card-tag gold">PILLAR 05</span>
+                  <h4 class="agent-card-h4">Private Practitioner Community</h4>
+                  <p class="agent-card-desc">Exclusive network of working RPA architects and Agentic AI developers sharing live job openings, project tips, and interview insights.</p>
+                </div>
+
+                <div class="agent-gold-card">
+                  <span class="agent-ghost-num gold">06</span>
+                  <span class="agent-card-tag gold">PILLAR 06</span>
+                  <h4 class="agent-card-h4">Industry-Recognized Credential</h4>
+                  <p class="agent-card-desc">Official Certificate of Completion recognized across top enterprise employers, consulting firms, and hiring partners.</p>
+                </div>
+              </div>
+
+              <div class="ts-navy-callout">
+                <span class="tn-tag">READY TO CLOSE THE GAP?</span>
+                <h4>Advance your career to the forefront of Agentic Automation.</h4>
+                <p>35 sessions. Three phases. One destination: agentic. Connect with RPAVault mentors to enroll in the next live batch.</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
   {% elif curriculum %}
   <section id="curriculum" class="sec-sand2">
     <div class="wrap">

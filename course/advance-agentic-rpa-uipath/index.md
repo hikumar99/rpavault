@@ -8,6 +8,8 @@ card_blurb: "Advanced program for RPA developers with 2+ years experience — ID
 title: "Advance Agentic RPA UiPath — Live Online Course | RPAVault"
 description: "Advanced program for RPA developers with 2+ years experience — IDP, AI Center, agentic automation, MCP and Maestro."
 course_slug: "advance-agentic-rpa-uipath"
+custom_curriculum_layout: "advance-agentic-pdf"
+syllabus_pdf: "/assets/docs/advance-agentic-rpa-syllabus.pdf"
 
 videos:
   - title: "Demo 1"
@@ -42,7 +44,6 @@ next_batch: "Open for enrollment — 15% off for RPAVault alumni"
 
 whatsapp_group_url: "/go/advance-agentic-rpa-uipath-whatsapp"
 whatsapp_jobs_url: "/go/remote-jobs-whatsapp"
-syllabus_pdf: "/assets/docs/advance-agentic-rpa-uipath-curriculum.pdf"
 
 fit_check:
   - "RPA developers with 2+ years of UiPath experience"

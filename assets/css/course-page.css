@@ -1774,14 +1774,17 @@ body:has(.course-detail-page) .hero-main h1 {
   margin-bottom: 6px;
 }
 .course-detail-page .ts-navy-callout h4 {
-  font-size: 16px;
+  font-family: 'Sora', var(--font-heading), sans-serif;
+  font-size: 17px;
   font-weight: 700;
   color: #ffffff;
   margin: 0 0 8px 0;
+  line-height: 1.35;
 }
 .course-detail-page .ts-navy-callout p {
-  font-size: 13.5px;
-  line-height: 1.6;
+  font-family: 'Inter', var(--font), sans-serif;
+  font-size: 14.5px;
+  line-height: 1.65;
   color: #d8ebf9;
   margin: 0;
 }
@@ -2242,6 +2245,448 @@ body:has(.course-detail-page) .hero-main h1 {
   color: var(--body-soft);
   margin: 0;
 }
+
+/* ==========================================================================
+   ADVANCE AGENTIC RPA & UIPATH (BEYOND RPA) - MULTI-THEME BESPOKE SYSTEM
+   ========================================================================== */
+
+/* Distinct Phase-to-Phase Ambient Backgrounds */
+.course-detail-page .curr-panel.theme-overview {
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 24px;
+}
+.course-detail-page .curr-panel.theme-amber {
+  background: linear-gradient(180deg, #fffbf5 0%, #fff7ed 100%);
+  border: 1px solid #fed7aa;
+  border-radius: 16px;
+  padding: 24px;
+}
+.course-detail-page .curr-panel.theme-cyan {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bae6fd;
+  border-radius: 16px;
+  padding: 24px;
+}
+.course-detail-page .curr-panel.theme-emerald {
+  background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 24px;
+}
+.course-detail-page .curr-panel.theme-purple {
+  background: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
+  border: 1px solid #e9d5ff;
+  border-radius: 16px;
+  padding: 24px;
+}
+.course-detail-page .curr-panel.theme-gold {
+  background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+/* Common Container Inside Each Panel */
+.course-detail-page .agent-bespoke-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'Inter', var(--font), sans-serif;
+}
+
+/* Phase Header */
+.course-detail-page .agent-theme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.course-detail-page .agent-theme-header h3 {
+  font-family: 'Sora', var(--font-heading), sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 6px 0 4px;
+  letter-spacing: -0.01em;
+}
+.course-detail-page .agent-theme-header p {
+  font-family: 'Inter', var(--font), sans-serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0;
+  max-width: 680px;
+}
+
+/* Ghosted Number Watermarks */
+.course-detail-page .agent-ghost-num {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.09;
+  pointer-events: none;
+  user-select: none;
+  color: #0f172a;
+}
+.course-detail-page .agent-ghost-num.amber { color: #ea580c; opacity: 0.12; }
+.course-detail-page .agent-ghost-num.cyan { color: #0284c7; opacity: 0.12; }
+.course-detail-page .agent-ghost-num.emerald { color: #059669; opacity: 0.12; }
+.course-detail-page .agent-ghost-num.purple { color: #7c3aed; opacity: 0.12; }
+.course-detail-page .agent-ghost-num.gold { color: #d97706; opacity: 0.15; }
+
+/* Overview Stats Grid (Phase 0) */
+.course-detail-page .agent-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+@media (max-width: 900px) {
+  .course-detail-page .agent-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 540px) {
+  .course-detail-page .agent-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.course-detail-page .agent-stat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+.course-detail-page .agent-stat-card .m-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.course-detail-page .agent-stat-card .m-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.course-detail-page .agent-stat-card .m-num {
+  font-family: 'Sora', var(--font-heading), sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.course-detail-page .agent-stat-card .m-sub {
+  font-family: 'Inter', var(--font), sans-serif;
+  font-size: 12.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Overview 4-Card Comparative Grid (Phase 0) */
+.course-detail-page .agent-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 768px) {
+  .course-detail-page .agent-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.course-detail-page .agent-overview-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 24px -6px rgba(15, 23, 42, 0.06);
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-overview-card:hover {
+  transform: translateY(-3px);
+  border-color: #64748b;
+  box-shadow: 0 16px 32px -6px rgba(15, 23, 42, 0.12);
+}
+
+/* Bento Hero Box (Phase 1) */
+.course-detail-page .agent-bento-hero {
+  background: #ffffff;
+  border: 1.5px solid #fed7aa;
+  border-radius: 14px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 24px -6px rgba(234, 88, 12, 0.08);
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-bento-hero:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -6px rgba(234, 88, 12, 0.14);
+  border-color: #ea580c;
+}
+
+.course-detail-page .agent-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+.course-detail-page .agent-bento-subcard {
+  background: #ffffff;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-bento-subcard:hover {
+  transform: translateY(-3px);
+  border-color: #ea580c;
+  box-shadow: 0 10px 24px -4px rgba(234, 88, 12, 0.12);
+}
+
+/* Cyan Glass Cards (Phase 2) */
+.course-detail-page .agent-cyan-card {
+  background: #ffffff;
+  border: 1.5px solid #bae6fd;
+  border-radius: 14px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 24px -6px rgba(2, 132, 199, 0.08);
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-cyan-card:hover {
+  transform: translateY(-3px);
+  border-color: #0284c7;
+  box-shadow: 0 16px 32px -6px rgba(2, 132, 199, 0.15);
+}
+
+/* Emerald Architecture Cards (Phase 3) */
+.course-detail-page .agent-emerald-card {
+  background: #ffffff;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 14px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 24px -6px rgba(5, 150, 105, 0.08);
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-emerald-card:hover {
+  transform: translateY(-3px);
+  border-color: #059669;
+  box-shadow: 0 16px 32px -6px rgba(5, 150, 105, 0.15);
+}
+
+/* Purple Swarm Cards (Phase 4) */
+.course-detail-page .agent-purple-card {
+  background: #ffffff;
+  border: 1.5px solid #e9d5ff;
+  border-radius: 14px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 24px -6px rgba(124, 58, 237, 0.08);
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-purple-card:hover {
+  transform: translateY(-3px);
+  border-color: #7c3aed;
+  box-shadow: 0 16px 32px -6px rgba(124, 58, 237, 0.15);
+}
+
+/* Amber 6-Pillar Grid (Phase 1 Days 06-11) */
+.course-detail-page .agent-amber-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 768px) {
+  .course-detail-page .agent-amber-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.course-detail-page .agent-amber-card {
+  background: #ffffff;
+  border: 1.5px solid #fed7aa;
+  border-radius: 12px;
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-amber-card:hover {
+  transform: translateY(-3px);
+  border-color: #ea580c;
+  box-shadow: 0 12px 28px -6px rgba(234, 88, 12, 0.15);
+}
+
+/* Gold Proof Tiles (Phase 5) */
+.course-detail-page .agent-gold-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 768px) {
+  .course-detail-page .agent-gold-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.course-detail-page .agent-gold-card {
+  background: #ffffff;
+  border: 1.5px solid #fde68a;
+  border-radius: 12px;
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+.course-detail-page .agent-gold-card:hover {
+  transform: translateY(-3px);
+  border-color: #d97706;
+  box-shadow: 0 12px 28px -6px rgba(217, 119, 6, 0.15);
+}
+
+/* Card Content Helpers */
+.course-detail-page .agent-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.course-detail-page .agent-card-tag.amber { background: #ffedd5; color: #c2410c; }
+.course-detail-page .agent-card-tag.cyan { background: #e0f2fe; color: #0369a1; }
+.course-detail-page .agent-card-tag.emerald { background: #ccfbf1; color: #0f766e; }
+.course-detail-page .agent-card-tag.purple { background: #f3e8ff; color: #7e22ce; }
+.course-detail-page .agent-card-tag.gold { background: #fef3c7; color: #b45309; }
+
+.course-detail-page .agent-card-h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.course-detail-page .agent-card-desc {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #334155;
+  margin: 0 0 12px;
+}
+
+.course-detail-page .agent-bullet-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #334155;
+}
+.course-detail-page .agent-bullet-list li {
+  margin-bottom: 6px;
+}
+
+/* Focused Day Item System */
+.course-detail-page .agent-day-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.course-detail-page .agent-day-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: all 0.2s ease;
+}
+.course-detail-page .agent-day-item:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.course-detail-page .agent-day-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.course-detail-page .agent-day-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.course-detail-page .agent-day-pill.amber { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
+.course-detail-page .agent-day-pill.cyan { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+.course-detail-page .agent-day-pill.emerald { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+.course-detail-page .agent-day-pill.purple { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+
+.course-detail-page .agent-focused-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.course-detail-page .agent-day-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #475569;
+  margin: 0;
+}
+
+.course-detail-page .agent-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.course-detail-page .agent-pill-tag {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #475569;
+}
+
+
+
+
+
+
 
 
 
