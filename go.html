@@ -222,6 +222,15 @@ noindex: true
         return;
       }
 
+      // Track clean pageview in Google Analytics with target details
+      if (window.gtag) {
+        gtag('event', 'page_view', {
+          'page_title': match.title + ' (Redirect)',
+          'page_location': window.location.origin + '/go/' + slug,
+          'page_path': '/go/' + slug
+        });
+      }
+
       // Handle based on redirect type
       if (match.type === 'iframe') {
         // Track iframe event
