@@ -54,6 +54,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* ==== WhatsApp quick button ==== */
 .whatsapp-float{position:fixed;right:22px;bottom:22px;z-index:80;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 12px 28px rgba(11,31,49,.28);transition:transform .2s ease,box-shadow .2s ease}
 .whatsapp-float:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 16px 34px rgba(11,31,49,.34)}
+@media(max-width:640px){.whatsapp-float{bottom:76px;right:16px;z-index:350;width:48px;height:48px;box-shadow:0 8px 24px rgba(0,0,0,.25)}.whatsapp-float svg{width:26px;height:26px}}
 
 /* ==== Inner pages ==== */
 .page-hero{padding:clamp(2.4rem,4.4vw,3.6rem) 0 clamp(1.2rem,2vw,1.8rem)}
