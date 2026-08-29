@@ -8,14 +8,20 @@ category: "Agentic RPA"
 read_time: "12 min read"
 image: "/assets/images/blog/uipath-multibot-architecture.jpg"
 cta_text: "Ready to design bulletproof, high-transaction enterprise automations? Master the ReFrameWork and Orchestrator in our Advanced Agentic RPA course, honestly."
+related_courses:
+  - "rpa-agentic-uipath-power-automate"
+  - "uipath-test-suite"
+related_posts:
+  - "/blog/uipath-orchestrator-queues/"
+  - "/blog/the-work-that-remains-book-review/"
 ---
 <!-- Sticky Topic Navigator -->
-<div class="sticky-toc-bar" style="position: sticky; top: 90px; z-index: 99; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(8px); border: 1px solid var(--line); padding: 10px 18px; margin: 0 auto 3rem auto; display: flex; align-items: center; justify-content: space-between; border-radius: 14px; box-shadow: var(--shadow-sm); max-width: 100%;">
-  <span style="font-size: 0.8rem; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+<div class="sticky-toc-bar">
+  <span>
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
     Reading Topic:
   </span>
-  <select id="toc-selector" style="font-size: 0.88rem; font-weight: 700; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 6px 30px 6px 12px; background: #ffffff; outline: none; cursor: pointer; max-width: 75%; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230058b0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px top 50%; background-size: 10px auto;">
+  <select id="toc-selector">
     <option value="#chapter-1">Ch 1: Core Prerequisites</option>
     <option value="#chapter-2">Ch 2: Step-by-Step Implementation</option>
     <option value="#chapter-3">Ch 3: Scalability & Concurrency</option>

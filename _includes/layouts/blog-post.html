@@ -127,6 +127,75 @@ layout: layouts/base.html
     margin: 2.2rem 0 !important;
   }
   
+  /* Responsive images in blog post content */
+  .article-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--line) !important;
+  }
+  
+  /* Sticky TOC Bar and mobile responsiveness */
+  .sticky-toc-bar {
+    position: sticky !important;
+    top: 90px !important;
+    z-index: 99 !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid var(--line) !important;
+    padding: 10px 18px !important;
+    margin: 0 auto 3rem auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-radius: 14px !important;
+    box-shadow: var(--shadow-sm) !important;
+    max-width: 100% !important;
+  }
+  .sticky-toc-bar span {
+    font-size: 0.8rem !important;
+    font-weight: 800 !important;
+    color: var(--blue) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+  #toc-selector {
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 8px !important;
+    padding: 6px 30px 6px 12px !important;
+    background: #ffffff !important;
+    outline: none !important;
+    cursor: pointer !important;
+    max-width: 75% !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230058b0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E') !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px top 50% !important;
+    background-size: 10px auto !important;
+  }
+  @media (max-width: 600px) {
+    .sticky-toc-bar {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 10px !important;
+      padding: 12px 14px !important;
+      margin-bottom: 2rem !important;
+    }
+    #toc-selector {
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+  }
+  
   /* Code Blocks (Boxes) & Inline Code Styling */
   .article-content pre {
     background: #1e1e24 !important;
@@ -360,56 +429,102 @@ layout: layouts/base.html
         }
       </style>
 
-      <h3 class="sidebar-title">Latest Articles</h3>
+      <h3 class="sidebar-title">Related Articles</h3>
       <div class="sidebar-list" id="sidebar-articles-list">
-        {% set ns = { count: 0 } %}
-        {% for post in collections.blogPosts %}
-          {% if post.url != page.url and ns.count < 4 %}
-            <div class="sidebar-post-item">
-              <a href="{{ post.url }}" style="display: block !important;">
-                <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}">
-              </a>
-              <div class="sidebar-post-info">
-                <a class="sidebar-post-cat" href="/search/?q={{ (post.data.category | default('Tech')) | urlencode }}" style="text-decoration: none !important;">{{ post.data.category | default("Tech") }}</a>
-                <h4><a href="{{ post.url }}" style="text-decoration: none !important; color: inherit !important;">{{ post.data.title }}</a></h4>
+        {% set rendered_posts = 0 %}
+        {% if related_posts %}
+          {% for post_url in related_posts %}
+            {% for post in collections.blogPosts %}
+              {% if post.url == post_url %}
+                <div class="sidebar-post-item">
+                  <a href="{{ post.url }}" style="display: block !important;">
+                    <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}">
+                  </a>
+                  <div class="sidebar-post-info">
+                    <a class="sidebar-post-cat" href="/search/?q={{ (post.data.category | default('Tech')) | urlencode }}" style="text-decoration: none !important;">{{ post.data.category | default("Tech") }}</a>
+                    <h4><a href="{{ post.url }}" style="text-decoration: none !important; color: inherit !important;">{{ post.data.title }}</a></h4>
+                  </div>
+                </div>
+                {% set rendered_posts = rendered_posts + 1 %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+        
+        {# Fallback to latest posts if none rendered #}
+        {% if rendered_posts == 0 %}
+          {% set ns = { count: 0 } %}
+          {% for post in collections.blogPosts %}
+            {% if post.url != page.url and ns.count < 3 %}
+              <div class="sidebar-post-item">
+                <a href="{{ post.url }}" style="display: block !important;">
+                  <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}">
+                </a>
+                <div class="sidebar-post-info">
+                  <a class="sidebar-post-cat" href="/search/?q={{ (post.data.category | default('Tech')) | urlencode }}" style="text-decoration: none !important;">{{ post.data.category | default("Tech") }}</a>
+                  <h4><a href="{{ post.url }}" style="text-decoration: none !important; color: inherit !important;">{{ post.data.title }}</a></h4>
+                </div>
               </div>
-            </div>
-            {% set ns = { count: ns.count + 1 } %}
-          {% endif %}
-        {% endfor %}
+              {% set ns = { count: ns.count + 1 } %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       </div>
 
-      <h3 class="sidebar-title" style="margin-top: 2.2rem !important;">Batches Starting This Week</h3>
+      <h3 class="sidebar-title" style="margin-top: 2.2rem !important;">Recommended Courses</h3>
       <div class="sidebar-list" id="sidebar-courses-list">
-        <div class="sidebar-post-item">
-          <a href="/course/rpa-agentic-uipath-power-automate/" style="display: block !important;">
-            <img src="/assets/images/courses/rpa-agentic-uipath-power-automate.svg" alt="RPA Agentic">
-          </a>
-          <div class="sidebar-post-info">
-            <a class="sidebar-post-cat" href="/search/?q=RPA" style="text-decoration: none !important;">RPA</a>
-            <h4><a href="/course/rpa-agentic-uipath-power-automate/" style="text-decoration: none !important; color: inherit !important;">RPA Agentic (UiPath + Power Automate)</a></h4>
+        {% set rendered_courses = 0 %}
+        {% if related_courses %}
+          {% for course_slug in related_courses %}
+            {% for course in collections.all %}
+              {% if course.url == "/course/" + course_slug + "/" %}
+                <div class="sidebar-post-item">
+                  <a href="{{ course.url }}" style="display: block !important;">
+                    <img src="/assets/images/courses/{{ course_slug }}.webp" alt="{{ course.data.title }}">
+                  </a>
+                  <div class="sidebar-post-info">
+                    <a class="sidebar-post-cat" href="/search/?q={{ (course.data.category | default('Training')) | urlencode }}" style="text-decoration: none !important;">{{ course.data.category | default("Training") }}</a>
+                    <h4><a href="{{ course.url }}" style="text-decoration: none !important; color: inherit !important;">{{ course.data.title }}</a></h4>
+                  </div>
+                </div>
+                {% set rendered_courses = 1 %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+        
+        {# Fallback if no courses were rendered #}
+        {% if rendered_courses == 0 %}
+          <div class="sidebar-post-item">
+            <a href="/course/rpa-agentic-uipath-power-automate/" style="display: block !important;">
+              <img src="/assets/images/courses/rpa-agentic-uipath-power-automate.webp" alt="RPA Agentic">
+            </a>
+            <div class="sidebar-post-info">
+              <a class="sidebar-post-cat" href="/search/?q=RPA" style="text-decoration: none !important;">RPA</a>
+              <h4><a href="/course/rpa-agentic-uipath-power-automate/" style="text-decoration: none !important; color: inherit !important;">RPA Agentic (UiPath + Power Automate)</a></h4>
+            </div>
           </div>
-        </div>
 
-        <div class="sidebar-post-item">
-          <a href="/course/data-analytics-power-bi-sql/" style="display: block !important;">
-            <img src="/assets/images/courses/data-analytics-power-bi-sql.webp" alt="Data Analytics">
-          </a>
-          <div class="sidebar-post-info">
-            <a class="sidebar-post-cat" href="/search/?q={{ 'Data Analytics' | urlencode }}" style="text-decoration: none !important;">Data Analytics</a>
-            <h4><a href="/course/data-analytics-power-bi-sql/" style="text-decoration: none !important; color: inherit !important;">Data Analytics (Power BI + SQL)</a></h4>
+          <div class="sidebar-post-item">
+            <a href="/course/data-analytics-power-bi-sql/" style="display: block !important;">
+              <img src="/assets/images/courses/data-analytics-power-bi-sql.webp" alt="Data Analytics">
+            </a>
+            <div class="sidebar-post-info">
+              <a class="sidebar-post-cat" href="/search/?q={{ 'Data Analytics' | urlencode }}" style="text-decoration: none !important;">Data Analytics</a>
+              <h4><a href="/course/data-analytics-power-bi-sql/" style="text-decoration: none !important; color: inherit !important;">Data Analytics (Power BI + SQL)</a></h4>
+            </div>
           </div>
-        </div>
 
-        <div class="sidebar-post-item">
-          <a href="/course/playwright-typescript-automation/" style="display: block !important;">
-            <img src="/assets/images/courses/playwright-typescript-automation.svg" alt="Playwright Automation">
-          </a>
-          <div class="sidebar-post-info">
-            <a class="sidebar-post-cat" href="/search/?q={{ 'QA Testing' | urlencode }}" style="text-decoration: none !important;">QA Testing</a>
-            <h4><a href="/course/playwright-typescript-automation/" style="text-decoration: none !important; color: inherit !important;">Playwright TypeScript Masterclass</a></h4>
+          <div class="sidebar-post-item">
+            <a href="/course/playwright-typescript-automation/" style="display: block !important;">
+              <img src="/assets/images/courses/playwright-typescript-automation.webp" alt="Playwright Automation">
+            </a>
+            <div class="sidebar-post-info">
+              <a class="sidebar-post-cat" href="/search/?q={{ 'QA Testing' | urlencode }}" style="text-decoration: none !important;">QA Testing</a>
+              <h4><a href="/course/playwright-typescript-automation/" style="text-decoration: none !important; color: inherit !important;">Playwright TypeScript Masterclass</a></h4>
+            </div>
           </div>
-        </div>
+        {% endif %}
       </div>
     </aside>
   </div>

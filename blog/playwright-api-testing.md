@@ -8,6 +8,11 @@ category: "QA Automation"
 read_time: "6 min read"
 image: "/assets/images/blog/playwright-api-testing.jpg"
 cta_text: "Ready to scale your QA skills beyond simple UI automation? Learn API testing, CI/CD integration, and TypeScript patterns in our Playwright TypeScript Masterclass, honestly."
+related_courses:
+  - "playwright-typescript-automation"
+related_posts:
+  - "/blog/playwright-auth-handling/"
+  - "/blog/git-github-actions-guide/"
 ---
 ## Why Integrate API Testing into Your UI Framework?
 
