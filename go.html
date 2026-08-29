@@ -180,7 +180,7 @@ noindex: true
       const slugIdx = headers.indexOf('slug');
       const urlIdx = headers.indexOf('target url');
       const typeIdx = headers.indexOf('type');
-      const titleIdx = headers.indexOf('title');
+      const titleIdx = headers.indexOf('preview title');
       
       if (slugIdx === -1 || urlIdx === -1) {
         throw new Error("Required column headers 'slug' or 'target url' not found in spreadsheet");
