@@ -26,6 +26,8 @@ Relying solely on UI tests makes your test suite slow and prone to UI changes. B
 
 Playwright has native support for API testing. Let's look at how to build API tests and orchestrate them with UI interactions.
 
+If you want to master full-stack QA frameworks, API mocking, and CI/CD testing pipelines, explore our [Playwright TypeScript Masterclass](/course/playwright-typescript-automation/) or request a [Discovery Callback](/contact/) to discuss your learning path.
+
 ---
 
 ## 1. Writing Your First Playwright API Test
@@ -38,7 +40,6 @@ import { test, expect } from '@playwright/test';
 test('should retrieve user details from API', async ({ request }) => {
   // Send a GET request to the endpoint
   const response = await request.get('https://api.example.com/users/123');
-
   // Verify the HTTP response status code
   expect(response.status()).toBe(200);
 
@@ -48,32 +49,28 @@ test('should retrieve user details from API', async ({ request }) => {
   // Assert specific keys and data values
   expect(body.id).toBe(123);
   expect(body.name).toBe('Alex Jensen');
-  expect(body.role).toBe('admin');
-  expect(body.status).toBe('active');
 });
 ```
 
 ---
 
-## 2. Sending POST Requests with JSON Payloads
+## 2. Testing POST Requests and Data Payload Sending
 
-To create resources or submit forms via API, you send a POST request containing a body payload. Playwright makes passing JSON headers and data structures straightforward:
+To create or update database resources, send data payloads inside your HTTP requests. Here is a test case verifying POST behavior:
 
 ```typescript
 test('should create a new user profile via POST', async ({ request }) => {
   const newUser = {
-    name: 'Alex Jensen',
-    email: 'alexj@tech.io',
-    role: 'admin'
+    name: 'Sarah Connor',
+    email: 'sarah@resistance.net'
   };
 
+  // Send POST request with JSON payload
   const response = await request.post('https://api.example.com/users', {
-    data: newUser,
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    data: newUser
   });
 
+  // Verify creation success status code (201 Created)
   expect(response.status()).toBe(201);
 
   const body = await response.json();
@@ -90,7 +87,8 @@ The true superpower of Playwright is combining API calls and UI assertions in a 
 
 Instead of typing credentials into the login page (UI), you can fetch authentication cookies via API, inject them into the browser context, navigate straight to the dashboard, and verify a chart.
 
-### Example: Hybrid Setup and Assert Verification
+*To see a complete implementation of this hybrid authentication pattern, check out our guide on [Playwright Authentication Handling](/blog/playwright-auth-handling/).*
+
 ```typescript
 test('hybrid flow: update profile and verify in UI', async ({ request, page }) => {
   // 1. API: Quick update to database profile data

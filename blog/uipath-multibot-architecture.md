@@ -74,6 +74,8 @@ When scaling Robotic Process Automation (RPA) in an enterprise, you quickly hit 
 
 To achieve horizontal scaling, high availability, and transaction-level isolation, you must implement a **Multi-Bot architecture**.
 
+If you're looking to master advanced enterprise RPA scaling patterns, check out our [RPA Agentic (UiPath + Power Automate) Course](/course/rpa-agentic-uipath-power-automate/) or talk to our experts through a [Discovery Callback](/contact/).
+
 By coordinating multiple robots to work on a single business process in parallel, you can slash execution times from days to hours. Let's explore the prerequisites, the step-by-step implementation, and how to size your multi-bot systems.
 
 ---
@@ -116,7 +118,7 @@ The target application must support multiple concurrent sessions. If the system 
 
 <h2 id="chapter-2">Chapter 2: Step-by-Step Implementation</h2>
 
-A standard Multi-Bot system uses the **Dispatcher-Performer Model** to decouple data gathering from actual application processing.
+A standard Multi-Bot system uses the **Dispatcher-Performer Model** to decouple data gathering from actual application processing. If you want to learn how to build this split architecture using UiPath's official ReFrameWork template, explore our [Advanced Agentic RPA Course](/course/advance-agentic-rpa-uipath/).
 
 ```text
 Input Excel / API ➔ [Dispatcher Bot] ➔ [UiPath Queue] ➔ [Performer Bot 1]

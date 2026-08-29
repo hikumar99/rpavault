@@ -72,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *A Comprehensive Engineering Handbook for Distributed Version Control, Platform Governance, and Enterprise Automation*
 
+If you're looking to integrate Git workflows with robust test suites or set up end-to-end continuous integration pipelines in Playwright, check out our [Playwright TypeScript Masterclass](/course/playwright-typescript-automation/) or get in touch for custom training with a [Discovery Callback](/contact/).
+
 ---
 
 <h2 id="chapter-1">Chapter 1: The Modern Software Delivery Triad</h2>
@@ -407,7 +409,7 @@ By 2026, both platforms have integrated AI capabilities that extend beyond simpl
 
 <h2 id="chapter-6">Chapter 6: Automating the SDLC with GitHub Actions</h2>
 
-GitHub Actions is the engine that drives continuous integration and delivery. It is configured using YAML files stored inside the `.github/workflows/` directory of a repository.
+GitHub Actions is the engine that drives continuous integration and delivery. It is configured using YAML files stored inside the `.github/workflows/` directory of a repository. If you want to see how to run automated testing suites on GitHub Actions, check out our guide on [Playwright API Testing](/blog/playwright-api-testing/) where we configure execution schedules and test reports.
 
 ### 1. The Five Core Runtime Components
 

@@ -224,6 +224,15 @@ noindex: true
 
       // Handle based on redirect type
       if (match.type === 'iframe') {
+        // Track iframe event
+        if (window.gtag) {
+          gtag('event', 'go_iframe', {
+            'event_category': 'Redirect',
+            'event_label': slug,
+            'destination_url': match.url
+          });
+        }
+
         // Iframe: render within framework, show header, hide footer
         loaderEl.style.display = 'none';
         iframeEl.style.display = 'block';
@@ -238,6 +247,15 @@ noindex: true
         document.head.appendChild(style);
       }
       else if (match.type === 'transition') {
+        // Track transition event
+        if (window.gtag) {
+          gtag('event', 'go_transition', {
+            'event_category': 'Redirect',
+            'event_label': slug,
+            'destination_url': match.url
+          });
+        }
+
         // Transition: leaving site page
         loaderEl.style.display = 'none';
         transitionEl.style.display = 'flex';
@@ -262,8 +280,28 @@ noindex: true
         }, 1000);
       }
       else {
-        // Direct: instantly navigate
-        window.location.replace(match.url);
+        // Track direct event with callback and timeout
+        if (window.gtag) {
+          let redirected = false;
+          const doRedirect = () => {
+            if (!redirected) {
+              redirected = true;
+              window.location.replace(match.url);
+            }
+          };
+          
+          gtag('event', 'go_direct', {
+            'event_category': 'Redirect',
+            'event_label': slug,
+            'destination_url': match.url,
+            'event_callback': doRedirect
+          });
+          
+          // Safety timeout in case callback fails
+          setTimeout(doRedirect, 400);
+        } else {
+          window.location.replace(match.url);
+        }
       }
     } catch (err) {
       showError(err.message || "Failed to load redirect link details.");
