@@ -4126,18 +4126,19 @@ layout: layouts/base.html
               <p>{{ video1.description }}</p>
             </div>
           {% else %}
-            <!-- Placeholder Demo Video 1 -->
+            <!-- Placeholder Demo Video 1 (Thumbnail with Play Overlay) -->
             <div class="preview-block placeholder-demo">
-              <div class="preview-video" style="background:#f4f7f6; display:flex; align-items:center; justify-content:center; border:2px dashed #cfd9d4; border-radius:14px; box-sizing:border-box;">
-                <div style="text-align:center; color:var(--body-soft); padding:20px;">
-                  <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; opacity:0.6; color:#0058b0;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                  <p style="margin:0; font-weight:600; font-size:14px; color:var(--ink);">Demo Video 1 Coming Soon</p>
-                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--body-soft);">Live session recording for this course is being processed.</p>
+              <div class="preview-video preview-thumb-holder" style="position:relative; overflow:hidden; background:#0b192c; display:flex; align-items:center; justify-content:center;">
+                <img src="{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}" alt="{{ name | default(title) }} Demo" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none';">
+                <div class="play-overlay" style="position:absolute; inset:0; background:rgba(11,25,44,0.35); display:flex; align-items:center; justify-content:center;">
+                  <span style="width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.95); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.3); color:#0058b0;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="margin-left:3px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </span>
                 </div>
               </div>
               <span class="preview-day">Day 1 &middot; Live Batch Demo</span>
-              <h4>Class preview is on the way</h4>
-              <p>Join the WhatsApp group to get notified of the next live demo session and watch immediate highlights.</p>
+              <h4>Here is the demo</h4>
+              <p>Watch foundational architecture concepts and live hands-on walkthroughs covered in class.</p>
             </div>
           {% endif %}
 
@@ -4152,18 +4153,19 @@ layout: layouts/base.html
               <p>{{ video2.description }}</p>
             </div>
           {% else %}
-            <!-- Placeholder Demo Video 2 -->
+            <!-- Placeholder Demo Video 2 (Thumbnail with Play Overlay) -->
             <div class="preview-block placeholder-demo">
-              <div class="preview-video" style="background:#f4f7f6; display:flex; align-items:center; justify-content:center; border:2px dashed #cfd9d4; border-radius:14px; box-sizing:border-box;">
-                <div style="text-align:center; color:var(--body-soft); padding:20px;">
-                  <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; opacity:0.6; color:#0058b0;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                  <p style="margin:0; font-weight:600; font-size:14px; color:var(--ink);">Demo Video 2 Coming Soon</p>
-                  <p style="margin:4px 0 0 0; font-size:12px; color:var(--body-soft);">Deep-dive project walkthrough clip is being processed.</p>
+              <div class="preview-video preview-thumb-holder" style="position:relative; overflow:hidden; background:#0b192c; display:flex; align-items:center; justify-content:center;">
+                <img src="{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}" alt="{{ name | default(title) }} Project Demo" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none';">
+                <div class="play-overlay" style="position:absolute; inset:0; background:rgba(11,25,44,0.35); display:flex; align-items:center; justify-content:center;">
+                  <span style="width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.95); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.3); color:#0058b0;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="margin-left:3px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </span>
                 </div>
               </div>
               <span class="preview-day">Day 2 &middot; Deep-dive Walkthrough</span>
-              <h4>Project workflow walkthrough coming soon</h4>
-              <p>Watch standard templates and production-grade deployments discussed in class.</p>
+              <h4>Here is the demo</h4>
+              <p>Watch end-to-end project implementations and advanced techniques covered in class.</p>
             </div>
           {% endif %}
         </div>
@@ -4182,6 +4184,10 @@ layout: layouts/base.html
             <a class="loop-btn" href="/go/{{ course_slug }}-live-class/" target="_blank" rel="noopener">
               <span class="lb-ic" style="background:#ede9fe;color:#7c3aed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
               <span class="lb-txt"><span class="lb-title">Join Live Class</span><span class="lb-sub">For registered users only</span></span>
+            </a>
+            <a class="loop-btn" href="/go/{{ course_slug }}-recording/" target="_blank" rel="noopener">
+              <span class="lb-ic" style="background:#fef3c7;color:#d97706"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></span>
+              <span class="lb-txt"><span class="lb-title">Access Class Recordings</span><span class="lb-sub">For enrolled members</span></span>
             </a>
             <a class="loop-btn" href="https://www.youtube.com/@rpavault" target="_blank" rel="noopener">
               <span class="lb-ic" style="background:#fde3e3;color:#d32f2f"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg></span>

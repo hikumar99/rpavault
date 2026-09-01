@@ -10,6 +10,14 @@ description: "A focused Azure Data Engineering program covering the platform, th
 course_slug: "azure-data-engineer"
 custom_curriculum_layout: "azure-data-engineer-pdf"
 
+videos:
+  - title: "Azure Data Engineering & ADF Foundations - Session 1"
+    description: "Live session recording covering Azure cloud and data engineering architecture."
+    url: "https://www.youtube.com/embed/GzNT_0nHPqE"
+  - title: "Databricks & Synapse Pipeline Walkthrough - Session 2"
+    description: "Deep-dive project walkthrough of end-to-end cloud ETL and data pipelines."
+    url: "https://www.youtube.com/embed/s0Gn1zN91zA"
+
 category: "Cloud & Data Engineering"
 eyebrow: "Cloud & Data Engineering"
 name: "Azure Data Engineering"
