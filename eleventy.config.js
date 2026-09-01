@@ -1,9 +1,41 @@
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+
 module.exports = function(eleventyConfig) {
+  // Ensure all course webp images have JPG & PNG Open Graph versions for WhatsApp & social sharing
+  eleventyConfig.on("eleventy.before", async () => {
+    try {
+      const coursesDir = path.join(__dirname, "assets", "images", "courses");
+      if (fs.existsSync(coursesDir)) {
+        const files = fs.readdirSync(coursesDir).filter(f => f.endsWith(".webp"));
+        for (const file of files) {
+          const baseName = path.basename(file, ".webp");
+          const srcPath = path.join(coursesDir, file);
+          const jpgPath = path.join(coursesDir, `${baseName}.jpg`);
+          const pngPath = path.join(coursesDir, `${baseName}.png`);
+
+          if (!fs.existsSync(jpgPath)) {
+            try {
+              execSync(`sips -s format jpeg -s formatOptions 85 "${srcPath}" --out "${jpgPath}"`, { stdio: "ignore" });
+            } catch (e) {}
+          }
+          if (!fs.existsSync(pngPath)) {
+            try {
+              execSync(`sips -s format png "${srcPath}" --out "${pngPath}"`, { stdio: "ignore" });
+            } catch (e) {}
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Could not auto-generate course OG images:", err.message);
+    }
+  });
+
   // Pass through static assets and configuration files
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("functions");
   eleventyConfig.addPassthroughCopy("_redirects");
-  eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("admin");
 

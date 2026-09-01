@@ -5,13 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {% set pageTitle = seo_title | default(title) | default("RPAVault — Consultancy, Staffing & Enterprise Automation") %}
 {% set pageDesc = seo_description | default(description) | default("RPAVault is a consultancy, staffing, and enterprise automation partner in Hyderabad. We place skilled professionals in corporate teams, build RPA and AI-agent automations, and deliver training across all major IT courses.") %}
-{% set shareImage = og_image | default(image) | default(featured_image) | default('/assets/images/og-image.png') %}
+{% set rawShareImage = og_image | default(image) | default(featured_image) | default(card_image) %}
+{% if not rawShareImage and course_slug %}
+  {% set rawShareImage = "/assets/images/courses/" + course_slug + ".jpg" %}
+{% endif %}
+{% if not rawShareImage %}
+  {% set rawShareImage = "/assets/images/og-image.png" %}
+{% endif %}
+{# Convert any .webp or .svg image to .jpg for WhatsApp & social Open Graph crawlers #}
+{% set shareImage = rawShareImage | replace('.webp', '.jpg') | replace('.svg', '.png') %}
 {% if shareImage.indexOf('http') == 0 %}
   {% set absoluteShareImage = shareImage %}
 {% elif shareImage.slice(0, 1) == '/' %}
   {% set absoluteShareImage = "https://rpavault.com" + shareImage %}
 {% else %}
   {% set absoluteShareImage = "https://rpavault.com/" + shareImage %}
+{% endif %}
+{% if shareImage.slice(-4) == '.png' %}
+  {% set shareImageType = 'image/png' %}
+{% else %}
+  {% set shareImageType = 'image/jpeg' %}
 {% endif %}
 <title>{{ pageTitle }}</title>
 <meta name="description" content="{{ pageDesc }}">
@@ -26,8 +39,11 @@
 <meta property="og:description" content="{{ pageDesc }}">
 <meta property="og:url" content="{% if canonical_url %}{{ canonical_url }}{% else %}https://rpavault.com{{ page.url }}{% endif %}">
 <meta property="og:image" content="{{ absoluteShareImage }}">
+<meta property="og:image:secure_url" content="{{ absoluteShareImage }}">
+<meta property="og:image:type" content="{{ shareImageType }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ pageTitle }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ pageTitle }}">
 <meta name="twitter:description" content="{{ pageDesc }}">
