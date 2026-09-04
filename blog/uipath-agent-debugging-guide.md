@@ -36,6 +36,41 @@ related_posts:
   </select>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const selector = document.getElementById('toc-selector');
+  const headings = Array.from(document.querySelectorAll('.article-content h2[id^="chapter-"]'));
+  
+  selector.addEventListener('change', (e) => {
+    const target = document.querySelector(e.target.value);
+    if (target) {
+      const headerOffset = 160;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    let currentActive = "";
+    const scrollPosition = window.scrollY + 180;
+    
+    headings.forEach((heading) => {
+      if (heading.offsetTop <= scrollPosition) {
+        currentActive = "#" + heading.id;
+      }
+    });
+    
+    if (currentActive && selector.value !== currentActive) {
+      selector.value = currentActive;
+    }
+  });
+});
+</script>
+
 > **This post is for you if:** you've built a UiPath AI agent that works great in a controlled environment, but the moment you put it into production — against real emails, real PDFs, real edge cases — it starts hallucinating, looping endlessly, or just doing the completely wrong thing.
 
 You are not alone. This is the most common complaint across the UiPath community on Reddit, LinkedIn groups, and developer forums in 2025. The gap between "it worked in my test" and "it's blowing up in production" is the hardest part of agentic development, and very few tutorials address it honestly.
@@ -46,7 +81,7 @@ If you're learning this to **build a career** in Agentic RPA, we've built an ent
 
 ---
 
-## Chapter 1: Why Your Agent Works in Demos but Fails in Production {#chapter-1}
+<h2 id="chapter-1">Chapter 1: Why Your Agent Works in Demos but Fails in Production</h2>
 
 Before we get into the individual failure modes, let's talk about why this gap exists in the first place.
 
@@ -79,7 +114,7 @@ Let's go through each one with examples and fixes.
 
 ---
 
-## Chapter 2: Root Cause 1 — Vague Prompts & Hallucinations {#chapter-2}
+<h2 id="chapter-2">Chapter 2: Root Cause 1 — Vague Prompts &amp; Hallucinations</h2>
 
 ### What Happens
 
@@ -137,7 +172,7 @@ If the agent fabricates data on a negative test, your prompt is not constrained 
 
 ---
 
-## Chapter 3: Root Cause 2 — Infinite Reasoning Loops {#chapter-3}
+<h2 id="chapter-3">Chapter 3: Root Cause 2 — Infinite Reasoning Loops</h2>
 
 ### What Happens
 
@@ -207,7 +242,7 @@ End If
 
 ---
 
-## Chapter 4: Root Cause 3 — Prompt Injection Attacks {#chapter-4}
+<h2 id="chapter-4">Chapter 4: Root Cause 3 — Prompt Injection Attacks</h2>
 
 ### What Happens
 
@@ -265,7 +300,7 @@ End If
 
 ---
 
-## Chapter 5: Root Cause 4 — Tool Calling Failures {#chapter-5}
+<h2 id="chapter-5">Chapter 5: Root Cause 4 — Tool Calling Failures</h2>
 
 ### What Happens
 
@@ -332,7 +367,7 @@ Before testing the full agentic workflow, test just the tool selection in isolat
 
 ---
 
-## Chapter 6: Root Cause 5 — State Management Collapse {#chapter-6}
+<h2 id="chapter-6">Chapter 6: Root Cause 5 — State Management Collapse</h2>
 
 ### What Happens
 
@@ -402,7 +437,7 @@ This is the **Single-Responsibility principle for agents** — each agent is an 
 
 ---
 
-## Chapter 7: The Production-Ready Checklist {#chapter-7}
+<h2 id="chapter-7">Chapter 7: The Production-Ready Checklist</h2>
 
 Before you deploy any UiPath AI agent to production, run through this checklist. If any item gets a ❌, fix it first.
 
