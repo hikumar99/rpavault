@@ -130,12 +130,28 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 body.modal-open{overflow:hidden}
 .rpv-modal{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:1.2rem;background:rgba(7,20,32,.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .24s ease}
 .rpv-modal.is-open{opacity:1;pointer-events:auto}
-.rpv-modal-card{position:relative;width:min(560px,100%);max-height:min(92vh,760px);overflow:auto;background:#fff;border-radius:26px;border:1px solid var(--line);box-shadow:0 40px 120px rgba(0,0,0,.4);padding:2rem 1.9rem 1.9rem;transform:translateY(14px) scale(.98);transition:transform .26s cubic-bezier(.16,1,.3,1)}
+.rpv-modal-card{position:relative;width:min(560px,100%);max-height:min(92vh,760px);overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:24px;border:1px solid var(--line);box-shadow:0 40px 120px rgba(0,0,0,.4);padding:2rem 1.9rem 1.9rem;transform:translateY(14px) scale(.98);transition:transform .26s cubic-bezier(.16,1,.3,1)}
 .rpv-modal.is-open .rpv-modal-card{transform:translateY(0) scale(1)}
-.rpv-modal-close{position:absolute;top:.95rem;right:.95rem;width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:999px;background:var(--blue-soft);color:var(--blue-deep);font-size:1.25rem;font-weight:800;cursor:pointer;line-height:1}
-.rpv-modal-close:hover{background:#d4e9f8}
-.rpv-modal-card h2{margin:0 0 .3rem;font-family:var(--font-heading);font-weight:800;font-size:1.45rem;color:var(--ink)}
-.rpv-modal-card .modal-sub{margin:0 0 1.2rem;color:var(--muted);font-size:.95rem;line-height:1.55}
+.rpv-modal-close{position:absolute;top:.95rem;right:.95rem;width:40px;height:40px;display:grid;place-items:center;border:1.5px solid #cbd5e1;border-radius:999px;background:#ffffff;color:#0f172a;font-size:1.25rem;font-weight:900;cursor:pointer;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.14);z-index:100;transition:all .16s ease}
+.rpv-modal-close:hover{background:#f1f5f9;border-color:#94a3b8;color:#000;transform:scale(1.05)}
+.rpv-modal-card h2{margin:0 0 .3rem;font-family:var(--font-heading);font-weight:800;font-size:1.45rem;color:var(--ink);padding-right:48px}
+.rpv-modal-card .modal-sub{margin:0 0 1.2rem;color:var(--muted);font-size:.95rem;line-height:1.55;padding-right:48px}
+
+@media (max-width: 640px) {
+  .rpv-modal{padding:0.5rem 0.4rem !important}
+  .rpv-modal-card{padding:1.2rem 1rem 1rem !important;border-radius:18px !important;width:100% !important;max-height:94vh !important}
+  .rpv-modal-close{position:sticky !important;top:0.4rem !important;float:right !important;margin-top:-0.2rem !important;margin-right:-0.2rem !important;margin-bottom:-38px !important;width:36px !important;height:36px !important;font-size:1.15rem !important;background:#ffffff !important;color:#0f172a !important;border:1.5px solid #cbd5e1 !important;box-shadow:0 3px 10px rgba(0,0,0,.2) !important;z-index:100 !important}
+  .rpv-modal-card h2{font-size:1.18rem !important;line-height:1.25 !important;margin:0 0 0.25rem 0 !important;padding-right:44px !important}
+  .rpv-modal-card .modal-sub{font-size:0.82rem !important;line-height:1.4 !important;margin:0 0 0.7rem 0 !important;padding-right:44px !important}
+  .rpv-modal-card .form-grid{gap:0.5rem !important}
+  .rpv-modal-card .form-field{margin-bottom:0 !important}
+  .rpv-modal-card .form-field label{font-size:0.78rem !important;font-weight:700 !important;margin-bottom:0.18rem !important;color:#334155 !important}
+  .rpv-modal-card .form-field input,.rpv-modal-card .form-field select,.rpv-modal-card .form-field textarea{padding:0.55rem 0.75rem !important;font-size:0.88rem !important;border-radius:9px !important;border:1px solid #cbd5e1 !important;height:auto !important}
+  .rpv-modal-card .form-field textarea{min-height:58px !important}
+  .rpv-modal-card .section-cta{margin-top:0.35rem !important}
+  .rpv-modal-card .section-cta .btn{width:100% !important;padding:10px 16px !important;font-size:14.5px !important;border-radius:9px !important}
+  .rpv-modal-card .form-note{font-size:0.75rem !important;margin-top:0.35rem !important}
+}
 
 /* --- Badges / pills --- */
 .badge-live{display:inline-flex;align-items:center;gap:.35rem;padding:.28rem .7rem;border-radius:999px;background:#ff5d2e;color:#fff;font-weight:800;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase}

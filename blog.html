@@ -293,16 +293,39 @@ permalink: "blog/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber + 1 
       gap: 1.8rem !important;
     }
     .blog-hero {
-      padding: 3.5rem 0 2rem 0 !important;
+      padding: 2.2rem 0 1.5rem 0 !important;
+    }
+    .blog-hero h1 {
+      font-size: clamp(1.8rem, 5.5vw, 2.5rem) !important;
+      margin-bottom: 0.8rem !important;
+    }
+    .blog-hero p {
+      font-size: 1rem !important;
+      line-height: 1.5 !important;
+    }
+    .featured-post-section {
+      margin-bottom: 2.5rem !important;
+    }
+    .featured-media {
+      min-height: 200px !important;
+      aspect-ratio: 16/9 !important;
     }
     .featured-body {
-      padding: 2rem 1.6rem !important;
+      padding: 1.5rem 1.25rem !important;
+    }
+    .featured-body h2 {
+      font-size: 1.35rem !important;
+      line-height: 1.3 !important;
     }
     .cta-band {
-      padding: 3rem 1.5rem !important;
+      padding: 2.5rem 1.25rem !important;
+      border-radius: 20px !important;
+      margin: 3rem auto 2rem auto !important;
     }
     .cta-actions {
       flex-direction: column !important;
+      width: 100% !important;
+      gap: 10px !important;
     }
     .cta-actions a {
       width: 100% !important;

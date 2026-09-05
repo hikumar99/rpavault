@@ -297,6 +297,25 @@ schema_ld: |
   .pw-back { background: none; border: none; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; margin-top: 14px; padding: 0; }
   .pw-back:hover { color: var(--blue); }
   .pw-note { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+  .pw-close { position: absolute; right: 14px; top: 14px; background: #ffffff; border: 1.5px solid #cbd5e1; color: #0f172a; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.14); z-index: 100; transition: all 0.15s; }
+  .pw-close:hover { background: #f1f5f9; border-color: #94a3b8; color: #000; }
+  .pw-close svg { width: 18px; height: 18px; }
+
+  @media(max-width: 640px) {
+    .pw-overlay { padding: 10px 8px !important; }
+    .pw-card { border-radius: 18px !important; max-height: 94vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
+    .pw-close { position: sticky !important; top: 8px !important; float: right !important; margin-top: -4px !important; margin-right: -4px !important; margin-bottom: -36px !important; width: 36px !important; height: 36px !important; }
+    .pw-top { padding: 14px 16px 0 !important; }
+    .pw-body { padding: 10px 16px 16px !important; }
+    .pw-q { font-size: 17px !important; margin-bottom: 12px !important; line-height: 1.25 !important; }
+    .pw-opts { gap: 8px !important; }
+    .pw-opt { padding: 10px 12px !important; font-size: 13.5px !important; border-radius: 10px !important; }
+    .pw-field { margin-bottom: 0.6rem !important; }
+    .pw-field label { font-size: 0.8rem !important; margin-bottom: 0.2rem !important; }
+    .pw-field input, .pw-field textarea { padding: 0.55rem 0.75rem !important; font-size: 13.5px !important; border-radius: 9px !important; }
+    .pw-field textarea { min-height: 60px !important; }
+    .pw-submit-btn { padding: 11px 16px !important; font-size: 14px !important; border-radius: 9px !important; }
+  }
 </style>
 
 <section id="pw-greeting" class="pw-greeting" hidden>
@@ -314,8 +333,11 @@ schema_ld: |
   </div>
 </section>
 
-<div id="pw-form-gate" class="pw-overlay">
+<div id="pw-form-gate" class="pw-overlay" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="pw-card">
+    <button class="pw-close" type="button" onclick="document.getElementById('pw-form-gate').classList.remove('open')" aria-label="Close modal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
     <div class="pw-top">
       <span class="pw-eyebrow">Personalized Plan fit-check</span>
       <div class="pw-progress" id="pw-progress">

@@ -7,11 +7,80 @@ noindex: true
 
 
 
-<section class="content-section" style="padding: 4rem 0 6rem 0 !important; background: #f5f5f7 !important;">
+<style>
+  .search-section {
+    padding: 4rem 0 6rem 0 !important;
+    background: #f5f5f7 !important;
+  }
+  .search-box-wrap {
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    padding: 2.2rem !important;
+    box-shadow: var(--shadow-sm) !important;
+    margin-bottom: 3.5rem !important;
+  }
+  .search-card-item {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .search-card-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  @media (max-width: 640px) {
+    .search-section {
+      padding: 2.2rem 0 3.5rem 0 !important;
+    }
+    .search-box-wrap {
+      padding: 1.25rem !important;
+      border-radius: 16px !important;
+      margin-bottom: 2rem !important;
+    }
+    #search-form {
+      grid-template-columns: 1fr !important;
+      gap: 0.75rem !important;
+    }
+    #search-form button {
+      width: 100% !important;
+      padding: 12px !important;
+    }
+    .search-card-item {
+      grid-template-columns: 60px 1fr !important;
+      gap: 1rem !important;
+      padding: 1.1rem !important;
+      border-radius: 14px !important;
+    }
+    .search-card-img {
+      width: 60px !important;
+      height: 60px !important;
+    }
+    .search-card-item h3 {
+      font-size: 1.05rem !important;
+    }
+    .search-card-item p {
+      font-size: 0.85rem !important;
+      line-height: 1.4 !important;
+    }
+  }
+</style>
+
+<section class="content-section search-section">
   <div class="container" style="max-width: 900px !important;">
     
     <!-- Central Search Input Fold -->
-    <div style="background: #ffffff !important; border: 1px solid var(--line) !important; border-radius: 24px !important; padding: 2.2rem !important; box-shadow: var(--shadow-sm) !important; margin-bottom: 3.5rem !important;">
+    <div class="search-box-wrap">
       <form id="search-form" style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; margin: 0 !important;">
         <div style="position: relative !important;">
           <input type="text" id="search-input" placeholder="Type keywords (e.g. switch career, Power BI, RPA, UiPath)..." style="width: 100% !important; padding: 14px 16px 14px 44px !important; border: 1px solid var(--line) !important; border-radius: 12px !important; font-size: 1rem !important; background: #f5f5f7 !important; color: var(--ink) !important; outline: none !important; box-shadow: none !important; height: auto !important;">
@@ -389,8 +458,8 @@ noindex: true
         }
         
         return `
-          <article style="background: #ffffff; border: 1px solid var(--line); border-radius: 18px; padding: 1.5rem; display: grid; grid-template-columns: 80px 1fr; gap: 1.5rem; align-items: center; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onclick="window.location.href='${item.url}'" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)'">
-            <img src="${item.image}" alt="${decodeHTML(item.title)}" style="width: 80px; height: 80px; object-fit: contain; border-radius: 8px;" onerror="this.src='/assets/images/blog/non-it-career.jpg'; this.style.objectFit='cover';">
+          <article class="search-card-item" onclick="window.location.href='${item.url}'" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)'">
+            <img class="search-card-img" src="${item.image}" alt="${decodeHTML(item.title)}" onerror="this.src='/assets/images/blog/non-it-career.jpg'; this.style.objectFit='cover';">
             <div>
               <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 0.4rem; flex-wrap: wrap;">
                 <span style="font-size: 0.72rem; font-weight: 800; background: ${badgeColor}; color: #ffffff; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.05em;">${item.type}</span>
