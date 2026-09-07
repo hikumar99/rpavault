@@ -27,7 +27,7 @@ const CONFIG = {
   DEMO_DATE_STR: "Tuesday, September 8, 2026 at 7:00 AM IST",
   DEMO_DATE_US: "Sep 8, 2026 at 9:30 PM EDT (US/Canada)",
   SENDER_NAME: "RPAVault Live Demo Team",
-  REPLY_TO: "info@rpavault.com"
+  REPLY_TO: "RPAVault1@gmail.com"
 };
 
 // ================= WEB ENDPOINT (doPost) =================
@@ -37,37 +37,45 @@ function doPost(e) {
     // Use active sheet if sheet with CONFIG.SHEET_NAME is not found
     let sheet = ss.getSheetByName(CONFIG.SHEET_NAME) || ss.getActiveSheet();
 
-    // Auto-create and format sheet headers if empty
+    const EXPECTED_HEADERS = [
+      "Timestamp",
+      "Full Name",
+      "Email Address",
+      "Phone / WhatsApp",
+      "Track / Course",
+      "IP Address",
+      "City",
+      "Region",
+      "Country",
+      "Operating System",
+      "Browser",
+      "Device Type",
+      "Screen Resolution",
+      "Language",
+      "Timezone",
+      "Time on Page (sec)",
+      "Referrer",
+      "Source Page",
+      "Visitor ID",
+      "Visit Count",
+      "First Visit Date",
+      "Session Trail",
+      "UTM Source",
+      "UTM Campaign",
+      "Confirmation Email Status",
+      "Reminder Email Status"
+    ];
+
+    // Auto-create or heal sheet headers if empty or outdated
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow([
-        "Timestamp",
-        "Full Name",
-        "Email Address",
-        "Phone / WhatsApp",
-        "Track / Course",
-        "IP Address",
-        "City",
-        "Region",
-        "Country",
-        "Operating System",
-        "Browser",
-        "Device Type",
-        "Screen Resolution",
-        "Language",
-        "Timezone",
-        "Time on Page (sec)",
-        "Referrer",
-        "Source Page",
-        "Visitor ID",
-        "Visit Count",
-        "First Visit Date",
-        "Session Trail",
-        "UTM Source",
-        "UTM Campaign",
-        "Confirmation Email Status",
-        "Reminder Email Status"
-      ]);
-      const headerRange = sheet.getRange(1, 1, 1, 26);
+      sheet.appendRow(EXPECTED_HEADERS);
+      const headerRange = sheet.getRange(1, 1, 1, EXPECTED_HEADERS.length);
+      headerRange.setBackground("#0058b0").setFontColor("#ffffff").setFontWeight("bold");
+      sheet.setFrozenRows(1);
+    } else if (sheet.getLastColumn() < EXPECTED_HEADERS.length) {
+      // Heal existing sheet if it was created with fewer columns
+      sheet.getRange(1, 1, 1, EXPECTED_HEADERS.length).setValues([EXPECTED_HEADERS]);
+      const headerRange = sheet.getRange(1, 1, 1, EXPECTED_HEADERS.length);
       headerRange.setBackground("#0058b0").setFontColor("#ffffff").setFontWeight("bold");
       sheet.setFrozenRows(1);
     }
