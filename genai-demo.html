@@ -72,34 +72,43 @@ permalink: /genai-demo/
   }
 
   .g-brand-logo {
-    height: 38px;
+    height: 40px;
     width: auto;
-    max-width: 175px;
+    max-width: 180px;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.8));
   }
 
   .g-zoom-tag {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(45, 140, 255, 0.15);
-    border: 1px solid rgba(45, 140, 255, 0.45);
-    padding: 5px 12px;
+    gap: 8px;
+    background: linear-gradient(135deg, #0b5cff 0%, #0052cc 100%);
+    border: 1.5px solid #93c5fd;
+    padding: 6px 14px;
     border-radius: 999px;
-    font-size: 0.75rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 0.88rem;
     font-weight: 800;
-    color: #7dd3fc;
+    color: #ffffff !important;
+    letter-spacing: 0.3px;
+    box-shadow: 0 3px 12px rgba(11, 92, 255, 0.4);
+    white-space: nowrap;
+  }
+  .g-zoom-tag span {
+    color: #ffffff !important;
+    font-weight: 800 !important;
   }
 
   .g-pulse-dot {
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    background: #ef4444;
-    box-shadow: 0 0 8px #ef4444;
+    background: #ff3333;
+    box-shadow: 0 0 8px #ff3333;
     animation: gPulse 1.5s infinite;
+    flex-shrink: 0;
   }
   @keyframes gPulse {
     0% { transform: scale(0.9); opacity: 0.8; }
@@ -731,7 +740,7 @@ permalink: /genai-demo/
   <!-- Top Bar with Official Logo -->
   <div class="g-top-bar">
     <div class="g-brand-wrap">
-      <img src="/assets/images/logo-rpavault-white.png" alt="RPAVault" class="g-brand-logo">
+      <img src="/assets/images/logo-rpavault.png" alt="RPAVault" class="g-brand-logo">
     </div>
     <div class="g-zoom-tag">
       <span class="g-pulse-dot"></span>
