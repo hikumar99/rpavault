@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.html
-title: "Live Demo: Python + GenAI + Agentic AI (2-Month Track) | RPAVault"
-description: "Claim your free seat for RPAVault's Live Python + GenAI + Agentic AI Demo on Zoom. Tuesday, September 8 at 7:00 AM IST. Complete 2-month engineering track from Python foundations to Multi-Agent workflows, RAG & LLMs."
+title: "Live Demo: Python + GenAI + Agentic AI | RPAVault"
+description: "Claim your free seat for RPAVault's Live Python + GenAI + Agentic AI Demo on Zoom. Tuesday, September 8 at 7:00 AM IST. Complete engineering track from Python foundations to Multi-Agent workflows, RAG & LLMs."
 og_image: "/assets/images/og-genai-demo.png"
 permalink: /genai-demo/
 ---
@@ -108,9 +108,9 @@ permalink: /genai-demo/
   }
 
   .g-brand-logo {
-    height: 40px;
+    height: 52px;
     width: auto;
-    max-width: 180px;
+    max-width: 225px;
     object-fit: contain;
     display: block;
     filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.8));
@@ -711,7 +711,7 @@ permalink: /genai-demo/
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom, 0.75rem)) 1rem;
     z-index: 999;
     display: none;
     animation: gSlideUp 0.25s ease;
@@ -743,6 +743,10 @@ permalink: /genai-demo/
     font-size: 0.88rem;
     font-weight: 800;
     padding: 0.65rem 1.15rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 10px;
     border: none;
     cursor: pointer;
@@ -791,7 +795,7 @@ permalink: /genai-demo/
 
   <!-- Hero Pitch Card -->
   <div class="g-hero">
-    <div class="g-track-badge">2-Month Production Track</div>
+    <div class="g-track-badge">Production Engineering Track</div>
     <h1 class="g-title">
       Python + <span>GenAI &amp; Agentic AI</span>
     </h1>
@@ -959,10 +963,10 @@ permalink: /genai-demo/
 
   <!-- Base Points & Scannable Highlights (High-Conversion Pillars) -->
 
-  <!-- 1. What You Learn in 2 Months -->
+  <!-- 1. What You Will Learn -->
   <div class="g-card-section">
     <div class="g-sec-title">
-      <span>What You Learn in 2 Months</span>
+      <span>What You Will Learn</span>
       <span class="g-pill-accent">5 Core Pillars</span>
     </div>
     <ul class="g-list">
@@ -1095,13 +1099,13 @@ permalink: /genai-demo/
   }
 
   function gInitCalendar() {
-    const title = encodeURIComponent("Live Demo: Python + GenAI + Agentic AI (2-Month Track) — RPAVault (Zoom)");
+    const title = encodeURIComponent("Live Demo: Python + GenAI + Agentic AI — RPAVault (Zoom)");
     const details = encodeURIComponent(
       "Join Zoom Meeting: " + G_CONFIG.ZOOM_URL + "\n\n" +
       "Meeting ID: " + G_CONFIG.MEETING_ID + "\n" +
       "Passcode: " + G_CONFIG.PASSCODE + "\n" +
       "WhatsApp Group: " + G_CONFIG.WHATSAPP_GROUP + "\n\n" +
-      "2-Month Python + GenAI + Agentic AI Engineering Track Demo by RPAVault."
+      "Python + GenAI + Agentic AI Engineering Track Demo by RPAVault."
     );
     const location = encodeURIComponent(G_CONFIG.ZOOM_URL);
     const dates = "20260908T013000Z/20260908T030000Z";
@@ -1291,8 +1295,8 @@ permalink: /genai-demo/
         name: name,
         phone: phone,
         email: email,
-        course: "2-Month Python + GenAI + Agentic AI Engineering Track",
-        track: "2-Month Python + GenAI + Agentic AI Engineering Track",
+        course: "Python + GenAI + Agentic AI Engineering Track",
+        track: "Python + GenAI + Agentic AI Engineering Track",
         topic: "IT Courses & Batches",
         ip: geoData.ip || "",
         city: geoData.city || "",

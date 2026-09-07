@@ -95,7 +95,7 @@ function doPost(e) {
     const name = (data.name || data.fullName || "").toString().trim();
     const email = (data.email || "").toString().trim().toLowerCase();
     const phone = (data.phone || data.mobile || "").toString().trim();
-    const course = (data.course || data.track || "2-Month Generative AI Engineering Track").toString().trim();
+    const course = (data.course || data.track || "Python + GenAI + Agentic AI Engineering Track").toString().trim();
     
     // Telemetry fields
     const ip = (data.ip || data["Geo: IP Address"] || data.visitor_ip || "").toString().trim();
@@ -246,7 +246,7 @@ function sendInstantConfirmationEmail(name, email) {
       <div class="email-body">
         <div class="salutation">Hi ${firstName},</div>
         <div class="intro-text">
-          Thank you for registering for <strong>September AI Demo — 2-Month Generative AI Engineering Track</strong>.<br>
+          Thank you for registering for <strong>September AI Demo — Python + GenAI + Agentic AI Engineering Track</strong>.<br>
           Please find your meeting access credentials below:
         </div>
 
