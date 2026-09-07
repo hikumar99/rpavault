@@ -20,6 +20,7 @@
 // ================= CONFIGURATION =================
 const CONFIG = {
   SHEET_NAME: "GenAI_Demo_Registrations",
+  SECONDARY_SPREADSHEET_ID: "1vLveGiA8g3Vq1VLZVBYWNXf7Gpi362lhl1oMyYEw3kI",
   ZOOM_LINK: "https://us06web.zoom.us/j/82666730613?pwd=OzDODw5m21Z1UCAMCQpZl1UVsYG1HZ.1",
   MEETING_ID: "826 6673 0613",
   PASSCODE: "059882",
@@ -179,6 +180,40 @@ function doPost(e) {
       confirmStatus,
       "" // Reminder Email Status
     ]);
+
+    // Also append the 6 requested fields to the secondary spreadsheet without disturbing anything
+    if (CONFIG.SECONDARY_SPREADSHEET_ID) {
+      try {
+        const secSs = SpreadsheetApp.openById(CONFIG.SECONDARY_SPREADSHEET_ID);
+        const secSheet = secSs.getActiveSheet();
+
+        if (secSheet.getLastRow() === 0) {
+          const secHeaders = [
+            "Timestamp",
+            "Full Name",
+            "Email Address",
+            "Phone / WhatsApp",
+            "Confirmation Email Status",
+            "Reminder Email Status"
+          ];
+          secSheet.appendRow(secHeaders);
+          const secRange = secSheet.getRange(1, 1, 1, secHeaders.length);
+          secRange.setBackground("#0058b0").setFontColor("#ffffff").setFontWeight("bold");
+          secSheet.setFrozenRows(1);
+        }
+
+        secSheet.appendRow([
+          timestamp,
+          name,
+          email,
+          phone,
+          confirmStatus,
+          "" // Reminder Email Status
+        ]);
+      } catch (secErr) {
+        console.warn("Secondary spreadsheet append notice:", secErr);
+      }
+    }
 
     return ContentService.createTextOutput(JSON.stringify({
       success: true,
