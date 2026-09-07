@@ -1,8 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
+const pluginRss = require("@11ty/eleventy-plugin-rss").rssPlugin || require("@11ty/eleventy-plugin-rss").default;
 
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addPlugin(pluginRss);
   // Ensure all course webp images have JPG & PNG Open Graph versions for WhatsApp & social sharing
   eleventyConfig.on("eleventy.before", async () => {
     try {
