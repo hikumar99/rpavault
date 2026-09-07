@@ -33,9 +33,35 @@ const CONFIG = {
 // ================= WEB ENDPOINT (doPost) =================
 function doPost(e) {
   try {
+    // Parse incoming payload (supports JSON and form-urlencoded)
+    let data = {};
+    if (e && e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (_) {
+        data = e.parameter || {};
+      }
+    } else if (e && e.parameter) {
+      data = e.parameter;
+    }
+
+    const sourcePage = (data.source || data.source_page || data["Session: Source Page Path"] || "").toString().trim();
+    
+    // Determine target sheet tab (creates a separate tab in the same spreadsheet for DIC campaign)
+    let targetSheetName = (data.sheetName || data.sheet || "").toString().trim();
+    if (!targetSheetName) {
+      if (sourcePage.toLowerCase().includes("dic")) {
+        targetSheetName = "DIC_GenAI_Demo_Registrations";
+      } else {
+        targetSheetName = CONFIG.SHEET_NAME;
+      }
+    }
+
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    // Use active sheet if sheet with CONFIG.SHEET_NAME is not found
-    let sheet = ss.getSheetByName(CONFIG.SHEET_NAME) || ss.getActiveSheet();
+    let sheet = ss.getSheetByName(targetSheetName);
+    if (!sheet) {
+      sheet = ss.insertSheet(targetSheetName);
+    }
 
     const EXPECTED_HEADERS = [
       "Timestamp",
@@ -78,18 +104,6 @@ function doPost(e) {
       const headerRange = sheet.getRange(1, 1, 1, EXPECTED_HEADERS.length);
       headerRange.setBackground("#0058b0").setFontColor("#ffffff").setFontWeight("bold");
       sheet.setFrozenRows(1);
-    }
-
-    // Parse incoming payload (supports JSON and form-urlencoded)
-    let data = {};
-    if (e && e.postData && e.postData.contents) {
-      try {
-        data = JSON.parse(e.postData.contents);
-      } catch (_) {
-        data = e.parameter || {};
-      }
-    } else if (e && e.parameter) {
-      data = e.parameter;
     }
 
     const name = (data.name || data.fullName || "").toString().trim();
