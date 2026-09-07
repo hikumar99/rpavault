@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.html
-title: "Live GenAI Demo: 2-Month Engineering Program | RPAVault"
-description: "Claim your free seat for RPAVault's Live Generative AI Demo on Zoom. Tuesday, September 8 at 7:00 AM IST. Discover the 2-month production track from Transformers to RAG & Docker."
+title: "Live Demo: Python + GenAI + Agentic AI (2-Month Track) | RPAVault"
+description: "Claim your free seat for RPAVault's Live Python + GenAI + Agentic AI Demo on Zoom. Tuesday, September 8 at 7:00 AM IST. Complete 2-month engineering track from Python foundations to Multi-Agent workflows, RAG & LLMs."
 og_image: "/assets/images/og-genai-demo.png"
 permalink: /genai-demo/
 ---
@@ -44,6 +44,20 @@ permalink: /genai-demo/
     html, body {
       padding-top: 0 !important;
       margin-top: 0 !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .genai-page {
+      padding: 0 0.75rem 5.5rem !important;
+    }
+    .g-brand-logo {
+      max-width: 130px !important;
+      height: auto !important;
+    }
+    .g-zoom-tag {
+      font-size: 0.78rem !important;
+      padding: 4px 10px !important;
     }
   }
 
@@ -777,12 +791,12 @@ permalink: /genai-demo/
 
   <!-- Hero Pitch Card -->
   <div class="g-hero">
-    <div class="g-track-badge">2-Month Intensive Program</div>
+    <div class="g-track-badge">2-Month Production Track</div>
     <h1 class="g-title">
-      Become a <span>GenAI Engineer</span>
+      Python + <span>GenAI &amp; Agentic AI</span>
     </h1>
     <p class="g-sub">
-      Live Roadmap &amp; Architecture Demo. Learn to build, evaluate, fine-tune, and deploy production-grade Generative AI systems.
+      Live Roadmap &amp; Architecture Demo. Master Python foundations, LLMs, Production RAG, and autonomous Agentic AI workflows to build end-to-end enterprise systems.
     </p>
 
     <!-- Date, Time & Countdown -->
@@ -831,7 +845,7 @@ permalink: /genai-demo/
 
         <div class="g-field">
           <label class="g-label" for="gPhone">WhatsApp / Mobile Number</label>
-          <input type="tel" id="gPhone" name="phone" class="g-input" inputmode="tel" placeholder="+91 98765 43210" required autocomplete="tel">
+          <input type="tel" id="gPhone" name="phone" class="g-input" inputmode="numeric" pattern="[0-9+ ]*" placeholder="+91 98765 43210" required autocomplete="tel">
         </div>
 
         <div class="g-field">
@@ -954,23 +968,23 @@ permalink: /genai-demo/
     <ul class="g-list">
       <li>
         <span class="num-box">1</span>
-        <div><strong>Foundations &amp; Classical ML:</strong> Python data pipelines, NumPy, Pandas, vectors, probability, and PyTorch tensor training loops.</div>
+        <div><strong>Python &amp; ML Foundations:</strong> Python data pipelines, NumPy, Pandas, vectors, PyTorch tensor loops, and async API integration.</div>
       </li>
       <li>
         <span class="num-box">2</span>
-        <div><strong>Transformers &amp; LLMs:</strong> Self-Attention, QKV mechanics, tokenization, structured JSON outputs, and prompt engineering.</div>
+        <div><strong>Generative AI &amp; Transformers:</strong> Self-Attention, QKV mechanics, tokenization, prompt engineering, and structured JSON outputs.</div>
       </li>
       <li>
         <span class="num-box">3</span>
-        <div><strong>Production RAG:</strong> Chunking, FAISS/Chroma vector DBs, hybrid search, re-ranking, and retrieval evaluation (latency, cost &amp; factuality).</div>
+        <div><strong>Production RAG Systems:</strong> Document chunking, FAISS/Chroma vector DBs, hybrid retrieval, re-ranking, and grounded evaluation.</div>
       </li>
       <li>
         <span class="num-box">4</span>
-        <div><strong>Model Fine-Tuning:</strong> SFT vs RAG vs Prompting decision framework, instruction tuning, and PEFT / LoRA concepts.</div>
+        <div><strong>Agentic AI &amp; Multi-Agent Systems:</strong> Autonomous agents, tool calling, memory management, planning, and multi-agent coordination.</div>
       </li>
       <li>
         <span class="num-box">5</span>
-        <div><strong>FastAPI &amp; Docker Deployment:</strong> Turning AI pipelines into robust enterprise APIs with validation, retries, and containers.</div>
+        <div><strong>Model Adaptation &amp; Deployment:</strong> PEFT / LoRA fine-tuning, FastAPI microservices, and Docker containerization for production.</div>
       </li>
     </ul>
   </div>
@@ -978,14 +992,14 @@ permalink: /genai-demo/
   <!-- 2. Capstone Project -->
   <div class="g-capstone-box">
     <div class="g-tag-mini">Hands-on Portfolio Capstone</div>
-    <h3>Enterprise Knowledge RAG Assistant</h3>
+    <h3>Enterprise Multi-Agent &amp; Knowledge RAG Assistant</h3>
     <p>
-      Build an end-to-end production AI system that ingests enterprise documents, executes grounded retrieval with citations, and deploys via FastAPI &amp; Docker.
+      Build an end-to-end production AI system that pairs autonomous tool-calling agents with enterprise document RAG, grounded retrieval, and Docker deployment.
     </p>
     <ul class="g-list">
       <li>
         <span class="num-box">⚡</span>
-        <div><strong>Full Stack:</strong> Vector DB + FastAPI backend + interactive UI.</div>
+        <div><strong>Multi-Agent Core:</strong> Tool routing, web browsing agents &amp; SQL data agents.</div>
       </li>
       <li>
         <span class="num-box">⚡</span>
@@ -993,7 +1007,7 @@ permalink: /genai-demo/
       </li>
       <li>
         <span class="num-box">⚡</span>
-        <div><strong>Interview-Ready:</strong> Architecture diagrams, Dockerfile &amp; demo walkthrough.</div>
+        <div><strong>Interview-Ready:</strong> Architecture diagrams, Dockerfile &amp; live demo walkthrough.</div>
       </li>
     </ul>
   </div>
@@ -1009,7 +1023,7 @@ permalink: /genai-demo/
       <span class="g-aud-pill">RPA &amp; Workflow Engineers</span>
       <span class="g-aud-pill">Data Engineers &amp; Analysts</span>
       <span class="g-aud-pill">DevOps &amp; Cloud Engineers</span>
-      <span class="g-aud-pill">Tech Leads switching to GenAI</span>
+      <span class="g-aud-pill">Tech Leads switching to GenAI &amp; Agentic AI</span>
     </div>
   </div>
 
@@ -1020,7 +1034,7 @@ permalink: /genai-demo/
   <div class="g-dock-inner">
     <div class="g-dock-meta">
       <div class="t">Sep 8 • 7:00 AM IST</div>
-      <div class="b">Live GenAI Demo on Zoom</div>
+      <div class="b">Python + GenAI + Agentic AI Demo</div>
     </div>
     <button type="button" class="g-btn-dock" onclick="gScrollToForm()">
       Claim Free Seat &uarr;
@@ -1081,13 +1095,13 @@ permalink: /genai-demo/
   }
 
   function gInitCalendar() {
-    const title = encodeURIComponent("Live GenAI Demo & 2-Month Engineering Program — RPAVault (Zoom)");
+    const title = encodeURIComponent("Live Demo: Python + GenAI + Agentic AI (2-Month Track) — RPAVault (Zoom)");
     const details = encodeURIComponent(
       "Join Zoom Meeting: " + G_CONFIG.ZOOM_URL + "\n\n" +
       "Meeting ID: " + G_CONFIG.MEETING_ID + "\n" +
       "Passcode: " + G_CONFIG.PASSCODE + "\n" +
       "WhatsApp Group: " + G_CONFIG.WHATSAPP_GROUP + "\n\n" +
-      "2-Month Generative AI Engineering Track Demo by RPAVault."
+      "2-Month Python + GenAI + Agentic AI Engineering Track Demo by RPAVault."
     );
     const location = encodeURIComponent(G_CONFIG.ZOOM_URL);
     const dates = "20260908T013000Z/20260908T030000Z";
@@ -1109,13 +1123,13 @@ permalink: /genai-demo/
           "UID:genai-demo-2month@rpavault.com",
           "DTSTART:20260908T013000Z",
           "DTEND:20260908T030000Z",
-          "SUMMARY:Live GenAI Demo & Engineering Program (Zoom)",
+          "SUMMARY:Live Demo: Python + GenAI + Agentic AI (Zoom)",
           "DESCRIPTION:Zoom Link: " + G_CONFIG.ZOOM_URL + "\\nMeeting ID: " + G_CONFIG.MEETING_ID + "\\nPasscode: " + G_CONFIG.PASSCODE + "\\nWhatsApp: " + G_CONFIG.WHATSAPP_GROUP,
           "LOCATION:" + G_CONFIG.ZOOM_URL,
           "BEGIN:VALARM",
           "TRIGGER:-PT30M",
           "ACTION:DISPLAY",
-          "DESCRIPTION:GenAI Demo starts in 30 minutes!",
+          "DESCRIPTION:Python + GenAI + Agentic AI Demo starts in 30 minutes!",
           "END:VALARM",
           "END:VEVENT",
           "END:VCALENDAR"
@@ -1124,7 +1138,7 @@ permalink: /genai-demo/
         const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
-        link.setAttribute("download", "RPAVault-GenAI-Demo.ics");
+        link.setAttribute("download", "RPAVault-Python-GenAI-AgenticAI-Demo.ics");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1277,8 +1291,8 @@ permalink: /genai-demo/
         name: name,
         phone: phone,
         email: email,
-        course: "2-Month Generative AI Engineering Track",
-        track: "2-Month Generative AI Engineering Track",
+        course: "2-Month Python + GenAI + Agentic AI Engineering Track",
+        track: "2-Month Python + GenAI + Agentic AI Engineering Track",
         topic: "IT Courses & Batches",
         ip: geoData.ip || "",
         city: geoData.city || "",
@@ -1294,7 +1308,7 @@ permalink: /genai-demo/
         referrer: document.referrer || "whatsapp",
         source: window.location.pathname || "/genai-demo/",
         source_page: window.location.pathname || "/genai-demo/",
-        source_page_title: document.title || "Live GenAI Demo",
+        source_page_title: document.title || "Live Python + GenAI + Agentic AI Demo",
         visitorId: visitorId,
         visitCount: visitCount,
         firstVisit: firstVisit,

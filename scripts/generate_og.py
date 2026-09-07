@@ -78,14 +78,14 @@ def generate_og():
 
     # 4. Orange Track Accent Line & Text
     draw.line([(64, 152), (104, 152)], fill=(255, 107, 43), width=4)
-    draw.text((116, 142), "2-MONTH GENERATIVE AI ENGINEERING TRACK", fill=(255, 138, 76), font=f_sub)
+    draw.text((116, 142), "2-MONTH TRACK • PYTHON + GENAI + AGENTIC AI", fill=(255, 138, 76), font=f_sub)
 
     # 5. Main Headlines
-    draw.text((64, 176), "Become a GenAI Engineer.", fill=(255, 255, 255), font=f_title)
-    draw.text((64, 244), "Live Masterclass & Roadmap", fill=(56, 189, 248), font=f_title2)
+    draw.text((64, 176), "Python + GenAI + Agentic AI.", fill=(255, 255, 255), font=f_title)
+    draw.text((64, 244), "Live Masterclass & 2-Month Roadmap", fill=(56, 189, 248), font=f_title2)
 
     # 6. Tech Stack Pills
-    skills = ["Python & PyTorch", "Transformers & Attention", "Production RAG", "LoRA Fine-Tuning", "FastAPI & Docker"]
+    skills = ["Python & PyTorch", "Transformers & LLMs", "Production RAG", "Agentic AI & Tools", "FastAPI & Docker"]
     pill_x = 64
     pill_y = 330
     for skill in skills:
