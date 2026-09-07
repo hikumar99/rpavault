@@ -139,16 +139,40 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
+    let pageUrl = "https://rpavault.com/genai-demo/";
+    if (sourcePage.toLowerCase().includes("dic") || targetSheetName.toLowerCase().includes("dic")) {
+      pageUrl = "https://rpavault.com/dic-genai-demo/";
+    }
+
+    // Check if user has already registered in this sheet
+    let isExistingUser = false;
+    const lastRow = sheet.getLastRow();
+    if (lastRow > 1) {
+      // Column C is Email Address (column 3, 1-indexed)
+      const existingEmails = sheet.getRange(2, 3, lastRow - 1, 1).getValues();
+      for (let i = 0; i < existingEmails.length; i++) {
+        const rowEmail = (existingEmails[i][0] || "").toString().trim().toLowerCase();
+        if (rowEmail && rowEmail === email) {
+          isExistingUser = true;
+          break;
+        }
+      }
+    }
+
     const timestamp = new Date();
     let confirmStatus = "Pending";
 
-    // Send instant confirmation email
-    try {
-      sendInstantConfirmationEmail(name, email);
-      confirmStatus = "Sent (" + Utilities.formatDate(timestamp, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")";
-    } catch (mailErr) {
-      confirmStatus = "Failed: " + mailErr.message;
-      console.error("Confirmation mail error:", mailErr);
+    // Only send confirmation email if this is the first time registering
+    if (isExistingUser) {
+      confirmStatus = "Already Registered (Email Skipped)";
+    } else {
+      try {
+        sendInstantConfirmationEmail(name, email, pageUrl);
+        confirmStatus = "Sent (" + Utilities.formatDate(timestamp, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")";
+      } catch (mailErr) {
+        confirmStatus = "Failed: " + mailErr.message;
+        console.error("Confirmation mail error:", mailErr);
+      }
     }
 
     // Append full record to Google Sheet
@@ -247,11 +271,14 @@ function doGet(e) {
 /**
  * 1. Instant Registration Confirmation Email
  */
-function sendInstantConfirmationEmail(name, email) {
+function sendInstantConfirmationEmail(name, email, pageUrl) {
+  if (!pageUrl) {
+    pageUrl = "https://rpavault.com/genai-demo/";
+  }
   const firstName = name ? name.split(" ")[0] : "there";
   const subject = "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 8, 7:00 AM IST";
 
-  const googleCalLink = buildGoogleCalendarUrl();
+  const googleCalLink = buildGoogleCalendarUrl(pageUrl);
 
   const htmlBody = `
   <!DOCTYPE html>
@@ -304,7 +331,7 @@ function sendInstantConfirmationEmail(name, email) {
             Join from PC, Mac, Linux, iOS or Android
           </div>
           
-          <a href="${CONFIG.ZOOM_LINK}" target="_blank" class="join-btn">
+          <a href="${pageUrl}" target="_blank" class="join-btn">
             Click Here to Join Meeting &rarr;
           </a>
 
@@ -331,7 +358,7 @@ function sendInstantConfirmationEmail(name, email) {
         <div class="cal-row">
           <strong>Add to Calendar:</strong>
           <a href="${googleCalLink}" target="_blank" class="cal-link">Google Calendar</a> |
-          <a href="${CONFIG.ZOOM_LINK}" target="_blank" class="cal-link">Save Zoom Link</a>
+          <a href="${pageUrl}" target="_blank" class="cal-link">Join Demo Room</a>
         </div>
 
         <!-- WhatsApp Updates Notice -->
@@ -389,81 +416,87 @@ function sendInstantConfirmationEmail(name, email) {
  */
 function sendMeetingReminderEmails() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName(CONFIG.SHEET_NAME);
-  if (!sheet) {
-    console.warn("Sheet not found: " + CONFIG.SHEET_NAME);
-    return;
-  }
+  const sheetsToProcess = [
+    { name: CONFIG.SHEET_NAME, defaultUrl: "https://rpavault.com/genai-demo/" },
+    { name: "DIC_GenAI_Demo_Registrations", defaultUrl: "https://rpavault.com/dic-genai-demo/" }
+  ];
 
-  const data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return; // Only header
-
-  let sentCount = 0;
+  let totalSent = 0;
   const now = new Date();
 
-  for (let r = 1; r < data.length; r++) {
-    const row = data[r];
-    const name = row[1] || "";
-    const email = (row[2] || "").toString().trim().toLowerCase();
-    const reminderStatus = (row[8] || "").toString().trim();
+  sheetsToProcess.forEach(item => {
+    const sheet = ss.getSheetByName(item.name);
+    if (!sheet) return;
 
-    // Only send if email is valid and reminder wasn't sent yet
-    if (email && email.includes("@") && !reminderStatus) {
-      try {
-        const firstName = name ? name.split(" ")[0] : "there";
-        const subject = "🔴 Starting in 30 Minutes! Join Live GenAI Demo on Zoom";
-        
-        const htmlBody = `
-        <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; max-width:600px; margin:0 auto; padding:24px; border:1px solid #cce3fa; border-radius:16px; background:#ffffff;">
-          <div style="text-align:center; margin-bottom:20px;">
-            <div style="display:inline-block; background:#fee2e2; color:#ef4444; font-weight:800; font-size:12px; padding:6px 14px; border-radius:99px; text-transform:uppercase;">
-              Starting at 7:00 AM IST
+    const data = sheet.getDataRange().getValues();
+    if (data.length <= 1) return;
+
+    for (let r = 1; r < data.length; r++) {
+      const row = data[r];
+      const name = row[1] || "";
+      const email = (row[2] || "").toString().trim().toLowerCase();
+      // Col 26 is Reminder Email Status (index 25)
+      const reminderStatus = (row[25] || "").toString().trim();
+
+      if (email && email.includes("@") && !reminderStatus) {
+        try {
+          const firstName = name ? name.split(" ")[0] : "there";
+          const subject = "🔴 Starting in 30 Minutes! Join Live GenAI Demo";
+          const rowSource = (row[17] || "").toString().toLowerCase();
+          const targetUrl = rowSource.includes("dic") ? "https://rpavault.com/dic-genai-demo/" : item.defaultUrl;
+
+          const htmlBody = `
+          <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; max-width:600px; margin:0 auto; padding:24px; border:1px solid #cce3fa; border-radius:16px; background:#ffffff;">
+            <div style="text-align:center; margin-bottom:20px;">
+              <div style="display:inline-block; background:#fee2e2; color:#ef4444; font-weight:800; font-size:12px; padding:6px 14px; border-radius:99px; text-transform:uppercase;">
+                Starting at 7:00 AM IST
+              </div>
+              <h2 style="color:#0f172a; margin:12px 0 6px;">Your GenAI Demo Begins in 30 Minutes!</h2>
+              <p style="color:#64748b; font-size:14px; margin:0;">Python + GenAI + Agentic AI Engineering Track</p>
             </div>
-            <h2 style="color:#0f172a; margin:12px 0 6px;">Your GenAI Demo Begins in 30 Minutes!</h2>
-            <p style="color:#64748b; font-size:14px; margin:0;">8-Week Generative AI Engineering Masterclass</p>
+
+            <p style="font-size:15px; color:#334155; line-height:1.6;">
+              Hi ${firstName}, our live interactive session is starting shortly. Please click below to join the meeting:
+            </p>
+
+            <div style="text-align:center; margin:24px 0;">
+              <a href="${targetUrl}" target="_blank" style="display:inline-block; background:#0b5cff; color:#ffffff !important; font-weight:800; font-size:16px; text-decoration:none; padding:15px 36px; border-radius:10px; box-shadow:0 4px 14px rgba(11,92,255,0.3);">
+                🚀 Click Here to Join Meeting &rarr;
+              </a>
+            </div>
+
+            <div style="background:#f8fafc; border-radius:12px; padding:16px; font-size:14px; color:#334155; margin-bottom:20px;">
+              <strong>Meeting ID:</strong> ${CONFIG.MEETING_ID}<br>
+              <strong>Passcode:</strong> ${CONFIG.PASSCODE}<br>
+              <strong>WhatsApp Demo Community:</strong> <a href="${CONFIG.WHATSAPP_GROUP}" style="color:#0058b0;">Join WhatsApp Group</a>
+            </div>
+
+            <p style="font-size:13px; color:#94a3b8; text-align:center; margin:0;">
+              See you in the live room! — Team RPAVault
+            </p>
           </div>
+          `;
 
-          <p style="font-size:15px; color:#334155; line-height:1.6;">
-            Hi ${firstName}, our live interactive session is starting shortly. Please click below to join the Zoom meeting:
-          </p>
+          MailApp.sendEmail({
+            to: email,
+            subject: subject,
+            htmlBody: htmlBody,
+            name: CONFIG.SENDER_NAME,
+            replyTo: CONFIG.REPLY_TO
+          });
 
-          <div style="text-align:center; margin:24px 0;">
-            <a href="${CONFIG.ZOOM_LINK}" target="_blank" style="display:inline-block; background:#2D8CFF; color:#ffffff; font-weight:800; font-size:16px; text-decoration:none; padding:15px 36px; border-radius:10px; box-shadow:0 4px 14px rgba(45,140,255,0.4);">
-              🚀 Join Zoom Meeting Now &rarr;
-            </a>
-          </div>
-
-          <div style="background:#f8fafc; border-radius:12px; padding:16px; font-size:14px; color:#334155; margin-bottom:20px;">
-            <strong>Meeting ID:</strong> ${CONFIG.MEETING_ID}<br>
-            <strong>Passcode:</strong> ${CONFIG.PASSCODE}<br>
-            <strong>WhatsApp Demo Community:</strong> <a href="${CONFIG.WHATSAPP_GROUP}" style="color:#0058b0;">Join WhatsApp Group</a>
-          </div>
-
-          <p style="font-size:13px; color:#94a3b8; text-align:center; margin:0;">
-            See you in the live room! — Team RPAVault
-          </p>
-        </div>
-        `;
-
-        MailApp.sendEmail({
-          to: email,
-          subject: subject,
-          htmlBody: htmlBody,
-          name: CONFIG.SENDER_NAME,
-          replyTo: CONFIG.REPLY_TO
-        });
-
-        // Mark as sent in Column I (column index 9)
-        sheet.getRange(r + 1, 9).setValue("Sent (" + Utilities.formatDate(now, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")");
-        sentCount++;
-      } catch (err) {
-        console.error("Failed sending reminder to " + email, err);
-        sheet.getRange(r + 1, 9).setValue("Failed: " + err.message);
+          // Mark sent in Col 26
+          sheet.getRange(r + 1, 26).setValue("Sent (" + Utilities.formatDate(now, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")");
+          totalSent++;
+        } catch (err) {
+          console.error("Failed sending reminder to " + email, err);
+          sheet.getRange(r + 1, 26).setValue("Failed: " + err.message);
+        }
       }
     }
-  }
+  });
 
-  console.log("Reminders dispatched to " + sentCount + " attendees.");
+  console.log("Reminders dispatched to " + totalSent + " attendees across sheets.");
 }
 
 /**
@@ -495,16 +528,18 @@ function setupDemoReminderTrigger() {
 /**
  * Helper: Generates 1-click Google Calendar Link with meeting details
  */
-function buildGoogleCalendarUrl() {
+function buildGoogleCalendarUrl(pageUrl) {
+  const targetUrl = pageUrl || "https://rpavault.com/genai-demo/";
   const title = encodeURIComponent("Live GenAI Demo & Engineering Masterclass — RPAVault (Zoom)");
   const details = encodeURIComponent(
-    "Join Zoom Meeting:\\n" + CONFIG.ZOOM_LINK +
-    "\\n\\nMeeting ID: " + CONFIG.MEETING_ID +
+    "Join Meeting via Live Portal:\\n" + targetUrl +
+    "\\n\\nDirect Zoom Backup: " + CONFIG.ZOOM_LINK +
+    "\\nMeeting ID: " + CONFIG.MEETING_ID +
     "\\nPasscode: " + CONFIG.PASSCODE +
     "\\nWhatsApp Group: " + CONFIG.WHATSAPP_GROUP +
-    "\\n\\nTopic: 8-Week Generative AI Engineering Track Demo"
+    "\\n\\nTopic: Python + GenAI + Agentic AI Engineering Track Demo"
   );
-  const location = encodeURIComponent(CONFIG.ZOOM_LINK);
+  const location = encodeURIComponent(targetUrl);
   // Sep 8, 2026 07:00 IST = 01:30 UTC. Duration 1 hour 30 mins -> 03:00 UTC
   const dates = "20260908T013000Z/20260908T030000Z";
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;

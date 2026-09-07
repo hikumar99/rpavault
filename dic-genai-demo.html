@@ -1062,9 +1062,9 @@ canonical_url: https://rpavault.com/dic-genai-demo/
   const G_KEY = "rpv_dic_genai_demo_registered_user";
 
   document.addEventListener("DOMContentLoaded", () => {
+    try { localStorage.removeItem(G_KEY); } catch(_) {}
     gInitClock();
     gInitCalendar();
-    gCheckRegistered();
     gCheckLiveWindow();
     gInitForm();
     gInitSticky();
@@ -1151,18 +1151,6 @@ canonical_url: https://rpavault.com/dic-genai-demo/
     }
   }
 
-  function gCheckRegistered() {
-    const saved = localStorage.getItem(G_KEY);
-    if (saved) {
-      try {
-        const u = JSON.parse(saved);
-        gShowRegistered(u.name);
-      } catch (_) {
-        gShowRegistered();
-      }
-    }
-  }
-
   function gShowRegistered(name) {
     const fState = document.getElementById("gStateForm");
     const rState = document.getElementById("gStateRegistered");
@@ -1193,14 +1181,9 @@ canonical_url: https://rpavault.com/dic-genai-demo/
       const bar = document.getElementById("gLiveBanner");
       if (bar) bar.style.display = "block";
 
-      const isReg = localStorage.getItem(G_KEY);
-      if (isReg && !sessionStorage.getItem("rpv_g_auto_redirect")) {
-        sessionStorage.setItem("rpv_g_auto_redirect", "true");
-        const gr = document.getElementById("gUserGreeting");
-        if (gr) gr.textContent = "🚀 Demo is LIVE! Launching Zoom...";
-        setTimeout(() => {
-          window.location.href = G_CONFIG.ZOOM_URL;
-        }, 2000);
+      const submitBtn = document.getElementById("gBtnSubmit");
+      if (submitBtn) {
+        submitBtn.innerHTML = "<span>Enter Live Zoom Demo Now &rarr;</span>";
       }
     }
   }
@@ -1326,7 +1309,7 @@ canonical_url: https://rpavault.com/dic-genai-demo/
         userAgent: navigator.userAgent
       };
 
-      localStorage.setItem(G_KEY, JSON.stringify(payload));
+      // No local storage of personal info (preserves candidate privacy and enables live check-ins)
 
       try {
         if (G_CONFIG.GOOGLE_SHEET_ENDPOINT) {
