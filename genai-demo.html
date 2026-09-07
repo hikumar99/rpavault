@@ -1067,6 +1067,7 @@ permalink: /genai-demo/
     gCheckLiveWindow();
     gInitForm();
     gInitSticky();
+    gCheckJoinUrl();
   });
 
   function gScrollToForm() {
@@ -1200,6 +1201,89 @@ permalink: /genai-demo/
         dock.style.display = "none";
       }
     }, { passive: true });
+  }
+
+  function gCheckJoinUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isJoin = urlParams.get("join") === "1" || urlParams.get("action") === "join";
+    const email = (urlParams.get("email") || "").trim().toLowerCase();
+    const name = (urlParams.get("name") || "").trim();
+
+    if (isJoin && email) {
+      const fState = document.getElementById("gStateForm");
+      const rState = document.getElementById("gStateRegistered");
+      const gr = document.getElementById("gUserGreeting");
+      const sub = document.querySelector(".g-conf-sub");
+
+      if (fState) fState.style.display = "none";
+      if (rState) rState.style.display = "block";
+
+      const fName = name ? name.split(" ")[0] : "there";
+      if (gr) gr.textContent = `Welcome, ${fName}! 🎉`;
+      if (sub) {
+        sub.innerHTML = `Your attendance is confirmed! Launching your Zoom meeting in <strong><span id="gCountdown">2</span>s</strong>...`;
+      }
+
+      // Smooth scroll to Zoom card so student sees it immediately
+      const formBox = document.getElementById("gFormBox");
+      if (formBox) {
+        formBox.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      // Log live attendance check-in once per session in Google Sheets
+      const sessionKey = "rpv_attendance_logged_" + email;
+      if (!sessionStorage.getItem(sessionKey)) {
+        sessionStorage.setItem(sessionKey, "true");
+
+        let geoData = {};
+        try { geoData = JSON.parse(sessionStorage.getItem('rpv_geo') || '{}'); } catch(_) {}
+
+        const payload = {
+          action: "ATTENDANCE_CHECKIN",
+          name: name,
+          email: email,
+          phone: urlParams.get("phone") || "",
+          course: "Python + GenAI + Agentic AI Engineering Track",
+          ip: geoData.ip || '',
+          city: geoData.city || '',
+          region: geoData.region || '',
+          country: geoData.country_name || '',
+          os: getDeviceOS(),
+          browser: getBrowserString(),
+          deviceType: getDeviceType(),
+          screen: window.screen.width + "x" + window.screen.height,
+          language: navigator.language || 'en-US',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Kolkata',
+          timeOnPage: Math.round((Date.now() - pageStartTime) / 1000),
+          referrer: document.referrer || 'Email Join Link',
+          source_page: window.location.pathname || '/genai-demo/',
+          source_page_title: document.title || "Live Python + GenAI + Agentic AI Demo",
+          submitted_at_local: new Date().toString(),
+          userAgent: navigator.userAgent
+        };
+
+        if (G_CONFIG.GOOGLE_SHEET_ENDPOINT) {
+          fetch(G_CONFIG.GOOGLE_SHEET_ENDPOINT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(payload)
+          }).catch(err => console.warn("Attendance ping notice:", err));
+        }
+      }
+
+      // Automatically launch Zoom after 2 seconds
+      let count = 2;
+      const cdEl = document.getElementById("gCountdown");
+      const interval = setInterval(() => {
+        count--;
+        if (cdEl) cdEl.textContent = count;
+        if (count <= 0) {
+          clearInterval(interval);
+          window.location.href = G_CONFIG.ZOOM_URL;
+        }
+      }, 1000);
+    }
   }
 
   const pageStartTime = Date.now();

@@ -159,11 +159,16 @@ function doPost(e) {
       }
     }
 
+    const action = (data.action || "").toString().trim();
+    const isAttendanceCheckin = (action === "ATTENDANCE_CHECKIN" || action === "LIVE_JOIN");
+
     const timestamp = new Date();
     let confirmStatus = "Pending";
 
-    // Only send confirmation email if this is the first time registering
-    if (isExistingUser) {
+    // Handle live attendance check-in vs new registration vs duplicate registration
+    if (isAttendanceCheckin) {
+      confirmStatus = "Live Join / Attended (" + Utilities.formatDate(timestamp, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")";
+    } else if (isExistingUser) {
       confirmStatus = "Already Registered (Email Skipped)";
     } else {
       try {
@@ -278,7 +283,11 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
   const firstName = name ? name.split(" ")[0] : "there";
   const subject = "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 8, 7:00 AM IST";
 
-  const googleCalLink = buildGoogleCalendarUrl(pageUrl);
+  const encName = encodeURIComponent(name || "");
+  const encEmail = encodeURIComponent(email || "");
+  const joinLink = pageUrl + (pageUrl.includes("?") ? "&" : "?") + "join=1&name=" + encName + "&email=" + encEmail;
+
+  const googleCalLink = buildGoogleCalendarUrl(joinLink);
 
   const htmlBody = `
   <!DOCTYPE html>
@@ -331,7 +340,7 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
             Join from PC, Mac, Linux, iOS or Android
           </div>
           
-          <a href="${pageUrl}" target="_blank" class="join-btn">
+          <a href="${joinLink}" target="_blank" class="join-btn">
             Click Here to Join Meeting &rarr;
           </a>
 
@@ -358,7 +367,7 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
         <div class="cal-row">
           <strong>Add to Calendar:</strong>
           <a href="${googleCalLink}" target="_blank" class="cal-link">Google Calendar</a> |
-          <a href="${pageUrl}" target="_blank" class="cal-link">Join Demo Room</a>
+          <a href="${joinLink}" target="_blank" class="cal-link">Join Demo Room</a>
         </div>
 
         <!-- WhatsApp Updates Notice -->
@@ -444,6 +453,9 @@ function sendMeetingReminderEmails() {
           const subject = "🔴 Starting in 30 Minutes! Join Live GenAI Demo";
           const rowSource = (row[17] || "").toString().toLowerCase();
           const targetUrl = rowSource.includes("dic") ? "https://rpavault.com/dic-genai-demo/" : item.defaultUrl;
+          const encName = encodeURIComponent(name || "");
+          const encEmail = encodeURIComponent(email || "");
+          const joinLink = targetUrl + (targetUrl.includes("?") ? "&" : "?") + "join=1&name=" + encName + "&email=" + encEmail;
 
           const htmlBody = `
           <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; max-width:600px; margin:0 auto; padding:24px; border:1px solid #cce3fa; border-radius:16px; background:#ffffff;">
@@ -460,7 +472,7 @@ function sendMeetingReminderEmails() {
             </p>
 
             <div style="text-align:center; margin:24px 0;">
-              <a href="${targetUrl}" target="_blank" style="display:inline-block; background:#0b5cff; color:#ffffff !important; font-weight:800; font-size:16px; text-decoration:none; padding:15px 36px; border-radius:10px; box-shadow:0 4px 14px rgba(11,92,255,0.3);">
+              <a href="${joinLink}" target="_blank" style="display:inline-block; background:#0b5cff; color:#ffffff !important; font-weight:800; font-size:16px; text-decoration:none; padding:15px 36px; border-radius:10px; box-shadow:0 4px 14px rgba(11,92,255,0.3);">
                 🚀 Click Here to Join Meeting &rarr;
               </a>
             </div>
