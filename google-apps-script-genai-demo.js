@@ -150,92 +150,116 @@ function sendInstantConfirmationEmail(name, email) {
   <head>
     <meta charset="utf-8">
     <style>
-      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background: #f4f8fb; color: #1a181b; }
-      .container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e1ebf2; }
-      .header { background: linear-gradient(135deg, #0a192f 0%, #0058b0 100%); padding: 32px 28px; text-align: center; color: #ffffff; }
-      .header h1 { margin: 0 0 8px 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-      .badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 99px; padding: 6px 16px; font-size: 13px; font-weight: 700; color: #7dd3fc; margin-bottom: 12px; }
-      .body-content { padding: 30px 28px; }
-      .greeting { font-size: 18px; font-weight: 700; color: #0a192f; margin-bottom: 16px; }
-      .highlight-card { background: #f0f7ff; border: 1.5px solid #cce3fa; border-radius: 14px; padding: 22px; margin: 24px 0; }
-      .meeting-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
-      .btn { display: inline-block; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px; text-align: center; }
-      .btn-zoom { background: #2D8CFF; color: #ffffff !important; box-shadow: 0 4px 12px rgba(45,140,255,0.3); margin-bottom: 12px; }
-      .btn-whatsapp { background: #25D366; color: #ffffff !important; margin-bottom: 12px; }
-      .btn-cal { background: #ffffff; color: #0058b0 !important; border: 1.5px solid #0058b0; }
-      .curriculum-box { background: #fafbfc; border-radius: 12px; padding: 18px; margin: 24px 0; border: 1px solid #ebf0f4; }
-      .curriculum-item { margin-bottom: 8px; font-size: 14px; color: #334155; }
-      .footer { background: #f8fafc; padding: 20px 28px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; }
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background: #f4f5f7; color: #232333; }
+      .email-wrap { max-width: 600px; margin: 24px auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e1e4e8; box-shadow: 0 4px 18px rgba(0,0,0,0.05); }
+      .zoom-top-bar { background: #0b5cff; padding: 22px 28px; text-align: left; }
+      .zoom-top-logo { font-size: 22px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; }
+      .zoom-top-tag { font-size: 12px; color: #dbeafe; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+      .email-body { padding: 32px 28px; }
+      .salutation { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 12px; }
+      .intro-text { font-size: 14px; line-height: 1.6; color: #374151; margin-bottom: 24px; }
+      .join-box { background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 22px; margin-bottom: 24px; text-align: center; }
+      .join-btn { display: inline-block; background: #0b5cff; color: #ffffff !important; font-size: 16px; font-weight: 800; padding: 14px 36px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(11,92,255,0.3); }
+      .creds-table { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: 13px; text-align: left; background: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #dbeafe; }
+      .creds-table td { padding: 10px 14px; border-bottom: 1px solid #eff6ff; }
+      .creds-table td.lbl { font-weight: 700; color: #4b5563; width: 38%; }
+      .creds-table td.val { font-family: monospace; font-weight: 800; color: #111827; font-size: 14px; }
+      .cal-row { margin: 20px 0; text-align: center; }
+      .cal-link { display: inline-block; color: #0b5cff; text-decoration: underline; font-weight: 700; font-size: 13px; margin: 0 10px; }
+      .wa-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 13px; line-height: 1.5; color: #166534; }
+      .wa-card a { color: #15803d; font-weight: 800; text-decoration: underline; }
+      .curriculum-summary { background: #fafafa; border: 1px solid #eaeaea; border-radius: 10px; padding: 18px 20px; margin: 24px 0; font-size: 13px; color: #374151; }
+      .curriculum-summary h4 { margin: 0 0 10px 0; font-size: 14px; color: #111827; }
+      .dialin-section { font-size: 12px; line-height: 1.6; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 18px; margin-top: 24px; }
+      .footer-note { font-size: 12px; color: #9ca3af; text-align: center; margin-top: 24px; border-top: 1px solid #f3f4f6; padding-top: 16px; }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="header">
-        <div class="badge">🔴 LIVE INTERACTIVE ZOOM DEMO</div>
-        <h1>Registration Confirmed!</h1>
-        <p style="margin:0; font-size:15px; opacity:0.9;">8-Week Generative AI Engineering Track</p>
+    <div class="email-wrap">
+      <!-- Zoom Style Header -->
+      <div class="zoom-top-bar">
+        <div class="zoom-top-logo">zoom <span style="font-size:15px; font-weight:400; opacity:0.85;">| RPAVault</span></div>
+        <div class="zoom-top-tag">Live Webinar Confirmation</div>
       </div>
 
-      <div class="body-content">
-        <p class="greeting">Hi ${firstName},</p>
-        <p style="font-size:15px; line-height:1.6; color:#334155;">
-          You're all set! We have reserved your seat for the exclusive <strong>Live GenAI Masterclass &amp; Roadmap Demo</strong> hosted by RPAVault.
-        </p>
-
-        <!-- Meeting Credentials Box -->
-        <div class="highlight-card">
-          <div style="font-size:13px; font-weight:800; color:#0058b0; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">
-            ZOOM MEETING ACCESS DETAILS
-          </div>
-          <div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">
-            🗓️ Date &amp; Time:
-          </div>
-          <div style="font-size:14px; color:#334155; margin-bottom:14px; padding-left:24px;">
-            <strong>${CONFIG.DEMO_DATE_STR}</strong><br>
-            <span style="color:#64748b;">(${CONFIG.DEMO_DATE_US})</span>
-          </div>
-
-          <div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">
-            🔑 Meeting Credentials:
-          </div>
-          <div style="font-size:14px; color:#334155; margin-bottom:18px; padding-left:24px;">
-            Meeting ID: <strong>${CONFIG.MEETING_ID}</strong><br>
-            Passcode: <strong>${CONFIG.PASSCODE}</strong>
-          </div>
-
-          <div style="text-align:center;">
-            <a href="${CONFIG.ZOOM_LINK}" target="_blank" class="btn btn-zoom" style="display:block; margin-bottom:12px;">
-              Join Zoom Meeting Directly &rarr;
-            </a>
-            <a href="${CONFIG.WHATSAPP_GROUP}" target="_blank" class="btn btn-whatsapp" style="display:block; margin-bottom:12px;">
-              💬 Join WhatsApp Demo Group
-            </a>
-            <a href="${googleCalLink}" target="_blank" class="btn btn-cal" style="display:block;">
-              📅 Add to Google Calendar
-            </a>
-          </div>
+      <div class="email-body">
+        <div class="salutation">Hi ${firstName},</div>
+        <div class="intro-text">
+          Thank you for registering for <strong>September AI Demo — 2-Month Generative AI Engineering Track</strong>.<br>
+          Please find your meeting access credentials below:
         </div>
 
-        <!-- Curriculum Highlights -->
-        <div class="curriculum-box">
-          <div style="font-weight:800; font-size:15px; color:#0f172a; margin-bottom:12px;">
-            What Will Be Covered In The Demo:
+        <!-- Primary Join Card (Zoom Style) -->
+        <div class="join-box">
+          <div style="font-size:12px; font-weight:800; text-transform:uppercase; color:#1d4ed8; letter-spacing:0.8px; margin-bottom:12px;">
+            Join from PC, Mac, Linux, iOS or Android
           </div>
-          <div class="curriculum-item">⚡ <strong>Transformers &amp; Attention:</strong> Demystifying embeddings, tokenization, and QKV mechanisms.</div>
-          <div class="curriculum-item">⚡ <strong>Production RAG Architecture:</strong> Hybrid search, chunking, re-ranking, and vector DBs (FAISS/Chroma).</div>
-          <div class="curriculum-item">⚡ <strong>Model Adaptation:</strong> SFT vs RAG vs Prompting decision framework and PEFT/LoRA fine-tuning.</div>
-          <div class="curriculum-item">⚡ <strong>FastAPI &amp; Docker Deployment:</strong> Turning LLM pipelines into resilient enterprise microservices.</div>
-          <div class="curriculum-item">⚡ <strong>Portfolio Capstone:</strong> Building the Enterprise Knowledge RAG Assistant.</div>
+          
+          <a href="${CONFIG.ZOOM_LINK}" target="_blank" class="join-btn">
+            Click Here to Join Meeting &rarr;
+          </a>
+
+          <table class="creds-table">
+            <tr>
+              <td class="lbl">Date &amp; Time:</td>
+              <td class="val" style="font-family:inherit; font-size:13px;">
+                <strong>${CONFIG.DEMO_DATE_STR}</strong><br>
+                <span style="font-weight:400; color:#6b7280; font-size:12px;">(${CONFIG.DEMO_DATE_US})</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="lbl">Meeting ID:</td>
+              <td class="val">${CONFIG.MEETING_ID}</td>
+            </tr>
+            <tr>
+              <td class="lbl">Passcode:</td>
+              <td class="val">${CONFIG.PASSCODE}</td>
+            </tr>
+          </table>
         </div>
 
-        <p style="font-size:14px; line-height:1.6; color:#475569;">
-          Make sure to join our WhatsApp group above so you don't miss live Q&amp;A, demo source code repositories, and session deck slides.
-        </p>
-      </div>
+        <!-- Add to Calendar -->
+        <div class="cal-row">
+          <strong>Add to Calendar:</strong>
+          <a href="${googleCalLink}" target="_blank" class="cal-link">Google Calendar</a> |
+          <a href="${CONFIG.ZOOM_LINK}" target="_blank" class="cal-link">Save Zoom Link</a>
+        </div>
 
-      <div class="footer">
-        RPAVault — Enterprise Automation, GenAI &amp; Consultancy<br>
-        Questions? Email us at <a href="mailto:${CONFIG.REPLY_TO}" style="color:#0058b0;">${CONFIG.REPLY_TO}</a>
+        <!-- WhatsApp Updates Notice -->
+        <div class="wa-card">
+          💬 <strong>You can join our WhatsApp group to get more updates:</strong><br>
+          Get session reminders, lab Python notebooks, and slide decks directly on WhatsApp:<br>
+          <a href="${CONFIG.WHATSAPP_GROUP}" target="_blank">Tap here to join the WhatsApp Demo Group &rarr;</a>
+        </div>
+
+        <!-- 2-Month Track Overview -->
+        <div class="curriculum-summary">
+          <h4>What We Will Cover in Tomorrow's Demo:</h4>
+          <ul style="padding-left:18px; margin:0; line-height:1.6;">
+            <li><strong>Foundations &amp; Classical ML:</strong> Python, NumPy, Vectors, PyTorch Tensors</li>
+            <li><strong>Transformers &amp; LLMs:</strong> Self-Attention, QKV, Prompt Engineering, Embeddings</li>
+            <li><strong>Production RAG:</strong> Vector DBs (FAISS/Chroma), Hybrid Search &amp; Evals</li>
+            <li><strong>Model Adaptation:</strong> SFT vs RAG vs Prompting &amp; PEFT/LoRA Fine-Tuning</li>
+            <li><strong>Deployment:</strong> FastAPI Microservices &amp; Docker</li>
+            <li><strong>Portfolio Capstone:</strong> Enterprise Knowledge RAG Assistant</li>
+          </ul>
+        </div>
+
+        <!-- Dial-in info (Standard Zoom Format) -->
+        <div class="dialin-section">
+          <strong>Or iPhone one-tap:</strong><br>
+          +13017158592,,82666730613#,,,,*059882# US (Washington DC)<br>
+          +13126266799,,82666730613#,,,,*059882# US (Chicago)<br><br>
+          <strong>Or Telephone:</strong><br>
+          Dial: +1 301 715 8592 (US)<br>
+          Meeting ID: 826 6673 0613 &nbsp;|&nbsp; Passcode: 059882<br>
+          SIP: 82666730613@zoomcrc.com
+        </div>
+
+        <div class="footer-note">
+          Sent by RPAVault Webinar System • Hyderabad, India<br>
+          Questions? Contact us at <a href="mailto:${CONFIG.REPLY_TO}" style="color:#0b5cff;">${CONFIG.REPLY_TO}</a>
+        </div>
       </div>
     </div>
   </body>
@@ -246,7 +270,7 @@ function sendInstantConfirmationEmail(name, email) {
     to: email,
     subject: subject,
     htmlBody: htmlBody,
-    name: CONFIG.SENDER_NAME,
+    name: "September AI Demo (Zoom)",
     replyTo: CONFIG.REPLY_TO
   });
 }

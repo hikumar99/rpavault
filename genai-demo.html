@@ -1,0 +1,1229 @@
+---
+layout: layouts/base.html
+title: "Live GenAI Demo: 2-Month Engineering Program | RPAVault"
+description: "Claim your free seat for RPAVault's Live Generative AI Demo on Zoom. Tuesday, September 8 at 7:00 AM IST. Discover the 2-month production track from Transformers to RAG & Docker."
+og_image: "/assets/images/og-genai-demo.png"
+permalink: /genai-demo/
+---
+
+<style>
+  :root {
+    --g-bg: #070e1a;
+    --g-surface: #0d1b30;
+    --g-card: #ffffff;
+    --g-border: #1e2e4a;
+    --g-accent: #ff6b2b;
+    --g-accent-glow: #ff8a4c;
+    --g-blue: #0058b0;
+    --g-blue-bright: #006ce6;
+    --g-sky: #38bdf8;
+    --g-zoom: #2D8CFF;
+    --g-whatsapp: #25D366;
+    --g-green: #10b981;
+    --g-text: #0f172a;
+    --g-sub: #64748b;
+  }
+
+  body {
+    background-color: var(--g-bg);
+    color: #ffffff;
+    font-family: var(--font, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+  }
+
+  .genai-page {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 0 1rem 5.5rem;
+    box-sizing: border-box;
+  }
+
+  /* Live alert bar on demo morning */
+  .g-live-banner {
+    display: none;
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  }
+  .g-live-banner a {
+    color: #ffffff;
+    text-decoration: underline;
+    margin-left: 6px;
+  }
+
+  /* Header Bar */
+  .g-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 0 0.85rem;
+  }
+
+  .g-logo {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+  .g-logo span {
+    color: var(--g-sky);
+  }
+
+  .g-zoom-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(45, 140, 255, 0.15);
+    border: 1px solid rgba(45, 140, 255, 0.45);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #7dd3fc;
+  }
+
+  .g-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+    animation: gPulse 1.5s infinite;
+  }
+  @keyframes gPulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.25); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+  }
+
+  /* Scarcity / Urgency Pill */
+  .g-scarcity-bar {
+    background: rgba(255, 107, 43, 0.12);
+    border: 1px solid rgba(255, 107, 43, 0.35);
+    border-radius: 10px;
+    padding: 0.5rem 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--g-accent-glow);
+    margin-bottom: 0.9rem;
+    text-align: center;
+  }
+
+  /* Hero Section */
+  .g-hero {
+    background: linear-gradient(180deg, rgba(13, 27, 48, 0.95) 0%, rgba(7, 14, 26, 0.95) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    border-radius: 20px;
+    padding: 1.25rem 1.15rem 1.1rem;
+    margin-bottom: 1.15rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .g-hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, var(--g-blue), var(--g-accent));
+  }
+
+  .g-track-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--g-accent-glow);
+    margin-bottom: 0.45rem;
+  }
+  .g-track-badge::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 2.5px;
+    background: var(--g-accent);
+    border-radius: 2px;
+  }
+
+  .g-title {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.7rem;
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -0.6px;
+    color: #ffffff;
+    margin: 0 0 0.45rem;
+  }
+  .g-title span {
+    background: linear-gradient(90deg, #ffffff 15%, #38bdf8 85%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .g-sub {
+    font-size: 0.88rem;
+    line-height: 1.48;
+    color: #cbd5e1;
+    margin: 0 0 0.95rem;
+  }
+
+  /* Date & Time Strip */
+  .g-dt-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.7rem 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .g-dt-left {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .g-cal-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 107, 43, 0.18);
+    border: 1px solid rgba(255, 107, 43, 0.35);
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .g-dt-text h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+  .g-dt-text p {
+    margin: 0;
+    font-size: 0.72rem;
+    color: #94a3b8;
+  }
+
+  /* Countdown Clock */
+  .g-clock {
+    display: flex;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  .g-clock-slot {
+    background: #050b14;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 3px 5px;
+    text-align: center;
+    min-width: 30px;
+  }
+  .g-clock-val {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--g-sky);
+    line-height: 1;
+  }
+  .g-clock-lbl {
+    font-size: 0.52rem;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  /* Registration Form Card (CRO-Optimized) */
+  .g-form-card {
+    background: var(--g-card);
+    border-radius: 20px;
+    padding: 1.35rem 1.15rem 1.25rem;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+    color: var(--g-text);
+    margin-bottom: 1.35rem;
+    position: relative;
+  }
+
+  .g-form-head {
+    margin-bottom: 1.05rem;
+    text-align: center;
+  }
+  .g-form-head h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.25rem;
+  }
+  .g-form-head p {
+    font-size: 0.82rem;
+    color: var(--g-sub);
+    margin: 0;
+  }
+
+  .g-field {
+    margin-bottom: 0.85rem;
+  }
+  .g-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 0.3rem;
+  }
+  .g-input {
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+    padding: 0 0.95rem;
+    font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+    font-family: inherit;
+    border-radius: 10px;
+    border: 1.5px solid #cbd5e1;
+    background: #f8fafc;
+    color: #0f172a;
+    transition: all 0.2s ease;
+  }
+  .g-input:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: var(--g-blue);
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.15);
+  }
+
+  /* High-Converting CTA Button */
+  .g-btn-cta {
+    width: 100%;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.9rem 1.25rem;
+    background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.05rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.38);
+    transition: all 0.2s ease;
+    margin-top: 0.4rem;
+  }
+  .g-btn-cta:active {
+    transform: scale(0.98);
+  }
+  .g-btn-cta:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .g-trust-tags {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.72rem;
+    color: #64748b;
+    margin-top: 0.75rem;
+    font-weight: 600;
+  }
+
+  /* Alternative Direct WhatsApp Jump */
+  .g-wa-alt {
+    text-align: center;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed #e2e8f0;
+  }
+  .g-wa-alt a {
+    color: #059669;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Confirmation / Registered Screen */
+  .g-conf-card {
+    display: none;
+    animation: gFadeIn 0.3s ease;
+    text-align: center;
+  }
+  @keyframes gFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .g-check-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #16a34a;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 0.75rem;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+  }
+  .g-conf-title {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.3rem;
+  }
+  .g-conf-sub {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.4;
+    margin: 0 0 1.2rem;
+  }
+
+  /* Step 1: WhatsApp Group */
+  .g-step-wa {
+    background: #eefcf3;
+    border: 1.5px solid #a7f3d0;
+    border-radius: 14px;
+    padding: 1rem 0.9rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  .g-step-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+  }
+  .g-step-tag.green { color: #047857; }
+  .g-step-tag.blue { color: var(--g-blue); }
+
+  .g-step-wa h4 {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #065f46;
+    margin: 0 0 0.25rem;
+  }
+  .g-step-wa p {
+    font-size: 0.78rem;
+    color: #047857;
+    margin: 0 0 0.85rem;
+    line-height: 1.4;
+  }
+  .g-btn-wa-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 48px;
+    background: var(--g-whatsapp);
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+  }
+
+  /* Step 2: Zoom Direct */
+  .g-step-zm {
+    background: #f0f7ff;
+    border: 1.5px solid #cce3fa;
+    border-radius: 14px;
+    padding: 1rem 0.9rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  .g-step-zm h4 {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.25rem;
+  }
+  .g-step-zm p {
+    font-size: 0.78rem;
+    color: #475569;
+    margin: 0 0 0.85rem;
+  }
+  .g-btn-zm-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 48px;
+    background: var(--g-zoom);
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(45, 140, 255, 0.35);
+    margin-bottom: 0.75rem;
+  }
+
+  .g-creds-grid {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .g-cred-cell {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+    text-align: center;
+    cursor: pointer;
+  }
+  .g-cred-cell .k {
+    font-size: 0.68rem;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .g-cred-cell .v {
+    font-family: monospace;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  /* Step 3: Calendar */
+  .g-cal-grid {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .g-btn-cal-mini {
+    flex: 1;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #334155;
+    text-decoration: none;
+  }
+
+  /* Highlights / Curriculum Base Points */
+  .g-card-section {
+    background: var(--g-surface);
+    border: 1px solid var(--g-border);
+    border-radius: 18px;
+    padding: 1.25rem 1.15rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .g-sec-title {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .g-pill-accent {
+    background: rgba(255, 107, 43, 0.18);
+    color: var(--g-accent-glow);
+    border: 1px solid var(--g-accent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .g-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .g-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: #cbd5e1;
+    line-height: 1.45;
+  }
+  .g-list li .num-box {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--g-sky);
+    display: grid;
+    place-items: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .g-list li strong {
+    color: #ffffff;
+  }
+
+  /* Capstone Highlight */
+  .g-capstone-box {
+    background: linear-gradient(135deg, #091c36 0%, #0d2a52 100%);
+    border: 1.5px solid rgba(56, 189, 248, 0.35);
+    border-radius: 18px;
+    padding: 1.25rem 1.15rem;
+    margin-bottom: 1.1rem;
+  }
+  .g-capstone-box h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.35rem;
+  }
+  .g-capstone-box p {
+    font-size: 0.84rem;
+    color: #94a3b8;
+    line-height: 1.45;
+    margin: 0 0 0.75rem;
+  }
+  .g-tag-mini {
+    display: inline-block;
+    background: rgba(255, 107, 43, 0.2);
+    color: var(--g-accent-glow);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.45rem;
+  }
+
+  /* Audience Pills */
+  .g-aud-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.5rem;
+  }
+  .g-aud-pill {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #cbd5e1;
+  }
+
+  /* Dial In Box */
+  .g-dial-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-top: 1rem;
+  }
+  .g-dial-box a { color: var(--g-sky); }
+
+  /* Sticky Bottom Bar */
+  .g-sticky-dock {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(7, 14, 26, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 0.75rem 1rem;
+    z-index: 999;
+    display: none;
+    animation: gSlideUp 0.25s ease;
+  }
+  @keyframes gSlideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .g-dock-inner {
+    max-width: 540px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .g-dock-meta .t {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+  .g-dock-meta .b {
+    font-size: 0.7rem;
+    color: #94a3b8;
+  }
+  .g-btn-dock {
+    background: linear-gradient(135deg, #0066cc, #004d99);
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 800;
+    padding: 0.65rem 1.15rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+    white-space: nowrap;
+  }
+
+  /* Hide default massive desktop site headers & footers for pure mobile landing experience */
+  .site-header {
+    background: #070e1a !important;
+    border-bottom: 1px solid #1e293b !important;
+  }
+  .site-header .nav-links, .site-header .header-cta {
+    display: none !important;
+  }
+  .site-header .container {
+    justify-content: center !important;
+    padding: 0.65rem 1rem !important;
+  }
+  .site-footer {
+    display: none !important;
+  }
+</style>
+
+<!-- Live Notification Bar (triggers on demo morning) -->
+<div id="gLiveBanner" class="g-live-banner">
+  🔴 Live Now! <a href="https://us06web.zoom.us/j/82666730613?pwd=OzDODw5m21Z1UCAMCQpZl1UVsYG1HZ.1" target="_blank" rel="noopener">Tap here to Join the Zoom Session &rarr;</a>
+</div>
+
+<div class="genai-page">
+  
+  <!-- Top Bar -->
+  <div class="g-top-bar">
+    <div class="g-logo">RPA<span>VAULT</span></div>
+    <div class="g-zoom-tag">
+      <span class="g-pulse-dot"></span>
+      <span>Live on Zoom</span>
+    </div>
+  </div>
+
+  <!-- Urgency / Scarcity Badge -->
+  <div class="g-scarcity-bar">
+    🔥 <strong>Only 16 Free Seats Left</strong> • Zoom Room Capacity Capped at 100
+  </div>
+
+  <!-- Hero Pitch Card -->
+  <div class="g-hero">
+    <div class="g-track-badge">2-Month Intensive Program</div>
+    <h1 class="g-title">
+      Become a <span>GenAI Engineer</span>
+    </h1>
+    <p class="g-sub">
+      Live Roadmap &amp; Architecture Demo. Learn to build, evaluate, fine-tune, and deploy production-grade Generative AI systems.
+    </p>
+
+    <!-- Date, Time & Countdown -->
+    <div class="g-dt-box">
+      <div class="g-dt-left">
+        <div class="g-cal-icon">🗓️</div>
+        <div class="g-dt-text">
+          <h4>Tuesday, Sep 8 • 7:00 AM IST</h4>
+          <p>Sep 8 • 9:30 PM EDT (US/Canada)</p>
+        </div>
+      </div>
+
+      <!-- Mini Countdown Clock -->
+      <div class="g-clock">
+        <div class="g-clock-slot">
+          <div class="g-clock-val" id="gHrs">00</div>
+          <div class="g-clock-lbl">Hrs</div>
+        </div>
+        <div class="g-clock-slot">
+          <div class="g-clock-val" id="gMin">00</div>
+          <div class="g-clock-lbl">Min</div>
+        </div>
+        <div class="g-clock-slot">
+          <div class="g-clock-val" id="gSec">00</div>
+          <div class="g-clock-lbl">Sec</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Card (First Interactive Element on Screen) -->
+  <div class="g-form-card" id="gFormBox">
+    
+    <!-- State 1: Fast Registration Form -->
+    <div id="gStateForm">
+      <div class="g-form-head">
+        <h3>Claim Your Free Seat</h3>
+        <p>Instant Zoom link + WhatsApp session updates.</p>
+      </div>
+
+      <form id="gRegisterForm">
+        <div class="g-field">
+          <label class="g-label" for="gName">Full Name</label>
+          <input type="text" id="gName" name="name" class="g-input" placeholder="e.g. Rahul Sharma" required autocomplete="name">
+        </div>
+
+        <div class="g-field">
+          <label class="g-label" for="gPhone">WhatsApp / Mobile Number</label>
+          <input type="tel" id="gPhone" name="phone" class="g-input" inputmode="tel" placeholder="+91 98765 43210" required autocomplete="tel">
+        </div>
+
+        <div class="g-field">
+          <label class="g-label" for="gEmail">Email Address</label>
+          <input type="email" id="gEmail" name="email" class="g-input" inputmode="email" placeholder="name@company.com" required autocomplete="email">
+        </div>
+
+        <button type="submit" id="gBtnSubmit" class="g-btn-cta">
+          <span>Claim My Free Seat &amp; Zoom Link &rarr;</span>
+        </button>
+
+        <div class="g-trust-tags">
+          <span>⚡ Instant Zoom Link</span>
+          <span>⚡ WhatsApp Reminders</span>
+          <span>⚡ 100% Free</span>
+        </div>
+
+        <!-- Alternative WhatsApp Group Link -->
+        <div class="g-wa-alt">
+          <a href="https://chat.whatsapp.com/J0jWbPcSVOb3hJwvazd8d3" target="_blank" rel="noopener">
+            💬 You can join our WhatsApp group to get more updates &rarr;
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- State 2: Confirmation View -->
+    <div id="gStateRegistered" class="g-conf-card">
+      <div class="g-check-circle">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 class="g-conf-title" id="gUserGreeting">Seat Confirmed!</h3>
+      <p class="g-conf-sub">We reserved your seat for <strong>Tuesday, Sep 8 at 7:00 AM IST</strong>.</p>
+
+      <!-- Step 1: Zoom Meeting (Most Important) -->
+      <div class="g-step-zm" style="border: 2px solid #2D8CFF; background: #eff6ff;">
+        <div class="g-step-tag blue" style="font-size:0.75rem; color:#1d4ed8;">⭐ STEP 1: YOUR ZOOM ACCESS (IMPORTANT)</div>
+        <h4 style="font-size:1.1rem; margin-bottom:0.35rem;">Join Zoom Meeting</h4>
+        <p style="font-size:0.82rem; color:#334155; margin-bottom:0.9rem;">
+          Save this link or tap below to enter the live room at 7:00 AM IST.
+        </p>
+
+        <a href="https://us06web.zoom.us/j/82666730613?pwd=OzDODw5m21Z1UCAMCQpZl1UVsYG1HZ.1" target="_blank" rel="noopener" class="g-btn-zm-full" style="background:#2D8CFF; box-shadow:0 6px 18px rgba(45,140,255,0.45); font-size:1.02rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="2" y="5" width="14" height="14" rx="3"/>
+            <path d="M16 14.5L21.2 18.4C21.7 18.8 22.4 18.4 22.4 17.8V6.2C22.4 5.6 21.7 5.2 21.2 5.6L16 9.5V14.5Z"/>
+          </svg>
+          <span>Join Zoom Meeting Now &rarr;</span>
+        </a>
+
+        <div class="g-creds-grid" style="margin-top:0.6rem;">
+          <div class="g-cred-cell" onclick="gCopy('82666730613', this)" style="background:#ffffff; border:1.5px solid #bfdbfe;">
+            <div class="k">Meeting ID (Tap to Copy)</div>
+            <div class="v">826 6673 0613 📋</div>
+          </div>
+          <div class="g-cred-cell" onclick="gCopy('059882', this)" style="background:#ffffff; border:1.5px solid #bfdbfe;">
+            <div class="k">Passcode (Tap to Copy)</div>
+            <div class="v">059882 📋</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Calendar Alarms -->
+      <div style="margin-bottom:1rem; text-align:left; background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:0.9rem;">
+        <div style="font-size:0.72rem; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:0.35rem;">
+          STEP 2: ADD CALENDAR REMINDER
+        </div>
+        <div style="font-size:0.8rem; color:#475569; margin-bottom:0.65rem;">
+          Set a reminder so you don't miss the 7:00 AM IST start time.
+        </div>
+        <div class="g-cal-grid">
+          <a href="#" id="gBtnGcal" target="_blank" rel="noopener" class="g-btn-cal-mini">
+            <span>📅 Google Cal</span>
+          </a>
+          <a href="#" id="gBtnIcal" class="g-btn-cal-mini">
+            <span>⏰ Apple / Outlook</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Step 3: WhatsApp Community -->
+      <div class="g-step-wa">
+        <div class="g-step-tag green">STEP 3: GET MORE UPDATES</div>
+        <h4>Join the WhatsApp Community</h4>
+        <p>You can join our WhatsApp group to get more updates, session slide decks, and code repositories.</p>
+        <a href="https://chat.whatsapp.com/J0jWbPcSVOb3hJwvazd8d3" target="_blank" rel="noopener" class="g-btn-wa-full">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.711 1.456h.005c6.554 0 11.89-5.336 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span>Tap to Join WhatsApp Community</span>
+        </a>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <button type="button" id="gBtnEdit" style="background:none; border:none; color:#64748b; font-size:0.75rem; text-decoration:underline; cursor:pointer;">
+          Edit registration details
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Base Points & Scannable Highlights (High-Conversion Pillars) -->
+
+  <!-- 1. What You Learn in 2 Months -->
+  <div class="g-card-section">
+    <div class="g-sec-title">
+      <span>What You Learn in 2 Months</span>
+      <span class="g-pill-accent">5 Core Pillars</span>
+    </div>
+    <ul class="g-list">
+      <li>
+        <span class="num-box">1</span>
+        <div><strong>Foundations &amp; Classical ML:</strong> Python data pipelines, NumPy, Pandas, vectors, probability, and PyTorch tensor training loops.</div>
+      </li>
+      <li>
+        <span class="num-box">2</span>
+        <div><strong>Transformers &amp; LLMs:</strong> Self-Attention, QKV mechanics, tokenization, structured JSON outputs, and prompt engineering.</div>
+      </li>
+      <li>
+        <span class="num-box">3</span>
+        <div><strong>Production RAG:</strong> Chunking, FAISS/Chroma vector DBs, hybrid search, re-ranking, and retrieval evaluation (latency, cost &amp; factuality).</div>
+      </li>
+      <li>
+        <span class="num-box">4</span>
+        <div><strong>Model Fine-Tuning:</strong> SFT vs RAG vs Prompting decision framework, instruction tuning, and PEFT / LoRA concepts.</div>
+      </li>
+      <li>
+        <span class="num-box">5</span>
+        <div><strong>FastAPI &amp; Docker Deployment:</strong> Turning AI pipelines into robust enterprise APIs with validation, retries, and containers.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 2. Capstone Project -->
+  <div class="g-capstone-box">
+    <div class="g-tag-mini">Hands-on Portfolio Capstone</div>
+    <h3>Enterprise Knowledge RAG Assistant</h3>
+    <p>
+      Build an end-to-end production AI system that ingests enterprise documents, executes grounded retrieval with citations, and deploys via FastAPI &amp; Docker.
+    </p>
+    <ul class="g-list">
+      <li>
+        <span class="num-box">⚡</span>
+        <div><strong>Full Stack:</strong> Vector DB + FastAPI backend + interactive UI.</div>
+      </li>
+      <li>
+        <span class="num-box">⚡</span>
+        <div><strong>Evaluation Suite:</strong> Benchmark answer relevance, safety &amp; hallucination.</div>
+      </li>
+      <li>
+        <span class="num-box">⚡</span>
+        <div><strong>Interview-Ready:</strong> Architecture diagrams, Dockerfile &amp; demo walkthrough.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 3. Who Should Attend -->
+  <div class="g-card-section">
+    <div class="g-sec-title">
+      <span>Who Should Attend</span>
+    </div>
+    <div class="g-aud-wrap">
+      <span class="g-aud-pill">Software Developers</span>
+      <span class="g-aud-pill">QA &amp; Automation Testers</span>
+      <span class="g-aud-pill">RPA &amp; Workflow Engineers</span>
+      <span class="g-aud-pill">Data Engineers &amp; Analysts</span>
+      <span class="g-aud-pill">DevOps &amp; Cloud Engineers</span>
+      <span class="g-aud-pill">Tech Leads switching to GenAI</span>
+    </div>
+  </div>
+
+  <!-- 4. Alternative Zoom Dial-in -->
+  <div class="g-dial-box">
+    <strong>Need Phone Dial-in?</strong><br>
+    US One-Tap: <a href="tel:+13017158592,,82666730613#,,,,*059882#">+1 301 715 8592</a> (DC) | <a href="tel:+13126266799,,82666730613#,,,,*059882#">+1 312 626 6799</a> (Chicago)<br>
+    SIP: <a href="mailto:82666730613@zoomcrc.com">82666730613@zoomcrc.com</a>
+  </div>
+
+</div>
+
+<!-- Sticky Bottom Dock for Mobile -->
+<div class="g-sticky-dock" id="gStickyDock">
+  <div class="g-dock-inner">
+    <div class="g-dock-meta">
+      <div class="t">Sep 8 • 7:00 AM IST</div>
+      <div class="b">Live GenAI Demo on Zoom</div>
+    </div>
+    <button type="button" class="g-btn-dock" onclick="gScrollToForm()">
+      Claim Free Seat &uarr;
+    </button>
+  </div>
+</div>
+
+<script>
+  const G_CONFIG = {
+    GOOGLE_SHEET_ENDPOINT: "https://script.google.com/macros/s/AKfycbwZeOZYuPx9O04lxk8O-4ES_KyADvWcPT6C-CLfuXa1IrYCmm5D2CNUekTAlrlmmpGLpg/exec",
+    ZOOM_URL: "https://us06web.zoom.us/j/82666730613?pwd=OzDODw5m21Z1UCAMCQpZl1UVsYG1HZ.1",
+    MEETING_ID: "826 6673 0613",
+    PASSCODE: "059882",
+    WHATSAPP_GROUP: "https://chat.whatsapp.com/J0jWbPcSVOb3hJwvazd8d3",
+    MEETING_TIME: new Date("2026-09-08T07:00:00+05:30").getTime(),
+    LIVE_START: new Date("2026-09-08T06:45:00+05:30").getTime(),
+    LIVE_END: new Date("2026-09-08T09:00:00+05:30").getTime()
+  };
+
+  const G_KEY = "rpv_genai_demo_registered_user";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    gInitClock();
+    gInitCalendar();
+    gCheckRegistered();
+    gCheckLiveWindow();
+    gInitForm();
+    gInitSticky();
+  });
+
+  function gScrollToForm() {
+    const el = document.getElementById("gFormBox");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    const inp = document.getElementById("gName");
+    if (inp) setTimeout(() => inp.focus(), 350);
+  }
+
+  function gInitClock() {
+    function tick() {
+      const now = Date.now();
+      const diff = G_CONFIG.MEETING_TIME - now;
+      if (diff <= 0) {
+        document.getElementById("gHrs").textContent = "00";
+        document.getElementById("gMin").textContent = "00";
+        document.getElementById("gSec").textContent = "00";
+        return;
+      }
+      const hrs = Math.floor((diff / (1000 * 60 * 60)));
+      const mins = Math.floor((diff / 1000 / 60) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("gHrs").textContent = String(hrs).padStart(2, "0");
+      document.getElementById("gMin").textContent = String(mins).padStart(2, "0");
+      document.getElementById("gSec").textContent = String(secs).padStart(2, "0");
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  function gInitCalendar() {
+    const title = encodeURIComponent("Live GenAI Demo & 2-Month Engineering Program — RPAVault (Zoom)");
+    const details = encodeURIComponent(
+      "Join Zoom Meeting: " + G_CONFIG.ZOOM_URL + "\n\n" +
+      "Meeting ID: " + G_CONFIG.MEETING_ID + "\n" +
+      "Passcode: " + G_CONFIG.PASSCODE + "\n" +
+      "WhatsApp Group: " + G_CONFIG.WHATSAPP_GROUP + "\n\n" +
+      "2-Month Generative AI Engineering Track Demo by RPAVault."
+    );
+    const location = encodeURIComponent(G_CONFIG.ZOOM_URL);
+    const dates = "20260908T013000Z/20260908T030000Z";
+
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+    const gcalBtn = document.getElementById("gBtnGcal");
+    if (gcalBtn) gcalBtn.href = gcalUrl;
+
+    const icalBtn = document.getElementById("gBtnIcal");
+    if (icalBtn) {
+      icalBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const ics = [
+          "BEGIN:VCALENDAR",
+          "VERSION:2.0",
+          "PRODID:-//RPAVault//GenAI Demo//EN",
+          "METHOD:PUBLISH",
+          "BEGIN:VEVENT",
+          "UID:genai-demo-2month@rpavault.com",
+          "DTSTART:20260908T013000Z",
+          "DTEND:20260908T030000Z",
+          "SUMMARY:Live GenAI Demo & Engineering Program (Zoom)",
+          "DESCRIPTION:Zoom Link: " + G_CONFIG.ZOOM_URL + "\\nMeeting ID: " + G_CONFIG.MEETING_ID + "\\nPasscode: " + G_CONFIG.PASSCODE + "\\nWhatsApp: " + G_CONFIG.WHATSAPP_GROUP,
+          "LOCATION:" + G_CONFIG.ZOOM_URL,
+          "BEGIN:VALARM",
+          "TRIGGER:-PT30M",
+          "ACTION:DISPLAY",
+          "DESCRIPTION:GenAI Demo starts in 30 minutes!",
+          "END:VALARM",
+          "END:VEVENT",
+          "END:VCALENDAR"
+        ].join("\r\n");
+
+        const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute("download", "RPAVault-GenAI-Demo.ics");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    }
+  }
+
+  function gCheckRegistered() {
+    const saved = localStorage.getItem(G_KEY);
+    if (saved) {
+      try {
+        const u = JSON.parse(saved);
+        gShowRegistered(u.name);
+      } catch (_) {
+        gShowRegistered();
+      }
+    }
+  }
+
+  function gShowRegistered(name) {
+    const fState = document.getElementById("gStateForm");
+    const rState = document.getElementById("gStateRegistered");
+    const gr = document.getElementById("gUserGreeting");
+
+    if (fState) fState.style.display = "none";
+    if (rState) rState.style.display = "block";
+
+    if (name && gr) {
+      const fName = name.trim().split(" ")[0];
+      gr.textContent = `Seat Confirmed, ${fName}!`;
+    }
+  }
+
+  const btnEdit = document.getElementById("gBtnEdit");
+  if (btnEdit) {
+    btnEdit.addEventListener("click", () => {
+      document.getElementById("gStateRegistered").style.display = "none";
+      document.getElementById("gStateForm").style.display = "block";
+    });
+  }
+
+  function gCheckLiveWindow() {
+    const now = Date.now();
+    const isLive = (now >= G_CONFIG.LIVE_START && now <= G_CONFIG.LIVE_END);
+
+    if (isLive) {
+      const bar = document.getElementById("gLiveBanner");
+      if (bar) bar.style.display = "block";
+
+      const isReg = localStorage.getItem(G_KEY);
+      if (isReg && !sessionStorage.getItem("rpv_g_auto_redirect")) {
+        sessionStorage.setItem("rpv_g_auto_redirect", "true");
+        const gr = document.getElementById("gUserGreeting");
+        if (gr) gr.textContent = "🚀 Demo is LIVE! Launching Zoom...";
+        setTimeout(() => {
+          window.location.href = G_CONFIG.ZOOM_URL;
+        }, 2000);
+      }
+    }
+  }
+
+  function gInitSticky() {
+    const dock = document.getElementById("gStickyDock");
+    const formBox = document.getElementById("gFormBox");
+    if (!dock || !formBox) return;
+
+    window.addEventListener("scroll", () => {
+      const rect = formBox.getBoundingClientRect();
+      if (rect.bottom < 0) {
+        dock.style.display = "block";
+      } else {
+        dock.style.display = "none";
+      }
+    }, { passive: true });
+  }
+
+  function gInitForm() {
+    const form = document.getElementById("gRegisterForm");
+    const btn = document.getElementById("gBtnSubmit");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("gName").value.trim();
+      const phone = document.getElementById("gPhone").value.trim();
+      const email = document.getElementById("gEmail").value.trim();
+
+      if (!name || !phone || !email) return;
+
+      btn.disabled = true;
+      btn.innerHTML = `<span>Claiming Seat...</span>`;
+
+      const payload = {
+        name: name,
+        phone: phone,
+        email: email,
+        source: window.location.pathname,
+        referrer: document.referrer || "whatsapp",
+        userAgent: navigator.userAgent
+      };
+
+      localStorage.setItem(G_KEY, JSON.stringify(payload));
+
+      try {
+        if (G_CONFIG.GOOGLE_SHEET_ENDPOINT) {
+          fetch(G_CONFIG.GOOGLE_SHEET_ENDPOINT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(payload)
+          }).catch(err => console.warn("Webhook dispatch notice:", err));
+        }
+      } catch (err) {
+        console.warn("Webhook error:", err);
+      }
+
+      setTimeout(() => {
+        gShowRegistered(name);
+        const now = Date.now();
+        if (now >= G_CONFIG.LIVE_START && now <= G_CONFIG.LIVE_END) {
+          window.open(G_CONFIG.ZOOM_URL, "_blank");
+        }
+      }, 600);
+    });
+  }
+
+  function gCopy(val, el) {
+    navigator.clipboard.writeText(val).then(() => {
+      const orig = el.innerHTML;
+      el.innerHTML = "<span style='color:#16a34a; font-weight:800;'>Copied! ✅</span>";
+      setTimeout(() => { el.innerHTML = orig; }, 1600);
+    }).catch(() => {
+      alert("Copied: " + val);
+    });
+  }
+</script>
