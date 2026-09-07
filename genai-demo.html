@@ -66,15 +66,18 @@ permalink: /genai-demo/
     padding: 1.1rem 0 0.85rem;
   }
 
-  .g-logo {
-    font-family: var(--font-heading, 'Sora', sans-serif);
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -0.5px;
+  .g-brand-wrap {
+    display: flex;
+    align-items: center;
   }
-  .g-logo span {
-    color: var(--g-sky);
+
+  .g-brand-logo {
+    height: 38px;
+    width: auto;
+    max-width: 175px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
   }
 
   .g-zoom-tag {
@@ -702,19 +705,18 @@ permalink: /genai-demo/
     white-space: nowrap;
   }
 
-  /* Hide default massive desktop site headers & footers for pure mobile landing experience */
-  .site-header {
-    background: #070e1a !important;
-    border-bottom: 1px solid #1e293b !important;
-  }
-  .site-header .nav-links, .site-header .header-cta {
+  /* Hide site header & footer completely for a 100% pure standalone mobile landing page */
+  .site-header, header.site-header, #site-header {
     display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
-  .site-header .container {
-    justify-content: center !important;
-    padding: 0.65rem 1rem !important;
-  }
-  .site-footer {
+  .site-footer, footer.site-footer {
     display: none !important;
   }
 </style>
@@ -726,9 +728,11 @@ permalink: /genai-demo/
 
 <div class="genai-page">
   
-  <!-- Top Bar -->
+  <!-- Top Bar with Official Logo -->
   <div class="g-top-bar">
-    <div class="g-logo">RPA<span>VAULT</span></div>
+    <div class="g-brand-wrap">
+      <img src="/assets/images/logo-rpavault-white.png" alt="RPAVault" class="g-brand-logo">
+    </div>
     <div class="g-zoom-tag">
       <span class="g-pulse-dot"></span>
       <span>Live on Zoom</span>
@@ -849,15 +853,22 @@ permalink: /genai-demo/
           <span>Join Zoom Meeting Now &rarr;</span>
         </a>
 
-        <div class="g-creds-grid" style="margin-top:0.6rem;">
-          <div class="g-cred-cell" onclick="gCopy('82666730613', this)" style="background:#ffffff; border:1.5px solid #bfdbfe;">
-            <div class="k">Meeting ID (Tap to Copy)</div>
-            <div class="v">826 6673 0613 📋</div>
+        <!-- Meeting Code & Passcode inside the same Zoom box -->
+        <div style="background:#ffffff; border:1.5px solid #bfdbfe; border-radius:10px; padding:10px 12px; margin-top:12px; text-align:center;">
+          <div style="font-size:0.75rem; font-weight:800; color:#1e40af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+            ZOOM MEETING CODE &amp; PASSCODE
           </div>
-          <div class="g-cred-cell" onclick="gCopy('059882', this)" style="background:#ffffff; border:1.5px solid #bfdbfe;">
-            <div class="k">Passcode (Tap to Copy)</div>
-            <div class="v">059882 📋</div>
+          <div style="display:flex; justify-content:space-around; align-items:center; gap:8px;">
+            <div onclick="gCopy('82666730613', this)" style="cursor:pointer; padding:6px 8px; border-radius:8px; background:#f0f7ff; border:1px solid #dbeafe; flex:1;">
+              <span style="display:block; font-size:0.68rem; color:#64748b; font-weight:700;">MEETING ID</span>
+              <span style="font-family:monospace; font-size:0.98rem; font-weight:800; color:#0f172a;">826 6673 0613 📋</span>
+            </div>
+            <div onclick="gCopy('059882', this)" style="cursor:pointer; padding:6px 8px; border-radius:8px; background:#f0f7ff; border:1px solid #dbeafe; flex:1;">
+              <span style="display:block; font-size:0.68rem; color:#64748b; font-weight:700;">PASSCODE</span>
+              <span style="font-family:monospace; font-size:0.98rem; font-weight:800; color:#0f172a;">059882 📋</span>
+            </div>
           </div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:6px;">(Tap Meeting ID or Passcode to copy)</div>
         </div>
       </div>
 
@@ -969,13 +980,6 @@ permalink: /genai-demo/
       <span class="g-aud-pill">DevOps &amp; Cloud Engineers</span>
       <span class="g-aud-pill">Tech Leads switching to GenAI</span>
     </div>
-  </div>
-
-  <!-- 4. Alternative Zoom Dial-in -->
-  <div class="g-dial-box">
-    <strong>Need Phone Dial-in?</strong><br>
-    US One-Tap: <a href="tel:+13017158592,,82666730613#,,,,*059882#">+1 301 715 8592</a> (DC) | <a href="tel:+13126266799,,82666730613#,,,,*059882#">+1 312 626 6799</a> (Chicago)<br>
-    SIP: <a href="mailto:82666730613@zoomcrc.com">82666730613@zoomcrc.com</a>
   </div>
 
 </div>
@@ -1166,6 +1170,48 @@ permalink: /genai-demo/
     }, { passive: true });
   }
 
+  const pageStartTime = Date.now();
+
+  // Background geo lookup matching script.js
+  if (!sessionStorage.getItem('rpv_geo')) {
+    fetch('https://ipapi.co/json/')
+      .then(r => r.ok ? r.json() : null)
+      .then(g => {
+        if (g && g.ip) sessionStorage.setItem('rpv_geo', JSON.stringify(g));
+      }).catch(() => {});
+  }
+
+  function getBrowserString() {
+    const ua = navigator.userAgent;
+    let b = 'Unknown';
+    if (/edg\//i.test(ua)) b = 'Microsoft Edge';
+    else if (/opr\//i.test(ua)) b = 'Opera';
+    else if (/chrome|crios/i.test(ua)) b = 'Chrome';
+    else if (/firefox|fxios/i.test(ua)) b = 'Firefox';
+    else if (/safari/i.test(ua)) b = 'Safari';
+    return b;
+  }
+
+  function getDeviceOS() {
+    const ua = navigator.userAgent;
+    if (ua.indexOf("Win") !== -1) return "Windows";
+    if (ua.indexOf("Mac") !== -1) {
+      if (navigator.maxTouchPoints > 1) return "iOS (iPad)";
+      return "macOS";
+    }
+    if (ua.indexOf("Linux") !== -1) return "Linux";
+    if (/Android/i.test(ua)) return "Android";
+    if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+    return "Unknown OS";
+  }
+
+  function getDeviceType() {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
+    if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpwOS)/i.test(ua)) return "Mobile";
+    return "Desktop";
+  }
+
   function gInitForm() {
     const form = document.getElementById("gRegisterForm");
     const btn = document.getElementById("gBtnSubmit");
@@ -1183,12 +1229,48 @@ permalink: /genai-demo/
       btn.disabled = true;
       btn.innerHTML = `<span>Claiming Seat...</span>`;
 
+      let geoData = {};
+      try {
+        const cached = sessionStorage.getItem('rpv_geo');
+        if (cached) geoData = JSON.parse(cached);
+      } catch (_) {}
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const visitorId = localStorage.getItem('rpv_visitor_id') || ('v-' + Date.now() + '-' + Math.floor(Math.random()*1000000));
+      const visitCount = localStorage.getItem('rpv_visit_count') || "1";
+      const firstVisit = localStorage.getItem('rpv_first_visit') || new Date().toISOString();
+      const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
       const payload = {
         name: name,
         phone: phone,
         email: email,
-        source: window.location.pathname,
+        course: "2-Month Generative AI Engineering Track",
+        track: "2-Month Generative AI Engineering Track",
+        topic: "IT Courses & Batches",
+        ip: geoData.ip || "",
+        city: geoData.city || "",
+        region: geoData.region || "",
+        country: geoData.country_name || "",
+        os: getDeviceOS(),
+        browser: getBrowserString(),
+        deviceType: getDeviceType(),
+        screen: (window.screen ? (window.screen.width + 'x' + window.screen.height) : 'Unknown'),
+        language: navigator.language || '',
+        timezone: timezone,
+        timeOnPage: timeOnPage.toString(),
         referrer: document.referrer || "whatsapp",
+        source: window.location.pathname || "/genai-demo/",
+        source_page: window.location.pathname || "/genai-demo/",
+        source_page_title: document.title || "Live GenAI Demo",
+        visitorId: visitorId,
+        visitCount: visitCount,
+        firstVisit: firstVisit,
+        sessionPath: sessionStorage.getItem('rpv_path_trail') || location.pathname,
+        utm_source: urlParams.get('utm_source') || 'whatsapp',
+        utm_campaign: urlParams.get('utm_campaign') || '',
+        submitted_at_local: new Date().toString(),
         userAgent: navigator.userAgent
       };
 

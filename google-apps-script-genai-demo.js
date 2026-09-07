@@ -34,23 +34,40 @@ const CONFIG = {
 function doPost(e) {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    let sheet = ss.getSheetByName(CONFIG.SHEET_NAME);
+    // Use active sheet if sheet with CONFIG.SHEET_NAME is not found
+    let sheet = ss.getSheetByName(CONFIG.SHEET_NAME) || ss.getActiveSheet();
 
-    // Auto-create and format sheet if it doesn't exist yet
-    if (!sheet) {
-      sheet = ss.insertSheet(CONFIG.SHEET_NAME);
+    // Auto-create and format sheet headers if empty
+    if (sheet.getLastRow() === 0) {
       sheet.appendRow([
         "Timestamp",
         "Full Name",
         "Email Address",
         "Phone / WhatsApp",
-        "Source Page",
+        "Track / Course",
+        "IP Address",
+        "City",
+        "Region",
+        "Country",
+        "Operating System",
+        "Browser",
+        "Device Type",
+        "Screen Resolution",
+        "Language",
+        "Timezone",
+        "Time on Page (sec)",
         "Referrer",
-        "User Agent",
-        "Confirmation Email",
+        "Source Page",
+        "Visitor ID",
+        "Visit Count",
+        "First Visit Date",
+        "Session Trail",
+        "UTM Source",
+        "UTM Campaign",
+        "Confirmation Email Status",
         "Reminder Email Status"
       ]);
-      const headerRange = sheet.getRange(1, 1, 1, 9);
+      const headerRange = sheet.getRange(1, 1, 1, 26);
       headerRange.setBackground("#0058b0").setFontColor("#ffffff").setFontWeight("bold");
       sheet.setFrozenRows(1);
     }
@@ -70,9 +87,28 @@ function doPost(e) {
     const name = (data.name || data.fullName || "").toString().trim();
     const email = (data.email || "").toString().trim().toLowerCase();
     const phone = (data.phone || data.mobile || "").toString().trim();
-    const source = (data.source || "/join-demo/").toString().trim();
-    const referrer = (data.referrer || "").toString().trim();
-    const userAgent = (data.userAgent || "").toString().trim();
+    const course = (data.course || data.track || "2-Month Generative AI Engineering Track").toString().trim();
+    
+    // Telemetry fields
+    const ip = (data.ip || data["Geo: IP Address"] || data.visitor_ip || "").toString().trim();
+    const city = (data.city || data["Geo: City"] || data.visitor_city || "").toString().trim();
+    const region = (data.region || data["Geo: Region"] || data.visitor_region || "").toString().trim();
+    const country = (data.country || data["Geo: Country"] || data.visitor_country || "").toString().trim();
+    const os = (data.os || data["Device: OS"] || data.operating_system || "").toString().trim();
+    const browser = (data.browser || data["Device: Browser"] || "").toString().trim();
+    const deviceType = (data.deviceType || data.device_type || data["Device: Type"] || "").toString().trim();
+    const screen = (data.screen || data["Device: Screen Size"] || "").toString().trim();
+    const lang = (data.language || data["Device: Browser Language"] || "").toString().trim();
+    const tz = (data.timezone || data["Session: Timezone"] || "").toString().trim();
+    const timeOnPage = (data.timeOnPage || data.time_on_page_seconds || data["Session: Time Spent on Page (sec)"] || "").toString().trim();
+    const referrer = (data.referrer || data["Session: Referrer"] || "").toString().trim();
+    const sourcePage = (data.source || data.source_page || data["Session: Source Page Path"] || "/genai-demo/").toString().trim();
+    const visitorId = (data.visitorId || data.visitor_id || data["Session: Visitor ID"] || "").toString().trim();
+    const visitCount = (data.visitCount || data.visit_count || data["Session: Visit Count"] || "").toString().trim();
+    const firstVisit = (data.firstVisit || data.first_visit_date || data["Session: First Visit Date"] || "").toString().trim();
+    const sessionPath = (data.sessionPath || data.session_path || data["Session: Path Trail"] || "").toString().trim();
+    const utmSource = (data.utm_source || "").toString().trim();
+    const utmCampaign = (data.utm_campaign || "").toString().trim();
 
     if (!email) {
       return ContentService.createTextOutput(JSON.stringify({
@@ -93,17 +129,34 @@ function doPost(e) {
       console.error("Confirmation mail error:", mailErr);
     }
 
-    // Append to Google Sheet
+    // Append full record to Google Sheet
     sheet.appendRow([
       timestamp,
       name,
       email,
       phone,
-      source,
+      course,
+      ip,
+      city,
+      region,
+      country,
+      os,
+      browser,
+      deviceType,
+      screen,
+      lang,
+      tz,
+      timeOnPage,
       referrer,
-      userAgent,
+      sourcePage,
+      visitorId,
+      visitCount,
+      firstVisit,
+      sessionPath,
+      utmSource,
+      utmCampaign,
       confirmStatus,
-      "" // Reminder not sent yet
+      "" // Reminder Email Status
     ]);
 
     return ContentService.createTextOutput(JSON.stringify({
