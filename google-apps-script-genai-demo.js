@@ -124,7 +124,6 @@ function doPost(e) {
     const tz = (data.timezone || data["Session: Timezone"] || "").toString().trim();
     const timeOnPage = (data.timeOnPage || data.time_on_page_seconds || data["Session: Time Spent on Page (sec)"] || "").toString().trim();
     const referrer = (data.referrer || data["Session: Referrer"] || "").toString().trim();
-    const sourcePage = (data.source || data.source_page || data["Session: Source Page Path"] || "/genai-demo/").toString().trim();
     const visitorId = (data.visitorId || data.visitor_id || data["Session: Visitor ID"] || "").toString().trim();
     const visitCount = (data.visitCount || data.visit_count || data["Session: Visit Count"] || "").toString().trim();
     const firstVisit = (data.firstVisit || data.first_visit_date || data["Session: First Visit Date"] || "").toString().trim();
