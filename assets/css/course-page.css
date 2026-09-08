@@ -830,6 +830,19 @@ body:has(.course-detail-page) {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .course-detail-page .curr-panels,
+  .course-detail-page .curr-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
   }
   .course-detail-page .curr-sidebar {
     position: static;
@@ -837,6 +850,8 @@ body:has(.course-detail-page) {
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    min-width: 0 !important;
+    max-width: 100% !important;
   }
   .course-detail-page .curr-nav {
     position: static;
@@ -847,6 +862,9 @@ body:has(.course-detail-page) {
     padding-bottom: 6px;
     gap: 8px;
     width: 100%;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
   .course-detail-page .curr-nav::-webkit-scrollbar { display: none; }
   .course-detail-page .curr-nav-item {
@@ -2892,6 +2910,19 @@ body:has(.course-detail-page) .hero-main h1 {
     display: flex !important;
     flex-direction: column !important;
     gap: 16px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .course-detail-page .curr-panels,
+  .course-detail-page .curr-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
   }
   .course-detail-page .curr-sidebar {
     position: static !important;
@@ -2899,6 +2930,8 @@ body:has(.course-detail-page) .hero-main h1 {
     flex-direction: column !important;
     gap: 10px !important;
     width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
   }
   .course-detail-page .curr-nav {
     position: static !important;
@@ -2909,6 +2942,9 @@ body:has(.course-detail-page) .hero-main h1 {
     padding-bottom: 6px !important;
     gap: 8px !important;
     width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
   .course-detail-page .curr-nav::-webkit-scrollbar {
     display: none !important;

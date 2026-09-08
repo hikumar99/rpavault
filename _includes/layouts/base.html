@@ -88,11 +88,36 @@ fbq('track', 'PageView');
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ settings.analytics.meta_pixel_id }}&ev=PageView&noscript=1"/></noscript>
 {% endif %}
 <style>
-  /* Prevent horizontal scroll overlays completely */
+  /* Global responsive defense — additive foundations */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+  }
   html, body {
     overflow-x: clip !important;
     position: relative !important;
     width: 100% !important;
+  }
+  img, svg, video {
+    max-width: 100%;
+    height: auto;
+  }
+  pre, code {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table {
+    max-width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   /* Root-level Centered Heroes for standard pages (excluding split heroes) */
@@ -269,7 +294,7 @@ fbq('track', 'PageView');
   /* Mobile styling overrides */
   @media(max-width: 980px) {
     body {
-      padding-top: 68px !important;
+      padding-top: 56px !important;
     }
     .site-header {
       position: fixed !important;
@@ -283,36 +308,44 @@ fbq('track', 'PageView');
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
-      min-height: 64px !important;
-      padding: 0 1.25rem !important;
+      min-height: 56px !important;
+      padding: 0 1rem !important;
     }
     .brand {
       display: flex !important;
       align-items: center !important;
       z-index: 10001 !important;
     }
+    .brand-logo {
+      max-height: 28px !important;
+      width: auto !important;
+    }
     .nav-toggle {
       display: inline-grid !important;
       place-items: center !important;
       z-index: 10001 !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      cursor: pointer !important;
     }
     .site-nav {
       position: fixed !important;
-      top: 64px !important;
-      left: 1rem !important;
-      right: 1rem !important;
+      top: 56px !important;
+      left: 0.75rem !important;
+      right: 0.75rem !important;
       flex-direction: column !important;
       gap: 0.5rem !important;
-      padding: 1.25rem !important;
+      padding: 1.1rem !important;
       border: 1px solid rgba(204, 232, 243, 0.98) !important;
-      border-radius: 24px !important;
+      border-radius: 20px !important;
       background: rgba(255, 255, 255, 0.98) !important;
       box-shadow: 0 12px 36px rgba(0, 88, 176, 0.15) !important;
       backdrop-filter: blur(20px) !important;
       -webkit-backdrop-filter: blur(20px) !important;
       z-index: 9999 !important;
-      max-height: calc(100vh - 100px) !important;
+      max-height: calc(100dvh - 72px) !important;
       overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
       display: none !important; /* Completely hide by default to prevent rendering bugs */
     }
     .site-nav.is-open {
@@ -422,7 +455,22 @@ fbq('track', 'PageView');
 
   @media(max-width: 640px) {
     body {
-      padding-top: 64px !important;
+      padding-top: 52px !important;
+    }
+    .header-inner {
+      min-height: 52px !important;
+      padding: 0 0.75rem !important;
+    }
+    .brand-logo {
+      max-height: 26px !important;
+      width: auto !important;
+    }
+    .site-nav {
+      top: 52px !important;
+      left: 0.5rem !important;
+      right: 0.5rem !important;
+      padding: 1rem 0.85rem !important;
+      max-height: calc(100dvh - 64px) !important;
     }
   }
 
@@ -457,6 +505,8 @@ fbq('track', 'PageView');
     color: #0f172a !important;
     box-shadow: 0 2px 8px rgba(0,0,0,.14) !important;
     font-weight: 900 !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
   }
   .rpv-modal-close:hover {
     background: #f1f5f9 !important;
@@ -464,17 +514,33 @@ fbq('track', 'PageView');
     color: #000000 !important;
   }
 
+  @media (max-width: 980px) {
+    /* Prevent iOS auto-zoom on form focus */
+    input, select, textarea,
+    .form-field input, .form-field select, .form-field textarea {
+      font-size: 16px !important;
+    }
+    .btn, .nav-cta, .nav-link, .services-trigger, .nav-toggle {
+      min-height: 44px !important;
+      min-width: 44px !important;
+    }
+  }
+
   @media (max-width: 640px) {
     .rpv-modal {
-      padding: 0.5rem 0.4rem !important;
-    }
-    .rpv-modal-card {
-      padding: 1.2rem 1rem 1rem !important;
-      border-radius: 18px !important;
-      width: 100% !important;
-      max-height: 94vh !important;
+      padding: 0.75rem 0.5rem !important;
+      align-items: flex-start !important;
       overflow-y: auto !important;
       -webkit-overflow-scrolling: touch !important;
+    }
+    .rpv-modal-card {
+      padding: 1.25rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 16px)) !important;
+      border-radius: 18px !important;
+      width: 100% !important;
+      max-height: calc(100dvh - 20px) !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      margin: auto 0 !important;
     }
     .rpv-modal-close {
       position: sticky !important;
@@ -482,64 +548,92 @@ fbq('track', 'PageView');
       float: right !important;
       margin-top: -0.2rem !important;
       margin-right: -0.2rem !important;
-      margin-bottom: -38px !important;
-      width: 36px !important;
-      height: 36px !important;
-      font-size: 1.15rem !important;
+      margin-bottom: -44px !important;
+      width: 44px !important;
+      height: 44px !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      font-size: 1.2rem !important;
       background: #ffffff !important;
       color: #0f172a !important;
       border: 1.5px solid #cbd5e1 !important;
+      border-radius: 50% !important;
       box-shadow: 0 3px 10px rgba(0,0,0,.2) !important;
       z-index: 100 !important;
+      display: inline-grid !important;
+      place-items: center !important;
     }
     .rpv-modal-card h2 {
-      font-size: 1.18rem !important;
+      font-size: 1.22rem !important;
       line-height: 1.25 !important;
-      margin: 0 0 0.25rem 0 !important;
-      padding-right: 44px !important;
+      margin: 0 0 0.35rem 0 !important;
+      padding-right: 48px !important;
     }
     .rpv-modal-card .modal-sub {
-      font-size: 0.82rem !important;
+      font-size: 0.85rem !important;
       line-height: 1.4 !important;
-      margin: 0 0 0.7rem 0 !important;
-      padding-right: 44px !important;
+      margin: 0 0 0.85rem 0 !important;
+      padding-right: 48px !important;
     }
     .rpv-modal-card .form-grid {
-      gap: 0.5rem !important;
+      gap: 0.65rem !important;
     }
     .rpv-modal-card .form-field {
       margin-bottom: 0 !important;
     }
     .rpv-modal-card .form-field label {
-      font-size: 0.78rem !important;
+      font-size: 0.82rem !important;
       font-weight: 700 !important;
-      margin-bottom: 0.18rem !important;
+      margin-bottom: 0.25rem !important;
       color: #334155 !important;
+      display: block !important;
     }
     .rpv-modal-card .form-field input,
     .rpv-modal-card .form-field select,
-    .rpv-modal-card .form-field textarea {
-      padding: 0.55rem 0.75rem !important;
-      font-size: 0.88rem !important;
-      border-radius: 9px !important;
+    .rpv-modal-card .form-field textarea,
+    input, select, textarea {
+      padding: 0.65rem 0.85rem !important;
+      font-size: 16px !important;
+      border-radius: 10px !important;
       border: 1px solid #cbd5e1 !important;
       height: auto !important;
+      min-height: 44px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
     }
     .rpv-modal-card .form-field textarea {
-      min-height: 58px !important;
+      min-height: 70px !important;
     }
     .rpv-modal-card .section-cta {
-      margin-top: 0.35rem !important;
+      margin-top: 0.65rem !important;
+      margin-bottom: 0.5rem !important;
     }
     .rpv-modal-card .section-cta .btn {
       width: 100% !important;
-      padding: 10px 16px !important;
-      font-size: 14.5px !important;
-      border-radius: 9px !important;
+      min-height: 48px !important;
+      padding: 12px 16px !important;
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      border-radius: 10px !important;
     }
     .rpv-modal-card .form-note {
-      font-size: 0.75rem !important;
-      margin-top: 0.35rem !important;
+      font-size: 0.78rem !important;
+      margin-top: 0.4rem !important;
+    }
+
+    /* Floating WhatsApp & sticky bottom clearances */
+    .whatsapp-float {
+      bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+      right: 16px !important;
+      z-index: 350 !important;
+      width: 48px !important;
+      height: 48px !important;
+    }
+    body[data-course-slug] .whatsapp-float {
+      bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    body[data-course-slug] {
+      padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
     }
   }
 </style>

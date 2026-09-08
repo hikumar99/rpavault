@@ -302,19 +302,25 @@ schema_ld: |
   .pw-close svg { width: 18px; height: 18px; }
 
   @media(max-width: 640px) {
+    .pw-outcome {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      padding: 1.25rem 1rem !important;
+      gap: 8px !important;
+    }
     .pw-overlay { padding: 10px 8px !important; }
     .pw-card { border-radius: 18px !important; max-height: 94vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
-    .pw-close { position: sticky !important; top: 8px !important; float: right !important; margin-top: -4px !important; margin-right: -4px !important; margin-bottom: -36px !important; width: 36px !important; height: 36px !important; }
+    .pw-close { position: sticky !important; top: 8px !important; float: right !important; margin-top: -4px !important; margin-right: -4px !important; margin-bottom: -44px !important; width: 44px !important; height: 44px !important; }
     .pw-top { padding: 14px 16px 0 !important; }
     .pw-body { padding: 10px 16px 16px !important; }
     .pw-q { font-size: 17px !important; margin-bottom: 12px !important; line-height: 1.25 !important; }
     .pw-opts { gap: 8px !important; }
-    .pw-opt { padding: 10px 12px !important; font-size: 13.5px !important; border-radius: 10px !important; }
+    .pw-opt { padding: 12px 14px !important; font-size: 15px !important; border-radius: 10px !important; min-height: 44px !important; }
     .pw-field { margin-bottom: 0.6rem !important; }
-    .pw-field label { font-size: 0.8rem !important; margin-bottom: 0.2rem !important; }
-    .pw-field input, .pw-field textarea { padding: 0.55rem 0.75rem !important; font-size: 13.5px !important; border-radius: 9px !important; }
+    .pw-field label { font-size: 0.85rem !important; margin-bottom: 0.2rem !important; }
+    .pw-field input, .pw-field textarea { padding: 0.65rem 0.85rem !important; font-size: 16px !important; min-height: 44px !important; border-radius: 9px !important; }
     .pw-field textarea { min-height: 60px !important; }
-    .pw-submit-btn { padding: 11px 16px !important; font-size: 14px !important; border-radius: 9px !important; }
+    .pw-submit-btn { padding: 12px 16px !important; font-size: 16px !important; min-height: 46px !important; border-radius: 9px !important; }
   }
 </style>
 
@@ -648,15 +654,15 @@ schema_ld: |
           <form id="pw-details-form" class="pw-opts" style="gap: 0;">
             <div class="pw-field">
               <label>Full Name *</label>
-              <input type="text" id="inp-name" required placeholder="John Doe">
+              <input type="text" id="inp-name" required placeholder="John Doe" autocomplete="name">
             </div>
             <div class="pw-field">
               <label>Email *</label>
-              <input type="email" id="inp-email" required placeholder="john@example.com">
+              <input type="email" id="inp-email" required placeholder="john@example.com" autocomplete="email">
             </div>
             <div class="pw-field">
               <label>Mobile / WhatsApp *</label>
-              <input type="tel" id="inp-phone" required placeholder="+91 99999 99999">
+              <input type="tel" id="inp-phone" required placeholder="+91 99999 99999" autocomplete="tel" inputmode="numeric" pattern="[0-9+ ]*">
             </div>
             <button type="submit" class="pw-submit-btn">Get my personalized plan →</button>
             <button type="button" class="pw-back" id="pw-back-btn">← Back</button>

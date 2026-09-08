@@ -30,7 +30,7 @@
         {% else %}
           <div class="form-field" {% if field.name == "course" %}data-course-conditional style="display: none;"{% endif %}>
             <label for="m-{{ field.name }}">{{ field.label }}{% if field.required %} *{% endif %}</label>
-            <input id="m-{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" {% if field.required %}required{% endif %} {% if field.autocomplete %}autocomplete="{{ field.autocomplete }}"{% endif %} {% if field.name == "course" %}placeholder="e.g. RPA Agentic"{% endif %}>
+            <input id="m-{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" {% if field.required %}required{% endif %} {% if field.autocomplete %}autocomplete="{{ field.autocomplete }}"{% endif %} {% if field.inputmode %}inputmode="{{ field.inputmode }}"{% endif %} {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %} {% if field.name == "course" %}placeholder="e.g. RPA Agentic"{% endif %}>
           </div>
         {% endif %}
       {% endfor %}

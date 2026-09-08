@@ -103,6 +103,9 @@ noindex: true
   <iframe id="iframe-embed" class="iframe-container" src="" allow="clipboard-write"></iframe>
 </div>
 
+<!-- Product Screen Placeholder -->
+<div id="rpavault-product-root" style="display: none;"></div>
+
 <!-- Fallback Error Screen -->
 <div id="error-screen" class="transition-container" style="display: none;">
   <div class="transition-card" style="border-color: #fecaca; background: #fffef2;">
@@ -180,7 +183,9 @@ noindex: true
       const slugIdx = headers.indexOf('slug');
       const urlIdx = headers.indexOf('target url');
       const typeIdx = headers.indexOf('type');
-      const titleIdx = headers.indexOf('preview title');
+      const titleIdx = headers.indexOf('preview title') !== -1 ? headers.indexOf('preview title') : headers.indexOf('title');
+      const descIdx = headers.indexOf('preview description') !== -1 ? headers.indexOf('preview description') : headers.indexOf('description');
+      const imgIdx = headers.indexOf('preview image') !== -1 ? headers.indexOf('preview image') : headers.indexOf('image');
       
       if (slugIdx === -1 || urlIdx === -1) {
         throw new Error("Required column headers 'slug' or 'target url' not found in spreadsheet");
@@ -196,7 +201,9 @@ noindex: true
           slug: cols[slugIdx].trim().toLowerCase(),
           url: cols[urlIdx].trim(),
           type: typeIdx !== -1 && cols[typeIdx] ? cols[typeIdx].trim().toLowerCase() : 'direct',
-          title: titleIdx !== -1 && cols[titleIdx] ? cols[titleIdx].trim() : 'External Link'
+          title: titleIdx !== -1 && cols[titleIdx] ? cols[titleIdx].trim() : 'External Link',
+          description: descIdx !== -1 && cols[descIdx] ? cols[descIdx].trim() : '',
+          image: imgIdx !== -1 && cols[imgIdx] ? cols[imgIdx].trim() : ''
         });
       }
       return list;
@@ -254,6 +261,44 @@ noindex: true
         const style = document.createElement('style');
         style.innerHTML = ".site-footer, .whatsapp-btn { display: none !important; } #main-content { padding: 0 !important; max-width: 100% !important; width: 100% !important; margin: 0 !important; }";
         document.head.appendChild(style);
+      }
+      else if (match.type === 'product') {
+        if (window.gtag) {
+          gtag('event', 'go_product', {
+            'event_category': 'Redirect',
+            'event_label': slug,
+            'destination_url': match.url
+          });
+        }
+
+        loaderEl.style.display = 'none';
+        const productRoot = document.getElementById('rpavault-product-root');
+        if (productRoot) {
+          productRoot.style.display = 'block';
+        }
+        document.title = (match.title || 'Product') + " — RPAVault";
+        document.body.classList.remove('is-redirecting');
+
+        const loadScript = () => {
+          if (window.RPAVaultProduct && window.RPAVaultProduct.init) {
+            window.RPAVaultProduct.init({
+              title: match.title,
+              description: match.description,
+              image: match.image,
+              url: match.url,
+              slug: slug
+            });
+          }
+        };
+
+        if (window.RPAVaultProduct) {
+          loadScript();
+        } else {
+          const script = document.createElement('script');
+          script.src = '/assets/js/rpavault-product.js';
+          script.onload = loadScript;
+          document.body.appendChild(script);
+        }
       }
       else if (match.type === 'transition') {
         // Track transition event

@@ -308,15 +308,15 @@ description: Choose your profile, complete a quick fit-check, and get a customiz
           <form id="pw-details-form" class="pw-opts" style="gap: 0;">
             <div class="pw-field">
               <label>Full Name *</label>
-              <input type="text" id="inp-name" required placeholder="John Doe">
+              <input type="text" id="inp-name" required placeholder="John Doe" autocomplete="name">
             </div>
             <div class="pw-field">
               <label>Email *</label>
-              <input type="email" id="inp-email" required placeholder="john@example.com">
+              <input type="email" id="inp-email" required placeholder="john@example.com" autocomplete="email">
             </div>
             <div class="pw-field">
               <label>Mobile / WhatsApp *</label>
-              <input type="tel" id="inp-phone" required placeholder="+91 99999 99999">
+              <input type="tel" id="inp-phone" required placeholder="+91 99999 99999" autocomplete="tel" inputmode="numeric" pattern="[0-9+ ]*">
             </div>
             <button type="submit" class="pw-submit-btn">Get my personalized plan →</button>
             <button type="button" class="pw-back" id="pw-back-btn">← Back</button>

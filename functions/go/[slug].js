@@ -23,6 +23,12 @@ export async function onRequest(context) {
   
   let link;
   try { link = JSON.parse(raw); } catch (e) { link = { destination: raw }; }
+
+  // If the link is marked as product or iframe, serve the branded page rather than raw 302 redirect
+  if (link && (link.type === 'product' || link.type === 'iframe')) {
+    return await context.next();
+  }
+
   const ua = (request.headers.get("user-agent") || "").toLowerCase();
   const isPreviewBot = /(facebookexternalhit|whatsapp|twitterbot|linkedinbot|telegrambot|slackbot|discordbot|pinterest|skypeuripreview|vkshare|redditbot)/.test(ua);
   if (!isPreviewBot) {

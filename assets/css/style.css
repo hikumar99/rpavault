@@ -362,7 +362,39 @@ h1,h2,h3,
     padding-top: 2rem !important;
     padding-bottom: 2.2rem !important;
   }
+
+  /* Global tap targets enforcement (≥44x44px) */
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-light,
+  .btn-white,
+  .nav-cta,
+  .nav-link,
+  .services-trigger {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Prevent iOS auto-zoom on inputs */
+  input,
+  select,
+  textarea,
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    font-size: 16px !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Prevent background scrolling when mobile nav is open */
+  body.nav-open {
+    overflow: hidden !important;
+  }
 }
+
 @media (max-width: 640px) {
   .hero-premium,
   .hero,
@@ -370,4 +402,58 @@ h1,h2,h3,
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
   }
+
+  /* Single column reflow for card grids */
+  .card-grid,
+  .card-grid.two,
+  .quick-grid,
+  .contact-cards,
+  .enterprise-cards,
+  .training-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* Form rows stack cleanly */
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Hero & CTA buttons stack on phones */
+  .hero-actions,
+  .section-cta {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+  }
+  .hero-actions .btn,
+  .section-cta .btn {
+    width: 100% !important;
+    min-height: 46px !important;
+  }
+
+  /* Interactive filters & pills */
+  .hero-fit-pill,
+  .course-chips span {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 404 Error links stacking */
+  .error-links {
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 280px !important;
+    margin: 1.2rem auto 0 !important;
+  }
+  .error-links .btn {
+    width: 100% !important;
+    min-height: 44px !important;
+  }
 }
+

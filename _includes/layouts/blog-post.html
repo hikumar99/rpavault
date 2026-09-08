@@ -182,7 +182,7 @@ layout: layouts/base.html
     background-position: right 12px top 50% !important;
     background-size: 10px auto !important;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 980px) {
     .sticky-toc-bar {
       flex-direction: column !important;
       align-items: flex-start !important;
@@ -191,6 +191,8 @@ layout: layouts/base.html
       margin-bottom: 2rem !important;
     }
     #toc-selector {
+      font-size: 16px !important;
+      min-height: 44px !important;
       max-width: 100% !important;
       width: 100% !important;
     }
@@ -504,7 +506,7 @@ layout: layouts/base.html
               {% if post.url == post_url %}
                 <div class="sidebar-post-item">
                   <a href="{{ post.url }}" style="display: block !important;">
-                    <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}">
+                    <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}" loading="lazy">
                   </a>
                   <div class="sidebar-post-info">
                     <a class="sidebar-post-cat" href="/search/?q={{ (post.data.category | default('Tech')) | urlencode }}" style="text-decoration: none !important;">{{ post.data.category | default("Tech") }}</a>
@@ -524,7 +526,7 @@ layout: layouts/base.html
             {% if post.url != page.url and ns.count < 3 %}
               <div class="sidebar-post-item">
                 <a href="{{ post.url }}" style="display: block !important;">
-                  <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}">
+                  <img src="{{ post.data.image | default('/assets/images/blog/non-it-career.jpg') }}" alt="{{ post.data.title }}" loading="lazy">
                 </a>
                 <div class="sidebar-post-info">
                   <a class="sidebar-post-cat" href="/search/?q={{ (post.data.category | default('Tech')) | urlencode }}" style="text-decoration: none !important;">{{ post.data.category | default("Tech") }}</a>
@@ -546,7 +548,7 @@ layout: layouts/base.html
               {% if course.url == "/course/" + course_slug + "/" %}
                 <div class="sidebar-post-item">
                   <a href="{{ course.url }}" style="display: block !important;">
-                    <img src="/assets/images/courses/{{ course_slug }}.webp" alt="{{ course.data.title }}">
+                    <img src="/assets/images/courses/{{ course_slug }}.webp" alt="{{ course.data.title }}" loading="lazy">
                   </a>
                   <div class="sidebar-post-info">
                     <a class="sidebar-post-cat" href="/search/?q={{ (course.data.category | default('Training')) | urlencode }}" style="text-decoration: none !important;">{{ course.data.category | default("Training") }}</a>
@@ -563,7 +565,7 @@ layout: layouts/base.html
         {% if rendered_courses == 0 %}
           <div class="sidebar-post-item">
             <a href="/course/rpa-agentic-uipath-power-automate/" style="display: block !important;">
-              <img src="/assets/images/courses/rpa-agentic-uipath-power-automate.webp" alt="RPA Agentic">
+              <img src="/assets/images/courses/rpa-agentic-uipath-power-automate.webp" alt="RPA Agentic" loading="lazy">
             </a>
             <div class="sidebar-post-info">
               <a class="sidebar-post-cat" href="/search/?q=RPA" style="text-decoration: none !important;">RPA</a>
@@ -573,7 +575,7 @@ layout: layouts/base.html
 
           <div class="sidebar-post-item">
             <a href="/course/data-analytics-power-bi-sql/" style="display: block !important;">
-              <img src="/assets/images/courses/data-analytics-power-bi-sql.webp" alt="Data Analytics">
+              <img src="/assets/images/courses/data-analytics-power-bi-sql.webp" alt="Data Analytics" loading="lazy">
             </a>
             <div class="sidebar-post-info">
               <a class="sidebar-post-cat" href="/search/?q={{ 'Data Analytics' | urlencode }}" style="text-decoration: none !important;">Data Analytics</a>
@@ -583,7 +585,7 @@ layout: layouts/base.html
 
           <div class="sidebar-post-item">
             <a href="/course/playwright-typescript-automation/" style="display: block !important;">
-              <img src="/assets/images/courses/playwright-typescript-automation.webp" alt="Playwright Automation">
+              <img src="/assets/images/courses/playwright-typescript-automation.webp" alt="Playwright Automation" loading="lazy">
             </a>
             <div class="sidebar-post-info">
               <a class="sidebar-post-cat" href="/search/?q={{ 'QA Testing' | urlencode }}" style="text-decoration: none !important;">QA Testing</a>

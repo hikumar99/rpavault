@@ -90,6 +90,16 @@ eleventyComputed:
   }, 1000);
 </script>
 
+{% elif redirect.type == "product" %}
+<div id="rpavault-product-root"
+     data-title="{{ redirect.title }}"
+     data-description="{{ redirect.description }}"
+     data-image="{{ redirect.image }}"
+     data-url="{{ redirect.url }}"
+     data-slug="{{ redirect.slug }}">
+</div>
+<script src="/assets/js/rpavault-product.js"></script>
+
 {% else %}
 <!-- Direct redirect: immediately forward -->
 <style>

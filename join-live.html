@@ -1,0 +1,3892 @@
+---
+layout: layouts/base.html
+title: Join Live Class — RPAVault
+description: Click to join today's live RPA interactive training session.
+og_image: /assets/images/og-join-rpa-class.png
+permalink: /join-live/
+---
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+  .portal-container {
+    max-width: var(--container, 1180px);
+    margin: 0 auto;
+    padding: clamp(2rem, 3.5vw, 3.5rem) var(--gutter, 1.5rem) 5rem;
+    font-family: var(--font, 'Inter', sans-serif);
+    color: var(--ink, #1a181b);
+  }
+
+  /* Access Notice */
+  .access-notice {
+    background: var(--blue-soft, #e6f1fb);
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 16px;
+    padding: 0.85rem 1.25rem;
+    max-width: 620px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    color: var(--blue-deep, #004182);
+    font-weight: 600;
+  }
+
+  .access-notice-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue, #0058b0);
+    flex-shrink: 0;
+  }
+
+  /* Form Card */
+  .join-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: clamp(1.6rem, 3vw, 2.4rem);
+    box-shadow: 0 18px 42px rgba(0, 88, 176, 0.08);
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .join-card:before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue, #0058b0), var(--green, #39b87f));
+  }
+
+  .join-card h2 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0 0 0.4rem 0;
+    color: var(--ink, #1a181b);
+  }
+
+  .join-card-sub {
+    font-size: 0.9rem;
+    color: var(--muted, #607987);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .field-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--ink-soft, #303030);
+    margin-bottom: 0.35rem;
+    display: block;
+  }
+
+  .field-input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 14px;
+    font-size: 1rem;
+    color: var(--ink, #1a181b);
+    background: var(--canvas, #f6fcff);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--blue, #0058b0);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.15);
+  }
+
+  .btn-join {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 1.02rem;
+    color: #ffffff;
+    background: var(--blue, #0058b0);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 14px 28px rgba(0, 88, 176, 0.22);
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .btn-join:hover {
+    background: var(--blue-deep, #004182);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(0, 88, 176, 0.28);
+  }
+
+  .btn-join:active {
+    transform: translateY(0);
+  }
+
+  /* Status messages */
+  .status-box {
+    display: none;
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .status-box.error {
+    background: #fdf2f2;
+    border: 1px solid #f8b4b4;
+    color: #9b1c1c;
+  }
+
+  .status-box.success {
+    background: #def7ec;
+    border: 1px solid #bcf0da;
+    color: #03543f;
+    text-align: center;
+  }
+
+  .meeting-link-btn {
+    display: inline-block;
+    margin-top: 0.85rem;
+    padding: 0.65rem 1.25rem;
+    background: #0e9f6e;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  /* Actions Hub Section */
+  .actions-hub-bar {
+    max-width: 620px;
+    margin: 0 auto 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  /* 1. Primary Focus Buttons Row: My Attendance & Job Openings */
+  .focus-buttons-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.95rem;
+    width: 100%;
+    margin-top: 0.6rem;
+  }
+
+  @media (max-width: 600px) {
+    .focus-buttons-row {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+  }
+
+  /* Focus Action Buttons: Exact identical base appearance, colors, font & border */
+  .btn-focus-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 54px;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.96rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: var(--canvas-2, #ecf8fc);
+    color: var(--blue-deep, #004182);
+    border: 1.5px solid var(--line, #cce8f3);
+    box-shadow: 0 6px 18px rgba(0, 88, 176, 0.06);
+    box-sizing: border-box;
+    user-select: none;
+    position: relative;
+  }
+
+  .btn-focus-action svg {
+    flex-shrink: 0;
+  }
+
+  .btn-focus-action:hover {
+    background: var(--blue-soft, #e6f1fb);
+    border-color: var(--blue, #0058b0);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 88, 176, 0.12);
+  }
+
+  /* Realistic Physical Hanging Tag: Beside the name, reverse-Y tie string, stacked 2 lines */
+  .tied-tag-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0.45rem;
+    position: relative;
+    top: -1px;
+    transform: rotate(-6deg);
+    transform-origin: 10px 2px;
+    transition: transform 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    user-select: none;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.16));
+  }
+
+  .btn-focus-action:hover .tied-tag-wrapper {
+    transform: rotate(-1deg) scale(1.06);
+  }
+
+  .reverse-y-tie {
+    display: block;
+    flex-shrink: 0;
+    margin-bottom: -2.5px;
+    z-index: 2;
+  }
+
+  .tag-card {
+    position: relative;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: #ffffff;
+    padding: 3px 6px 3.5px;
+    border-radius: 3px 3px 4px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: 1px solid #14532d;
+    min-width: 44px;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  /* Tag turns vibrant red on mouse hover */
+  .btn-focus-action:hover .tag-card,
+  .tied-tag-wrapper:hover .tag-card {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    border-color: #b91c1c !important;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
+  }
+
+  .tag-punch-hole {
+    width: 4.5px;
+    height: 4.5px;
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    margin-bottom: 1.5px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
+  }
+
+  .tag-text-stacked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.05;
+  }
+
+  .tag-text-stacked .tag-line {
+    font-size: 0.58rem;
+    font-weight: 800;
+    font-family: var(--font, 'Inter', sans-serif);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Actual Buttons Section (Row below focus buttons) */
+  .secondary-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 680px) {
+    .secondary-buttons-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+
+  /* Actual Button styling */
+  .btn-actual {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    font-family: var(--font, 'Inter', sans-serif);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+    user-select: none;
+    width: 100%;
+    outline: none;
+  }
+
+  .btn-actual svg {
+    flex-shrink: 0;
+  }
+
+  /* 1. Explore Vault actual button */
+  .btn-actual.btn-vault {
+    background: #ffffff;
+    color: #0f2b5c;
+    border: 1.5px solid #cce8f3;
+    box-shadow: 0 4px 14px rgba(0, 88, 176, 0.06);
+  }
+
+  .btn-actual.btn-vault:hover {
+    background: #f0f7ff;
+    border-color: #0058b0;
+    color: #004182;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 88, 176, 0.12);
+  }
+
+  .btn-actual.btn-vault .tag-free-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: #fef08a;
+    color: #854d0e;
+    border: 1px solid #fde047;
+    margin-left: 0.2rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* 2. RPAVault Official WhatsApp actual button */
+  .btn-actual.btn-whatsapp {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1.5px solid #86efac;
+    box-shadow: 0 4px 14px rgba(21, 128, 61, 0.06);
+  }
+
+  .btn-actual.btn-whatsapp:hover {
+    background: #25D366;
+    color: #ffffff;
+    border-color: #22c55e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(37, 211, 102, 0.25);
+  }
+
+  .btn-actual.btn-whatsapp:hover svg path {
+    fill: #ffffff;
+  }
+
+  /* Dashboard Auth Inline Card (Hidden initially) */
+  .dashboard-auth-card {
+    display: none;
+    max-width: 620px;
+    margin: 1.5rem auto 0;
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 22px;
+    padding: 1.5rem 1.8rem;
+    box-shadow: 0 14px 34px rgba(0, 88, 176, 0.08);
+    text-align: left;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Explore Vault Popup Modal Overlay */
+  .vault-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .vault-modal-overlay.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .vault-modal-dialog {
+    background: #ffffff;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 960px;
+    height: 88vh;
+    max-height: 850px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transform: scale(0.96) translateY(10px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .vault-modal-overlay.is-active .vault-modal-dialog {
+    transform: scale(1) translateY(0);
+  }
+
+  .vault-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.4rem;
+    background: #ffffff;
+    border-bottom: 1px solid var(--line, #cce8f3);
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .vault-modal-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .vault-modal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .vault-modal-header h3 {
+    margin: 0;
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+  }
+
+  .vault-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .vault-ext-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--blue, #0058b0);
+    text-decoration: none;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: var(--blue-soft, #e6f1fb);
+    border: 1px solid var(--line, #cce8f3);
+    transition: all 0.2s ease;
+  }
+
+  .vault-ext-link:hover {
+    background: var(--blue, #0058b0);
+    color: #ffffff;
+  }
+
+  .vault-close-btn {
+    background: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+
+  .vault-close-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .vault-modal-body {
+    flex: 1;
+    position: relative;
+    background: #f8fafc;
+    overflow: hidden;
+  }
+
+  .vault-modal-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .vault-iframe-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .vault-spinner {
+    width: 34px;
+    height: 34px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--blue, #0058b0);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* =========================================================
+     Daily Job Openings Dashboard Section (Classic Sheet Format)
+     ========================================================= */
+  .jobs-section {
+    max-width: 1040px;
+    margin: 2rem auto 3.5rem;
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 24px;
+    padding: 2.2rem 2.4rem;
+    box-shadow: 0 16px 40px rgba(0, 88, 176, 0.08);
+    animation: fadeIn 0.35s ease;
+    text-align: left;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 680px) {
+    .jobs-section {
+      padding: 1.25rem 0.75rem;
+      border-radius: 16px;
+      margin: 1.25rem auto 2.5rem;
+      overflow-x: hidden;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .jobs-section-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .jobs-section-header h2 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0 auto 0.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .jobs-section-header p {
+    font-size: 0.92rem;
+    color: var(--muted, #607987);
+    margin: 0 auto;
+    max-width: 640px;
+    line-height: 1.45;
+  }
+
+  /* Filter & Search Bar */
+  .jobs-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .jobs-search-box {
+    position: relative;
+    width: 100%;
+  }
+
+  .jobs-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+  }
+
+  .jobs-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem 1rem 0.7rem 2.4rem;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-family: var(--font, 'Inter', sans-serif);
+    background: #f8fafc;
+    color: #0f172a;
+    transition: all 0.2s ease;
+  }
+
+  .jobs-search-input:focus {
+    outline: none;
+    border-color: #0284c7;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  }
+
+  .jobs-filter-chips {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .job-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid transparent;
+    transition: all 0.18s ease;
+    user-select: none;
+  }
+
+  .job-chip:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .job-chip.is-active {
+    background: #004182;
+    color: #ffffff;
+    border-color: #004182;
+    box-shadow: 0 3px 8px rgba(0, 65, 130, 0.2);
+  }
+
+  /* Secondary Filter & Actions Row */
+  .jobs-secondary-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 0.2rem;
+  }
+
+  .jobs-secondary-left {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+  }
+
+  .jobs-date-filter-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.32rem 0.65rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .jobs-select-input {
+    border: none;
+    background: transparent;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: var(--font, 'Inter', sans-serif);
+    color: #0f172a;
+    cursor: pointer;
+    outline: none;
+    padding-right: 0.2rem;
+  }
+
+  .jobs-select-input:focus {
+    outline: none;
+  }
+
+
+
+  .jobs-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .jobs-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.38rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: #f8fafc;
+    color: #334155;
+    border: 1.5px solid #cbd5e1;
+    transition: all 0.18s ease;
+    user-select: none;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .jobs-action-btn:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #94a3b8;
+  }
+
+  .jobs-action-btn.jobs-btn-primary {
+    background: #eff6ff;
+    color: #0284c7;
+    border-color: #bae6fd;
+  }
+
+  .jobs-action-btn.jobs-btn-primary:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25);
+  }
+
+  .jobs-action-btn.is-success {
+    background: #16a34a !important;
+    color: #ffffff !important;
+    border-color: #16a34a !important;
+    box-shadow: 0 3px 10px rgba(22, 163, 74, 0.25) !important;
+  }
+
+  .jobs-action-btn svg {
+    flex-shrink: 0;
+  }
+
+  /* Classic Sheet Table Format (Compact & fits 100% width) */
+  .jobs-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  }
+
+  .jobs-sheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-family: var(--font, 'Inter', sans-serif);
+    font-size: 0.82rem;
+  }
+
+  .jobs-sheet-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #cbd5e1;
+  }
+
+  .jobs-sheet-table th {
+    padding: 0.65rem 0.65rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #475569;
+    border-right: 1px solid #e2e8f0;
+    user-select: none;
+    background: #f8fafc;
+    white-space: nowrap;
+  }
+
+  .jobs-sheet-table th:last-child {
+    border-right: none;
+  }
+
+  .jobs-sheet-table td {
+    padding: 0.52rem 0.65rem;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #f1f5f9;
+    color: #1e293b;
+    vertical-align: middle;
+    font-size: 0.82rem;
+  }
+
+  .jobs-sheet-table td:last-child {
+    border-right: none;
+  }
+
+  .jobs-sheet-table tbody tr {
+    transition: background 0.15s ease;
+  }
+
+  .jobs-sheet-table tbody tr:nth-child(even) {
+    background: #fafcff;
+  }
+
+  .jobs-sheet-table tbody tr:hover {
+    background: #f0f7ff;
+  }
+
+  .jobs-sheet-table .col-sno {
+    width: 46px;
+    min-width: 46px;
+    text-align: center;
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 0.76rem;
+    padding: 0.55rem 0.35rem;
+  }
+
+  .jobs-sheet-table .col-date {
+    width: 75px;
+    min-width: 75px;
+    white-space: nowrap;
+    font-weight: 600;
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .jobs-sheet-table .col-email {
+    min-width: 140px;
+  }
+
+  .jobs-sheet-table .col-view {
+    width: 72px;
+    min-width: 72px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .sheet-job-row {
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .sheet-job-row:hover {
+    background: #f0f7ff !important;
+  }
+
+  .sheet-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.24rem 0.55rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: #004182;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .sheet-view-btn:hover {
+    background: #004182;
+    color: #ffffff;
+    border-color: #004182;
+    box-shadow: 0 2px 6px rgba(0, 65, 130, 0.2);
+  }
+
+  .sheet-view-btn svg {
+    transition: transform 0.15s ease;
+  }
+
+  .sheet-view-btn:hover svg {
+    transform: translateX(1.5px);
+  }
+
+  /* Category pills */
+  .badge-category {
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.18rem 0.5rem;
+    border-radius: 6px;
+    letter-spacing: 0.01em;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .badge-category.cat-remote,
+  .badge-category.cat-remote-uipath {
+    background: #ede9fe;
+    color: #6d28d9;
+    border: 1px solid #ddd6fe;
+  }
+
+  .badge-category.cat-rpa-uipath {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+  }
+
+  .badge-category.cat-remote-pa {
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+  }
+
+  .badge-category.cat-sql {
+    background: #dbeafe;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+  }
+
+  .badge-category.cat-analytics {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+
+  .badge-category.cat-default {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Sheet email cell */
+  .sheet-email-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .sheet-email-text {
+    color: #0f172a;
+    font-weight: 600;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .sheet-job-row:hover .sheet-email-text,
+  .sheet-email-cell:hover .sheet-email-text {
+    color: #0058b0;
+    text-decoration: underline;
+  }
+
+  .sheet-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 4px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+  }
+
+  .sheet-copy-btn:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+  }
+
+  .sheet-phone-link {
+    color: #15803d;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+  }
+
+  .sheet-phone-link:hover {
+    text-decoration: underline;
+  }
+
+
+
+  .sheet-empty-dash {
+    color: #cbd5e1;
+    font-weight: 600;
+  }
+
+  /* Pagination styles */
+  .jobs-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    padding-top: 0.4rem;
+    font-size: 0.82rem;
+    color: #64748b;
+  }
+
+  .jobs-pagination-info {
+    font-weight: 600;
+    color: #64748b;
+  }
+
+  .jobs-pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .jobs-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 0.5rem;
+    border-radius: 6px;
+    border: 1.5px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .jobs-page-btn:hover:not(:disabled) {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    color: #0f172a;
+  }
+
+  .jobs-page-btn.is-active {
+    background: #004182;
+    border-color: #004182;
+    color: #ffffff;
+  }
+
+  .jobs-page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* Job Details Popup Modal - Premium Redesign */
+  .job-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    animation: modalFadeIn 0.18s ease;
+  }
+
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .job-modal-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #cbd5e1;
+    width: 100%;
+    max-width: 460px;
+    margin: auto;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    animation: modalCardPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  @keyframes modalCardPop {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* 1. Top Hero Header with Company Name */
+  .job-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.25rem 1.25rem 1rem 1.25rem;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    border-bottom: 1px solid #f1f5f9;
+    gap: 0.75rem;
+  }
+
+  .job-modal-company-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .job-modal-company-avatar {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0058b0 0%, #0284c7 100%);
+    color: #ffffff;
+    font-size: 1.35rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 88, 176, 0.2);
+    user-select: none;
+  }
+
+  .job-modal-company-info {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .job-modal-company-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .job-modal-company-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    word-break: break-word;
+  }
+
+  .job-modal-verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 0.18rem 0.45rem;
+    border-radius: 999px;
+    background: #e0f2fe;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .job-modal-role-subtitle {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 0.15rem;
+  }
+
+  .job-modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+    margin-top: 2px;
+  }
+
+  .job-modal-close:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #ef4444;
+  }
+
+  /* 2. Highlights Chips Bar */
+  .job-modal-highlights-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.25rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+  }
+
+  .job-modal-stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #475569;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 0.22rem 0.55rem;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .job-modal-stat-chip svg {
+    color: #64748b;
+  }
+
+  /* 3. Modal Body */
+  .job-modal-body {
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    max-height: calc(82vh - 160px);
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  /* Recruiter Contact Card */
+  .job-modal-contact-card {
+    background: #f0f7ff;
+    border: 1.5px solid #bae6fd;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .job-modal-contact-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .job-modal-contact-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0369a1;
+  }
+
+  .job-modal-contact-sub {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #64748b;
+  }
+
+  .job-modal-email-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0.45rem 0.65rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .job-modal-email-display {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .job-modal-email-text {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #0058b0;
+    word-break: break-all;
+    display: block;
+  }
+
+  .job-modal-email-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .job-modal-copy-btn,
+  .job-modal-mailto-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    padding: 0.32rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .job-modal-copy-btn {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+  }
+
+  .job-modal-copy-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .job-modal-mailto-btn {
+    background: #0058b0;
+    border: 1px solid #0058b0;
+    color: #ffffff !important;
+  }
+
+  .job-modal-mailto-btn:hover {
+    background: #004182;
+    border-color: #004182;
+  }
+
+  .job-modal-phone-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid #e0f2fe;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .job-modal-phone-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 700;
+    color: #15803d;
+  }
+
+  .job-modal-phone-link {
+    font-weight: 700;
+    color: #16a34a;
+    text-decoration: underline;
+  }
+
+  /* Perks & Verification checklist */
+  .job-modal-perks-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.75rem 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .job-modal-perk-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .job-modal-perk-item svg {
+    flex-shrink: 0;
+  }
+
+  /* 4. Footer */
+  .job-modal-footer {
+    padding: 0.95rem 1.25rem 1.15rem;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .job-modal-jd-action-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    min-height: 46px;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #0058b0 0%, #003c80 100%);
+    color: #ffffff !important;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.94rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 88, 176, 0.28);
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+  }
+
+  .job-modal-jd-action-btn:hover {
+    background: linear-gradient(135deg, #004694 0%, #002e66 100%);
+    color: #ffffff !important;
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(0, 88, 176, 0.38);
+  }
+
+  @media (max-width: 680px) {
+    .jobs-table-wrapper {
+      border-radius: 10px;
+      margin-top: 0.3rem;
+      border: 1.5px solid #cbd5e1;
+      overflow-x: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .jobs-sheet-table {
+      width: 100%;
+      table-layout: fixed;
+      font-size: 0.78rem;
+      border-collapse: collapse;
+    }
+
+    .jobs-sheet-table th,
+    .jobs-sheet-table td {
+      padding: 0.48rem 0.35rem;
+      box-sizing: border-box;
+    }
+
+    .jobs-sheet-table .col-sno {
+      width: 30px;
+      min-width: 30px;
+      max-width: 30px;
+      font-size: 0.72rem;
+      padding: 0.48rem 0.1rem;
+      text-align: center;
+    }
+
+    .jobs-sheet-table .col-date {
+      width: 56px;
+      min-width: 56px;
+      max-width: 56px;
+      font-size: 0.72rem;
+      padding: 0.48rem 0.2rem;
+      white-space: nowrap;
+    }
+
+    .jobs-sheet-table .col-email {
+      width: auto;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .jobs-sheet-table .col-view {
+      width: 54px;
+      min-width: 54px;
+      max-width: 54px;
+      padding: 0.48rem 0.2rem;
+      text-align: center;
+    }
+
+    .sheet-email-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      min-width: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .sheet-email-link {
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.74rem;
+    }
+
+    .sheet-copy-btn {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .sheet-view-btn {
+      padding: 0.2rem 0.35rem;
+      font-size: 0.7rem;
+      width: 100%;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+
+    .jobs-secondary-bar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.55rem;
+    }
+
+    .jobs-secondary-left {
+      width: 100%;
+    }
+
+    .jobs-date-filter-wrap {
+      width: 100%;
+      box-sizing: border-box;
+      justify-content: space-between;
+    }
+
+    .jobs-select-input {
+      width: 100%;
+    }
+
+    .jobs-actions-right {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-left: 0;
+    }
+
+    .jobs-actions-right .jobs-action-btn {
+      flex: 1;
+      justify-content: center;
+      font-size: 0.74rem;
+      padding: 0.45rem 0.5rem;
+    }
+
+    .jobs-pagination {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      text-align: center;
+    }
+
+    .jobs-pagination-controls {
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .job-modal-card {
+      max-width: 92vw;
+      border-radius: 14px;
+    }
+  }
+
+  .jobs-loading-box,
+  .jobs-empty-box {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: #64748b;
+  }
+
+  .jobs-spinner {
+    width: 38px;
+    height: 38px;
+    border: 3.5px solid #e2e8f0;
+    border-top-color: #0058b0;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+
+  /* Dashboard Section Header */
+  .dashboard-section-header {
+    border-top: 1px solid var(--line, #cce8f3);
+    padding-top: 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .dashboard-section-header h2 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0 0 0.3rem 0;
+  }
+
+  .dashboard-section-header p {
+    color: var(--muted, #607987);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  /* Batch Header & Metrics Grid */
+  .batch-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    background: var(--blue-soft, #e6f1fb);
+    color: var(--blue, #0058b0);
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .kpi-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 22px;
+    padding: 1.3rem 1.4rem;
+    box-shadow: 0 10px 24px rgba(0, 88, 176, 0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted, #607987);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-value {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.95rem;
+    font-weight: 800;
+    color: var(--blue-deep, #004182);
+    line-height: 1.1;
+  }
+
+  .kpi-sub {
+    font-size: 0.8rem;
+    color: var(--muted, #607987);
+    font-weight: 600;
+    margin-top: 0.35rem;
+  }
+
+  /* Schedule / Class Dates Calendar Card */
+  .schedule-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2.2rem;
+    box-shadow: 0 12px 28px rgba(0, 88, 176, 0.05);
+  }
+
+  .schedule-card h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 0.85rem 0;
+    color: var(--ink, #1a181b);
+  }
+
+  .schedule-dates-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .schedule-date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--canvas-2, #ecf8fc);
+    border: 1px solid var(--line, #cce8f3);
+    padding: 0.35rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--ink-soft, #303030);
+  }
+
+  .schedule-date-badge .turnout-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green, #39b87f);
+  }
+
+  /* Last 2 Days Absentees Callout Grid (Positioned After Class Schedule Dates) */
+  .recent-absentees-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .absentee-card {
+    background: linear-gradient(145deg, #fff5f5, #ffe4e6);
+    border: 1px solid #fecdd3;
+    border-radius: 20px;
+    padding: 1.1rem 1.3rem;
+    box-shadow: 0 10px 24px rgba(225, 29, 72, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .absentee-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .absentee-date-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #9f1239;
+  }
+
+  .absentee-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+  }
+
+  .absentee-pill {
+    background: #ffffff;
+    border: 1px solid #fda4af;
+    color: #9f1239;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
+  /* Trend Chart Card */
+  .chart-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 2.8rem;
+    box-shadow: 0 14px 32px rgba(0, 88, 176, 0.07);
+  }
+
+  .chart-card h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 1.2rem 0;
+    color: var(--ink, #1a181b);
+  }
+
+  .chart-wrapper {
+    position: relative;
+    height: 270px;
+    width: 100%;
+  }
+
+  /* Leaderboard & Drilldown Split Grid */
+  .section-headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .section-headline h3 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0;
+  }
+
+  .search-input {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    min-width: 260px;
+    background: #ffffff;
+    color: var(--ink, #1a181b);
+    box-shadow: 0 4px 14px rgba(0, 88, 176, 0.04);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--blue, #0058b0);
+  }
+
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr 440px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .split-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .section-headline {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 0.75rem !important;
+    }
+    .search-input {
+      min-width: 0 !important;
+      width: 100% !important;
+      font-size: 16px !important;
+      box-sizing: border-box !important;
+    }
+    .table-card {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      border-radius: 16px !important;
+    }
+  }
+
+  /* Table Card */
+  .table-card {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 88, 176, 0.06);
+  }
+
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+  }
+
+  .leaderboard-table th {
+    background: var(--canvas, #f6fcff);
+    padding: 0.9rem 1.1rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted, #607987);
+    border-bottom: 1px solid var(--line, #cce8f3);
+  }
+
+  .leaderboard-table td {
+    padding: 0.95rem 1.1rem;
+    border-bottom: 1px solid var(--line, #cce8f3);
+    color: var(--ink-soft, #303030);
+  }
+
+  .leaderboard-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .leaderboard-table tbody tr:hover {
+    background: var(--blue-soft, #e6f1fb);
+  }
+
+  .leaderboard-table tbody tr.active-row {
+    background: var(--blue-soft, #e6f1fb) !important;
+    border-left: 4px solid var(--blue, #0058b0);
+  }
+
+  .candidate-name {
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+  }
+
+  .rate-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .rate-bar-bg {
+    flex: 1;
+    height: 7px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    min-width: 60px;
+  }
+
+  .rate-bar-fill {
+    height: 100%;
+    background: var(--green, #39b87f);
+    border-radius: 999px;
+  }
+
+  .rate-percent {
+    font-weight: 800;
+    font-size: 0.88rem;
+    min-width: 38px;
+    color: var(--blue-deep, #004182);
+  }
+
+  /* Candidate Detail Panel */
+  .detail-panel {
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 26px;
+    padding: 1.7rem;
+    box-shadow: 0 16px 36px rgba(0, 88, 176, 0.08);
+    position: sticky;
+    top: 2rem;
+  }
+
+  .candidate-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+
+  .profile-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .avatar-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #c2410c, #ea580c);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    font-weight: 800;
+  }
+
+  .profile-text h4 {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0 0 0.15rem 0;
+  }
+
+  .profile-text p {
+    font-size: 0.85rem;
+    color: var(--muted, #607987);
+    margin: 0;
+  }
+
+  .profile-rate {
+    text-align: right;
+  }
+
+  .profile-rate .rate-num {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #c2410c;
+    line-height: 1;
+  }
+
+  .profile-rate .rate-sub {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--muted, #607987);
+  }
+
+  .joined-banner {
+    background: var(--canvas, #f6fcff);
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 12px;
+    padding: 0.65rem 0.95rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft, #303030);
+    margin-bottom: 1.25rem;
+    line-height: 1.45;
+  }
+
+  /* 4-Box Stats Grid */
+  .stats-four-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .stat-badge-box {
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 14px;
+    padding: 0.65rem 0.4rem;
+    text-align: center;
+    background: var(--canvas-2, #ecf8fc);
+  }
+
+  .stat-badge-box .count {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .stat-badge-box .label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--muted, #607987);
+    margin-top: 0.2rem;
+  }
+
+  .count-present { color: var(--green, #39b87f); }
+  .count-absent { color: #dc2626; }
+  .count-streak { color: var(--blue, #0058b0); }
+
+  .calendar-section-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted, #607987);
+    margin-bottom: 0.75rem;
+  }
+
+  .calendar-tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tile-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border-radius: 8px;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  .tile-cell:hover {
+    transform: scale(1.15);
+    z-index: 2;
+  }
+
+  .tile-present {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+  }
+
+  .tile-absent {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+  }
+
+  .calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: var(--muted, #607987);
+    margin-bottom: 1.4rem;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .legend-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+  }
+
+  .dot-present { background: #dcfce7; border: 1px solid #86efac; }
+  .dot-absent { background: #fee2e2; border: 1px solid #fca5a5; }
+
+  /* Days Absent Badges */
+  .absent-pills-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+
+  .absent-date-badge {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+  }
+</style>
+
+<div class="portal-container">
+  <!-- Access Notice -->
+  <div class="access-notice">
+    <div class="access-notice-dot"></div>
+    <div>Notice: This portal is strictly for registered members.</div>
+  </div>
+
+  <!-- Form Card: Join Live Class -->
+  <div class="join-card">
+    <h2>Join Live Class</h2>
+    <div class="join-card-sub">Enter your registered student or admin email to join today's session.</div>
+    
+    <form id="classJoinForm">
+      <div class="form-group">
+        <div>
+          <label class="field-label" for="studentEmail">Registered Email ID *</label>
+          <input class="field-input" type="email" id="studentEmail" placeholder="e.g. name@example.com" required autocomplete="email">
+        </div>
+        <button type="submit" class="btn-join" id="submitBtn">
+          <span>Join Meeting Now &rarr;</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Error Message -->
+    <div class="status-box error" id="errorMessage">
+      This portal is strictly for registered members.
+    </div>
+
+    <!-- Success Message -->
+    <div class="status-box success" id="successMessage">
+      <strong>Verified!</strong> Redirecting to your live meeting...
+      <div>
+        <a href="#" target="_blank" class="meeting-link-btn" id="meetingRedirectBtn">
+          Open Meeting Directly &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions Hub Bar -->
+  <div class="actions-hub-bar">
+    <!-- Primary Focus Buttons: My Attendance + Job Openings (Matched Button Style) -->
+    <div class="focus-buttons-row">
+      <button type="button" class="btn-focus-action" id="btnToggleDashboardAuth">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>My Attendance</span>
+      </button>
+
+      <button type="button" class="btn-focus-action" id="btnDailyJobs">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span>Job Openings</span>
+        <div class="tied-tag-wrapper" aria-label="daily updates tag">
+          <svg class="reverse-y-tie" width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 0.5V4.5" stroke="#78716c" stroke-width="1.8" stroke-linecap="round"/>
+            <ellipse cx="10" cy="4.5" rx="1.8" ry="1.2" fill="#44403c"/>
+            <path d="M9 5L5 12" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M11 5L15 12" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <div class="tag-card">
+            <div class="tag-punch-hole"></div>
+            <div class="tag-text-stacked">
+              <span class="tag-line">daily</span>
+              <span class="tag-line">updates</span>
+            </div>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Inline Dashboard Email Verification Form (Hidden on load) -->
+    <div class="dashboard-auth-card" id="dashboardAuthCard">
+      <h3 style="font-family: var(--font-heading, 'Sora', sans-serif); font-size: 1.15rem; font-weight: 800; margin: 0 0 0.35rem 0; color: var(--ink, #1a181b);">
+        Access Attendance Dashboard
+      </h3>
+      <p style="font-size: 0.86rem; color: var(--muted, #607987); margin: 0 0 1rem 0;">
+        Enter your registered student or admin email to view batch statistics and candidate drilldowns.
+      </p>
+
+      <form id="dashboardAccessForm">
+        <div class="form-group">
+          <div>
+            <label class="field-label" for="dashboardEmail">Email ID *</label>
+            <input class="field-input" type="email" id="dashboardEmail" placeholder="Enter your registered email" required autocomplete="email">
+          </div>
+          <button type="submit" class="btn-join" id="dashSubmitBtn">
+            <span>Verify &amp; Unlock Dashboard &rarr;</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="status-box error" id="dashErrorMessage">
+        This portal is strictly for registered members.
+      </div>
+    </div>
+
+    <!-- Actual Buttons: Explore Vault (popup) + RPAVault Official WhatsApp -->
+    <div class="secondary-buttons-grid">
+      <!-- Explore Vault (popup) -->
+      <button type="button" class="btn-actual btn-vault" id="btnExploreVault">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <span>Explore Vault</span>
+        <span class="tag-free-badge">₹15,000+ Free</span>
+      </button>
+
+      <!-- Beside Explore Vault: RPAVault Official (Redirect Link) -->
+      <a href="https://rpavault.com/go/rpavault-official-whatsapp" target="_blank" rel="noopener" class="btn-actual btn-whatsapp" id="linkRpavaultWhatsapp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.16c-.24.68-1.4 1.3-1.94 1.34-.5.05-1.13.07-1.82-.11-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.8-4.17-4.94-4.36-.15-.19-1.19-1.58-1.19-3.01 0-1.43.75-2.13 1.02-2.42.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.59.82 2.02.89 2.17.07.15.12.32.02.51-.55 1.08-1.14 1.04-.84 1.55.82 1.4 1.63 1.88 2.87 2.5.31.16.49.13.67-.08.18-.21.77-.9.98-1.21.2-.31.41-.26.69-.16.28.11 1.76.83 2.06.98.3.15.5.22.57.34.07.12.07.66-.17 1.34Z"/></svg>
+        <span>RPAVault Official</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Explore Vault Modal Popup -->
+  <div class="vault-modal-overlay" id="vaultModalOverlay" aria-hidden="true">
+    <div class="vault-modal-dialog">
+      <div class="vault-modal-header">
+        <div class="vault-modal-title-group">
+          <div class="vault-modal-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>RPAVault</span>
+          </div>
+          <h3>Explore The Vault</h3>
+        </div>
+        <div class="vault-modal-actions">
+          <a href="/go/explore-vault" target="_blank" rel="noopener" class="vault-ext-link" title="Open in full page">
+            <span>Open in New Tab</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+          <button type="button" class="vault-close-btn" id="btnVaultClose" aria-label="Close modal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+      <div class="vault-modal-body">
+        <div class="vault-iframe-loader" id="vaultIframeLoader">
+          <div class="vault-spinner"></div>
+          <span>Loading Explore Vault...</span>
+        </div>
+        <iframe id="vaultModalIframe" class="vault-modal-iframe" src="" loading="lazy" allow="clipboard-write"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Job Openings Dashboard Section (Classic Sheet Table Format) -->
+  <div class="jobs-section" id="jobsSection" style="display: none;">
+    <div class="jobs-section-header">
+      <h2>Daily Job Openings</h2>
+      <p>Direct recruiter emails, contacts &amp; updates from our daily verified Google Sheet database.</p>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="jobs-toolbar">
+      <div class="jobs-search-box">
+        <svg class="jobs-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="jobs-search-input" id="jobsSearchInput" placeholder="Search by role, recruiter email, domain or experience (e.g. UiPath, Remote, SQL)...">
+      </div>
+      <div class="jobs-filter-chips" id="jobsFilterChips">
+        <!-- Dynamic category chips injected in JS -->
+      </div>
+      <div class="jobs-secondary-bar">
+        <div class="jobs-secondary-left">
+          <!-- Date Range Filter Dropdown -->
+          <div class="jobs-date-filter-wrap">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <select id="jobsDateFilterSelect" class="jobs-select-input" aria-label="Filter by date">
+              <option value="all">All Dates</option>
+              <option value="today">Today</option>
+              <option value="week">Past 7 Days (Week)</option>
+              <option value="15days">Past 15 Days</option>
+              <option value="month">Past 30 Days (Month)</option>
+            </select>
+          </div>
+        </div>
+        <div class="jobs-actions-right">
+          <button type="button" class="jobs-action-btn jobs-btn-primary" id="copyPageEmailsBtn" onclick="copyAllVisibleEmails()" title="Copy all visible recruiter emails on this page (comma-separated)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span id="copyPageEmailsBtnText">Copy Page Emails</span>
+          </button>
+          <button type="button" class="jobs-action-btn" id="jobsRefreshBtn" onclick="fetchAndRenderJobs(true)" title="Refresh job listings from Google Sheet">
+            <svg id="jobsRefreshIcon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            <span>Refresh</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sheet Table Container -->
+    <div id="jobsContainer">
+      <div class="jobs-loading-box" id="jobsLoadingBox">
+        <div class="jobs-spinner"></div>
+        <div>Loading daily job updates from Google Sheet...</div>
+      </div>
+      <div class="jobs-table-wrapper" id="jobsTableWrapper" style="display: none;">
+        <table class="jobs-sheet-table">
+          <thead>
+            <tr>
+              <th class="col-sno">S.No</th>
+              <th class="col-date">Date</th>
+              <th class="col-email">Recruiter Email</th>
+              <th class="col-view">Action</th>
+            </tr>
+          </thead>
+          <tbody id="jobsSheetTbody">
+            <!-- Injected dynamically from Google Sheet -->
+          </tbody>
+        </table>
+      </div>
+      <div class="jobs-pagination" id="jobsPagination" style="display: none;">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="jobs-empty-box" id="jobsEmptyBox" style="display: none;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" style="margin: 0 auto 0.75rem;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <h4 style="margin: 0 0 0.35rem 0; color: #1e293b;">No matching openings found</h4>
+        <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Try adjusting your search or category filter.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Job Details Popup Modal -->
+  <div class="job-modal-backdrop" id="jobDetailsModalBackdrop" style="display: none;" onclick="closeJobDetailsModal(event)">
+    <div class="job-modal-card" id="jobDetailsModalCard" role="dialog" aria-modal="true" aria-labelledby="jobModalCompanyName" onclick="event.stopPropagation()">
+      
+      <!-- Top Hero Header with Company Name & Close Button -->
+      <div class="job-modal-header">
+        <div class="job-modal-company-wrap">
+          <div class="job-modal-company-avatar" id="jobModalCompanyAvatar">M</div>
+          <div class="job-modal-company-info">
+            <div class="job-modal-company-row">
+              <h3 class="job-modal-company-name" id="jobModalCompanyName">Movate</h3>
+              <span class="job-modal-verified-badge" title="Verified Direct Hiring Domain">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Verified</span>
+              </span>
+            </div>
+            <div class="job-modal-role-subtitle" id="jobModalRoleSubtitle">RPA UiPath Opening</div>
+          </div>
+        </div>
+        <button type="button" class="job-modal-close" onclick="closeJobDetailsModal()" aria-label="Close details">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Quick Highlights Bar -->
+      <div class="job-modal-highlights-bar">
+        <span class="badge-category" id="jobModalCategory">RPA UiPath</span>
+        <span class="job-modal-stat-chip" id="jobModalExpChip">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          <span id="jobModalExp">2 - 4 Years Exp</span>
+        </span>
+        <span class="job-modal-stat-chip" id="jobModalDate">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span id="jobModalDateText">05 Sep 2026</span>
+        </span>
+      </div>
+
+      <!-- Main Body Section -->
+      <div class="job-modal-body">
+
+        <!-- Recruiter Direct Contact Box -->
+        <div class="job-modal-contact-card">
+          <div class="job-modal-contact-header">
+            <div class="job-modal-contact-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>Recruiter Official Contact</span>
+            </div>
+            <span class="job-modal-contact-sub">Direct HR / Talent Acquisition</span>
+          </div>
+          
+          <div class="job-modal-email-row">
+            <div class="job-modal-email-display">
+              <span class="job-modal-email-text" id="jobModalEmailLink">email@example.com</span>
+            </div>
+            <div class="job-modal-email-actions">
+              <button type="button" class="job-modal-copy-btn" id="jobModalCopyBtn" onclick="copyModalEmail(this)" title="Copy email address">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Copy</span>
+              </button>
+              <a href="#" id="jobModalMailtoBtn" class="job-modal-mailto-btn" title="Compose email in your email client">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                <span>Email</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Optional Phone/WhatsApp -->
+          <div class="job-modal-phone-row" id="jobModalPhoneBox" style="display: none;">
+            <div class="job-modal-phone-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Contact:</span>
+            </div>
+            <div id="jobModalPhone"></div>
+          </div>
+        </div>
+
+        <!-- Role Overview Points / Trust Highlights -->
+        <div class="job-modal-perks-box">
+          <div class="job-modal-perk-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Verified company recruiter listing</span>
+          </div>
+          <div class="job-modal-perk-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Direct application &bull; 100% Free &bull; No consultancy fees</span>
+          </div>
+          <div class="job-modal-perk-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Verified opening &bull; Full job description &amp; eligibility</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer CTA -->
+      <div class="job-modal-footer">
+        <a href="#" id="jobModalJdBtn" target="_blank" rel="noopener" class="job-modal-jd-action-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>View Full Job Description &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Dashboard Section (HIDDEN BY DEFAULT, SHOWN ONLY ONCE VERIFIED) -->
+  <div class="dashboard-section" id="dashboardSection" style="display: none;">
+    
+    <div class="dashboard-section-header">
+      <div>
+        <h2>Attendance Dashboard</h2>
+        <p>Live session turnout, candidate benchmarking, and performance statistics.</p>
+      </div>
+      <div class="batch-badge" id="batchBadgeDisplay">
+        <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
+        <span id="batchNameLabel">Batch: Live Batch</span>
+      </div>
+    </div>
+
+    <!-- 1. Metrics KPI Grid -->
+    <div class="kpi-grid">
+      <!-- 1. Overall attendance -->
+      <div class="kpi-card">
+        <div class="kpi-title">Overall attendance</div>
+        <div class="kpi-value" id="kpiOverallRate">--%</div>
+        <div class="kpi-sub" id="kpiOverallSub">-- marks</div>
+      </div>
+
+      <!-- 2. Avg present / class -->
+      <div class="kpi-card">
+        <div class="kpi-title">Avg present / class</div>
+        <div class="kpi-value" id="kpiAvgPresent">--</div>
+        <div class="kpi-sub" id="kpiAvgPresentSub">out of -- candidates</div>
+      </div>
+
+      <!-- 3. Classes held -->
+      <div class="kpi-card">
+        <div class="kpi-title">Classes held</div>
+        <div class="kpi-value" id="kpiClassesHeld">--</div>
+        <div class="kpi-sub" id="kpiDateRangeSub">--</div>
+      </div>
+
+      <!-- 4. Perfect attendance -->
+      <div class="kpi-card">
+        <div class="kpi-title">Perfect attendance</div>
+        <div class="kpi-value" id="kpiPerfectCount">0</div>
+        <div class="kpi-sub" id="kpiPerfectSub">candidates, 0 absences</div>
+      </div>
+
+      <!-- 5. Peak turnout -->
+      <div class="kpi-card">
+        <div class="kpi-title">Peak turnout</div>
+        <div class="kpi-value" id="kpiPeakTurnout">--</div>
+        <div class="kpi-sub" id="kpiPeakTurnoutSub">--</div>
+      </div>
+    </div>
+
+    <!-- 2. Classes Held Schedule Timeline Card -->
+    <div class="schedule-card" id="scheduleCard" style="display: none;">
+      <h3>Class Schedule Dates (<span id="scheduleTotalClasses">0</span> Held)</h3>
+      <div class="schedule-dates-flow" id="scheduleDatesFlow">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- 3. Last 2 Days Absentees Callout Grid (Moved after Schedule Dates) -->
+    <div class="recent-absentees-container" id="recentAbsenteesContainer" style="display: none;">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- 4. Attendance Over Time Chart -->
+    <div class="chart-card">
+      <h3>Attendance Volume Over Time</h3>
+      <div class="chart-wrapper">
+        <canvas id="attendanceChart"></canvas>
+      </div>
+    </div>
+
+    <!-- 5. Leaderboard & Candidate Detail Section -->
+    <div class="section-headline">
+      <h3>Leaderboard &amp; Candidate Details</h3>
+      <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email...">
+    </div>
+
+    <div class="split-grid">
+      <!-- Left: Leaderboard Table -->
+      <div class="table-card">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>Candidate</th>
+              <th>Present</th>
+              <th>Absent</th>
+              <th style="width: 140px;">Rate</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboardTbody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right: Candidate Drilldown -->
+      <div class="detail-panel" id="candidateDetailPanel">
+        <div class="candidate-profile-header">
+          <div class="profile-left">
+            <div class="avatar-circle" id="detailAvatar">--</div>
+            <div class="profile-text">
+              <h4 id="detailName">Select a Candidate</h4>
+              <p id="detailEmail">--</p>
+            </div>
+          </div>
+          <div class="profile-rate">
+            <div class="rate-num" id="detailRate">--%</div>
+            <div class="rate-sub">Attendance Rate</div>
+          </div>
+        </div>
+
+        <div class="joined-banner" id="detailJoinedBanner">
+          Select a candidate from the table to view their complete attendance record.
+        </div>
+
+        <!-- 4-Box Stats -->
+        <div class="stats-four-grid">
+          <div class="stat-badge-box">
+            <div class="count count-present" id="detailPresentCount">--</div>
+            <div class="label">Present</div>
+          </div>
+          <div class="stat-badge-box">
+            <div class="count count-absent" id="detailAbsentCount">--</div>
+            <div class="label">Absent</div>
+          </div>
+          <div class="stat-badge-box">
+            <div class="count count-streak" id="detailBestStreak">-- cls</div>
+            <div class="label">Best streak</div>
+          </div>
+          <div class="stat-badge-box">
+            <div class="count count-streak" id="detailCurrentStreak">-- cls</div>
+            <div class="label">Current streak</div>
+          </div>
+        </div>
+
+        <div class="calendar-section-title" id="calendarHeading">Attendance Calendar</div>
+        <div class="calendar-tiles-grid" id="calendarTilesGrid">
+          <!-- Injected dynamically -->
+        </div>
+
+        <div class="calendar-legend">
+          <div class="legend-item"><span class="legend-dot dot-present"></span> Present</div>
+          <div class="legend-item"><span class="legend-dot dot-absent"></span> Absent</div>
+          <div style="margin-left: auto; font-style: italic; font-size: 0.72rem;">Each tile = one class, in order. Hover for date.</div>
+        </div>
+
+        <div class="calendar-section-title" id="absentDatesHeading">Days absent (0)</div>
+        <div class="absent-pills-flow" id="absentDatesList">
+          None
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Live Deployed Google Apps Script Endpoint
+  const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznElaeu12Au1PerwixvIdJSrX4ynm1RNWUAXY7UKwII9UNUSrW5Xy0PcWi-iHieE_7/exec"; 
+  const EXPLORE_VAULT_URL = "/go/explore-vault";
+
+  let currentDashboardData = null;
+  let selectedStudentId = null;
+  let chartInstance = null;
+  const pageStartTime = Date.now();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initJoinForm();
+    initDashboardToggleAndForm();
+    initSearch();
+    initExploreVaultPopup();
+    initDailyJobsDashboard();
+  });
+
+  // Telemetry helper functions
+  function getDeviceOS() {
+    const ua = navigator.userAgent;
+    if (ua.indexOf("Win") !== -1) return "Windows";
+    if (ua.indexOf("Mac") !== -1) return (navigator.maxTouchPoints > 1) ? "iOS (iPad)" : "macOS";
+    if (ua.indexOf("Linux") !== -1) return "Linux";
+    if (/Android/i.test(ua)) return "Android";
+    if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+    return "Unknown OS";
+  }
+
+  function getBrowserString() {
+    const ua = navigator.userAgent;
+    let b = 'Unknown';
+    if (/edg\//i.test(ua)) b = 'Microsoft Edge';
+    else if (/opr\//i.test(ua)) b = 'Opera';
+    else if (/chrome|crios/i.test(ua)) b = 'Chrome';
+    else if (/firefox|fxios/i.test(ua)) b = 'Firefox';
+    else if (/safari/i.test(ua)) b = 'Safari';
+    const dev = /mobi|android|iphone|ipad/i.test(ua) ? 'Mobile' : 'Desktop';
+    return b + ' · ' + dev;
+  }
+
+  function getDeviceType() {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return "Tablet";
+    if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle/i.test(ua)) return "Mobile";
+    return "Desktop";
+  }
+
+  function buildTelemetryPayload(email, actionType) {
+    let geoData = {};
+    try {
+      const cached = sessionStorage.getItem('rpv_geo');
+      if (cached) geoData = JSON.parse(cached);
+    } catch (_) {}
+
+    const visitorId = localStorage.getItem('rpv_visitor_id') || ('v-' + Date.now() + '-' + Math.floor(Math.random()*1000000));
+    const visitCount = localStorage.getItem('rpv_visit_count') || "1";
+    const firstVisit = localStorage.getItem('rpv_first_visit') || new Date().toISOString();
+    const pathTrail = sessionStorage.getItem('rpv_path_trail') || location.pathname;
+    const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
+    return {
+      action: actionType,
+      form_type: actionType === "join" ? "Class Join (Live Portal)" : "Dashboard Unlock",
+      email: email,
+      "=== GEOGRAPHIC & NETWORK ===": "==============================",
+      "Geo: IP Address": geoData.ip || "",
+      "Geo: City": geoData.city || "",
+      "Geo: Region": geoData.region || "",
+      "Geo: Country": geoData.country_name || "",
+      "=== DEVICE & BROWSER ===": "==============================",
+      "Device: OS": getDeviceOS(),
+      "Device: Browser": getBrowserString(),
+      "Device: Type": getDeviceType(),
+      "Device: Screen Size": (window.screen ? (window.screen.width + 'x' + window.screen.height) : 'Unknown'),
+      "Device: Browser Language": navigator.language || 'Unknown',
+      "=== VISITOR SESSION INFO ===": "==============================",
+      "Session: Visitor Type": (parseInt(visitCount, 10) <= 1) ? 'New' : 'Returning',
+      "Session: Visitor ID": visitorId,
+      "Session: Visit Count": visitCount,
+      "Session: First Visit Date": new Date(firstVisit).toLocaleString(),
+      "Session: Path Trail": pathTrail,
+      "Session: Referrer": document.referrer || 'direct',
+      "Session: Time Spent on Page (sec)": timeOnPage.toString(),
+      "Session: Timezone": timezone,
+      "Session: Source Page Path": location.pathname || '/',
+      "Session: Source Page Title": document.title || 'Live Class Portal',
+      "Session: Local Time Submitted": new Date().toString()
+    };
+  }
+
+  // 1. Join Live Class Handler (Supports both Students & Admins)
+  function initJoinForm() {
+    const form = document.getElementById('classJoinForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMsg = document.getElementById('errorMessage');
+    const successMsg = document.getElementById('successMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+      successMsg.style.display = 'none';
+
+      const email = document.getElementById('studentEmail').value.trim().toLowerCase();
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Joining Meeting...</span>';
+
+      const payload = buildTelemetryPayload(email, "join");
+
+      try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result.verified) {
+          sessionStorage.setItem('rpv_verified_user_email', email);
+          const redirectUrl = result.redirectUrl || "/go/join-rpa-meeting";
+          window.open(redirectUrl, '_blank');
+
+          const redirectBtn = document.getElementById('meetingRedirectBtn');
+          redirectBtn.href = redirectUrl;
+          successMsg.style.display = 'block';
+        } else {
+          errorMsg.textContent = result.message || "This portal is strictly for registered members.";
+          errorMsg.style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Join error:', err);
+        errorMsg.textContent = 'Unable to verify. Please check your connection or contact support.';
+        errorMsg.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Join Meeting Now &rarr;</span>';
+      }
+    });
+  }
+
+  // 2. Dashboard Toggle & Unlock Form Handler
+  function initDashboardToggleAndForm() {
+    const toggleBtn = document.getElementById('btnToggleDashboardAuth');
+    const authCard = document.getElementById('dashboardAuthCard');
+    const dashForm = document.getElementById('dashboardAccessForm');
+    const dashSubmitBtn = document.getElementById('dashSubmitBtn');
+    const dashErrorMsg = document.getElementById('dashErrorMessage');
+    const dashSection = document.getElementById('dashboardSection');
+
+    toggleBtn.addEventListener('click', () => {
+      // Close job openings section if open
+      const jobsSec = document.getElementById('jobsSection');
+      if (jobsSec) jobsSec.style.display = 'none';
+
+      // If dashboard is currently visible, toggle it closed
+      if (dashSection.style.display === 'block') {
+        dashSection.style.display = 'none';
+        authCard.style.display = 'none';
+        return;
+      }
+
+      // Always show inline auth form if not yet unlocked
+      authCard.style.display = authCard.style.display === 'block' ? 'none' : 'block';
+      if (authCard.style.display === 'block') {
+        const emailInput = document.getElementById('dashboardEmail');
+        if (!emailInput.value) {
+          const sessionEmail = sessionStorage.getItem('rpv_verified_user_email');
+          if (sessionEmail) emailInput.value = sessionEmail;
+        }
+        emailInput.focus();
+      }
+    });
+
+    dashForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      dashErrorMsg.style.display = 'none';
+
+      const email = document.getElementById('dashboardEmail').value.trim().toLowerCase();
+      dashSubmitBtn.disabled = true;
+      dashSubmitBtn.innerHTML = '<span>Verifying Access...</span>';
+
+      const payload = buildTelemetryPayload(email, "dashboard_access");
+
+      try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result.verified) {
+          sessionStorage.setItem('rpv_verified_user_email', email);
+          authCard.style.display = 'none';
+          unlockAndLoadDashboard(email);
+        } else {
+          dashErrorMsg.textContent = result.message || "This portal is strictly for registered members.";
+          dashErrorMsg.style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Dashboard unlock error:', err);
+        dashErrorMsg.textContent = 'Unable to verify. Please check your connection or contact support.';
+        dashErrorMsg.style.display = 'block';
+      } finally {
+        dashSubmitBtn.disabled = false;
+        dashSubmitBtn.innerHTML = '<span>Verify &amp; Unlock Dashboard &rarr;</span>';
+      }
+    });
+  }
+
+  // 3. Explore Vault Modal Popup Handler
+  function initExploreVaultPopup() {
+    const btnOpen = document.getElementById('btnExploreVault');
+    const modal = document.getElementById('vaultModalOverlay');
+    const btnClose = document.getElementById('btnVaultClose');
+    const iframe = document.getElementById('vaultModalIframe');
+    const loader = document.getElementById('vaultIframeLoader');
+
+    if (!btnOpen || !modal) return;
+
+    btnOpen.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Lazy load iframe source
+      if (!iframe.src || iframe.src === 'about:blank' || iframe.getAttribute('src') === '') {
+        iframe.src = EXPLORE_VAULT_URL;
+        iframe.onload = () => {
+          if (loader) loader.style.display = 'none';
+        };
+      }
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+      }, 10);
+    });
+
+    function closeModal() {
+      modal.classList.remove('is-active');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    if (btnClose) {
+      btnClose.addEventListener('click', closeModal);
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+        closeModal();
+      }
+    });
+  }
+
+  // 4. Daily Jobs Live Google Sheet Feed Handler (Opens directly below, NO email auth needed)
+  const GOOGLE_SHEET_JOBS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTldUn-xwsgpUOgUBJe6wBrS6yCOjik_StHtP7xz3FdCJD6NMDfXeglb6ghcGrhPRMoxyPtoJpELPLh/pub?gid=1161465439&single=true&output=csv';
+
+  const PAGE_SIZE = 20;
+  let allJobsList = [];
+  let currentJobCategory = 'RPA UiPath';
+  let currentJobDateFilter = 'all';
+  let currentJobSearch = '';
+  let currentJobsPage = 1;
+  let isJobsDataLoaded = false;
+  window._currentVisibleJobRows = [];
+
+  function initDailyJobsDashboard() {
+    const btnJobs = document.getElementById('btnDailyJobs');
+    const jobsSection = document.getElementById('jobsSection');
+    const searchInput = document.getElementById('jobsSearchInput');
+    const dateSelect = document.getElementById('jobsDateFilterSelect');
+
+    if (!btnJobs || !jobsSection) return;
+
+    // Toggle job openings section
+    btnJobs.addEventListener('click', () => {
+      // Close attendance dashboard and inline auth if open
+      const dashSection = document.getElementById('dashboardSection');
+      const authCard = document.getElementById('dashboardAuthCard');
+      if (dashSection) dashSection.style.display = 'none';
+      if (authCard) authCard.style.display = 'none';
+
+      if (jobsSection.style.display === 'block') {
+        jobsSection.style.display = 'none';
+      } else {
+        jobsSection.style.display = 'block';
+        if (!isJobsDataLoaded) {
+          fetchAndRenderJobs();
+        }
+        setTimeout(() => {
+          jobsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 80);
+      }
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        currentJobSearch = e.target.value.trim().toLowerCase();
+        currentJobsPage = 1;
+        filterAndRenderJobs();
+      });
+    }
+
+    if (dateSelect) {
+      dateSelect.addEventListener('change', (e) => {
+        currentJobDateFilter = e.target.value;
+        currentJobsPage = 1;
+        filterAndRenderJobs();
+      });
+    }
+  }
+
+  // Robust CSV parser
+  function parseJobsCSV(csvText) {
+    const lines = csvText.trim().split(/\r?\n/);
+    if (lines.length < 2) return [];
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^["']|["']$/g, ''));
+    const rows = [];
+    
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+      const values = [];
+      let inQuote = false;
+      let currentVal = '';
+      for (let c = 0; c < line.length; c++) {
+        const ch = line[c];
+        if (ch === '"') {
+          inQuote = !inQuote;
+        } else if (ch === ',' && !inQuote) {
+          values.push(currentVal.trim().replace(/^["']|["']$/g, ''));
+          currentVal = '';
+        } else {
+          currentVal += ch;
+        }
+      }
+      values.push(currentVal.trim().replace(/^["']|["']$/g, ''));
+
+      const rowObj = {};
+      headers.forEach((h, idx) => {
+        rowObj[h] = values[idx] || '';
+      });
+      if (rowObj['Email'] || rowObj['Content Type'] || rowObj['Contact']) {
+        rows.push(rowObj);
+      }
+    }
+    return rows;
+  }
+
+  // Fetch and render jobs
+  async function fetchAndRenderJobs(force = false) {
+    if (isJobsDataLoaded && !force) return;
+
+    const loadingBox = document.getElementById('jobsLoadingBox');
+    const tableWrapper = document.getElementById('jobsTableWrapper');
+    const emptyBox = document.getElementById('jobsEmptyBox');
+    const paginationBox = document.getElementById('jobsPagination');
+    const refreshIcon = document.getElementById('jobsRefreshIcon');
+
+    if (force && refreshIcon) {
+      refreshIcon.style.animation = 'spin 0.7s linear infinite';
+    }
+
+    if (!isJobsDataLoaded && loadingBox) loadingBox.style.display = 'block';
+    if (!isJobsDataLoaded && tableWrapper) tableWrapper.style.display = 'none';
+    if (!isJobsDataLoaded && emptyBox) emptyBox.style.display = 'none';
+    if (!isJobsDataLoaded && paginationBox) paginationBox.style.display = 'none';
+
+    try {
+      const res = await fetch(GOOGLE_SHEET_JOBS_CSV_URL);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      allJobsList = parseJobsCSV(text);
+      isJobsDataLoaded = true;
+
+      renderCategoryChips(allJobsList);
+      filterAndRenderJobs();
+    } catch (err) {
+      console.error('Jobs feed fetch error:', err);
+      if (loadingBox) {
+        loadingBox.innerHTML = `
+          <div style="color: #dc2626; font-weight: 700; margin-bottom: 0.6rem;">
+            Unable to load daily updates from Google Sheet.
+          </div>
+          <button type="button" class="btn-actual btn-vault" style="max-width: 180px; margin: 0 auto; min-height: 40px;" onclick="fetchAndRenderJobs(true)">
+            <span>Retry Loading</span>
+          </button>
+        `;
+      }
+    } finally {
+      if (refreshIcon) {
+        refreshIcon.style.animation = '';
+      }
+    }
+  }
+
+  function renderCategoryChips(jobs) {
+    const container = document.getElementById('jobsFilterChips');
+    if (!container) return;
+
+    let hasRemote = false;
+    const nonRemoteCats = new Set();
+
+    jobs.forEach(j => {
+      const cat = (j['Content Type'] || '').trim();
+      if (!cat) return;
+      if (cat.toLowerCase().includes('remote')) {
+        hasRemote = true;
+      } else {
+        nonRemoteCats.add(cat);
+      }
+    });
+
+    // Ensure 'RPA UiPath' is prioritized first, then 'Remote Jobs', then other categories
+    const orderedCats = [];
+    if (nonRemoteCats.has('RPA UiPath')) {
+      orderedCats.push('RPA UiPath');
+      nonRemoteCats.delete('RPA UiPath');
+    } else {
+      orderedCats.push('RPA UiPath');
+    }
+
+    if (hasRemote) {
+      orderedCats.push('Remote Jobs');
+    }
+
+    Array.from(nonRemoteCats).sort().forEach(cat => {
+      orderedCats.push(cat);
+    });
+
+    if (!currentJobCategory || currentJobCategory === 'All') {
+      currentJobCategory = 'RPA UiPath';
+    }
+
+    let html = '';
+    orderedCats.forEach(cat => {
+      const isActive = currentJobCategory.trim().toLowerCase() === cat.trim().toLowerCase();
+      html += `
+        <div class="job-chip ${isActive ? 'is-active' : ''}" data-category="${escapeHTML(cat)}">
+          <span>${escapeHTML(cat)}</span>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+    container.querySelectorAll('.job-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        container.querySelectorAll('.job-chip').forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        currentJobCategory = chip.getAttribute('data-category');
+        currentJobsPage = 1;
+        filterAndRenderJobs();
+      });
+    });
+  }
+
+  function getCategoryClass(cat) {
+    const c = (cat || '').toLowerCase();
+    if (c.includes('remote') && c.includes('uipath')) return 'cat-remote-uipath';
+    if (c.includes('remote')) return 'cat-remote';
+    if (c.includes('uipath')) return 'cat-rpa-uipath';
+    if (c.includes('pa') || c.includes('power automate')) return 'cat-remote-pa';
+    if (c.includes('sql')) return 'cat-sql';
+    if (c.includes('analytic') || c.includes('powerbi')) return 'cat-analytics';
+    return 'cat-default';
+  }
+
+  function parseJobDate(dStr) {
+    if (!dStr) return null;
+    const clean = dStr.trim();
+    const parts = clean.split(/[-/]/);
+    if (parts.length === 3) {
+      if (parts[0].length === 4) {
+        return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      } else if (parts[2].length === 4) {
+        return new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+      }
+    }
+    const parsed = new Date(clean);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  function getLatestDatasetDate() {
+    let latest = null;
+    allJobsList.forEach(j => {
+      const d = parseJobDate(j['Date']);
+      if (d && (!latest || d.getTime() > latest.getTime())) {
+        latest = d;
+      }
+    });
+    const now = new Date();
+    let ref = now;
+    if (latest) {
+      const diffFromNow = Math.abs(now.getTime() - latest.getTime());
+      if (diffFromNow > 30 * 24 * 60 * 60 * 1000) {
+        ref = new Date(latest);
+      }
+    }
+    ref.setHours(23, 59, 59, 999);
+    return ref;
+  }
+
+  function matchesDateFilter(jobDateStr, filterVal, refDate) {
+    if (!filterVal || filterVal === 'all') return true;
+    const jobDate = parseJobDate(jobDateStr);
+    if (!jobDate) return true;
+
+    jobDate.setHours(0, 0, 0, 0);
+    const refDay = new Date(refDate);
+    refDay.setHours(0, 0, 0, 0);
+
+    const diffMs = refDay.getTime() - jobDate.getTime();
+    const diffDays = Math.round(diffMs / (24 * 60 * 60 * 1000));
+
+    if (filterVal === 'today') {
+      return diffDays <= 0;
+    }
+    if (filterVal === 'week') {
+      return diffDays >= 0 && diffDays <= 7;
+    }
+    if (filterVal === '15days') {
+      return diffDays >= 0 && diffDays <= 15;
+    }
+    if (filterVal === 'month') {
+      return diffDays >= 0 && diffDays <= 30;
+    }
+    return true;
+  }
+
+  function filterAndRenderJobs() {
+    const loadingBox = document.getElementById('jobsLoadingBox');
+    const tableWrapper = document.getElementById('jobsTableWrapper');
+    const tbody = document.getElementById('jobsSheetTbody');
+    const emptyBox = document.getElementById('jobsEmptyBox');
+
+    if (loadingBox) loadingBox.style.display = 'none';
+
+    let filtered = allJobsList.slice();
+
+    // 1. Category filter: support combined 'Remote Jobs'
+    if (currentJobCategory === 'Remote Jobs') {
+      filtered = filtered.filter(j => (j['Content Type'] || '').toLowerCase().includes('remote'));
+    } else if (currentJobCategory && currentJobCategory !== 'All') {
+      filtered = filtered.filter(j => (j['Content Type'] || '').trim().toLowerCase() === currentJobCategory.toLowerCase());
+    }
+
+    // 2. Date range dropdown filter (today, week, 15days, month)
+    if (currentJobDateFilter && currentJobDateFilter !== 'all') {
+      const refDate = getLatestDatasetDate();
+      filtered = filtered.filter(j => matchesDateFilter(j['Date'], currentJobDateFilter, refDate));
+    }
+
+    // 3. Search query filter
+    if (currentJobSearch) {
+      filtered = filtered.filter(j => {
+        const text = `${j['Content Type']} ${j['Email']} ${j['Contact']} ${j['Experience']} ${j['Date']}`.toLowerCase();
+        return text.includes(currentJobSearch);
+      });
+    }
+
+    if (filtered.length === 0) {
+      if (tableWrapper) tableWrapper.style.display = 'none';
+      const paginationBox = document.getElementById('jobsPagination');
+      if (paginationBox) paginationBox.style.display = 'none';
+      if (emptyBox) emptyBox.style.display = 'block';
+      window._currentVisibleJobRows = [];
+      return;
+    }
+
+    if (emptyBox) emptyBox.style.display = 'none';
+
+    // Pagination calculation (15 results per page)
+    const totalItems = filtered.length;
+    const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
+    if (currentJobsPage > totalPages) currentJobsPage = totalPages;
+    if (currentJobsPage < 1) currentJobsPage = 1;
+
+    const startIdx = (currentJobsPage - 1) * PAGE_SIZE;
+    const endIdx = Math.min(startIdx + PAGE_SIZE, totalItems);
+    const pageRows = filtered.slice(startIdx, endIdx);
+    window._currentVisibleJobRows = pageRows;
+
+    // Render Spreadsheet Table
+    if (tableWrapper && tbody) {
+      tableWrapper.style.display = 'block';
+      tbody.innerHTML = pageRows.map((j, idx) => {
+        const cat = (j['Content Type'] || 'Opportunity').trim();
+        const exp = (j['Experience'] || '').trim();
+        const email = (j['Email'] || '').trim();
+        const dateStr = (j['Date'] || '').trim();
+
+        let formattedDate = dateStr;
+        const dParts = dateStr.split('-');
+        if (dParts.length === 3) {
+          const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          const mIdx = parseInt(dParts[1], 10) - 1;
+          formattedDate = `${dParts[2]} ${mNames[mIdx] || dParts[1]}`;
+        }
+
+        const mailtoUrl = email ? `mailto:${email}?subject=${encodeURIComponent('Application: ' + cat + (exp ? ' (' + exp + ')' : ''))}` : '#';
+
+        return `
+          <tr class="sheet-job-row" onclick="openJobDetailsModal(${idx})">
+            <td class="col-sno">${startIdx + idx + 1}</td>
+            <td class="col-date">${escapeHTML(formattedDate || '-')}</td>
+            <td class="col-email">
+              <div class="sheet-email-cell" onclick="openJobDetailsModal(${idx})" title="Click to view full opening details">
+                <span class="sheet-email-text">${escapeHTML(email || '-')}</span>
+                ${email ? `
+                  <button type="button" class="sheet-copy-btn" title="Copy email address" onclick="event.stopPropagation(); copyJobEmail(this, '${escapeHTML(email)}')">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+            <td class="col-view">
+              <button type="button" class="sheet-view-btn" onclick="event.stopPropagation(); openJobDetailsModal(${idx})" title="View complete opening details">
+                <span>View</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    renderJobsPagination(totalItems, totalPages, currentJobsPage, startIdx, endIdx);
+  }
+
+  function renderJobsPagination(totalItems, totalPages, curPage, startIdx, endIdx) {
+    const paginationBox = document.getElementById('jobsPagination');
+    if (!paginationBox) return;
+
+    if (totalItems <= PAGE_SIZE && totalPages <= 1) {
+      paginationBox.style.display = 'flex';
+      paginationBox.innerHTML = `
+        <div class="jobs-pagination-info">Showing all ${totalItems} openings</div>
+        <div></div>
+      `;
+      return;
+    }
+
+    paginationBox.style.display = 'flex';
+    let pagesHtml = '';
+    for (let p = 1; p <= totalPages; p++) {
+      pagesHtml += `
+        <button type="button" class="jobs-page-btn ${p === curPage ? 'is-active' : ''}" onclick="goToJobsPage(${p})">${p}</button>
+      `;
+    }
+
+    paginationBox.innerHTML = `
+      <div class="jobs-pagination-info">
+        Showing ${startIdx + 1}&ndash;${endIdx} of ${totalItems} openings
+      </div>
+      <div class="jobs-pagination-controls">
+        <button type="button" class="jobs-page-btn" ${curPage === 1 ? 'disabled' : ''} onclick="goToJobsPage(${curPage - 1})">&larr; Prev</button>
+        ${pagesHtml}
+        <button type="button" class="jobs-page-btn" ${curPage === totalPages ? 'disabled' : ''} onclick="goToJobsPage(${curPage + 1})">Next &rarr;</button>
+      </div>
+    `;
+  }
+
+  window.goToJobsPage = function(p) {
+    currentJobsPage = p;
+    filterAndRenderJobs();
+    const tableWrapper = document.getElementById('jobsTableWrapper');
+    if (tableWrapper) {
+      tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
+
+  // Helper to extract clean Company Name from data or email domain
+  function extractCompanyName(job) {
+    if (job['Company'] && job['Company'].trim()) {
+      return job['Company'].trim();
+    }
+    if (job['Company Name'] && job['Company Name'].trim()) {
+      return job['Company Name'].trim();
+    }
+    if (job['Employer'] && job['Employer'].trim()) {
+      return job['Employer'].trim();
+    }
+    const email = (job['Email'] || '').trim();
+    if (!email || !email.includes('@')) {
+      return 'Direct Hiring Team';
+    }
+    const domain = email.split('@')[1].toLowerCase().trim();
+    const baseDomain = domain.split('.')[0];
+
+    const publicProviders = ['gmail', 'yahoo', 'outlook', 'hotmail', 'rediffmail', 'icloud', 'proton', 'mail'];
+    if (publicProviders.includes(baseDomain)) {
+      return 'Direct Hiring Team';
+    }
+
+    const domainMap = {
+      'noesisit': 'Noesis IT',
+      'saksoft': 'Saksoft',
+      'select-jarvis': 'Select Jarvis',
+      'ascendion': 'Ascendion',
+      'varite': 'Varite',
+      'symansys': 'Symansys',
+      'coderkube': 'CoderKube',
+      'smartiplace': 'Smartiplace',
+      'kudzuinfotech': 'Kudzu Infotech',
+      'bondburry': 'Bondburry',
+      'centraprise': 'Centraprise',
+      'sabioinfotech': 'Sabio Infotech',
+      'trianotechnologies': 'Triano Technologies',
+      'movate': 'Movate',
+      'altezzasys': 'AltezzaSys',
+      'ashratech': 'Ashra Tech',
+      'auxiliobits': 'Auxiliobits',
+      'synergycraft': 'Synergycraft',
+      'tsourceinc': 'Tsource Inc'
+    };
+
+    if (domainMap[baseDomain]) {
+      return domainMap[baseDomain];
+    }
+
+    return baseDomain
+      .split(/[-_]/)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+  }
+
+  // Job Details Modal Handlers
+  window.openJobDetailsModal = function(pageIdx) {
+    const job = window._currentVisibleJobRows ? window._currentVisibleJobRows[pageIdx] : null;
+    if (!job) return;
+
+    const modalBackdrop = document.getElementById('jobDetailsModalBackdrop');
+    const companyNameEl = document.getElementById('jobModalCompanyName');
+    const companyAvatarEl = document.getElementById('jobModalCompanyAvatar');
+    const roleSubtitleEl = document.getElementById('jobModalRoleSubtitle');
+    const catBadge = document.getElementById('jobModalCategory');
+    const dateTextEl = document.getElementById('jobModalDateText') || document.getElementById('jobModalDate');
+    const expEl = document.getElementById('jobModalExp');
+    const emailLink = document.getElementById('jobModalEmailLink');
+    const mailtoBtn = document.getElementById('jobModalMailtoBtn');
+    const phoneEl = document.getElementById('jobModalPhone');
+    const phoneBox = document.getElementById('jobModalPhoneBox');
+    const jdBtn = document.getElementById('jobModalJdBtn');
+
+    const cat = (job['Content Type'] || 'Opportunity').trim();
+    const catClass = getCategoryClass(cat);
+    const exp = (job['Experience'] || '').trim();
+    const email = (job['Email'] || '').trim();
+    const phone = (job['Contact'] || '').trim();
+    const jdLink = (job['Telegram Link'] || job['JD Link'] || job['Link'] || '').trim();
+    const dateStr = (job['Date'] || '').trim();
+    const companyName = extractCompanyName(job);
+
+    let formattedDate = dateStr;
+    const dParts = dateStr.split('-');
+    if (dParts.length === 3) {
+      const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const mIdx = parseInt(dParts[1], 10) - 1;
+      formattedDate = `${dParts[2]} ${mNames[mIdx] || dParts[1]} ${dParts[0]}`;
+    }
+
+    const mailtoUrl = email ? `mailto:${email}?subject=${encodeURIComponent('Application: ' + cat + (exp ? ' (' + exp + ')' : ''))}` : '#';
+
+    // Highlight Company Name & Monogram Avatar at the top
+    if (companyNameEl) companyNameEl.textContent = companyName;
+    if (companyAvatarEl) companyAvatarEl.textContent = (companyName.charAt(0) || 'H').toUpperCase();
+    if (roleSubtitleEl) roleSubtitleEl.textContent = `${cat} Opening`;
+
+    if (catBadge) {
+      catBadge.textContent = cat;
+      catBadge.className = `badge-category ${catClass}`;
+    }
+    if (dateTextEl) dateTextEl.textContent = formattedDate || '-';
+    if (expEl) expEl.textContent = exp ? (exp.toLowerCase().includes('yr') ? exp : `${exp} Years Exp`) : 'Experience Not Specified';
+
+    if (emailLink) {
+      emailLink.textContent = email || 'Not specified';
+    }
+    if (mailtoBtn) {
+      mailtoBtn.href = mailtoUrl;
+    }
+
+    if (phoneEl && phoneBox) {
+      if (phone) {
+        phoneEl.innerHTML = `
+          <a href="tel:${escapeHTML(phone.replace(/\s+/g, ''))}" class="job-modal-phone-link">
+            <span>${escapeHTML(phone)}</span>
+          </a>
+        `;
+        phoneBox.style.display = 'flex';
+      } else {
+        phoneBox.style.display = 'none';
+      }
+    }
+
+    // ALWAYS ensure View Full JD button is displayed & linked properly
+    if (jdBtn) {
+      jdBtn.href = jdLink || 'https://rpavault.com';
+      jdBtn.style.display = 'inline-flex';
+    }
+
+    window._currentModalEmail = email;
+    const copyBtn = document.getElementById('jobModalCopyBtn');
+    if (copyBtn) {
+      copyBtn.innerHTML = `
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>Copy Email</span>
+      `;
+      copyBtn.style.borderColor = '';
+    }
+
+    if (modalBackdrop) {
+      modalBackdrop.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  window.closeJobDetailsModal = function(e) {
+    if (e && e.target && e.target.id !== 'jobDetailsModalBackdrop' && !e.target.closest('.job-modal-close')) {
+      return;
+    }
+    const modalBackdrop = document.getElementById('jobDetailsModalBackdrop');
+    if (modalBackdrop) {
+      modalBackdrop.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  };
+
+  window.copyModalEmail = function(btn) {
+    const email = window._currentModalEmail;
+    if (!email) return;
+    navigator.clipboard.writeText(email).then(() => {
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <span style="color: #16a34a;">Copied!</span>`;
+      btn.style.borderColor = '#16a34a';
+      setTimeout(() => {
+        btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> <span>Copy Email</span>`;
+        btn.style.borderColor = '';
+      }, 1600);
+    });
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeJobDetailsModal();
+    }
+  });
+
+  // Copy all visible recruiter emails on current page as comma-separated string
+  window.copyAllVisibleEmails = function() {
+    const rows = window._currentVisibleJobRows || [];
+    const emails = [];
+    rows.forEach(r => {
+      const email = (r['Email'] || '').trim();
+      if (email && email.includes('@')) {
+        emails.push(email);
+      }
+    });
+
+    const uniqueEmails = [...new Set(emails)];
+    const btn = document.getElementById('copyPageEmailsBtn');
+    const btnText = document.getElementById('copyPageEmailsBtnText');
+
+    if (uniqueEmails.length === 0) {
+      if (btnText) btnText.textContent = 'No Emails Found';
+      setTimeout(() => {
+        if (btnText) btnText.textContent = 'Copy Page Emails';
+      }, 1800);
+      return;
+    }
+
+    const commaSeparated = uniqueEmails.join(', ');
+
+    const showSuccess = () => {
+      if (btn) btn.classList.add('is-success');
+      if (btnText) btnText.textContent = `✓ Copied ${uniqueEmails.length} Email${uniqueEmails.length > 1 ? 's' : ''}!`;
+      setTimeout(() => {
+        if (btn) btn.classList.remove('is-success');
+        if (btnText) btnText.textContent = 'Copy Page Emails';
+      }, 2200);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(commaSeparated).then(showSuccess).catch(() => {
+        fallbackCopyText(commaSeparated, showSuccess);
+      });
+    } else {
+      fallbackCopyText(commaSeparated, showSuccess);
+    }
+  };
+
+  function fallbackCopyText(text, callback) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    ta.style.top = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      if (callback) callback();
+    } catch (e) {
+      console.error('Fallback copy error:', e);
+    }
+    document.body.removeChild(ta);
+  }
+
+  // Global helper for 1-click single email copy
+  window.copyJobEmail = function(btn, email) {
+    if (!email) return;
+    navigator.clipboard.writeText(email).then(() => {
+      const originalSvg = btn.innerHTML;
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+      btn.style.borderColor = '#16a34a';
+      setTimeout(() => {
+        btn.innerHTML = originalSvg;
+        btn.style.borderColor = '';
+      }, 1600);
+    }).catch(() => {
+      const input = document.createElement('input');
+      input.value = email;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      btn.style.borderColor = '#16a34a';
+      setTimeout(() => { btn.style.borderColor = ''; }, 1600);
+    });
+  };
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/[&<>'"]/g, tag => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    }[tag] || tag));
+  }
+
+  async function unlockAndLoadDashboard(userEmail) {
+    const section = document.getElementById('dashboardSection');
+    section.style.display = 'block';
+
+    setTimeout(() => {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+
+    try {
+      const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard');
+      const data = await res.json();
+      
+      if (data && data.students) {
+        currentDashboardData = data;
+        renderDashboard(data, userEmail);
+      }
+    } catch (err) {
+      console.warn('Dashboard fetch error:', err);
+    }
+  }
+
+  function renderDashboard(data, userEmail = "") {
+    // 1. Batch KPI Cards
+    if (data.batchInfo) {
+      const b = data.batchInfo;
+      if (b.batchName) document.getElementById('batchNameLabel').textContent = `Batch: ${b.batchName}`;
+      document.getElementById('kpiOverallRate').textContent = b.overallAttendanceRate || "0%";
+      document.getElementById('kpiOverallSub').textContent = b.overallAttendanceSub || "";
+      document.getElementById('kpiAvgPresent').textContent = b.avgPresentPerClass !== undefined ? b.avgPresentPerClass : "0";
+      document.getElementById('kpiAvgPresentSub').textContent = b.avgPresentSub || "";
+      document.getElementById('kpiClassesHeld').textContent = b.classesHeld !== undefined ? b.classesHeld : "0";
+      document.getElementById('kpiDateRangeSub').textContent = b.dateRangeSub || "";
+      document.getElementById('kpiPerfectCount').textContent = b.perfectAttendanceCount !== undefined ? b.perfectAttendanceCount : "0";
+      document.getElementById('kpiPerfectSub').textContent = b.perfectAttendanceSub || "candidates, 0 absences";
+      document.getElementById('kpiPeakTurnout').textContent = b.peakTurnout !== undefined ? b.peakTurnout : "0";
+      document.getElementById('kpiPeakTurnoutSub').textContent = b.peakTurnoutSub || "";
+
+      // 2. Class Schedule Timeline
+      if (b.allClassDates && b.allClassDates.length > 0) {
+        document.getElementById('scheduleCard').style.display = 'block';
+        document.getElementById('scheduleTotalClasses').textContent = b.allClassDates.length;
+        document.getElementById('scheduleDatesFlow').innerHTML = b.allClassDates.map(item => `
+          <div class="schedule-date-badge" title="${item.full} - Turnout: ${item.turnout}">
+            <span class="turnout-dot"></span>
+            <span>${item.short}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // 3. Absentees of Last Two Days with Clean Date Titles (Rendered right after Schedule Dates)
+    const container = document.getElementById('recentAbsenteesContainer');
+    if (data.recentAbsentees && data.recentAbsentees.length > 0) {
+      container.innerHTML = data.recentAbsentees.map(item => `
+        <div class="absentee-card">
+          <div class="absentee-card-top">
+            <span class="absentee-date-title">${item.title}</span>
+          </div>
+          <div class="absentee-tags">
+            ${item.absentees.length > 0 
+              ? item.absentees.map(name => `<span class="absentee-pill">${name}</span>`).join('')
+              : '<span style="font-size:0.84rem; color:#15803d; font-weight:700;">100% Turnout! No Absentees.</span>'}
+          </div>
+        </div>
+      `).join('');
+      container.style.display = 'grid';
+    } else {
+      container.style.display = 'none';
+    }
+
+    // 4. Render Chart
+    if (data.trend && data.trend.dates && data.trend.dates.length > 0) {
+      renderChart(data.trend);
+    }
+
+    // 5. Render Leaderboard Table
+    if (data.students && data.students.length > 0) {
+      renderLeaderboard(data.students);
+
+      let targetStudent = data.students.find(s => s.email.toLowerCase() === userEmail.toLowerCase()) || data.students[0];
+      if (targetStudent) {
+        selectedStudentId = targetStudent.id;
+        renderStudentDetail(targetStudent);
+      }
+    }
+  }
+
+  function renderChart(trend) {
+    const ctx = document.getElementById('attendanceChart');
+    if (!ctx) return;
+
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: trend.dates,
+        datasets: [{
+          label: 'Students Present',
+          data: trend.counts,
+          borderColor: '#0058b0',
+          backgroundColor: 'rgba(0, 88, 176, 0.08)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: '#0058b0',
+          borderWidth: 2.5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            padding: 10,
+            cornerRadius: 8
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: '#ecf8fc' },
+            ticks: { font: { size: 11, family: 'Inter' }, precision: 0 }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 11, family: 'Inter' } }
+          }
+        }
+      }
+    });
+  }
+
+  function renderLeaderboard(students, filterText = "") {
+    const tbody = document.getElementById('leaderboardTbody');
+    const sorted = [...students].sort((a, b) => b.rate - a.rate);
+
+    const filtered = sorted.filter(s => 
+      s.name.toLowerCase().includes(filterText.toLowerCase()) || 
+      s.email.toLowerCase().includes(filterText.toLowerCase())
+    );
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: #64748b;">No matching candidates found.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = filtered.map((s, index) => `
+      <tr class="${s.id === selectedStudentId ? 'active-row' : ''}" onclick="selectStudent(${s.id})">
+        <td style="font-weight: 700; color: #94a3b8;">${index + 1}</td>
+        <td><div class="candidate-name">${s.name}</div></td>
+        <td style="font-weight: 700; color: var(--green, #39b87f);">${s.present}</td>
+        <td style="color: #64748b;">${s.absent}</td>
+        <td>
+          <div class="rate-cell">
+            <div class="rate-bar-bg">
+              <div class="rate-bar-fill" style="width: ${s.rate}%;"></div>
+            </div>
+            <span class="rate-percent">${s.rate}%</span>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function selectStudent(studentId) {
+    selectedStudentId = studentId;
+    if (currentDashboardData && currentDashboardData.students) {
+      const student = currentDashboardData.students.find(s => s.id === studentId);
+      if (student) {
+        renderStudentDetail(student);
+        const query = document.getElementById('candidateSearch').value;
+        renderLeaderboard(currentDashboardData.students, query);
+      }
+    }
+  }
+
+  function renderStudentDetail(s) {
+    const totalClasses = currentDashboardData && currentDashboardData.batchInfo ? currentDashboardData.batchInfo.classesHeld : (s.present + s.absent);
+
+    document.getElementById('detailAvatar').textContent = (s.name || "S").charAt(0).toUpperCase();
+    document.getElementById('detailName').textContent = s.name;
+    document.getElementById('detailEmail').textContent = s.email;
+    document.getElementById('detailRate').textContent = `${s.rate}%`;
+
+    const joinedText = `✦ Joined <strong>${s.joinedFormatted || "Live Batch"}</strong> &bull; First class attended out of ${totalClasses} held`;
+    document.getElementById('detailJoinedBanner').innerHTML = joinedText;
+
+    document.getElementById('detailPresentCount').textContent = `${s.present}/${totalClasses}`;
+    document.getElementById('detailAbsentCount').textContent = s.absent;
+    document.getElementById('detailBestStreak').textContent = `${s.bestStreak || 0} cls`;
+    document.getElementById('detailCurrentStreak').textContent = `${s.currentStreak || 0} cls`;
+
+    document.getElementById('calendarHeading').textContent = `Attendance Calendar \u2022 ${totalClasses} Classes`;
+
+    // Calendar Tiles with full tooltip
+    const tilesGrid = document.getElementById('calendarTilesGrid');
+    if (s.calendarTiles && s.calendarTiles.length > 0) {
+      tilesGrid.innerHTML = s.calendarTiles.map(t => {
+        const cls = t.status === "Present" ? "tile-present" : "tile-absent";
+        return `<div class="tile-cell ${cls}" title="${t.formatted} \u2022 ${t.status}">${t.dayNum}</div>`;
+      }).join('');
+    } else {
+      tilesGrid.innerHTML = '<div style="font-size:0.85rem; color:#64748b;">No class tiles recorded yet.</div>';
+    }
+
+    // Days Absent Pills
+    const absentHeading = document.getElementById('absentDatesHeading');
+    const absentList = document.getElementById('absentDatesList');
+    absentHeading.textContent = `Days absent (${s.absent})`;
+
+    if (s.absentDates && s.absentDates.length > 0) {
+      absentList.innerHTML = s.absentDates.map(d => `<span class="absent-date-badge">${d}</span>`).join('');
+    } else {
+      absentList.innerHTML = '<span style="font-size:0.85rem; color:#15803d; font-weight:700;">Perfect Attendance! 0 absences.</span>';
+    }
+  }
+
+  function initSearch() {
+    const searchInput = document.getElementById('candidateSearch');
+    searchInput.addEventListener('input', (e) => {
+      if (currentDashboardData && currentDashboardData.students) {
+        renderLeaderboard(currentDashboardData.students, e.target.value);
+      }
+    });
+  }
+</script>

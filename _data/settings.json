@@ -59,7 +59,9 @@
           "label": "Phone / WhatsApp",
           "type": "tel",
           "required": true,
-          "autocomplete": "tel"
+          "autocomplete": "tel",
+          "inputmode": "numeric",
+          "pattern": "[0-9+ ]*"
         },
         {
           "name": "topic",
