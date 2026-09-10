@@ -9,8 +9,6 @@
 
 function doPost(e) {
   try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    
     // Parse parameters
     let params = {};
     if (e && e.parameter) {
