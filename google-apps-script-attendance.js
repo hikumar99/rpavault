@@ -37,13 +37,14 @@ function doPost(e) {
 
     // 1. Read Settings tab:
     // - Column G: Batches joining link
+    // 1. Read Settings tab:
+    // - Column G: Batches joining link
     // - Column C: Admin/Temp email meeting link
     const adminEmails = new Set();
     const adminMeetingMap = {}; // email -> specific meeting URL from column C
     const tempMeetingMap = {};  // temp email -> specific meeting URL from column C
     const batchMeetingMap = {}; // batch/course identifier -> joining link from column G
     let defaultBatchMeetingUrl = "";
-    let defaultAdminMeetingUrl = "";
 
     if (settingsSheet) {
       try {
@@ -79,10 +80,8 @@ function doPost(e) {
             });
           }
 
-          // B) Process Column C (Admin / Temp meeting link)
+          // B) Process Column C (Admin / Temp meeting link) - strictly mapped to the email in that row
           if (colC && isLikelyUrl(colC)) {
-            if (!defaultAdminMeetingUrl) defaultAdminMeetingUrl = colC;
-
             // 1. Temp_Email row:
             if (keyA.includes("temp") || keyB.includes("temp")) {
               for (let c = 0; c < row.length; c++) {
@@ -123,12 +122,15 @@ function doPost(e) {
               adminMeetingMap[em] = colC;
             }
           } else {
-            // Even if colC is not a URL, collect admin emails
+            // If colC is not a URL, still register admin emails if row designates admin
             if (keyA.includes("admin")) {
               colB.split(/[,\s;]+/).forEach(function(em) {
                 const clean = em.toLowerCase().trim();
                 if (clean && clean.includes("@")) adminEmails.add(clean);
               });
+            }
+            if (colA.includes("@") && keyA.includes("admin")) {
+              adminEmails.add(colA.toLowerCase());
             }
           }
         }
@@ -184,62 +186,92 @@ function doPost(e) {
       }
     }
 
-    // 3. Evaluate verification and assign meeting URL based on user type
+    // 3. Evaluate verification and assign meeting URL based on user type & action
     const isTempUser = !!tempMeetingMap[inputEmail];
     const isAdmin = adminEmails.has(inputEmail) || !!adminMeetingMap[inputEmail];
+    const action = (params.action || "").toString().trim().toLowerCase();
 
     let meetingUrl = "";
     let isVerified = false;
+    let failMessage = "This is only for registered users, please contact us to register.";
 
-    // A) Temp User: Only access the link assigned in Column C
-    if (isTempUser) {
-      const assignedUrl = tempMeetingMap[inputEmail];
-      if (assignedUrl && isLikelyUrl(assignedUrl)) {
-        meetingUrl = assignedUrl;
-        isVerified = true;
-        studentName = studentName || "Member";
-      } else {
+    if (action === "dashboard_access") {
+      // Temp emails are NOT allowed to open attendance dashboard
+      if (isTempUser) {
         isVerified = false;
-      }
-    }
-    // B) Admin: Only access the link assigned to his email from Column C
-    else if (isAdmin) {
-      const assignedUrl = adminMeetingMap[inputEmail] || defaultAdminMeetingUrl;
-      if (assignedUrl && isLikelyUrl(assignedUrl)) {
-        meetingUrl = assignedUrl;
+        failMessage = "Attendance dashboard is only for registered students and admins.";
+      } else if (isAdmin) {
         isVerified = true;
         studentName = studentName || "Admin";
-      } else {
-        isVerified = false;
-      }
-    }
-    // C) Registered Student: Access the batch joining link from Column G
-    else if (isStudent) {
-      if (!batchName) {
-        isVerified = false;
-      } else {
-        let batchUrl = "";
-        const bKey = batchName.toLowerCase();
-        const bSlug = slugify(batchName);
-        const bNoBatch = batchName.replace(/\bbatch\b/gi, '').trim();
-
-        if (batchMeetingMap[bSlug]) batchUrl = batchMeetingMap[bSlug];
-        else if (batchMeetingMap[bKey]) batchUrl = batchMeetingMap[bKey];
-        else if (bNoBatch && batchMeetingMap[bNoBatch.toLowerCase()]) batchUrl = batchMeetingMap[bNoBatch.toLowerCase()];
-        else if (bNoBatch && batchMeetingMap[slugify(bNoBatch)]) batchUrl = batchMeetingMap[slugify(bNoBatch)];
-        else if (courseName && batchMeetingMap[slugify(courseName)]) batchUrl = batchMeetingMap[slugify(courseName)];
-        else if (courseName && batchMeetingMap[courseName.toLowerCase()]) batchUrl = batchMeetingMap[courseName.toLowerCase()];
-        else if (defaultBatchMeetingUrl) batchUrl = defaultBatchMeetingUrl;
-
-        if (batchUrl && isLikelyUrl(batchUrl)) {
-          meetingUrl = batchUrl;
-          isVerified = true;
-        } else {
+      } else if (isStudent) {
+        if (!batchName) {
           isVerified = false;
+          failMessage = "Not mapped to any batch";
+        } else {
+          isVerified = true;
         }
+      } else {
+        isVerified = false;
+        failMessage = "This is only for registered users, please contact us to register.";
       }
     } else {
-      isVerified = false;
+      // Action is "join" or default (Joining Live Class)
+      // A) Temp User: Only access the link assigned in Column C
+      if (isTempUser) {
+        const assignedUrl = tempMeetingMap[inputEmail];
+        if (assignedUrl && isLikelyUrl(assignedUrl)) {
+          meetingUrl = assignedUrl;
+          isVerified = true;
+          studentName = studentName || "Member";
+        } else {
+          isVerified = false;
+          failMessage = "Not mapped to any meeting link";
+        }
+      }
+      // B) Admin: Only access the link assigned to his email from Column C (no fallback!)
+      else if (isAdmin) {
+        const assignedUrl = adminMeetingMap[inputEmail];
+        if (assignedUrl && isLikelyUrl(assignedUrl)) {
+          meetingUrl = assignedUrl;
+          isVerified = true;
+          studentName = studentName || "Admin";
+        } else {
+          // Admin email has no meeting link mapped in Column C
+          isVerified = false;
+          failMessage = "Admin email not mapped to any meeting link in Settings sheet.";
+        }
+      }
+      // C) Registered Student: Access the batch joining link from Column G
+      else if (isStudent) {
+        if (!batchName) {
+          isVerified = false;
+          failMessage = "Not mapped to any batch";
+        } else {
+          let batchUrl = "";
+          const bKey = batchName.toLowerCase();
+          const bSlug = slugify(batchName);
+          const bNoBatch = batchName.replace(/\bbatch\b/gi, '').trim();
+
+          if (batchMeetingMap[bSlug]) batchUrl = batchMeetingMap[bSlug];
+          else if (batchMeetingMap[bKey]) batchUrl = batchMeetingMap[bKey];
+          else if (bNoBatch && batchMeetingMap[bNoBatch.toLowerCase()]) batchUrl = batchMeetingMap[bNoBatch.toLowerCase()];
+          else if (bNoBatch && batchMeetingMap[slugify(bNoBatch)]) batchUrl = batchMeetingMap[slugify(bNoBatch)];
+          else if (courseName && batchMeetingMap[slugify(courseName)]) batchUrl = batchMeetingMap[slugify(courseName)];
+          else if (courseName && batchMeetingMap[courseName.toLowerCase()]) batchUrl = batchMeetingMap[courseName.toLowerCase()];
+          else if (defaultBatchMeetingUrl) batchUrl = defaultBatchMeetingUrl;
+
+          if (batchUrl && isLikelyUrl(batchUrl)) {
+            meetingUrl = batchUrl;
+            isVerified = true;
+          } else {
+            isVerified = false;
+            failMessage = "Not mapped to any batch";
+          }
+        }
+      } else {
+        isVerified = false;
+        failMessage = "This is only for registered users, please contact us to register.";
+      }
     }
 
     // 4. ALWAYS log to Attendance_Logs (Wrong/unregistered emails captured as leads!)
@@ -298,7 +330,9 @@ function doPost(e) {
       return ContentService.createTextOutput(JSON.stringify({
         success: false,
         verified: false,
-        message: "Not mapped to any batch"
+        isAdmin: isAdmin,
+        isTempUser: isTempUser,
+        message: failMessage || "This is only for registered users, please contact us to register."
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
@@ -306,6 +340,7 @@ function doPost(e) {
       success: true,
       verified: true,
       isAdmin: isAdmin,
+      isTempUser: isTempUser,
       redirectUrl: meetingUrl,
       student: {
         name: studentName,

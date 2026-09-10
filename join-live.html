@@ -153,6 +153,14 @@ permalink: /join-live/
     border: 1px solid #f8b4b4;
     color: #9b1c1c;
   }
+  .status-box.error a {
+    color: #0284c7;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  .status-box.error a:hover {
+    color: #0369a1;
+  }
 
   .status-box.success {
     background: #def7ec;
@@ -2505,7 +2513,7 @@ permalink: /join-live/
 
     <!-- Error Message -->
     <div class="status-box error" id="errorMessage">
-      Not mapped to any batch
+      This is only for registered users, please <a href="/contact/" target="_blank" rel="noopener">contact us</a> to register.
     </div>
 
     <!-- Success Message -->
@@ -3148,7 +3156,16 @@ permalink: /join-live/
           redirectBtn.href = redirectUrl;
           successMsg.style.display = 'block';
         } else {
-          errorMsg.textContent = result.message || "Not mapped to any batch";
+          const defaultContactMsg = 'This is only for registered users, please <a href="/contact/" target="_blank" rel="noopener">contact us</a> to register.';
+          if (result.message && result.message.includes("Admin email not mapped")) {
+            errorMsg.innerHTML = result.message;
+          } else if (result.message && (result.message.toLowerCase().includes("registered") || result.message.toLowerCase().includes("contact us") || result.message.includes("Not mapped to any batch"))) {
+            errorMsg.innerHTML = defaultContactMsg;
+          } else if (result.message) {
+            errorMsg.innerHTML = result.message;
+          } else {
+            errorMsg.innerHTML = defaultContactMsg;
+          }
           errorMsg.style.display = 'block';
         }
       } catch (err) {
@@ -3260,13 +3277,16 @@ permalink: /join-live/
         });
         const result = await response.json();
 
-        if (result.verified) {
+        if (result.verified && !result.isTempUser) {
           sessionStorage.setItem('rpv_verified_user_email', email);
           sessionStorage.setItem('rpv_user_is_admin', (result.isAdmin || email.includes('admin') || email.endsWith('@rpavault.com')) ? 'true' : 'false');
           authCard.style.display = 'none';
           unlockAndLoadDashboard(email);
+        } else if (result.isTempUser) {
+          dashErrorMsg.innerHTML = 'Attendance dashboard is only for registered students and admins.';
+          dashErrorMsg.style.display = 'block';
         } else {
-          dashErrorMsg.textContent = result.message || "Not mapped to any batch";
+          dashErrorMsg.innerHTML = result.message || 'This is only for registered users, please <a href="/contact/" target="_blank" rel="noopener">contact us</a> to register.';
           dashErrorMsg.style.display = 'block';
         }
       } catch (err) {
