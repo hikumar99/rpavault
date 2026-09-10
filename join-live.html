@@ -2505,7 +2505,7 @@ permalink: /join-live/
 
     <!-- Error Message -->
     <div class="status-box error" id="errorMessage">
-      This portal is strictly for registered members.
+      Not mapped to any batch
     </div>
 
     <!-- Success Message -->
@@ -2571,7 +2571,7 @@ permalink: /join-live/
       </form>
 
       <div class="status-box error" id="dashErrorMessage">
-        This portal is strictly for registered members.
+        Not mapped to any batch
       </div>
     </div>
 
@@ -3148,7 +3148,7 @@ permalink: /join-live/
           redirectBtn.href = redirectUrl;
           successMsg.style.display = 'block';
         } else {
-          errorMsg.textContent = result.message || "This portal is strictly for registered members.";
+          errorMsg.textContent = result.message || "Not mapped to any batch";
           errorMsg.style.display = 'block';
         }
       } catch (err) {
@@ -3266,7 +3266,7 @@ permalink: /join-live/
           authCard.style.display = 'none';
           unlockAndLoadDashboard(email);
         } else {
-          dashErrorMsg.textContent = result.message || "This portal is strictly for registered members.";
+          dashErrorMsg.textContent = result.message || "Not mapped to any batch";
           dashErrorMsg.style.display = 'block';
         }
       } catch (err) {

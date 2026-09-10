@@ -24,90 +24,125 @@ function doPost(e) {
     }
 
     const inputEmail = (params.email || "").toString().trim().toLowerCase();
-
     if (!inputEmail) {
       return ContentService.createTextOutput(JSON.stringify({
         success: false,
         verified: false,
-        message: "Please enter your email ID."
+        message: "Not mapped to any batch"
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
     const regSheet = getSheet(ss, "Registered_Students");
     const settingsSheet = getSheet(ss, "Settings");
     const logSheet = getSheet(ss, "Attendance_Logs");
 
-    // 1. Read Settings tab: per-course meeting URLs, admin emails, Temp_Email
-    let defaultMeetingUrl = "/go/join-rpa-meeting";
+    // 1. Read Settings tab:
+    // - Column G: Batches joining link
+    // - Column C: Admin/Temp email meeting link
     const adminEmails = new Set();
-    const adminMeetingMap = {};    // email -> specific meeting URL (column C)
-    let tempEmail = "";
-    let tempMeetingUrl = "";
-    // Per-course meeting URLs: stored as { courseKey: url } via columns E/F/G
-    const courseMeetingUrls = {};
+    const adminMeetingMap = {}; // email -> specific meeting URL from column C
+    const tempMeetingMap = {};  // temp email -> specific meeting URL from column C
+    const batchMeetingMap = {}; // batch/course identifier -> joining link from column G
+    let defaultBatchMeetingUrl = "";
+    let defaultAdminMeetingUrl = "";
 
     if (settingsSheet) {
       try {
         const sData = settingsSheet.getDataRange().getValues();
         for (let r = 0; r < sData.length; r++) {
           const row = sData[r];
-          const key = (row[0] || "").toString().trim().toLowerCase();
-          const val = (row[1] || "").toString().trim();
-          const colC = (row[2] || "").toString().trim(); // admin-assigned meeting URL
-          const colE = (row[4] || "").toString().trim(); // course 1 meeting URL
-          const colF = (row[5] || "").toString().trim(); // course 2 meeting URL
-          const colG = (row[6] || "").toString().trim(); // course 3 meeting URL
+          const colA = (row[0] || "").toString().trim();
+          const colB = (row[1] || "").toString().trim();
+          const colC = (row[2] || "").toString().trim(); // Column C: Admin / Temp meeting link
+          const colD = (row[3] || "").toString().trim();
+          const colE = (row[4] || "").toString().trim();
+          const colF = (row[5] || "").toString().trim();
+          const colG = (row[6] || "").toString().trim(); // Column G: Batches joining link
 
-          // Generic meeting URL fallback
-          if (key.includes("meeting") || key.includes("teams") || key.includes("url") || key.includes("link")) {
-            if (val) defaultMeetingUrl = val;
-          }
+          const keyA = colA.toLowerCase();
+          const keyB = colB.toLowerCase();
 
-          // Per-course meeting URLs from E/F/G columns
-          if (colE) courseMeetingUrls[key + "_e"] = colE;
-          if (colF) courseMeetingUrls[key + "_f"] = colF;
-          if (colG) courseMeetingUrls[key + "_g"] = colG;
+          // A) Process Column G (Batches joining link)
+          if (colG && isLikelyUrl(colG)) {
+            if (!defaultBatchMeetingUrl) defaultBatchMeetingUrl = colG;
 
-          // Temp_Email row: col B = temp email, col C = restricted meeting URL
-          if (key === "temp_email" || key.includes("temp_email")) {
-            tempEmail = val.toLowerCase();
-            if (colC) tempMeetingUrl = colC;
-          }
-
-          // Admin emails: any row where key contains "admin"
-          if (key.includes("admin")) {
-            // Col B might be a comma-separated list
-            val.split(/[,\s;]+/).forEach(function(em) {
-              const clean = em.toLowerCase().trim();
-              if (clean && clean.includes("@")) adminEmails.add(clean);
+            [colA, colB, colD, colE, colF].forEach(function(val) {
+              const clean = (val || "").toString().trim();
+              if (clean && !isLikelyUrl(clean)) {
+                batchMeetingMap[clean.toLowerCase()] = colG;
+                batchMeetingMap[slugify(clean)] = colG;
+                const noBatch = clean.replace(/\bbatch\b/gi, '').trim();
+                if (noBatch) {
+                  batchMeetingMap[noBatch.toLowerCase()] = colG;
+                  batchMeetingMap[slugify(noBatch)] = colG;
+                }
+              }
             });
-            // Col C = specific meeting URL for that admin email
-            if (val.includes("@") && colC) {
-              val.split(/[,\s;]+/).forEach(function(em) {
+          }
+
+          // B) Process Column C (Admin / Temp meeting link)
+          if (colC && isLikelyUrl(colC)) {
+            if (!defaultAdminMeetingUrl) defaultAdminMeetingUrl = colC;
+
+            // 1. Temp_Email row:
+            if (keyA.includes("temp") || keyB.includes("temp")) {
+              for (let c = 0; c < row.length; c++) {
+                const cell = (row[c] || "").toString().trim().toLowerCase();
+                if (cell.includes("@") && cell.includes(".")) {
+                  tempMeetingMap[cell] = colC;
+                }
+              }
+            }
+
+            // 2. Admin rows:
+            if (keyA.includes("admin") || keyB.includes("admin")) {
+              colB.split(/[,\s;]+/).forEach(function(em) {
                 const clean = em.toLowerCase().trim();
-                if (clean && clean.includes("@")) adminMeetingMap[clean] = colC;
+                if (clean && clean.includes("@")) {
+                  adminEmails.add(clean);
+                  adminMeetingMap[clean] = colC;
+                }
+              });
+              colA.split(/[,\s;]+/).forEach(function(em) {
+                const clean = em.toLowerCase().trim();
+                if (clean && clean.includes("@")) {
+                  adminEmails.add(clean);
+                  adminMeetingMap[clean] = colC;
+                }
               });
             }
-          }
 
-          // Also handle rows where col A is an email directly (admin rows with email as key)
-          if (key.includes("@")) {
-            adminEmails.add(key);
-            if (colC) adminMeetingMap[key] = colC;
+            // 3. Direct email rows with Column C link:
+            if (colA.includes("@") && colA.includes(".")) {
+              const em = colA.toLowerCase();
+              adminEmails.add(em);
+              adminMeetingMap[em] = colC;
+            }
+            if (colB.includes("@") && colB.includes(".")) {
+              const em = colB.toLowerCase();
+              adminEmails.add(em);
+              adminMeetingMap[em] = colC;
+            }
+          } else {
+            // Even if colC is not a URL, collect admin emails
+            if (keyA.includes("admin")) {
+              colB.split(/[,\s;]+/).forEach(function(em) {
+                const clean = em.toLowerCase().trim();
+                if (clean && clean.includes("@")) adminEmails.add(clean);
+              });
+            }
           }
         }
       } catch (_) {}
     }
 
-    // 2. Check Admin
-    let isAdmin = adminEmails.has(inputEmail);
-    const isTempUser = (tempEmail && inputEmail === tempEmail);
+    // 2. Check Registered Students (reads columns A-E: Name, Email, Mobile, Batch, Course)
     let isStudent = false;
-    let studentName = isAdmin ? "Admin" : "";
+    let studentName = "";
     let batchName = "";
     let courseName = "";
 
-    // 3. Check Registered Students (reads columns A-E: Name, Email, Mobile, Batch, Course)
     if (regSheet) {
       const regData = regSheet.getDataRange().getValues();
       if (regData && regData.length > 1) {
@@ -142,29 +177,72 @@ function doPost(e) {
 
           if (match) {
             isStudent = true;
-            if (!isAdmin) {
-              studentName = (row[nameCol] || "").toString().trim() || inputEmail.split("@")[0];
-              batchName = formatCleanBatch(row[batchCol]);
-              courseName = (row[courseCol] || "").toString().trim();
-            }
+            studentName = (row[nameCol] || "").toString().trim() || inputEmail.split("@")[0];
+            batchName = formatCleanBatch(row[batchCol]);
+            courseName = (row[courseCol] || "").toString().trim();
             break;
           }
         }
       }
     }
 
-    // Determine meeting URL:
-    // - Temp_Email: only gets C-column URL from Temp_Email row
-    // - Admin: gets their specific C-column URL if mapped, else default
-    // - Student: default meeting URL
-    let meetingUrl = defaultMeetingUrl;
-    if (isTempUser && tempMeetingUrl) {
-      meetingUrl = tempMeetingUrl;
-    } else if (isAdmin && adminMeetingMap[inputEmail]) {
-      meetingUrl = adminMeetingMap[inputEmail];
-    }
+    // 3. Evaluate verification and assign meeting URL based on user type
+    const isTempUser = !!tempMeetingMap[inputEmail];
+    const isAdmin = adminEmails.has(inputEmail) || !!adminMeetingMap[inputEmail];
 
-    const isVerified = (isAdmin || isStudent || isTempUser);
+    let meetingUrl = "";
+    let isVerified = false;
+
+    // A) Temp User: Only access the link assigned in Column C
+    if (isTempUser) {
+      const assignedUrl = tempMeetingMap[inputEmail];
+      if (assignedUrl && isLikelyUrl(assignedUrl)) {
+        meetingUrl = assignedUrl;
+        isVerified = true;
+        studentName = studentName || "Member";
+      } else {
+        isVerified = false;
+      }
+    }
+    // B) Admin: Only access the link assigned to his email from Column C
+    else if (isAdmin) {
+      const assignedUrl = adminMeetingMap[inputEmail] || defaultAdminMeetingUrl;
+      if (assignedUrl && isLikelyUrl(assignedUrl)) {
+        meetingUrl = assignedUrl;
+        isVerified = true;
+        studentName = studentName || "Admin";
+      } else {
+        isVerified = false;
+      }
+    }
+    // C) Registered Student: Access the batch joining link from Column G
+    else if (isStudent) {
+      if (!batchName) {
+        isVerified = false;
+      } else {
+        let batchUrl = "";
+        const bKey = batchName.toLowerCase();
+        const bSlug = slugify(batchName);
+        const bNoBatch = batchName.replace(/\bbatch\b/gi, '').trim();
+
+        if (batchMeetingMap[bSlug]) batchUrl = batchMeetingMap[bSlug];
+        else if (batchMeetingMap[bKey]) batchUrl = batchMeetingMap[bKey];
+        else if (bNoBatch && batchMeetingMap[bNoBatch.toLowerCase()]) batchUrl = batchMeetingMap[bNoBatch.toLowerCase()];
+        else if (bNoBatch && batchMeetingMap[slugify(bNoBatch)]) batchUrl = batchMeetingMap[slugify(bNoBatch)];
+        else if (courseName && batchMeetingMap[slugify(courseName)]) batchUrl = batchMeetingMap[slugify(courseName)];
+        else if (courseName && batchMeetingMap[courseName.toLowerCase()]) batchUrl = batchMeetingMap[courseName.toLowerCase()];
+        else if (defaultBatchMeetingUrl) batchUrl = defaultBatchMeetingUrl;
+
+        if (batchUrl && isLikelyUrl(batchUrl)) {
+          meetingUrl = batchUrl;
+          isVerified = true;
+        } else {
+          isVerified = false;
+        }
+      }
+    } else {
+      isVerified = false;
+    }
 
     // 4. ALWAYS log to Attendance_Logs (Wrong/unregistered emails captured as leads!)
     if (logSheet) {
@@ -222,7 +300,7 @@ function doPost(e) {
       return ContentService.createTextOutput(JSON.stringify({
         success: false,
         verified: false,
-        message: "This portal is strictly for registered members."
+        message: "Not mapped to any batch"
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
@@ -516,12 +594,13 @@ function getSheet(ss, name) {
 }
 
 function formatCleanBatch(rawBatch) {
-  if (!rawBatch) return "Live Batch";
+  if (!rawBatch) return "";
   try {
     if (rawBatch instanceof Date) {
       return Utilities.formatDate(rawBatch, Session.getScriptTimeZone(), "dd MMM yyyy") + " Batch";
     }
     const str = rawBatch.toString().trim();
+    if (!str) return "";
     if (str.indexOf("T") !== -1 && str.indexOf("Z") !== -1) {
       const d = new Date(str);
       if (!isNaN(d.getTime())) {
@@ -530,8 +609,24 @@ function formatCleanBatch(rawBatch) {
     }
     return str;
   } catch (_) {
-    return rawBatch.toString();
+    return (rawBatch || "").toString().trim();
   }
+}
+
+function slugify(str) {
+  if (!str) return "";
+  return str.toString().toLowerCase().trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function isLikelyUrl(str) {
+  if (!str) return false;
+  const s = str.toString().trim();
+  const lower = s.toLowerCase();
+  if (lower === "meeting link" || lower === "joining link" || lower === "batch link" || lower === "link" || lower === "url" || lower === "meeting url") return false;
+  return lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("/go/") || lower.startsWith("/") || lower.includes("teams.microsoft.com") || lower.includes("meet.google.com") || lower.includes("zoom.us") || lower.includes(".com/") || lower.includes(".ms/") || (lower.includes(".") && lower.includes("/") && s.length > 8);
 }
 
 function formatShortDate(dateStr) {
