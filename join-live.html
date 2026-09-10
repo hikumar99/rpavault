@@ -1791,16 +1791,28 @@ permalink: /join-live/
   .dash-header-left {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.35rem;
+    flex: 1;
+  }
+
+  .dash-title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .dash-title-row h2 {
+    margin: 0;
+    white-space: nowrap;
   }
 
   /* Course & Batch inline pill row */
   .dash-pills-bar {
     display: flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
-    margin-top: 0.25rem;
   }
 
   .dash-pill-label {
@@ -2801,27 +2813,25 @@ permalink: /join-live/
     
     <div class="dashboard-section-header">
       <div class="dash-header-left">
-        <h2>Attendance Dashboard</h2>
-        <p>Live session turnout, candidate benchmarking, and performance statistics.</p>
-        <!-- Course & Batch inline selector pills beside title -->
-        <div class="dash-pills-bar">
-          <span class="dash-pill-label">Course</span>
-          <div class="dash-pill-wrap">
-            <select id="dashCourseSelect" class="dash-pill-select" onchange="onDashCourseChange()">
-              <!-- Dynamic courses populated from GSheet data -->
-            </select>
-          </div>
-          <span class="dash-pill-label">Batch</span>
-          <div class="dash-pill-wrap">
-            <select id="dashBatchSelect" class="dash-pill-select" onchange="onDashBatchChange()">
-              <!-- Dynamic batches populated from data -->
-            </select>
+        <div class="dash-title-row">
+          <h2>Attendance Dashboard</h2>
+          <!-- Course & Batch selector pills beside title -->
+          <div class="dash-pills-bar">
+            <span class="dash-pill-label">Course</span>
+            <div class="dash-pill-wrap">
+              <select id="dashCourseSelect" class="dash-pill-select" onchange="onDashCourseChange()">
+                <!-- Dynamic courses populated from GSheet data -->
+              </select>
+            </div>
+            <span class="dash-pill-label">Batch</span>
+            <div class="dash-pill-wrap">
+              <select id="dashBatchSelect" class="dash-pill-select" onchange="onDashBatchChange()">
+                <!-- Dynamic batches populated from data -->
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="batch-badge" id="batchBadgeDisplay">
-        <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
-        <span id="batchNameLabel">Batch: Live Batch</span>
+        <p>Live session turnout, candidate benchmarking, and performance statistics.</p>
       </div>
     </div>
 
@@ -4139,17 +4149,17 @@ permalink: /join-live/
     const batches = courseInfo ? courseInfo.batches : [];
 
     if (batches.length === 0) {
-      batchSelect.innerHTML = '<option value="batch-live">Live Batch</option>';
+      batchSelect.innerHTML = '<option value="batch-live">● Current Cohort</option>';
       currentSelectedBatch = 'batch-live';
       return;
     }
 
     batchSelect.innerHTML = batches.map((b, idx) => {
       const frozen = isBatchFrozen(currentSelectedCourse, b.id);
-      let suffix = '';
-      if (frozen) suffix = ' ✓ Completed';
-      else if (b.isLive) suffix = ' ● Live';
-      return `<option value="${b.id}" ${b.isDefault || idx === 0 ? 'selected' : ''}>${escapeHTML(b.name)}${suffix}</option>`;
+      // Strip redundant "Batch" word from display name
+      const cleanName = b.name.replace(/\bBatch\b/gi, '').replace(/\s{2,}/g, ' ').trim();
+      const prefix = frozen ? '✓ ' : '● ';
+      return `<option value="${b.id}" ${b.isDefault || idx === 0 ? 'selected' : ''}>${prefix}${escapeHTML(cleanName)}</option>`;
     }).join('');
 
     currentSelectedBatch = batchSelect.value;
@@ -4167,24 +4177,12 @@ permalink: /join-live/
 
     currentSelectedCourse = courseSelect.value;
     currentSelectedBatch = batchSelect.value;
-    // Strip status suffixes from display name
+    // Strip the ● / ✓ prefix and any "Batch" word from display name
     const rawOption = batchSelect.options[batchSelect.selectedIndex] ? batchSelect.options[batchSelect.selectedIndex].text : '';
-    const selectedBatchName = rawOption.replace(/ ● Live$/, '').replace(/ ✓ Completed$/, '').trim();
+    const selectedBatchName = rawOption.replace(/^[●✓]\s*/, '').replace(/\bBatch\b/gi, '').replace(/\s{2,}/g, ' ').trim();
     const selectedCourseName = courseSelect.options[courseSelect.selectedIndex] ? courseSelect.options[courseSelect.selectedIndex].text : '';
 
-    // Update batch badge in header
-    const batchBadge = document.getElementById('batchBadgeDisplay');
-    const batchNameLabel = document.getElementById('batchNameLabel');
     const frozen = isBatchFrozen(currentSelectedCourse, currentSelectedBatch);
-
-    if (batchBadge && batchNameLabel) {
-      if (frozen) {
-        batchBadge.innerHTML = `<span style="font-size:0.85em;">✅</span><span id="batchNameLabel">Batch Completed &amp; Finalized</span>`;
-      } else {
-        batchBadge.innerHTML = `<i style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 0 2px rgba(34,197,94,0.25);"></i><span id="batchNameLabel">${escapeHTML(selectedBatchName)}</span>`;
-      }
-    }
-
     // Frozen banner
     const frozenBanner = document.getElementById('dashFrozenBanner');
     const freezeFooter = document.getElementById('dashFreezeFooter');
@@ -4381,29 +4379,41 @@ permalink: /join-live/
     const students = data.students || [];
     const totalStudents = students.length;
 
-    // Compute all unique class dates from filtered students' calendar tiles
-    const allDatesSet = new Set();
+    // CRITICAL: Class dates = only dates where AT LEAST ONE filtered-batch student was Present
+    // (prevents cross-course attendance contaminating dates)
+    const validDatesSet = new Set();
     students.forEach(s => {
-      if (s.calendarTiles) s.calendarTiles.forEach(t => allDatesSet.add(t.dateStr));
-    });
-    const sortedDates = Array.from(allDatesSet).sort();
-    const totalClassesHeld = sortedDates.length;
-
-    // Recompute KPI metrics from filtered students
-    let totalPresent = 0;
-    let perfectCount = 0;
-    const dateTurnout = {};
-    students.forEach(s => {
-      const p = s.present || 0;
-      totalPresent += p;
-      if (s.absent === 0 && totalClassesHeld > 0) perfectCount++;
       if (s.calendarTiles) {
         s.calendarTiles.forEach(t => {
-          if (t.status === 'Present') {
-            dateTurnout[t.dateStr] = (dateTurnout[t.dateStr] || 0) + 1;
-          }
+          if (t.status === 'Present') validDatesSet.add(t.dateStr);
         });
       }
+    });
+    const sortedDates = Array.from(validDatesSet).sort();
+    const totalClassesHeld = sortedDates.length;
+
+    // Recompute per-student metrics based ONLY on valid class dates for this batch
+    const dateTurnout = {};
+    let totalPresent = 0;
+    let perfectCount = 0;
+
+    const enrichedStudents = students.map(s => {
+      const tileMap = {};
+      if (s.calendarTiles) s.calendarTiles.forEach(t => { tileMap[t.dateStr] = t; });
+      // Only count tiles within valid class dates
+      let present = 0;
+      sortedDates.forEach(d => {
+        const tile = tileMap[d];
+        if (tile && tile.status === 'Present') {
+          present++;
+          dateTurnout[d] = (dateTurnout[d] || 0) + 1;
+        }
+      });
+      const absent = totalClassesHeld - present;
+      const rate = totalClassesHeld > 0 ? Math.round((present / totalClassesHeld) * 100) : 0;
+      if (absent === 0 && totalClassesHeld > 0) perfectCount++;
+      totalPresent += present;
+      return Object.assign({}, s, { present, absent, rate });
     });
 
     const overallRate = (totalStudents > 0 && totalClassesHeld > 0)
@@ -4449,14 +4459,14 @@ permalink: /join-live/
       }).join('');
     }
 
-    // 3. Absentees of Last Two Days — recomputed from filtered students
+    // 3. Absentees of Last Two Days — from enriched (batch-corrected) students
     const container = document.getElementById('recentAbsenteesContainer');
     if (sortedDates.length > 0) {
       const recentDates = sortedDates.slice(-2).reverse();
       const recentAbsentees = recentDates.map(d => {
-        const absentees = students.filter(s => {
+        const absentees = enrichedStudents.filter(s => {
           const tile = s.calendarTiles && s.calendarTiles.find(t => t.dateStr === d);
-          return tile && tile.status === 'Absent';
+          return !tile || tile.status === 'Absent';
         }).map(s => s.name);
         return { title: fmt(d), absentees };
       });
@@ -4488,12 +4498,12 @@ permalink: /join-live/
       renderChart({ dates: trendDates, counts: trendCounts });
     }
 
-    // 5. Leaderboard — filtered students only
-    currentFilteredStudents = students;
+    // 5. Leaderboard — enriched (batch-corrected) students
+    currentFilteredStudents = enrichedStudents;
     currentFilteredTotalClasses = totalClassesHeld;
-    if (students.length > 0) {
-      renderLeaderboard(students);
-      let targetStudent = students.find(s => s.email.toLowerCase() === userEmail.toLowerCase()) || students[0];
+    if (enrichedStudents.length > 0) {
+      renderLeaderboard(enrichedStudents);
+      let targetStudent = enrichedStudents.find(s => s.email.toLowerCase() === userEmail.toLowerCase()) || enrichedStudents[0];
       if (targetStudent) {
         selectedStudentId = targetStudent.id;
         renderStudentDetail(targetStudent, totalClassesHeld);
