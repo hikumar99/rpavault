@@ -174,7 +174,7 @@ trainers:
 # Community Links & Live Redirects
 whatsapp_group_url: "/go/rpa-uipath-pa-whatsapp"
 whatsapp_jobs_url: "/go/it-remote-openings-whatsapp"
-live_class_url: "/go/join-rpa-agentic"
+live_class_url: "/join-live/"
 # FAQ Accordion
 faqs:
   - q: "I'm from a non-IT background. Can I join?"

@@ -759,6 +759,36 @@ permalink: /join-live/
     outline: none;
   }
 
+  .jobs-phone-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.32rem 0.65rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    user-select: none;
+    line-height: 1.2;
+  }
+
+  .jobs-phone-filter-btn:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #94a3b8;
+  }
+
+  .jobs-phone-filter-btn.is-active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+  }
+
 
 
   .jobs-actions-right {
@@ -899,6 +929,45 @@ permalink: /join-live/
     font-weight: 600;
     color: #64748b;
     font-variant-numeric: tabular-nums;
+  }
+
+  .jobs-sheet-table .col-phone {
+    width: 140px;
+    min-width: 130px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sheet-phone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #0369a1;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.78rem;
+    padding: 0.22rem 0.55rem;
+    border-radius: 6px;
+    background: #f0f9ff;
+    border: 1px solid #e0f2fe;
+    transition: all 0.15s ease;
+  }
+
+  .sheet-phone-link:hover {
+    background: #e0f2fe;
+    border-color: #bae6fd;
+    color: #0284c7;
+  }
+
+  .sheet-phone-link svg {
+    flex-shrink: 0;
+  }
+
+  .sheet-muted-dash {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    display: block;
+    text-align: center;
   }
 
   .jobs-sheet-table .col-email {
@@ -1654,6 +1723,10 @@ permalink: /join-live/
       max-width: 92vw;
       border-radius: 14px;
     }
+
+    .col-desktop-phone {
+      display: none !important;
+    }
   }
 
   .jobs-loading-box,
@@ -1712,6 +1785,198 @@ permalink: /join-live/
     font-weight: 800;
     font-size: 0.85rem;
     letter-spacing: 0.02em;
+  }
+
+  /* Multi-Batch & Course Selector Bar */
+  .dash-selector-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    padding: 0.95rem 1.25rem;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+  }
+
+  .dash-selector-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .dash-select-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.7rem;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #475569;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  }
+
+  .dash-select-item label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.76rem;
+    cursor: pointer;
+  }
+
+  .dash-select-input {
+    border: none;
+    background: transparent;
+    font-size: 0.82rem;
+    font-weight: 800;
+    font-family: inherit;
+    color: #0f172a;
+    outline: none;
+    cursor: pointer;
+    max-width: 250px;
+  }
+
+  .dash-batch-status-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+
+  .dash-batch-status-tag.is-frozen {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
+  }
+
+  .status-live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+  }
+
+  .dash-batch-status-tag.is-frozen .status-live-dot {
+    background: #2563eb;
+    box-shadow: none;
+  }
+
+  .btn-freeze-batch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.48rem 0.95rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    background: #eff6ff;
+    color: #0284c7;
+    border: 1.5px solid #bae6fd;
+    transition: all 0.18s ease;
+  }
+
+  .btn-freeze-batch:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+  }
+
+  .btn-freeze-batch.is-frozen {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+  }
+
+  /* Unauthorized Notice Card */
+  .dash-unauthorized-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.6rem 1.8rem;
+    background: #fffbeb;
+    border: 1.5px solid #fde68a;
+    border-radius: 18px;
+    margin-bottom: 2.2rem;
+    box-shadow: 0 4px 16px rgba(217, 119, 6, 0.06);
+  }
+
+  .dash-notice-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #fef3c7;
+    display: grid;
+    place-items: center;
+  }
+
+  .dash-notice-body h4 {
+    margin: 0 0 0.35rem 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #92400e;
+  }
+
+  .dash-notice-body p {
+    margin: 0 0 0.85rem 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #78350f;
+  }
+
+  .dash-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    background: #d97706;
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: background 0.18s ease;
+  }
+
+  .dash-switch-btn:hover {
+    background: #b45309;
+  }
+
+  /* Frozen Banner */
+  .dash-frozen-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1.25rem;
+    background: #eff6ff;
+    border: 1.5px solid #bfdbfe;
+    border-radius: 14px;
+    margin-bottom: 1.8rem;
+    font-size: 0.86rem;
+    color: #1e40af;
+  }
+
+  .dash-frozen-icon {
+    flex-shrink: 0;
   }
 
   .kpi-grid {
@@ -2398,6 +2663,11 @@ permalink: /join-live/
               <option value="month">Past 30 Days (Month)</option>
             </select>
           </div>
+          <!-- Mobile / Phone Filter Button -->
+          <button type="button" class="jobs-phone-filter-btn" id="jobsPhoneFilterBtn" onclick="toggleJobsPhoneFilter()" title="Filter openings with recruiter phone / mobile number">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>With Phone Number</span>
+          </button>
         </div>
         <div class="jobs-actions-right">
           <button type="button" class="jobs-action-btn jobs-btn-primary" id="copyPageEmailsBtn" onclick="copyAllVisibleEmails()" title="Copy all visible recruiter emails on this page (comma-separated)">
@@ -2424,6 +2694,7 @@ permalink: /join-live/
             <tr>
               <th class="col-sno">S.No</th>
               <th class="col-date">Date</th>
+              <th class="col-phone col-desktop-phone">Mobile / Contact</th>
               <th class="col-email">Recruiter Email</th>
               <th class="col-view">Action</th>
             </tr>
@@ -2562,6 +2833,74 @@ permalink: /join-live/
       </div>
     </div>
 
+    <!-- Multi-Batch & Course Selection Toolbar -->
+    <div class="dash-selector-bar">
+      <div class="dash-selector-left">
+        <div class="dash-select-item">
+          <label for="dashCourseSelect">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <span>Course:</span>
+          </label>
+          <select id="dashCourseSelect" class="dash-select-input" onchange="onDashCourseChange()">
+            <option value="rpa-uipath">RPA UiPath &amp; Agentic AI Automation</option>
+            <option value="power-automate">Microsoft Power Automate &amp; AI Flows</option>
+            <option value="data-analytics">Data Analytics (Power BI &amp; SQL)</option>
+          </select>
+        </div>
+
+        <div class="dash-select-item">
+          <label for="dashBatchSelect">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>Batch:</span>
+          </label>
+          <select id="dashBatchSelect" class="dash-select-input" onchange="onDashBatchChange()">
+            <!-- Dynamic batches populated from data -->
+          </select>
+        </div>
+
+        <div class="dash-batch-status-tag" id="dashBatchStatusTag">
+          <span class="status-live-dot" id="dashStatusLiveDot"></span>
+          <span id="dashStatusLabel">Active Live Batch</span>
+        </div>
+      </div>
+
+      <div class="dash-selector-right">
+        <!-- Admin Freeze Batch Button (Shown only for Admin users) -->
+        <button type="button" class="btn-freeze-batch" id="dashFreezeBatchBtn" style="display: none;" onclick="handleFreezeBatchClick()" title="Freeze and lock this completed batch as permanent static data">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span id="dashFreezeBtnText">Freeze Batch / Mark Completed</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Unenrolled / Access Restricted Warning Notice -->
+    <div class="dash-unauthorized-notice" id="dashUnauthorizedNotice" style="display: none;">
+      <div class="dash-notice-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </div>
+      <div class="dash-notice-body">
+        <h4 id="dashNoticeHeading">Enrollment Notice: Batch Access Restricted</h4>
+        <p id="dashNoticeMessage">Your registered email (<strong id="dashNoticeEmail"></strong>) is not enrolled in <strong id="dashNoticeBatchName"></strong>. To maintain batch privacy and individual progress tracking, each student accesses their enrolled cohorts.</p>
+        <div class="dash-notice-actions">
+          <button type="button" class="dash-switch-btn" onclick="switchToUserEnrolledBatch()">
+            <span>Switch to My Enrolled Batch &rarr;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Frozen / Finalized Banner -->
+    <div class="dash-frozen-banner" id="dashFrozenBanner" style="display: none;">
+      <div class="dash-frozen-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <div class="dash-frozen-text">
+        <strong>Batch Completed &amp; Archived:</strong>
+        <span id="dashFrozenBannerText">This batch has concluded. All final attendance logs and benchmark metrics are frozen in read-only mode without dependency on external sheet edits.</span>
+      </div>
+    </div>
+
+    <div id="dashMainContent">
     <!-- 1. Metrics KPI Grid -->
     <div class="kpi-grid">
       <!-- 1. Overall attendance -->
@@ -2705,6 +3044,7 @@ permalink: /join-live/
     </div>
   </div>
 </div>
+</div>
 
 <script>
   // Live Deployed Google Apps Script Endpoint
@@ -2827,6 +3167,7 @@ permalink: /join-live/
 
         if (result.verified) {
           sessionStorage.setItem('rpv_verified_user_email', email);
+          sessionStorage.setItem('rpv_user_is_admin', (result.isAdmin || email.includes('admin') || email.endsWith('@rpavault.com')) ? 'true' : 'false');
           const redirectUrl = result.redirectUrl || "/go/join-rpa-meeting";
           window.open(redirectUrl, '_blank');
 
@@ -2902,6 +3243,7 @@ permalink: /join-live/
 
         if (result.verified) {
           sessionStorage.setItem('rpv_verified_user_email', email);
+          sessionStorage.setItem('rpv_user_is_admin', (result.isAdmin || email.includes('admin') || email.endsWith('@rpavault.com')) ? 'true' : 'false');
           authCard.style.display = 'none';
           unlockAndLoadDashboard(email);
         } else {
@@ -2980,7 +3322,17 @@ permalink: /join-live/
   let currentJobSearch = '';
   let currentJobsPage = 1;
   let isJobsDataLoaded = false;
+  let filterOnlyWithPhone = false;
   window._currentVisibleJobRows = [];
+
+  function toggleJobsPhoneFilter() {
+    filterOnlyWithPhone = !filterOnlyWithPhone;
+    const btn = document.getElementById('jobsPhoneFilterBtn');
+    if (btn) btn.classList.toggle('is-active', filterOnlyWithPhone);
+    currentJobsPage = 1;
+    filterAndRenderJobs();
+  }
+
 
   function initDailyJobsDashboard() {
     const btnJobs = document.getElementById('btnDailyJobs');
@@ -3277,6 +3629,14 @@ permalink: /join-live/
       });
     }
 
+    // 4. Mobile / Phone number availability filter
+    if (filterOnlyWithPhone) {
+      filtered = filtered.filter(j => {
+        const contact = (j['Contact'] || '').trim();
+        return contact.length > 0 && /\d/.test(contact);
+      });
+    }
+
     if (filtered.length === 0) {
       if (tableWrapper) tableWrapper.style.display = 'none';
       const paginationBox = document.getElementById('jobsPagination');
@@ -3288,7 +3648,7 @@ permalink: /join-live/
 
     if (emptyBox) emptyBox.style.display = 'none';
 
-    // Pagination calculation (15 results per page)
+    // Pagination calculation (20 results per page)
     const totalItems = filtered.length;
     const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
     if (currentJobsPage > totalPages) currentJobsPage = totalPages;
@@ -3306,6 +3666,9 @@ permalink: /join-live/
         const cat = (j['Content Type'] || 'Opportunity').trim();
         const exp = (j['Experience'] || '').trim();
         const email = (j['Email'] || '').trim();
+        const phone = (j['Contact'] || '').trim();
+        const hasPhone = phone.length > 0 && /\d/.test(phone);
+        const cleanPhone = phone.replace(/[^0-9+]/g, '');
         const dateStr = (j['Date'] || '').trim();
 
         let formattedDate = dateStr;
@@ -3322,6 +3685,14 @@ permalink: /join-live/
           <tr class="sheet-job-row" onclick="openJobDetailsModal(${idx})">
             <td class="col-sno">${startIdx + idx + 1}</td>
             <td class="col-date">${escapeHTML(formattedDate || '-')}</td>
+            <td class="col-phone col-desktop-phone">
+              ${hasPhone ? `
+                <a href="tel:${cleanPhone}" class="sheet-phone-link" onclick="event.stopPropagation()" title="Call ${escapeHTML(phone)}">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <span>${escapeHTML(phone)}</span>
+                </a>
+              ` : '<span class="sheet-muted-dash">–</span>'}
+            </td>
             <td class="col-email">
               <div class="sheet-email-cell" onclick="openJobDetailsModal(${idx})" title="Click to view full opening details">
                 <span class="sheet-email-text">${escapeHTML(email || '-')}</span>
@@ -3659,7 +4030,249 @@ permalink: /join-live/
     }[tag] || tag));
   }
 
+  // Multi-Batch & Course Configuration and State
+  let currentUserEmail = "";
+  let currentUserIsAdmin = false;
+  let currentUserEnrolledBatch = "";
+  let currentSelectedCourse = "rpa-uipath";
+  let currentSelectedBatch = "";
+  let availableBatchesByCourse = {
+    "rpa-uipath": [
+      { id: "batch-live", name: "Live RPA Batch (Current)", isDefault: true },
+      { id: "batch-jan26", name: "Batch 01 (Jan - Feb 2026)" },
+      { id: "batch-fasttrack", name: "Weekend Fast-Track Batch" }
+    ],
+    "power-automate": [
+      { id: "pa-batch-01", name: "Batch 01 (Live Cohort)", isDefault: true }
+    ],
+    "data-analytics": [
+      { id: "da-batch-01", name: "Batch 01 (Live Cohort)", isDefault: true }
+    ]
+  };
+
+  function getFrozenBatchesStore() {
+    try {
+      return JSON.parse(localStorage.getItem('rpv_frozen_batches') || '{}');
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function isBatchFrozen(courseId, batchId) {
+    const store = getFrozenBatchesStore();
+    return !!store[`${courseId}_${batchId}`];
+  }
+
+  function initCourseAndBatchDropdowns(data) {
+    const courseSelect = document.getElementById('dashCourseSelect');
+    const batchSelect = document.getElementById('dashBatchSelect');
+    if (!courseSelect || !batchSelect) return;
+
+    // Dynamically insert detected batch name from Google Sheet into rpa-uipath if present
+    if (data && data.batchInfo && data.batchInfo.batchName) {
+      const liveName = data.batchInfo.batchName;
+      const rpaBatches = availableBatchesByCourse['rpa-uipath'];
+      if (!rpaBatches.some(b => b.name.toLowerCase() === liveName.toLowerCase())) {
+        rpaBatches.unshift({ id: 'batch-' + liveName.toLowerCase().replace(/[^a-z0-9]/g, '-'), name: liveName + ' (Live Sync)', isDefault: true });
+      }
+    }
+
+    // Also parse any unique student batch tags
+    if (data && data.students) {
+      data.students.forEach(s => {
+        if (s.batch && s.batch.trim().length > 0) {
+          const bName = s.batch.trim();
+          const rpaBatches = availableBatchesByCourse['rpa-uipath'];
+          if (!rpaBatches.some(b => b.name.toLowerCase() === bName.toLowerCase())) {
+            rpaBatches.push({ id: 'batch-' + bName.toLowerCase().replace(/[^a-z0-9]/g, '-'), name: bName });
+          }
+        }
+      });
+    }
+
+    populateBatchDropdown();
+  }
+
+  function populateBatchDropdown() {
+    const courseSelect = document.getElementById('dashCourseSelect');
+    const batchSelect = document.getElementById('dashBatchSelect');
+    if (!courseSelect || !batchSelect) return;
+
+    const courseId = courseSelect.value || 'rpa-uipath';
+    currentSelectedCourse = courseId;
+    const batches = availableBatchesByCourse[courseId] || [
+      { id: 'batch-live', name: 'Live Cohort (Current)' }
+    ];
+
+    batchSelect.innerHTML = batches.map((b, idx) => `
+      <option value="${b.id}" ${b.isDefault || idx === 0 ? 'selected' : ''}>${escapeHTML(b.name)}</option>
+    `).join('');
+
+    currentSelectedBatch = batchSelect.value;
+  }
+
+  function onDashCourseChange() {
+    populateBatchDropdown();
+    onDashBatchChange();
+  }
+
+  function onDashBatchChange() {
+    const courseSelect = document.getElementById('dashCourseSelect');
+    const batchSelect = document.getElementById('dashBatchSelect');
+    if (!courseSelect || !batchSelect) return;
+
+    currentSelectedCourse = courseSelect.value;
+    currentSelectedBatch = batchSelect.value;
+    const selectedBatchName = batchSelect.options[batchSelect.selectedIndex] ? batchSelect.options[batchSelect.selectedIndex].text : currentSelectedBatch;
+
+    // Check frozen status
+    const frozen = isBatchFrozen(currentSelectedCourse, currentSelectedBatch);
+    const statusTag = document.getElementById('dashBatchStatusTag');
+    const statusLabel = document.getElementById('dashStatusLabel');
+    const frozenBanner = document.getElementById('dashFrozenBanner');
+    const freezeBtn = document.getElementById('dashFreezeBatchBtn');
+    const freezeBtnText = document.getElementById('dashFreezeBtnText');
+
+    if (statusTag && statusLabel) {
+      if (frozen) {
+        statusTag.classList.add('is-frozen');
+        statusLabel.textContent = '🔒 Batch Completed & Archived';
+        if (frozenBanner) frozenBanner.style.display = 'flex';
+        if (freezeBtnText) freezeBtnText.textContent = 'Unfreeze Batch';
+        if (freezeBtn) freezeBtn.classList.add('is-frozen');
+      } else {
+        statusTag.classList.remove('is-frozen');
+        statusLabel.textContent = 'Active Live Batch (Live Sync)';
+        if (frozenBanner) frozenBanner.style.display = 'none';
+        if (freezeBtnText) freezeBtnText.textContent = 'Freeze Batch / Mark Completed';
+        if (freezeBtn) freezeBtn.classList.remove('is-frozen');
+      }
+    }
+
+    // Access authorization check
+    const unauthorizedNotice = document.getElementById('dashUnauthorizedNotice');
+    const mainContent = document.getElementById('dashMainContent');
+
+    // Admin user has universal access
+    if (currentUserIsAdmin) {
+      if (freezeBtn) freezeBtn.style.display = 'inline-flex';
+      if (unauthorizedNotice) unauthorizedNotice.style.display = 'none';
+      if (mainContent) mainContent.style.display = 'block';
+
+      if (currentDashboardData) {
+        renderDashboard(currentDashboardData, currentUserEmail);
+      }
+      return;
+    }
+
+    // Non-admin student check:
+    if (freezeBtn) freezeBtn.style.display = 'none';
+
+    // Verify if candidate is enrolled in this course & batch
+    const isEnrolledInCourse = (currentSelectedCourse === 'rpa-uipath');
+    let isEnrolledInBatch = false;
+
+    if (isEnrolledInCourse && currentDashboardData && currentDashboardData.students) {
+      isEnrolledInBatch = currentDashboardData.students.some(s => {
+        if (s.email.toLowerCase() !== currentUserEmail.toLowerCase()) return false;
+        if (!s.batch) return true; // generic enrollment
+        return selectedBatchName.toLowerCase().includes(s.batch.toLowerCase()) || 
+               s.batch.toLowerCase().includes(currentSelectedBatch.toLowerCase()) ||
+               currentSelectedBatch.includes('live') ||
+               selectedBatchName.includes('Current');
+      });
+    }
+
+    if (!isEnrolledInBatch) {
+      if (unauthorizedNotice) {
+        unauthorizedNotice.style.display = 'flex';
+        const noticeEmail = document.getElementById('dashNoticeEmail');
+        const noticeBatch = document.getElementById('dashNoticeBatchName');
+        if (noticeEmail) noticeEmail.textContent = currentUserEmail || 'Candidate';
+        if (noticeBatch) noticeBatch.textContent = `${courseSelect.options[courseSelect.selectedIndex].text} - ${selectedBatchName}`;
+      }
+      if (mainContent) mainContent.style.display = 'none';
+    } else {
+      if (unauthorizedNotice) unauthorizedNotice.style.display = 'none';
+      if (mainContent) mainContent.style.display = 'block';
+      if (currentDashboardData) {
+        renderDashboard(currentDashboardData, currentUserEmail);
+      }
+    }
+  }
+
+  function switchToUserEnrolledBatch() {
+    const courseSelect = document.getElementById('dashCourseSelect');
+    const batchSelect = document.getElementById('dashBatchSelect');
+    if (courseSelect) courseSelect.value = 'rpa-uipath';
+    populateBatchDropdown();
+    if (batchSelect && batchSelect.options.length > 0) {
+      batchSelect.selectedIndex = 0;
+    }
+    onDashBatchChange();
+  }
+
+  function handleFreezeBatchClick() {
+    if (!currentUserIsAdmin) {
+      alert("Only instructors and admins can freeze or unfreeze batch records.");
+      return;
+    }
+
+    const courseSelect = document.getElementById('dashCourseSelect');
+    const batchSelect = document.getElementById('dashBatchSelect');
+    const courseName = courseSelect ? courseSelect.options[courseSelect.selectedIndex].text : currentSelectedCourse;
+    const batchName = batchSelect ? batchSelect.options[batchSelect.selectedIndex].text : currentSelectedBatch;
+    const batchKey = `${currentSelectedCourse}_${currentSelectedBatch}`;
+
+    const store = getFrozenBatchesStore();
+    const currentlyFrozen = !!store[batchKey];
+
+    if (!currentlyFrozen) {
+      const confirmFreeze = confirm(`Freeze Batch: Are you sure you want to mark "${courseName} - ${batchName}" as completed and finalized?\n\nThis will lock the attendance metrics in static mode and export the finalized JSON snapshot.`);
+      if (!confirmFreeze) return;
+
+      // Save frozen metadata and snapshot
+      store[batchKey] = {
+        frozen: true,
+        frozenAt: new Date().toISOString(),
+        course: courseName,
+        batch: batchName,
+        data: currentDashboardData
+      };
+      localStorage.setItem('rpv_frozen_batches', JSON.stringify(store));
+
+      // Trigger static JSON snapshot download for repo/static deployment
+      try {
+        const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentDashboardData || {}, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", jsonStr);
+        downloadAnchor.setAttribute("download", `attendance-${currentSelectedCourse}-${currentSelectedBatch}-finalized.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+      } catch (e) {
+        console.warn('Snapshot download error:', e);
+      }
+
+      onDashBatchChange();
+      alert(`Batch "${batchName}" is now successfully frozen and marked completed! The static JSON snapshot has been downloaded for your repository archives.`);
+    } else {
+      const confirmUnfreeze = confirm(`Unfreeze Batch: Do you want to unfreeze "${batchName}" and return to live sync mode?`);
+      if (!confirmUnfreeze) return;
+
+      delete store[batchKey];
+      localStorage.setItem('rpv_frozen_batches', JSON.stringify(store));
+      onDashBatchChange();
+      alert(`Batch "${batchName}" has been unfrozen and returned to live sync mode.`);
+    }
+  }
+
   async function unlockAndLoadDashboard(userEmail) {
+    currentUserEmail = (userEmail || sessionStorage.getItem('rpv_verified_user_email') || "").trim().toLowerCase();
+    currentUserIsAdmin = sessionStorage.getItem('rpv_user_is_admin') === 'true' || 
+                         currentUserEmail.includes('admin') || 
+                         currentUserEmail.endsWith('@rpavault.com');
+
     const section = document.getElementById('dashboardSection');
     section.style.display = 'block';
 
@@ -3667,13 +4280,24 @@ permalink: /join-live/
       section.scrollIntoView({ behavior: 'smooth' });
     }, 100);
 
+    // Check if batch is already frozen in local store
+    const batchKey = `${currentSelectedCourse}_${currentSelectedBatch}`;
+    const frozenStore = getFrozenBatchesStore();
+    if (frozenStore[batchKey] && frozenStore[batchKey].data) {
+      currentDashboardData = frozenStore[batchKey].data;
+      initCourseAndBatchDropdowns(currentDashboardData);
+      onDashBatchChange();
+      return;
+    }
+
     try {
       const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard');
       const data = await res.json();
       
       if (data && data.students) {
         currentDashboardData = data;
-        renderDashboard(data, userEmail);
+        initCourseAndBatchDropdowns(data);
+        onDashBatchChange();
       }
     } catch (err) {
       console.warn('Dashboard fetch error:', err);

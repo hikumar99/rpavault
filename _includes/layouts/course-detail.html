@@ -134,6 +134,170 @@ layout: layouts/base.html
       .qz-field textarea { min-height: 70px !important; }
       .qz-submit { padding: 12px 16px !important; font-size: 15px !important; border-radius: 10px !important; min-height: 44px !important; }
     }
+
+    /* Explore Vault Modal Popup */
+    .vault-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .vault-modal-overlay.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .vault-modal-dialog {
+      background: #ffffff;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 960px;
+      height: 88vh;
+      max-height: 850px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transform: scale(0.96) translateY(10px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .vault-modal-overlay.is-active .vault-modal-dialog {
+      transform: scale(1) translateY(0);
+    }
+
+    .vault-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.4rem;
+      background: #ffffff;
+      border-bottom: 1px solid #cce8f3;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+
+    .vault-modal-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .vault-modal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .vault-modal-header h3 {
+      margin: 0;
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #1a181b;
+    }
+
+    .vault-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .vault-ext-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0058b0;
+      text-decoration: none;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: #e6f1fb;
+      border: 1px solid #cce8f3;
+      transition: all 0.2s ease;
+    }
+
+    .vault-ext-link:hover {
+      background: #0058b0;
+      color: #ffffff;
+    }
+
+    .vault-close-btn {
+      background: #f1f5f9;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .vault-close-btn:hover {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .vault-modal-body {
+      flex: 1;
+      position: relative;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .vault-modal-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .vault-iframe-loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: #ffffff;
+      color: #64748b;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .vault-spinner {
+      width: 34px;
+      height: 34px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #0058b0;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
   </style>
   <div class="qz-overlay" id="qz-overlay">
     <div class="qz-card" role="dialog" aria-modal="true">
@@ -271,7 +435,7 @@ layout: layouts/base.html
             <span class="bonus-worth-lbl">worth of paid toolkits — yours free</span>
           </div>
           <p class="bonus-lead">Every enrolled student unlocks our premium resource vault: interview question banks, production project templates, and career kits. New resources added over time.</p>
-          <a class="btn btn-gold btn-block" href="/go/explore-vault">Explore the vault →</a>
+          <a class="btn btn-gold btn-block js-explore-vault-btn" id="btnExploreVault" href="/go/explore-vault">Explore the vault →</a>
         </div>
       </div>
     </div>
@@ -4196,7 +4360,7 @@ layout: layouts/base.html
               <span class="lb-ic" style="background:var(--green-tint);color:var(--green-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7"/><path d="M2.5 12.5h19"/><path d="M10.5 12.5v1.6a1 1 0 0 0 1-1v-1.6"/></svg></span>
               <span class="lb-txt"><span class="lb-title">Latest Remote Jobs Openings</span><span class="lb-sub">IT remote jobs at your finger tips</span></span>
             </a>
-            <a class="loop-btn" href="/go/{{ course_slug }}-live-class/" target="_blank" rel="noopener">
+            <a class="loop-btn" href="/join-live/">
               <span class="lb-ic" style="background:#ede9fe;color:#7c3aed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
               <span class="lb-txt"><span class="lb-title">Join Live Class</span><span class="lb-sub">For registered users only</span></span>
             </a>
@@ -4388,6 +4552,38 @@ layout: layouts/base.html
 </div>
 {% endif %}
 
+<!-- Explore Vault Modal Popup -->
+<div class="vault-modal-overlay" id="vaultModalOverlay" aria-hidden="true" style="display: none;">
+  <div class="vault-modal-dialog">
+    <div class="vault-modal-header">
+      <div class="vault-modal-title-group">
+        <div class="vault-modal-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>RPAVault</span>
+        </div>
+        <h3>Explore The Vault</h3>
+      </div>
+      <div class="vault-modal-actions">
+        <a href="/go/explore-vault" target="_blank" rel="noopener" class="vault-ext-link" title="Open in full page">
+          <span>Open in New Tab</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+        <button type="button" class="vault-close-btn" id="btnVaultClose" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="vault-modal-body">
+      <div class="vault-iframe-loader" id="vaultIframeLoader">
+        <div class="vault-spinner"></div>
+        <span>Loading Explore Vault...</span>
+      </div>
+      <iframe id="vaultModalIframe" class="vault-modal-iframe" src="" loading="lazy" allow="clipboard-write"></iframe>
+    </div>
+  </div>
+</div>
+
+
 <script>
 function toggleFaq(q){
   const item = q.parentElement;
@@ -4512,5 +4708,57 @@ function showToast(msg){ const t=document.getElementById('toast'); if(typeof msg
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
+})();
+
+/* EXPLORE VAULT MODAL POPUP */
+(function initExploreVaultModal() {
+  const modal = document.getElementById('vaultModalOverlay');
+  const btnClose = document.getElementById('btnVaultClose');
+  const iframe = document.getElementById('vaultModalIframe');
+  const loader = document.getElementById('vaultIframeLoader');
+
+  if (!modal) return;
+
+  function openVaultModal(e) {
+    if (e) e.preventDefault();
+    if (iframe && (!iframe.src || iframe.src === 'about:blank' || iframe.getAttribute('src') === '')) {
+      iframe.src = '/go/explore-vault';
+      iframe.onload = () => {
+        if (loader) loader.style.display = 'none';
+      };
+    }
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      modal.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    }, 10);
+  }
+
+  function closeVaultModal() {
+    modal.classList.remove('is-active');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 250);
+  }
+
+  // Attach to all elements targeting /go/explore-vault or .js-explore-vault-btn
+  document.querySelectorAll('a[href*="/go/explore-vault"], .js-explore-vault-btn').forEach(el => {
+    el.addEventListener('click', openVaultModal);
+  });
+
+  if (btnClose) {
+    btnClose.addEventListener('click', closeVaultModal);
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeVaultModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+      closeVaultModal();
+    }
+  });
 })();
 </script>
