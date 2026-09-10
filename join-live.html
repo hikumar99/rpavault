@@ -1787,13 +1787,27 @@ permalink: /join-live/
     letter-spacing: 0.02em;
   }
 
-  /* Course & Batch Minimal Pill Selectors */
+  /* Dashboard header layout */
+  .dash-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Course & Batch inline pill row */
   .dash-pills-bar {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 1.8rem;
+    gap: 0.45rem;
     flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+
+  .dash-pill-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.01em;
   }
 
   .dash-pill-wrap {
@@ -1808,15 +1822,15 @@ permalink: /join-live/
     background: #f1f5f9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 0.65rem center;
     border: 1.5px solid #cbd5e1;
     border-radius: 999px;
-    padding: 0.38rem 2rem 0.38rem 0.9rem;
-    font-size: 0.82rem;
+    padding: 0.32rem 1.8rem 0.32rem 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     font-family: inherit;
     color: #0f172a;
     cursor: pointer;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
-    max-width: 260px;
+    max-width: 220px;
   }
 
   .dash-pill-select:hover,
@@ -2786,27 +2800,28 @@ permalink: /join-live/
   <div class="dashboard-section" id="dashboardSection" style="display: none;">
     
     <div class="dashboard-section-header">
-      <div>
+      <div class="dash-header-left">
         <h2>Attendance Dashboard</h2>
         <p>Live session turnout, candidate benchmarking, and performance statistics.</p>
+        <!-- Course & Batch inline selector pills beside title -->
+        <div class="dash-pills-bar">
+          <span class="dash-pill-label">Course</span>
+          <div class="dash-pill-wrap">
+            <select id="dashCourseSelect" class="dash-pill-select" onchange="onDashCourseChange()">
+              <!-- Dynamic courses populated from GSheet data -->
+            </select>
+          </div>
+          <span class="dash-pill-label">Batch</span>
+          <div class="dash-pill-wrap">
+            <select id="dashBatchSelect" class="dash-pill-select" onchange="onDashBatchChange()">
+              <!-- Dynamic batches populated from data -->
+            </select>
+          </div>
+        </div>
       </div>
       <div class="batch-badge" id="batchBadgeDisplay">
         <i style="width: 7px; height: 7px; border-radius: 50%; background: var(--green, #39b87f); display: inline-block;"></i>
         <span id="batchNameLabel">Batch: Live Batch</span>
-      </div>
-    </div>
-
-    <!-- Course & Batch Selector Pills -->
-    <div class="dash-pills-bar">
-      <div class="dash-pill-wrap">
-        <select id="dashCourseSelect" class="dash-pill-select" onchange="onDashCourseChange()">
-          <!-- Dynamic courses populated from GSheet data -->
-        </select>
-      </div>
-      <div class="dash-pill-wrap">
-        <select id="dashBatchSelect" class="dash-pill-select" onchange="onDashBatchChange()">
-          <!-- Dynamic batches populated from data -->
-        </select>
       </div>
     </div>
 
@@ -2998,6 +3013,8 @@ permalink: /join-live/
   const EXPLORE_VAULT_URL = "https://rpavault.gumroad.com/?section=-zdRrvw8boXRKn9iMqbDCQ%3D%3D";
 
   let currentDashboardData = null;
+  let currentFilteredStudents = [];
+  let currentFilteredTotalClasses = 0;
   let selectedStudentId = null;
   let chartInstance = null;
   const pageStartTime = Date.now();
@@ -3176,6 +3193,52 @@ permalink: /join-live/
       dashSubmitBtn.disabled = true;
       dashSubmitBtn.innerHTML = '<span>Verifying Access...</span>';
 
+      // 1. Check frozen localStorage batches FIRST — supports completed batches removed from GSheet
+      try {
+        const store = getFrozenBatchesStore();
+        for (const [batchKey, batchRecord] of Object.entries(store)) {
+          if (!batchRecord || !batchRecord.data || !batchRecord.data.students) continue;
+          const foundInFrozen = batchRecord.data.students.some(s => (s.email || '').toLowerCase() === email);
+          if (foundInFrozen) {
+            // Restore frozen data and unlock dashboard directly
+            sessionStorage.setItem('rpv_verified_user_email', email);
+            sessionStorage.setItem('rpv_user_is_admin', 'false');
+            authCard.style.display = 'none';
+            // Pre-select their course+batch from the key (format: courseSlug_batchSlug)
+            const me = batchRecord.data.students.find(s => (s.email || '').toLowerCase() === email);
+            if (me) {
+              currentUserEnrolledBatch = me.batch || '';
+            }
+            currentDashboardData = batchRecord.data;
+            initCourseAndBatchDropdowns(currentDashboardData);
+            // Force-select the frozen course+batch
+            const [courseSlug] = batchKey.split('_');
+            const courseSelect = document.getElementById('dashCourseSelect');
+            if (courseSelect && availableBatchesByCourse[courseSlug]) {
+              courseSelect.value = courseSlug;
+              populateBatchDropdown();
+              const batchSelect = document.getElementById('dashBatchSelect');
+              if (batchSelect) {
+                // Find the batch option that matches
+                for (const opt of batchSelect.options) {
+                  const cleanOpt = opt.text.replace(/ ● Live$/, '').replace(/ ✓ Completed$/, '').trim();
+                  const meB = (me && me.batch) ? me.batch.trim() : '';
+                  if (meB && cleanOpt.toLowerCase() === meB.toLowerCase()) {
+                    batchSelect.value = opt.value;
+                    break;
+                  }
+                }
+              }
+            }
+            unlockAndLoadDashboard(email);
+            dashSubmitBtn.disabled = false;
+            dashSubmitBtn.innerHTML = '<span>Verify &amp; Unlock Dashboard &rarr;</span>';
+            return;
+          }
+        }
+      } catch (_) {}
+
+      // 2. Not in frozen data — call GAS as normal
       const payload = buildTelemetryPayload(email, "dashboard_access");
 
       try {
@@ -4082,8 +4145,11 @@ permalink: /join-live/
     }
 
     batchSelect.innerHTML = batches.map((b, idx) => {
-      const label = b.isLive ? `${escapeHTML(b.name)} 🔴 LIVE` : escapeHTML(b.name);
-      return `<option value="${b.id}" ${b.isDefault || idx === 0 ? 'selected' : ''}>${label}</option>`;
+      const frozen = isBatchFrozen(currentSelectedCourse, b.id);
+      let suffix = '';
+      if (frozen) suffix = ' ✓ Completed';
+      else if (b.isLive) suffix = ' ● Live';
+      return `<option value="${b.id}" ${b.isDefault || idx === 0 ? 'selected' : ''}>${escapeHTML(b.name)}${suffix}</option>`;
     }).join('');
 
     currentSelectedBatch = batchSelect.value;
@@ -4101,10 +4167,25 @@ permalink: /join-live/
 
     currentSelectedCourse = courseSelect.value;
     currentSelectedBatch = batchSelect.value;
-    const selectedBatchName = batchSelect.options[batchSelect.selectedIndex] ? batchSelect.options[batchSelect.selectedIndex].text.replace(' 🔴 LIVE', '') : currentSelectedBatch;
+    // Strip status suffixes from display name
+    const rawOption = batchSelect.options[batchSelect.selectedIndex] ? batchSelect.options[batchSelect.selectedIndex].text : '';
+    const selectedBatchName = rawOption.replace(/ ● Live$/, '').replace(/ ✓ Completed$/, '').trim();
+    const selectedCourseName = courseSelect.options[courseSelect.selectedIndex] ? courseSelect.options[courseSelect.selectedIndex].text : '';
 
-    // Check frozen status
+    // Update batch badge in header
+    const batchBadge = document.getElementById('batchBadgeDisplay');
+    const batchNameLabel = document.getElementById('batchNameLabel');
     const frozen = isBatchFrozen(currentSelectedCourse, currentSelectedBatch);
+
+    if (batchBadge && batchNameLabel) {
+      if (frozen) {
+        batchBadge.innerHTML = `<span style="font-size:0.85em;">✅</span><span id="batchNameLabel">Batch Completed &amp; Finalized</span>`;
+      } else {
+        batchBadge.innerHTML = `<i style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 0 2px rgba(34,197,94,0.25);"></i><span id="batchNameLabel">${escapeHTML(selectedBatchName)}</span>`;
+      }
+    }
+
+    // Frozen banner
     const frozenBanner = document.getElementById('dashFrozenBanner');
     const freezeFooter = document.getElementById('dashFreezeFooter');
     const freezeBtn = document.getElementById('dashFreezeBatchBtn');
@@ -4120,34 +4201,53 @@ permalink: /join-live/
       if (freezeBtn) freezeBtn.classList.remove('is-frozen');
     }
 
-    // Access authorization check
     const unauthorizedNotice = document.getElementById('dashUnauthorizedNotice');
     const mainContent = document.getElementById('dashMainContent');
 
-    // Admin user has universal access
+    // Get data source: frozen local data or live API data
+    let sourceData = currentDashboardData;
+    if (frozen) {
+      const store = getFrozenBatchesStore();
+      const key = `${currentSelectedCourse}_${currentSelectedBatch}`;
+      if (store[key] && store[key].data) sourceData = store[key].data;
+    }
+
+    // Filter students to only those belonging to selected course + batch
+    function getFilteredData(data) {
+      if (!data || !data.students) return data;
+      const filtered = data.students.filter(s => {
+        const sCourse = slugify(s.course || '');
+        const sBatch = (s.batch || '').trim().toLowerCase();
+        const courseMatch = !s.course || sCourse === currentSelectedCourse || slugify(selectedCourseName).includes(sCourse) || sCourse.includes(slugify(selectedCourseName));
+        const batchMatch = !s.batch || sBatch === selectedBatchName.toLowerCase() || selectedBatchName.toLowerCase().includes(sBatch) || sBatch.includes(selectedBatchName.toLowerCase());
+        return courseMatch && batchMatch;
+      });
+      // Recompute batchInfo based on filtered students only
+      return Object.assign({}, data, { students: filtered });
+    }
+
+    // Admin: universal access to all course+batch combos
     if (currentUserIsAdmin) {
       if (freezeFooter) freezeFooter.style.display = 'flex';
       if (unauthorizedNotice) unauthorizedNotice.style.display = 'none';
       if (mainContent) mainContent.style.display = 'block';
-
-      if (currentDashboardData) {
-        renderDashboard(currentDashboardData, currentUserEmail);
-      }
+      if (sourceData) renderDashboard(getFilteredData(sourceData), currentUserEmail);
       return;
     }
 
-    // Non-admin student check:
+    // Non-admin: hide freeze button
     if (freezeFooter) freezeFooter.style.display = 'none';
 
-    // Verify if candidate is enrolled in this batch
+    // Check if this student is enrolled in selected course+batch
     let isEnrolledInBatch = false;
-
-    if (currentDashboardData && currentDashboardData.students) {
-      isEnrolledInBatch = currentDashboardData.students.some(s => {
+    if (sourceData && sourceData.students) {
+      isEnrolledInBatch = sourceData.students.some(s => {
         if (s.email.toLowerCase() !== currentUserEmail.toLowerCase()) return false;
-        if (!s.batch) return true; // generic enrollment
-        return selectedBatchName.toLowerCase().includes(s.batch.toLowerCase()) ||
-               s.batch.toLowerCase().includes(selectedBatchName.toLowerCase());
+        const sCourse = slugify(s.course || '');
+        const sBatch = (s.batch || '').trim().toLowerCase();
+        const courseMatch = !s.course || sCourse === currentSelectedCourse;
+        const batchMatch = !s.batch || sBatch === selectedBatchName.toLowerCase() || selectedBatchName.toLowerCase().includes(sBatch);
+        return courseMatch && batchMatch;
       });
     }
 
@@ -4157,15 +4257,13 @@ permalink: /join-live/
         const noticeEmail = document.getElementById('dashNoticeEmail');
         const noticeBatch = document.getElementById('dashNoticeBatchName');
         if (noticeEmail) noticeEmail.textContent = currentUserEmail || 'Candidate';
-        if (noticeBatch) noticeBatch.textContent = `${courseSelect.options[courseSelect.selectedIndex].text} - ${selectedBatchName}`;
+        if (noticeBatch) noticeBatch.textContent = `${selectedCourseName} – ${selectedBatchName}`;
       }
       if (mainContent) mainContent.style.display = 'none';
     } else {
       if (unauthorizedNotice) unauthorizedNotice.style.display = 'none';
       if (mainContent) mainContent.style.display = 'block';
-      if (currentDashboardData) {
-        renderDashboard(currentDashboardData, currentUserEmail);
-      }
+      if (sourceData) renderDashboard(getFilteredData(sourceData), currentUserEmail);
     }
   }
 
@@ -4280,44 +4378,96 @@ permalink: /join-live/
   }
 
   function renderDashboard(data, userEmail = "") {
-    // 1. Batch KPI Cards
-    if (data.batchInfo) {
-      const b = data.batchInfo;
-      if (b.batchName) document.getElementById('batchNameLabel').textContent = `Batch: ${b.batchName}`;
-      document.getElementById('kpiOverallRate').textContent = b.overallAttendanceRate || "0%";
-      document.getElementById('kpiOverallSub').textContent = b.overallAttendanceSub || "";
-      document.getElementById('kpiAvgPresent').textContent = b.avgPresentPerClass !== undefined ? b.avgPresentPerClass : "0";
-      document.getElementById('kpiAvgPresentSub').textContent = b.avgPresentSub || "";
-      document.getElementById('kpiClassesHeld').textContent = b.classesHeld !== undefined ? b.classesHeld : "0";
-      document.getElementById('kpiDateRangeSub').textContent = b.dateRangeSub || "";
-      document.getElementById('kpiPerfectCount').textContent = b.perfectAttendanceCount !== undefined ? b.perfectAttendanceCount : "0";
-      document.getElementById('kpiPerfectSub').textContent = b.perfectAttendanceSub || "candidates, 0 absences";
-      document.getElementById('kpiPeakTurnout').textContent = b.peakTurnout !== undefined ? b.peakTurnout : "0";
-      document.getElementById('kpiPeakTurnoutSub').textContent = b.peakTurnoutSub || "";
+    const students = data.students || [];
+    const totalStudents = students.length;
 
-      // 2. Class Schedule Timeline
-      if (b.allClassDates && b.allClassDates.length > 0) {
-        document.getElementById('scheduleCard').style.display = 'block';
-        document.getElementById('scheduleTotalClasses').textContent = b.allClassDates.length;
-        document.getElementById('scheduleDatesFlow').innerHTML = b.allClassDates.map(item => `
-          <div class="schedule-date-badge" title="${item.full} - Turnout: ${item.turnout}">
-            <span class="turnout-dot"></span>
-            <span>${item.short}</span>
-          </div>
-        `).join('');
+    // Compute all unique class dates from filtered students' calendar tiles
+    const allDatesSet = new Set();
+    students.forEach(s => {
+      if (s.calendarTiles) s.calendarTiles.forEach(t => allDatesSet.add(t.dateStr));
+    });
+    const sortedDates = Array.from(allDatesSet).sort();
+    const totalClassesHeld = sortedDates.length;
+
+    // Recompute KPI metrics from filtered students
+    let totalPresent = 0;
+    let perfectCount = 0;
+    const dateTurnout = {};
+    students.forEach(s => {
+      const p = s.present || 0;
+      totalPresent += p;
+      if (s.absent === 0 && totalClassesHeld > 0) perfectCount++;
+      if (s.calendarTiles) {
+        s.calendarTiles.forEach(t => {
+          if (t.status === 'Present') {
+            dateTurnout[t.dateStr] = (dateTurnout[t.dateStr] || 0) + 1;
+          }
+        });
       }
+    });
+
+    const overallRate = (totalStudents > 0 && totalClassesHeld > 0)
+      ? Math.round((totalPresent / (totalStudents * totalClassesHeld)) * 100)
+      : 0;
+    const avgPresent = totalClassesHeld > 0 ? Math.round(totalPresent / totalClassesHeld) : 0;
+
+    let peakDate = '';
+    let peakCount = 0;
+    Object.entries(dateTurnout).forEach(([d, c]) => { if (c > peakCount) { peakCount = c; peakDate = d; } });
+
+    // Format date range
+    const fmt = d => {
+      if (!d) return '';
+      const dt = new Date(d + 'T00:00:00');
+      return dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    };
+    const dateRangeSub = (sortedDates.length >= 2)
+      ? `${fmt(sortedDates[0])} – ${fmt(sortedDates[sortedDates.length - 1])}`
+      : (sortedDates.length === 1 ? fmt(sortedDates[0]) : '--');
+
+    // 1. KPI Cards
+    document.getElementById('kpiOverallRate').textContent = `${overallRate}%`;
+    document.getElementById('kpiOverallSub').textContent = `${totalPresent} of ${totalStudents * totalClassesHeld} marks`;
+    document.getElementById('kpiAvgPresent').textContent = avgPresent;
+    document.getElementById('kpiAvgPresentSub').textContent = `out of ${totalStudents} candidates`;
+    document.getElementById('kpiClassesHeld').textContent = totalClassesHeld;
+    document.getElementById('kpiDateRangeSub').textContent = dateRangeSub;
+    document.getElementById('kpiPerfectCount').textContent = perfectCount;
+    document.getElementById('kpiPerfectSub').textContent = `candidates, 0 absences`;
+    document.getElementById('kpiPeakTurnout').textContent = peakCount || '--';
+    document.getElementById('kpiPeakTurnoutSub').textContent = peakDate ? fmt(peakDate) : '';
+
+    // 2. Class Schedule Timeline
+    if (sortedDates.length > 0) {
+      document.getElementById('scheduleCard').style.display = 'block';
+      document.getElementById('scheduleTotalClasses').textContent = sortedDates.length;
+      document.getElementById('scheduleDatesFlow').innerHTML = sortedDates.map(d => {
+        const turnout = dateTurnout[d] || 0;
+        const parts = d.split('-');
+        const short = parts[2] ? `${parseInt(parts[2])} ${new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short' })}` : d;
+        return `<div class="schedule-date-badge" title="${fmt(d)} - Turnout: ${turnout}"><span class="turnout-dot"></span><span>${short}</span></div>`;
+      }).join('');
     }
 
-    // 3. Absentees of Last Two Days with Clean Date Titles (Rendered right after Schedule Dates)
+    // 3. Absentees of Last Two Days — recomputed from filtered students
     const container = document.getElementById('recentAbsenteesContainer');
-    if (data.recentAbsentees && data.recentAbsentees.length > 0) {
-      container.innerHTML = data.recentAbsentees.map(item => `
+    if (sortedDates.length > 0) {
+      const recentDates = sortedDates.slice(-2).reverse();
+      const recentAbsentees = recentDates.map(d => {
+        const absentees = students.filter(s => {
+          const tile = s.calendarTiles && s.calendarTiles.find(t => t.dateStr === d);
+          return tile && tile.status === 'Absent';
+        }).map(s => s.name);
+        return { title: fmt(d), absentees };
+      });
+
+      container.innerHTML = recentAbsentees.map(item => `
         <div class="absentee-card">
           <div class="absentee-card-top">
             <span class="absentee-date-title">${item.title}</span>
           </div>
           <div class="absentee-tags">
-            ${item.absentees.length > 0 
+            ${item.absentees.length > 0
               ? item.absentees.map(name => `<span class="absentee-pill">${name}</span>`).join('')
               : '<span style="font-size:0.84rem; color:#15803d; font-weight:700;">100% Turnout! No Absentees.</span>'}
           </div>
@@ -4328,19 +4478,25 @@ permalink: /join-live/
       container.style.display = 'none';
     }
 
-    // 4. Render Chart
-    if (data.trend && data.trend.dates && data.trend.dates.length > 0) {
-      renderChart(data.trend);
+    // 4. Trend chart — recomputed from filtered students
+    const trendDates = sortedDates.map(d => {
+      const parts = d.split('-');
+      return parts[2] ? `${parseInt(parts[2])} ${new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short' })}` : d;
+    });
+    const trendCounts = sortedDates.map(d => dateTurnout[d] || 0);
+    if (trendDates.length > 0) {
+      renderChart({ dates: trendDates, counts: trendCounts });
     }
 
-    // 5. Render Leaderboard Table
-    if (data.students && data.students.length > 0) {
-      renderLeaderboard(data.students);
-
-      let targetStudent = data.students.find(s => s.email.toLowerCase() === userEmail.toLowerCase()) || data.students[0];
+    // 5. Leaderboard — filtered students only
+    currentFilteredStudents = students;
+    currentFilteredTotalClasses = totalClassesHeld;
+    if (students.length > 0) {
+      renderLeaderboard(students);
+      let targetStudent = students.find(s => s.email.toLowerCase() === userEmail.toLowerCase()) || students[0];
       if (targetStudent) {
         selectedStudentId = targetStudent.id;
-        renderStudentDetail(targetStudent);
+        renderStudentDetail(targetStudent, totalClassesHeld);
       }
     }
   }
@@ -4429,18 +4585,18 @@ permalink: /join-live/
 
   function selectStudent(studentId) {
     selectedStudentId = studentId;
-    if (currentDashboardData && currentDashboardData.students) {
-      const student = currentDashboardData.students.find(s => s.id === studentId);
+    if (currentFilteredStudents && currentFilteredStudents.length > 0) {
+      const student = currentFilteredStudents.find(s => s.id === studentId);
       if (student) {
-        renderStudentDetail(student);
+        renderStudentDetail(student, currentFilteredTotalClasses);
         const query = document.getElementById('candidateSearch').value;
-        renderLeaderboard(currentDashboardData.students, query);
+        renderLeaderboard(currentFilteredStudents, query);
       }
     }
   }
 
-  function renderStudentDetail(s) {
-    const totalClasses = currentDashboardData && currentDashboardData.batchInfo ? currentDashboardData.batchInfo.classesHeld : (s.present + s.absent);
+  function renderStudentDetail(s, totalClassesHeld) {
+    const totalClasses = totalClassesHeld || (s.present + s.absent) || currentFilteredTotalClasses || 1;
 
     document.getElementById('detailAvatar').textContent = (s.name || "S").charAt(0).toUpperCase();
     document.getElementById('detailName').textContent = s.name;
@@ -4483,8 +4639,8 @@ permalink: /join-live/
   function initSearch() {
     const searchInput = document.getElementById('candidateSearch');
     searchInput.addEventListener('input', (e) => {
-      if (currentDashboardData && currentDashboardData.students) {
-        renderLeaderboard(currentDashboardData.students, e.target.value);
+      if (currentFilteredStudents && currentFilteredStudents.length > 0) {
+        renderLeaderboard(currentFilteredStudents, e.target.value);
       }
     });
   }
