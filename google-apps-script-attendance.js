@@ -37,9 +37,14 @@ function doPost(e) {
     const settingsSheet = getSheet(ss, "Settings");
     const logSheet = getSheet(ss, "Attendance_Logs");
 
-    // 1. Read Meeting URL & Admin emails from Settings tab
-    let meetingUrl = "/go/join-rpa-meeting";
+    // 1. Read Settings tab: per-course meeting URLs, admin emails, Temp_Email
+    let defaultMeetingUrl = "/go/join-rpa-meeting";
     const adminEmails = new Set();
+    const adminMeetingMap = {};    // email -> specific meeting URL (column C)
+    let tempEmail = "";
+    let tempMeetingUrl = "";
+    // Per-course meeting URLs: stored as { courseKey: url } via columns E/F/G
+    const courseMeetingUrls = {};
 
     if (settingsSheet) {
       try {
@@ -48,23 +53,47 @@ function doPost(e) {
           const row = sData[r];
           const key = (row[0] || "").toString().trim().toLowerCase();
           const val = (row[1] || "").toString().trim();
+          const colC = (row[2] || "").toString().trim(); // admin-assigned meeting URL
+          const colE = (row[4] || "").toString().trim(); // course 1 meeting URL
+          const colF = (row[5] || "").toString().trim(); // course 2 meeting URL
+          const colG = (row[6] || "").toString().trim(); // course 3 meeting URL
 
+          // Generic meeting URL fallback
           if (key.includes("meeting") || key.includes("teams") || key.includes("url") || key.includes("link")) {
-            if (val) meetingUrl = val;
+            if (val) defaultMeetingUrl = val;
           }
 
+          // Per-course meeting URLs from E/F/G columns
+          if (colE) courseMeetingUrls[key + "_e"] = colE;
+          if (colF) courseMeetingUrls[key + "_f"] = colF;
+          if (colG) courseMeetingUrls[key + "_g"] = colG;
+
+          // Temp_Email row: col B = temp email, col C = restricted meeting URL
+          if (key === "temp_email" || key.includes("temp_email")) {
+            tempEmail = val.toLowerCase();
+            if (colC) tempMeetingUrl = colC;
+          }
+
+          // Admin emails: any row where key contains "admin"
           if (key.includes("admin")) {
+            // Col B might be a comma-separated list
             val.split(/[,\s;]+/).forEach(function(em) {
               const clean = em.toLowerCase().trim();
               if (clean && clean.includes("@")) adminEmails.add(clean);
             });
+            // Col C = specific meeting URL for that admin email
+            if (val.includes("@") && colC) {
+              val.split(/[,\s;]+/).forEach(function(em) {
+                const clean = em.toLowerCase().trim();
+                if (clean && clean.includes("@")) adminMeetingMap[clean] = colC;
+              });
+            }
           }
 
-          for (let c = 0; c < row.length; c++) {
-            const cell = (row[c] || "").toString().trim().toLowerCase();
-            if (cell.includes("@") && key.includes("admin")) {
-              adminEmails.add(cell);
-            }
+          // Also handle rows where col A is an email directly (admin rows with email as key)
+          if (key.includes("@")) {
+            adminEmails.add(key);
+            if (colC) adminMeetingMap[key] = colC;
           }
         }
       } catch (_) {}
@@ -72,17 +101,20 @@ function doPost(e) {
 
     // 2. Check Admin
     let isAdmin = adminEmails.has(inputEmail);
+    const isTempUser = (tempEmail && inputEmail === tempEmail);
     let isStudent = false;
     let studentName = isAdmin ? "Admin" : "";
     let batchName = "";
+    let courseName = "";
 
-    // 3. Check Registered Students
+    // 3. Check Registered Students (reads columns A-E: Name, Email, Mobile, Batch, Course)
     if (regSheet) {
       const regData = regSheet.getDataRange().getValues();
       if (regData && regData.length > 1) {
         let emailCol = 1;
         let nameCol = 0;
         let batchCol = 3;
+        let courseCol = 4;
 
         // Auto find column positions from header row
         const headers = regData[0];
@@ -91,6 +123,7 @@ function doPost(e) {
           if (h.includes("email")) emailCol = c;
           else if (h.includes("name")) nameCol = c;
           else if (h.includes("batch")) batchCol = c;
+          else if (h.includes("course")) courseCol = c;
         }
 
         for (let i = 1; i < regData.length; i++) {
@@ -112,6 +145,7 @@ function doPost(e) {
             if (!isAdmin) {
               studentName = (row[nameCol] || "").toString().trim() || inputEmail.split("@")[0];
               batchName = formatCleanBatch(row[batchCol]);
+              courseName = (row[courseCol] || "").toString().trim();
             }
             break;
           }
@@ -119,7 +153,18 @@ function doPost(e) {
       }
     }
 
-    const isVerified = (isAdmin || isStudent);
+    // Determine meeting URL:
+    // - Temp_Email: only gets C-column URL from Temp_Email row
+    // - Admin: gets their specific C-column URL if mapped, else default
+    // - Student: default meeting URL
+    let meetingUrl = defaultMeetingUrl;
+    if (isTempUser && tempMeetingUrl) {
+      meetingUrl = tempMeetingUrl;
+    } else if (isAdmin && adminMeetingMap[inputEmail]) {
+      meetingUrl = adminMeetingMap[inputEmail];
+    }
+
+    const isVerified = (isAdmin || isStudent || isTempUser);
 
     // 4. ALWAYS log to Attendance_Logs (Wrong/unregistered emails captured as leads!)
     if (logSheet) {
@@ -190,6 +235,7 @@ function doPost(e) {
         name: studentName,
         email: inputEmail,
         batch: batchName,
+        course: courseName,
         isAdmin: isAdmin
       }
     })).setMimeType(ContentService.MimeType.JSON);
@@ -221,6 +267,7 @@ function doGet(e) {
       let nameCol = 0;
       let mobileCol = 2;
       let batchCol = 3;
+      let courseCol = 4;
 
       const headers = regData[0];
       for (let c = 0; c < headers.length; c++) {
@@ -229,6 +276,7 @@ function doGet(e) {
         else if (h.includes("name")) nameCol = c;
         else if (h.includes("mobile") || h.includes("phone")) mobileCol = c;
         else if (h.includes("batch")) batchCol = c;
+        else if (h.includes("course")) courseCol = c;
       }
 
       for (let i = 1; i < regData.length; i++) {
@@ -237,6 +285,7 @@ function doGet(e) {
         const email = (row[emailCol] || "").toString().trim().toLowerCase();
         const mobile = (row[mobileCol] || "").toString().trim();
         const cleanBatch = formatCleanBatch(row[batchCol]);
+        const cleanCourse = (row[courseCol] || "").toString().trim();
         if (cleanBatch) detectedBatch = cleanBatch;
 
         if (email && email.includes("@")) {
@@ -246,6 +295,7 @@ function doGet(e) {
             email: email,
             mobile: mobile,
             batch: cleanBatch,
+            course: cleanCourse,
             presentDates: new Set()
           };
           registeredList.push(studentsMap[email]);
@@ -386,6 +436,7 @@ function doGet(e) {
         name: s.name,
         email: s.email,
         batch: s.batch,
+        course: s.course,
         present: presentCount,
         absent: absentCount,
         rate: rate,
