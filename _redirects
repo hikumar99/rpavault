@@ -23,3 +23,6 @@
 # /go/* /go/index.html?slug=:splat 200
 /join-demo /genai-demo/ 301
 /join-demo/ /genai-demo/ 301
+/join-rpa-class /join-live/ 301
+/join-rpa-class/ /join-live/ 301
+/join-rpa-class.html /join-live/ 301
