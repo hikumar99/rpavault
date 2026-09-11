@@ -12,6 +12,8 @@ import {
   Eye,
   EyeOff,
   UserCheck,
+  Cloud,
+  Loader2,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Task, AssigneeDetail } from "@/lib/types";
@@ -38,11 +40,13 @@ export default function AppPage() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [notionError, setNotionError] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(true);
-  const [hideCompleted, setHideCompleted] = useState(false);
+  const [hideCompleted, setHideCompleted] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(260);
   const [panelWidth, setPanelWidth] = useState(384);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [cloudResults, setCloudResults] = useState<Task[] | null>(null);
+  const [searchingCloud, setSearchingCloud] = useState(false);
   const [currentUser, setCurrentUser] = useState("Kumar");
 
   const quickAddRef = useRef<HTMLInputElement>(null);
@@ -235,17 +239,64 @@ export default function AppPage() {
     }
   }
 
+  // Trigger deep cloud search across full content and comments
+  async function handleDeepCloudSearch() {
+    if (!searchQuery.trim()) return;
+    setSearchingCloud(true);
+    try {
+      const res = await fetch(`/2do/api/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      const data = await res.json();
+      if (res.ok && data.success && data.tasks) {
+        setCloudResults(data.tasks);
+        toast.success(`Found ${data.tasks.length} cloud match(es) in content & comments`);
+      } else {
+        toast.error("Cloud search failed");
+      }
+    } catch {
+      toast.error("Error searching in cloud");
+    } finally {
+      setSearchingCloud(false);
+    }
+  }
+
+  // Clear cloud results when search query is emptied
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setCloudResults(null);
+    }
+  }, [searchQuery]);
+
   // Filter and sort tasks
   const displayedTasks = useMemo(() => {
-    let filtered = filterTasks(tasks, activeList, selectedTag, selectedAssignee, currentTime);
+    // If deep cloud search was triggered and has results, prioritize or merge them
+    let baseList = tasks;
+    if (cloudResults !== null) {
+      const existingMap = new Map(tasks.map((t) => [t.id, t]));
+      const combined = [...cloudResults];
+      // Keep any already loaded task data
+      for (let i = 0; i < combined.length; i++) {
+        if (existingMap.has(combined[i].id)) {
+          combined[i] = existingMap.get(combined[i].id)!;
+        }
+      }
+      baseList = combined;
+    }
+
+    let filtered = filterTasks(baseList, activeList, selectedTag, selectedAssignee, currentTime);
+
+    // If searching, search across name and description locally as well
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (t) =>
+          t.name.toLowerCase().includes(query) ||
+          (t.description && t.description.toLowerCase().includes(query)) ||
+          (cloudResults !== null && cloudResults.some((cr) => cr.id === t.id))
+      );
+    }
 
     if (hideCompleted && activeList !== "completed_today") {
       filtered = filtered.filter((t) => t.status !== "Done");
-    }
-
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter((t) => t.name.toLowerCase().includes(query));
     }
 
     return filtered.sort((a, b) => {
@@ -254,7 +305,7 @@ export default function AppPage() {
       if (!b.due) return -1;
       return a.due.localeCompare(b.due);
     });
-  }, [tasks, activeList, selectedTag, selectedAssignee, currentTime, searchQuery, hideCompleted]);
+  }, [tasks, cloudResults, activeList, selectedTag, selectedAssignee, currentTime, searchQuery, hideCompleted]);
 
   // Actions
   async function handleAddTask(title: string, dueDate: string | null) {
@@ -602,16 +653,40 @@ export default function AppPage() {
           </div>
 
           <div className="flex items-center gap-2 md:gap-3">
-            {/* Search Input */}
-            <div className="relative hidden sm:block">
-              <Search className="w-3.5 h-3.5 text-slate-400 dark:text-gray-500 absolute left-3 top-2.5" />
+            {/* Search Input with Cloud Deep Search Button */}
+            <div className="relative hidden sm:flex items-center">
+              <Search className="w-3.5 h-3.5 text-slate-400 dark:text-gray-500 absolute left-2.5 top-2.5" />
               <input
                 type="text"
-                placeholder="Search tasks..."
+                placeholder="Search tasks, content..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8 pr-3 py-1 bg-white dark:bg-[#1e222b] border border-slate-300 dark:border-[#2e3340] rounded-lg text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#4772fa] w-36 md:w-48"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && searchQuery.trim()) {
+                    handleDeepCloudSearch();
+                  }
+                }}
+                className="pl-7 pr-8 py-1 bg-white dark:bg-[#1e222b] border border-slate-300 dark:border-[#2e3340] rounded-lg text-xs text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#4772fa] w-40 md:w-56"
               />
+              <button
+                type="button"
+                onClick={handleDeepCloudSearch}
+                disabled={!searchQuery.trim() || searchingCloud}
+                className={`absolute right-1 top-1 p-1 rounded-md transition ${
+                  cloudResults !== null
+                    ? "text-[#4772fa] bg-[#4772fa]/10"
+                    : searchQuery.trim()
+                    ? "text-slate-500 dark:text-gray-400 hover:text-[#4772fa] hover:bg-slate-100 dark:hover:bg-[#252a36]"
+                    : "text-slate-300 dark:text-gray-600 cursor-not-allowed"
+                }`}
+                title="Deep search in cloud (full task content, notes & comments)"
+              >
+                {searchingCloud ? (
+                  <Loader2 className="w-3 h-3 animate-spin text-[#4772fa]" />
+                ) : (
+                  <Cloud className="w-3.5 h-3.5" />
+                )}
+              </button>
             </div>
 
             {/* Hide completed button */}

@@ -49,4 +49,5 @@ declare module 'lucide-react' {
   export const Image: Icon;
   export const AtSign: Icon;
   export const Send: Icon;
+  export const Cloud: Icon;
 }

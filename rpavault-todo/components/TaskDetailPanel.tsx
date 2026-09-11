@@ -126,7 +126,11 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
       setTags(task.tags || []);
       setUrl(task.url || "");
       setTimeout(adjustTextareaHeight, 10);
-      loadComments(task.id);
+      if (task.id && !task.id.startsWith("draft-")) {
+        loadComments(task.id);
+      } else {
+        setComments([]);
+      }
 
       // If description not loaded yet, fetch it
       if (task.description === undefined && task.id && !task.id.startsWith("draft-")) {

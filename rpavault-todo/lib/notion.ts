@@ -409,6 +409,27 @@ export async function listTasks(filter?: any): Promise<Task[]> {
   return tasks;
 }
 
+/**
+ * Deep search across page titles, description/body content, and comments.
+ */
+export async function searchDeepTasks(query: string): Promise<Task[]> {
+  const notion = getNotionClient();
+  const database_id = getDataSourceId().replace(/-/g, "").toLowerCase();
+
+  const searchRes = await notion.search({
+    query,
+    filter: { value: "page", property: "object" },
+    page_size: 50,
+  });
+
+  const matchingPages = searchRes.results.filter((page: any) => {
+    const parentDb = page.parent?.database_id?.replace(/-/g, "").toLowerCase();
+    return parentDb === database_id;
+  });
+
+  return matchingPages.map(normalizeNotionPage);
+}
+
 export async function getTask(pageId: string): Promise<Task> {
   const notion = getNotionClient();
   const page = await notion.pages.retrieve({ page_id: pageId });
