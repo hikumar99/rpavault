@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   title: "RPAVault To-Do",
   description: "TickTick-style collaborative task management application",
   icons: {
-    icon: "/2do/favicon.png",
-    shortcut: "/2do/favicon.png",
-    apple: "/2do/favicon.png",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
   robots: {
     index: false,

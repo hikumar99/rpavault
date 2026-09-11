@@ -26,6 +26,7 @@ import {
 import { Task, RecurUnit, Weekday, AssigneeDetail, TaskComment } from "@/lib/types";
 import { computeNextDue } from "@/lib/recurrence";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { apiPath } from "@/lib/config";
 
 interface TaskDetailPanelProps {
   task: Task | null;
@@ -134,7 +135,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
 
       // If description not loaded yet, fetch it
       if (task.description === undefined && task.id && !task.id.startsWith("draft-")) {
-        fetch(`/2do/api/tasks/${task.id}`)
+        fetch(apiPath(`/api/tasks/${task.id}`))
           .then((res) => res.json())
           .then((data) => {
             if (data.success && data.task && data.task.description !== undefined) {
@@ -151,7 +152,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
   async function loadComments(taskId: string) {
     setCommentsLoading(true);
     try {
-      const res = await fetch(`/2do/api/tasks/${taskId}/comments`);
+      const res = await fetch(apiPath(`/api/tasks/${taskId}/comments`));
       const data = await res.json();
       if (res.ok && data.success) {
         setComments(data.comments || []);
@@ -229,7 +230,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/2do/api/upload", {
+      const res = await fetch(apiPath("/api/upload"), {
         method: "POST",
         body: formData,
       });
@@ -255,7 +256,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
 
     setSubmittingComment(true);
     try {
-      const res = await fetch(`/2do/api/tasks/${task.id}/comments`, {
+      const res = await fetch(apiPath(`/api/tasks/${task.id}/comments`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

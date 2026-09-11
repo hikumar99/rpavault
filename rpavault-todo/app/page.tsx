@@ -24,6 +24,7 @@ import { TaskRow } from "@/components/TaskRow";
 import { TaskDetailPanel } from "@/components/TaskDetailPanel";
 import { EmptyState } from "@/components/EmptyState";
 import { NotionSetupScreen } from "@/components/NotionSetupScreen";
+import { apiPath } from "@/lib/config";
 
 export default function AppPage() {
   const router = useRouter();
@@ -64,7 +65,7 @@ export default function AppPage() {
   // Load Session User
   async function fetchSession() {
     try {
-      const res = await fetch("/2do/api/auth/me");
+      const res = await fetch(apiPath("/api/auth/me"));
       const data = await res.json();
       if (res.ok && data.authenticated && data.displayName) {
         setCurrentUser(data.displayName);
@@ -75,7 +76,7 @@ export default function AppPage() {
   // Load Notion users
   async function fetchUsers() {
     try {
-      const res = await fetch("/2do/api/users");
+      const res = await fetch(apiPath("/api/users"));
       const data = await res.json();
       if (res.ok && data.success && data.users) {
         setUsers(data.users);
@@ -89,7 +90,7 @@ export default function AppPage() {
   async function fetchTasks(isBackground = false) {
     if (!isBackground) setSyncing(true);
     try {
-      const res = await fetch("/2do/api/tasks");
+      const res = await fetch(apiPath("/api/tasks"));
 
       if (res.status === 401 || res.redirected || res.url.includes("/login")) {
         router.push("/login");
@@ -244,7 +245,7 @@ export default function AppPage() {
     if (!searchQuery.trim()) return;
     setSearchingCloud(true);
     try {
-      const res = await fetch(`/2do/api/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      const res = await fetch(apiPath(`/api/search?q=${encodeURIComponent(searchQuery.trim())}`));
       const data = await res.json();
       if (res.ok && data.success && data.tasks) {
         setCloudResults(data.tasks);
@@ -308,16 +309,19 @@ export default function AppPage() {
   }, [tasks, cloudResults, activeList, selectedTag, selectedAssignee, currentTime, searchQuery, hideCompleted]);
 
   // Actions
+  // 2. Create task
   async function handleAddTask(title: string, dueDate: string | null) {
     try {
-      const initialTags = selectedTag ? [selectedTag] : [];
+      const initialTags: string[] = [];
+      if (selectedTag) initialTags.push(selectedTag);
+
       let initialAssignee: string[] = [];
       if (selectedAssignee) {
         const foundUser = users.find((u) => u.name.toLowerCase() === selectedAssignee.toLowerCase());
         initialAssignee = [foundUser ? foundUser.id : selectedAssignee];
       }
 
-      const res = await fetch("/2do/api/tasks", {
+      const res = await fetch(apiPath("/api/tasks"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -347,7 +351,7 @@ export default function AppPage() {
     try {
       if (task.status === "Done") {
         // Toggle back to To Do
-        const res = await fetch(`/2do/api/tasks/${task.id}`, {
+        const res = await fetch(apiPath(`/api/tasks/${task.id}`), {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: "To Do" }),
@@ -368,7 +372,7 @@ export default function AppPage() {
       }
 
       // If not Done, mark complete or reschedule
-      const res = await fetch(`/2do/api/tasks/${task.id}/complete`, {
+      const res = await fetch(apiPath(`/api/tasks/${task.id}/complete`), {
         method: "POST",
       });
       const data = await res.json();
@@ -420,7 +424,7 @@ export default function AppPage() {
       // If a task name has been provided, create it on the backend
       if (updates.name && updates.name.trim()) {
         try {
-          const res = await fetch("/2do/api/tasks", {
+          const res = await fetch(apiPath("/api/tasks"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -458,7 +462,7 @@ export default function AppPage() {
     }
 
     try {
-      const res = await fetch(`/2do/api/tasks/${id}`, {
+      const res = await fetch(apiPath(`/api/tasks/${id}`), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),
@@ -478,7 +482,7 @@ export default function AppPage() {
       return;
     }
     try {
-      const res = await fetch(`/2do/api/tasks/${id}`, { method: "DELETE" });
+      const res = await fetch(apiPath(`/api/tasks/${id}`), { method: "DELETE" });
       if (res.ok) {
         setTasks((prev) => prev.filter((t) => t.id !== id));
         if (selectedTask?.id === id) setSelectedTask(null);
@@ -491,7 +495,7 @@ export default function AppPage() {
 
   async function handleCreateSubtask(parentId: string, title: string) {
     try {
-      const res = await fetch("/2do/api/tasks", {
+      const res = await fetch(apiPath("/api/tasks"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -511,7 +515,7 @@ export default function AppPage() {
   }
 
   async function handleLogout() {
-    await fetch("/2do/api/auth", { method: "DELETE" });
+    await fetch(apiPath("/api/auth"), { method: "DELETE" });
     router.push("/login");
     router.refresh();
   }
