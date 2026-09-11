@@ -66,11 +66,19 @@ export default function AppPage() {
   async function fetchSession() {
     try {
       const res = await fetch(apiPath("/api/auth/me"));
+      if (res.status === 401) {
+        router.push("/login");
+        return;
+      }
       const data = await res.json();
       if (res.ok && data.authenticated && data.displayName) {
         setCurrentUser(data.displayName);
+      } else {
+        router.push("/login");
       }
-    } catch {}
+    } catch {
+      router.push("/login");
+    }
   }
 
   // Load Notion users
