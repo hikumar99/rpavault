@@ -3,6 +3,8 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 
+import { APP_NAME } from "@/lib/config";
+
 export const viewport: Viewport = {
   themeColor: "#111317",
   width: "device-width",
@@ -13,13 +15,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_APP_NAME || "Kumar ToDo",
+  title: APP_NAME,
   description: "TickTick-style collaborative task management application",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: process.env.NEXT_PUBLIC_APP_NAME || "Kumar ToDo",
+    title: APP_NAME,
   },
   icons: {
     icon: "/icon-192.png",

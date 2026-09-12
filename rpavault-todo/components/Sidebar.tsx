@@ -159,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="p-4 border-b border-slate-200 dark:border-[#262930] flex items-center justify-between">
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#4772fa] to-indigo-600 flex items-center justify-center text-white shadow-md shadow-[#4772fa]/30 font-bold text-sm tracking-wider shrink-0">
-            K
+            {APP_NAME.toLowerCase().includes("rpavault") ? "✓" : APP_NAME.charAt(0).toUpperCase() || "K"}
           </div>
           <div className="min-w-0">
             <h2 className="font-semibold text-sm tracking-tight truncate text-slate-900 dark:text-white">{APP_NAME}</h2>

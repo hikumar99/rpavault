@@ -158,6 +158,7 @@ export function normalizeNotionPage(page: any): Task {
     url,
     createdTime: page.created_time,
     lastEditedTime: page.last_edited_time,
+    rawProperties: props,
   };
 }
 
@@ -730,41 +731,65 @@ export async function updateTask(pageId: string, data: UpdateTaskInput): Promise
 
   let page: any;
   try {
+    // Check page properties to see the exact schema (Status vs Chk vs Done)
+    const existingPage: any = await notion.pages.retrieve({ page_id: pageId });
+    const existingProps = existingPage.properties || {};
+
+    if (data.status !== undefined) {
+      delete properties["Status"];
+      const isDone = data.status === "Done";
+
+      // Detect the column name for completion/status
+      const chkKey = Object.keys(existingProps).find((k) =>
+        k.toLowerCase() === "chk" || k.toLowerCase() === "done" || k.toLowerCase() === "status" || k.toLowerCase() === "check"
+      );
+
+      if (chkKey) {
+        const propType = existingProps[chkKey]?.type;
+        if (propType === "checkbox") {
+          properties[chkKey] = { checkbox: isDone };
+        } else if (propType === "status") {
+          properties[chkKey] = { status: { name: data.status } };
+        } else if (propType === "select") {
+          properties[chkKey] = { select: { name: data.status } };
+        } else {
+          // Default to status object
+          properties[chkKey] = { status: { name: data.status } };
+        }
+      } else {
+        properties["Status"] = { status: { name: data.status } };
+      }
+    }
+
     page = await notion.pages.update({
       page_id: pageId,
       properties,
     });
   } catch (err: any) {
-    // If Status property fails because the column is named "Chk"
-    if (data.status !== undefined && (err.message?.includes("Status") || err.message?.includes("is not a property that exists"))) {
-      const fallbackProps = { ...properties };
-      delete fallbackProps["Status"];
-      // Try Chk as checkbox or select
-      fallbackProps["Chk"] = { checkbox: data.status === "Done" };
+    // Fallback resilient retry
+    console.warn("Retrying Notion page update with fallback properties:", err?.message);
+    const fallbackProps = { ...properties };
+    delete fallbackProps["Status"];
+    fallbackProps["Chk"] = { checkbox: data.status === "Done" };
+    try {
+      page = await notion.pages.update({
+        page_id: pageId,
+        properties: fallbackProps,
+      });
+    } catch {
+      fallbackProps["Chk"] = { select: { name: data.status } };
       try {
         page = await notion.pages.update({
           page_id: pageId,
           properties: fallbackProps,
         });
       } catch {
-        // Try Chk as select or status
-        fallbackProps["Chk"] = { select: { name: data.status } };
-        try {
-          page = await notion.pages.update({
-            page_id: pageId,
-            properties: fallbackProps,
-          });
-        } catch {
-          // If still fails, omit status property and update remaining fields
-          delete fallbackProps["Chk"];
-          page = await notion.pages.update({
-            page_id: pageId,
-            properties: fallbackProps,
-          });
-        }
+        delete fallbackProps["Chk"];
+        page = await notion.pages.update({
+          page_id: pageId,
+          properties: fallbackProps,
+        });
       }
-    } else {
-      throw err;
     }
   }
 

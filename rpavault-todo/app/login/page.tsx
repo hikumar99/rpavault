@@ -47,7 +47,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-[#1a1d24] border border-[#2b303c] rounded-2xl p-8 shadow-2xl relative z-10">
         <div className="flex flex-col items-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#4772fa] to-indigo-600 flex items-center justify-center text-white font-bold text-2xl mb-3 shadow-lg shadow-[#4772fa]/25">
-            K
+            {APP_NAME.toLowerCase().includes("rpavault") ? "✓" : APP_NAME.charAt(0).toUpperCase() || "K"}
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white">{APP_NAME}</h1>
           <p className="text-sm text-gray-400 mt-1">Sign in to manage and collaborate on your tasks</p>

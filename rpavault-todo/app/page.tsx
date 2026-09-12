@@ -28,6 +28,7 @@ import { TaskRow } from "@/components/TaskRow";
 import { TaskDetailPanel } from "@/components/TaskDetailPanel";
 import { EmptyState } from "@/components/EmptyState";
 import { NotionSetupScreen } from "@/components/NotionSetupScreen";
+import { QuickFilterBar, FilterState } from "@/components/QuickFilterBar";
 import { apiPath } from "@/lib/config";
 
 export default function AppPage() {
@@ -62,6 +63,11 @@ export default function AppPage() {
   const [currentUser, setCurrentUser] = useState("Kumar");
   const [sortBy, setSortBy] = useState<"due" | "name" | "created" | "status">("due");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [quickFilter, setQuickFilter] = useState<FilterState>({
+    hasLink: false,
+    isRecurring: false,
+    weekday: null,
+  });
 
   const quickAddRef = useRef<HTMLInputElement>(null);
   const lastUserEditTimeRef = useRef<Record<string, number>>({});
@@ -372,6 +378,31 @@ export default function AppPage() {
 
     let filtered = filterTasks(baseList, activeList, selectedTag, selectedAssignee, currentTime);
 
+    // Multi-filter: has links / URLs
+    if (quickFilter.hasLink) {
+      filtered = filtered.filter(
+        (t) =>
+          Boolean(t.url) ||
+          t.name.includes("http://") ||
+          t.name.includes("https://") ||
+          (t.description && (t.description.includes("http://") || t.description.includes("https://")))
+      );
+    }
+
+    // Multi-filter: recurring tasks
+    if (quickFilter.isRecurring) {
+      filtered = filtered.filter(
+        (t) => Boolean(t.recurInt) || Boolean(t.recurUnit) || (t.days && t.days.length > 0)
+      );
+    }
+
+    // Multi-filter: specific recurring weekday
+    if (quickFilter.weekday) {
+      filtered = filtered.filter(
+        (t) => t.days && t.days.includes(quickFilter.weekday!)
+      );
+    }
+
     // If searching, search across name and description locally as well
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
@@ -406,7 +437,7 @@ export default function AppPage() {
 
       return sortOrder === "asc" ? comparison : -comparison;
     });
-  }, [tasks, cloudResults, activeList, selectedTag, selectedAssignee, currentTime, searchQuery, hideCompleted, sortBy, sortOrder]);
+  }, [tasks, cloudResults, activeList, selectedTag, selectedAssignee, currentTime, searchQuery, hideCompleted, sortBy, sortOrder, quickFilter]);
 
 
   // Actions
@@ -449,8 +480,21 @@ export default function AppPage() {
   }
 
   async function handleCompleteTask(task: Task) {
+    const isDone = task.status === "Done";
+    const nextStatus = isDone ? "To Do" : "Done";
+    const previousTask = { ...task };
+
+    // 1. Instant Optimistic UI Update: toggle state immediately with 0ms lag
+    lastUserEditTimeRef.current[task.id] = Date.now();
+    setTasks((prev) =>
+      prev.map((t) => (t.id === task.id ? { ...t, status: nextStatus } : t))
+    );
+    if (selectedTask?.id === task.id) {
+      setSelectedTask((prev) => (prev ? { ...prev, status: nextStatus } : null));
+    }
+
     try {
-      if (task.status === "Done") {
+      if (isDone) {
         // Toggle back to To Do
         const res = await fetch(apiPath(`/api/tasks/${task.id}`), {
           method: "PATCH",
@@ -467,6 +511,9 @@ export default function AppPage() {
           }
           toast.success("Task reopened as To Do");
         } else {
+          // Revert optimistic update
+          setTasks((prev) => prev.map((t) => (t.id === task.id ? previousTask : t)));
+          if (selectedTask?.id === task.id) setSelectedTask(previousTask);
           toast.error(data.error || "Failed to reopen task");
         }
         return;
@@ -492,9 +539,15 @@ export default function AppPage() {
           toast.success("Task marked as completed");
         }
       } else {
+        // Revert optimistic update
+        setTasks((prev) => prev.map((t) => (t.id === task.id ? previousTask : t)));
+        if (selectedTask?.id === task.id) setSelectedTask(previousTask);
         toast.error(data.error || "Failed to update task");
       }
     } catch (err: any) {
+      // Revert optimistic update
+      setTasks((prev) => prev.map((t) => (t.id === task.id ? previousTask : t)));
+      if (selectedTask?.id === task.id) setSelectedTask(previousTask);
       toast.error("Error updating task: " + err.message);
     }
   }
@@ -867,6 +920,35 @@ export default function AppPage() {
             onAddTask={handleAddTask}
             onOpenFullDetail={handleOpenNewTaskDraft}
           />
+
+          {/* Quick Filter Bar (Links, Recurring, Weekday, Multi-filters) */}
+          <div className="mt-2.5">
+            <QuickFilterBar
+              filterState={quickFilter}
+              onFilterChange={setQuickFilter}
+              selectedTag={selectedTag}
+              onClearTag={() => setSelectedTag(null)}
+              allTags={allTags}
+              onSelectTag={(tag) => setSelectedTag(tag)}
+              totalFiltered={displayedTasks.length}
+            />
+          </div>
+
+          {/* Quick Switcher Banner when viewing Today with few tasks */}
+          {activeList === "today" && tasks.length > displayedTasks.length && (
+            <div className="flex items-center justify-between px-3 py-1.5 mt-1 bg-slate-100/80 dark:bg-[#1a1d24]/60 rounded-xl border border-slate-200/80 dark:border-[#262a34] text-xs text-slate-500 dark:text-gray-400">
+              <span>
+                Showing <strong>Today</strong> ({displayedTasks.length} tasks). You have <strong>{tasks.length} total tasks</strong> in this workspace.
+              </span>
+              <button
+                type="button"
+                onClick={() => setActiveList("all")}
+                className="text-[#4772fa] hover:underline font-semibold shrink-0 ml-2"
+              >
+                View All Tasks →
+              </button>
+            </div>
+          )}
 
           {/* Loading Skeletons */}
           {loading ? (

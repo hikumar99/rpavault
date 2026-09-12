@@ -53,6 +53,7 @@ export interface Task {
   description?: string | null;
   createdTime?: string;
   lastEditedTime?: string;
+  rawProperties?: Record<string, any>;
 }
 
 export interface CreateTaskInput {
