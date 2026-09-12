@@ -20,10 +20,15 @@ import {
   ChevronDown,
   ChevronRight,
   Search,
+  Edit3,
+  Trash2,
 } from "lucide-react";
+
+
 import { SmartListType } from "@/lib/smartLists";
 import { AssigneeDetail } from "@/lib/types";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
+import { APP_NAME, APP_SUBTITLE } from "@/lib/config";
 
 interface SidebarProps {
   activeList: SmartListType;
@@ -37,6 +42,8 @@ interface SidebarProps {
   allAssignees: string[];
   users: AssigneeDetail[];
   onAddTag: (tag: string) => void;
+  onRenameTag?: (oldTag: string, newTag: string) => void;
+  onDeleteTag?: (tag: string) => void;
   isDark: boolean;
   setIsDark: (dark: boolean) => void;
   hideCompleted: boolean;
@@ -61,6 +68,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   allAssignees,
   users,
   onAddTag,
+  onRenameTag,
+  onDeleteTag,
   isDark,
   setIsDark,
   hideCompleted,
@@ -77,7 +86,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [tagsExpanded, setTagsExpanded] = useState(true);
   const [showAddTagModal, setShowAddTagModal] = useState(false);
   const [newTagName, setNewTagName] = useState("");
+  const [editingTag, setEditingTag] = useState<{ oldName: string; newName: string } | null>(null);
+  const [tagToDelete, setTagToDelete] = useState<string | null>(null);
   const [tagSearch, setTagSearch] = useState("");
+
 
   const smartLists: { id: SmartListType; label: string; icon: any; countKey: SmartListType; color: string }[] = [
     { id: "today", label: "Today", icon: Calendar, countKey: "today", color: "text-[#4772fa]" },
@@ -145,13 +157,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Top Header */}
       <div className="p-4 border-b border-slate-200 dark:border-[#262930] flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-[#4772fa] flex items-center justify-center text-white shadow-md shadow-[#4772fa]/30 font-bold text-sm">
-            ✓
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#4772fa] to-indigo-600 flex items-center justify-center text-white shadow-md shadow-[#4772fa]/30 font-bold text-sm tracking-wider shrink-0">
+            K
           </div>
           <div className="min-w-0">
-            <h2 className="font-semibold text-sm tracking-tight truncate text-slate-900 dark:text-white">RPAVault</h2>
-            <p className="text-[11px] text-slate-500 dark:text-gray-400 truncate">Team To-Do's</p>
+            <h2 className="font-semibold text-sm tracking-tight truncate text-slate-900 dark:text-white">{APP_NAME}</h2>
+            <p className="text-[11px] text-slate-500 dark:text-gray-400 truncate">{APP_SUBTITLE}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -261,28 +273,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="space-y-0.5 pl-1">
               <button
                 onClick={() => {
-                  if (selectedAssignee === "Kumar") {
+                  if (selectedAssignee === currentUser) {
                     setSelectedAssignee(null);
                   } else {
-                    setSelectedAssignee("Kumar");
+                    setSelectedAssignee(currentUser);
                     setSelectedTag(null);
                   }
                 }}
                 className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition ${
-                  selectedAssignee === "Kumar"
+                  selectedAssignee === currentUser
                     ? "bg-[#4772fa]/10 dark:bg-[#232836] text-[#4772fa] font-semibold"
                     : "text-slate-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-[#1e222b] hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <UserCheck className="w-3.5 h-3.5 text-[#4772fa]" />
-                  <span className="truncate font-medium">My Tasks (Kumar)</span>
+                  <span className="truncate font-medium">My Tasks ({currentUser})</span>
                 </div>
               </button>
 
-              {cleanAssigneeNames.map((assignee) => {
+              {cleanAssigneeNames
+                .filter((name) => name !== currentUser)
+                .map((assignee) => {
                 const isSelected = selectedAssignee === assignee;
                 return (
+
                   <button
                     key={assignee}
                     onClick={() => {
@@ -349,23 +364,52 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 {filteredTags.map((tag) => {
                   const isSelected = selectedTag === tag;
                   return (
-                    <button
+                    <div
                       key={tag}
-                      onClick={() => {
-                        setSelectedTag(isSelected ? null : tag);
-                        setSelectedAssignee(null);
-                      }}
-                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition ${
+                      className={`group flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition ${
                         isSelected
                           ? "bg-[#4772fa]/10 dark:bg-[#232836] text-[#4772fa] font-semibold"
                           : "text-slate-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-[#1e222b] hover:text-slate-900 dark:hover:text-white"
                       }`}
                     >
-                      <div className="flex items-center gap-2 min-w-0">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedTag(isSelected ? null : tag);
+                          setSelectedAssignee(null);
+                        }}
+                        className="flex items-center gap-2 min-w-0 flex-1 text-left"
+                      >
                         <TagIcon className="w-3.5 h-3.5 text-slate-400 dark:text-gray-400 shrink-0" />
                         <span className="truncate">#{tag}</span>
+                      </button>
+
+                      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition shrink-0 ml-1">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEditingTag({ oldName: tag, newName: tag });
+                          }}
+                          className="p-1 rounded text-slate-400 hover:text-[#4772fa] hover:bg-slate-300 dark:hover:bg-[#282e3c]"
+                          title={`Rename #${tag}`}
+                        >
+                          <Edit3 className="w-3 h-3" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setTagToDelete(tag);
+                          }}
+                          className="p-1 rounded text-slate-400 hover:text-rose-500 hover:bg-slate-300 dark:hover:bg-[#282e3c]"
+                          title={`Delete #${tag}`}
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
                       </div>
-                    </button>
+                    </div>
                   );
                 })}
               </div>
@@ -379,14 +423,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white dark:bg-[#1a1d24] border border-slate-200 dark:border-[#2e3340] rounded-2xl p-5 w-full max-w-xs shadow-2xl">
             <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">Create New Tag</h3>
-            <p className="text-xs text-slate-500 dark:text-gray-400 mb-3">Add a tag to categorize team to-dos.</p>
+            <p className="text-xs text-slate-500 dark:text-gray-400 mb-3">Add a tag to categorize to-dos.</p>
             <form onSubmit={handleCreateTagSubmit} className="space-y-3">
               <input
                 type="text"
                 autoFocus
                 value={newTagName}
                 onChange={(e) => setNewTagName(e.target.value)}
-                placeholder="e.g. Finance, Sprint1"
+                placeholder="e.g. Finance, Urgent"
                 className="w-full px-3 py-2 bg-slate-50 dark:bg-[#232731] border border-slate-300 dark:border-[#343a49] rounded-xl text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#4772fa]"
               />
               <div className="flex gap-2 justify-end">
@@ -409,6 +453,87 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
       )}
+
+      {/* Edit / Rename Tag Modal */}
+      {editingTag && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-[#1a1d24] border border-slate-200 dark:border-[#2e3340] rounded-2xl p-5 w-full max-w-xs shadow-2xl">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">Rename Tag</h3>
+            <p className="text-xs text-slate-500 dark:text-gray-400 mb-3">
+              Renaming will update all tasks tagged with #{editingTag.oldName}.
+            </p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const clean = editingTag.newName.trim().replace(/^#/, "");
+                if (clean && onRenameTag) {
+                  onRenameTag(editingTag.oldName, clean);
+                }
+                setEditingTag(null);
+              }}
+              className="space-y-3"
+            >
+              <input
+                type="text"
+                autoFocus
+                value={editingTag.newName}
+                onChange={(e) => setEditingTag({ ...editingTag, newName: e.target.value })}
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-[#232731] border border-slate-300 dark:border-[#343a49] rounded-xl text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#4772fa]"
+              />
+              <div className="flex gap-2 justify-end">
+                <button
+                  type="button"
+                  onClick={() => setEditingTag(null)}
+                  className="px-3 py-1.5 rounded-xl text-xs text-slate-600 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#232731]"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={!editingTag.newName.trim() || editingTag.newName.trim() === editingTag.oldName}
+                  className="px-3 py-1.5 bg-[#4772fa] hover:bg-[#3861ea] disabled:opacity-40 text-white rounded-xl text-xs font-medium"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Tag Modal */}
+      {tagToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-[#1a1d24] border border-slate-200 dark:border-[#2e3340] rounded-2xl p-5 w-full max-w-xs shadow-2xl">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">Delete Tag</h3>
+            <p className="text-xs text-slate-500 dark:text-gray-400 mb-3">
+              Are you sure you want to remove #{tagToDelete} from your tags and all associated tasks?
+            </p>
+            <div className="flex gap-2 justify-end">
+              <button
+                type="button"
+                onClick={() => setTagToDelete(null)}
+                className="px-3 py-1.5 rounded-xl text-xs text-slate-600 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-[#232731]"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (onDeleteTag) {
+                    onDeleteTag(tagToDelete);
+                  }
+                  setTagToDelete(null);
+                }}
+                className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-medium"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {/* Footer Profile & Logout */}
       <div className="p-3 border-t border-slate-200 dark:border-[#262930]">

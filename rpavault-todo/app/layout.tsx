@@ -13,13 +13,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "RPAVault To-Do",
+  title: process.env.NEXT_PUBLIC_APP_NAME || "Kumar ToDo",
   description: "TickTick-style collaborative task management application",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "To-Do",
+    title: process.env.NEXT_PUBLIC_APP_NAME || "Kumar ToDo",
   },
   icons: {
     icon: "/icon-192.png",
@@ -40,15 +40,29 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readform<{
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const savedTheme = localStorage.getItem("rpavault_theme");
+                if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches) || !savedTheme) {
+                  document.documentElement.classList.add("dark");
+                } else if (savedTheme === "light") {
+                  document.documentElement.classList.remove("dark");
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body className="antialiased min-h-screen">
         <ServiceWorkerRegister />

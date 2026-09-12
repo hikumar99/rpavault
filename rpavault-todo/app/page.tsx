@@ -12,10 +12,14 @@ import {
   Eye,
   EyeOff,
   UserCheck,
+  Sliders,
   Cloud,
   Loader2,
 } from "lucide-react";
+
+
 import { formatDistanceToNow } from "date-fns";
+
 import { Task, AssigneeDetail } from "@/lib/types";
 import { SmartListType, getTaskSmartLists, filterTasks } from "@/lib/smartLists";
 import { Sidebar } from "@/components/Sidebar";
@@ -40,7 +44,14 @@ export default function AppPage() {
   const [selectedAssignee, setSelectedAssignee] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [notionError, setNotionError] = useState<string | null>(null);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("rpavault_theme");
+      if (saved) return saved === "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return true;
+  });
   const [hideCompleted, setHideCompleted] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(260);
   const [panelWidth, setPanelWidth] = useState(384);
@@ -49,16 +60,25 @@ export default function AppPage() {
   const [cloudResults, setCloudResults] = useState<Task[] | null>(null);
   const [searchingCloud, setSearchingCloud] = useState(false);
   const [currentUser, setCurrentUser] = useState("Kumar");
+  const [sortBy, setSortBy] = useState<"due" | "name" | "created" | "status">("due");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const quickAddRef = useRef<HTMLInputElement>(null);
   const lastUserEditTimeRef = useRef<Record<string, number>>({});
 
-  // Sync dark class to root HTML element
+
+  // Sync dark class to root HTML element and persist choice
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
+      try {
+        localStorage.setItem("rpavault_theme", "dark");
+      } catch (e) {}
     } else {
       document.documentElement.classList.remove("dark");
+      try {
+        localStorage.setItem("rpavault_theme", "light");
+      } catch (e) {}
     }
   }, [isDark]);
 
@@ -248,6 +268,65 @@ export default function AppPage() {
     }
   }
 
+  async function handleRenameTag(oldTag: string, newTag: string) {
+    // 1. Update custom tags list
+    setCustomTags((prev) => prev.map((t) => (t === oldTag ? newTag : t)));
+    // 2. If active filter was the old tag, update it
+    if (selectedTag === oldTag) {
+      setSelectedTag(newTag);
+    }
+    // 3. Update all loaded tasks that have this tag
+    const tasksToUpdate = tasks.filter((t) => t.tags?.includes(oldTag));
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (!t.tags?.includes(oldTag)) return t;
+        const newTags = t.tags.map((tag) => (tag === oldTag ? newTag : tag));
+        return { ...t, tags: newTags };
+      })
+    );
+    toast.success(`Renamed #${oldTag} to #${newTag}`);
+
+    // Update in Notion in background
+    for (const t of tasksToUpdate) {
+      const updatedTags = (t.tags || []).map((tag) => (tag === oldTag ? newTag : tag));
+      fetch(apiPath(`/api/tasks/${t.id}`), {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tags: updatedTags }),
+      }).catch(() => {});
+    }
+  }
+
+  async function handleDeleteTag(tagToDelete: string) {
+    // 1. Remove from custom tags
+    setCustomTags((prev) => prev.filter((t) => t !== tagToDelete));
+    // 2. If active filter was this tag, reset it
+    if (selectedTag === tagToDelete) {
+      setSelectedTag(null);
+    }
+    // 3. Update tasks in state
+    const tasksToUpdate = tasks.filter((t) => t.tags?.includes(tagToDelete));
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (!t.tags?.includes(tagToDelete)) return t;
+        const newTags = t.tags.filter((tag) => tag !== tagToDelete);
+        return { ...t, tags: newTags };
+      })
+    );
+    toast.success(`Deleted #${tagToDelete}`);
+
+    // Update in Notion in background
+    for (const t of tasksToUpdate) {
+      const updatedTags = (t.tags || []).filter((tag) => tag !== tagToDelete);
+      fetch(apiPath(`/api/tasks/${t.id}`), {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tags: updatedTags }),
+      }).catch(() => {});
+    }
+  }
+
+
   // Trigger deep cloud search across full content and comments
   async function handleDeepCloudSearch() {
     if (!searchQuery.trim()) return;
@@ -309,12 +388,26 @@ export default function AppPage() {
     }
 
     return filtered.sort((a, b) => {
-      if (!a.due && !b.due) return 0;
-      if (!a.due) return 1;
-      if (!b.due) return -1;
-      return a.due.localeCompare(b.due);
+      let comparison = 0;
+      if (sortBy === "due") {
+        if (!a.due && !b.due) comparison = 0;
+        else if (!a.due) comparison = 1;
+        else if (!b.due) comparison = -1;
+        else comparison = a.due.localeCompare(b.due);
+      } else if (sortBy === "name") {
+        comparison = a.name.localeCompare(b.name);
+      } else if (sortBy === "status") {
+        comparison = a.status.localeCompare(b.status);
+      } else if (sortBy === "created") {
+        const timeA = a.createdTime || "";
+        const timeB = b.createdTime || "";
+        comparison = timeA.localeCompare(timeB);
+      }
+
+      return sortOrder === "asc" ? comparison : -comparison;
     });
-  }, [tasks, cloudResults, activeList, selectedTag, selectedAssignee, currentTime, searchQuery, hideCompleted]);
+  }, [tasks, cloudResults, activeList, selectedTag, selectedAssignee, currentTime, searchQuery, hideCompleted, sortBy, sortOrder]);
+
 
   // Actions
   // 2. Create task
@@ -567,6 +660,8 @@ export default function AppPage() {
           allAssignees={allAssignees}
           users={users}
           onAddTag={handleAddTag}
+          onRenameTag={handleRenameTag}
+          onDeleteTag={handleDeleteTag}
           isDark={isDark}
           setIsDark={setIsDark}
           hideCompleted={hideCompleted}
@@ -617,6 +712,8 @@ export default function AppPage() {
               allAssignees={allAssignees}
               users={users}
               onAddTag={handleAddTag}
+              onRenameTag={handleRenameTag}
+              onDeleteTag={handleDeleteTag}
               isDark={isDark}
               setIsDark={setIsDark}
               hideCompleted={hideCompleted}
@@ -635,6 +732,7 @@ export default function AppPage() {
                 handleOpenNewTaskDraft();
               }}
             />
+
           </div>
           <div className="flex-1" onClick={() => setMobileMenuOpen(false)} />
         </div>
@@ -701,6 +799,32 @@ export default function AppPage() {
               </button>
             </div>
 
+            {/* Sorting Control */}
+            <div className="flex items-center bg-white dark:bg-[#1e222b] border border-slate-300 dark:border-[#2e3340] rounded-lg px-2 py-1 gap-1 text-xs text-slate-700 dark:text-gray-300 shadow-sm">
+              <Sliders className="w-3.5 h-3.5 text-[#4772fa]" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="bg-transparent border-none text-xs text-slate-800 dark:text-gray-200 focus:outline-none cursor-pointer pr-1"
+                title="Sort tasks by"
+              >
+                <option value="due" className="dark:bg-[#1e222b]">Due Date</option>
+                <option value="name" className="dark:bg-[#1e222b]">Task Name</option>
+                <option value="status" className="dark:bg-[#1e222b]">Status</option>
+                <option value="created" className="dark:bg-[#1e222b]">Date Created</option>
+              </select>
+              <button
+                type="button"
+                onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+                className="p-0.5 hover:text-[#4772fa] font-bold text-[10px] ml-0.5 rounded transition"
+                title={`Sort ${sortOrder === "asc" ? "Ascending (click for Descending)" : "Descending (click for Ascending)"}`}
+              >
+                {sortOrder === "asc" ? "▲" : "▼"}
+              </button>
+            </div>
+
+
+
             {/* Hide completed button */}
             <button
               onClick={() => setHideCompleted(!hideCompleted)}
@@ -714,6 +838,7 @@ export default function AppPage() {
               {hideCompleted ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
               <span>{hideCompleted ? "Completed hidden" : "Showing all"}</span>
             </button>
+
 
             {/* Sync Now button */}
             <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-400">

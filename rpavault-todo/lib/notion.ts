@@ -23,8 +23,8 @@ function getDataSourceId(): string {
   return process.env.NOTION_DATA_SOURCE_ID || "adeee8c4-8df2-82ec-8281-815b6c3ddb80";
 }
 
-// Map user ID to clean human-readable name (prevents random UUID strings from showing in UI)
-export const KNOWN_USERS_MAP: Record<string, AssigneeDetail> = {
+// Map user ID to clean human-readable name for default RPAVault workspace
+export const RPAVAULT_USERS_MAP: Record<string, AssigneeDetail> = {
   "51c6c018-6966-4b29-b65e-e8f63036bbad": {
     id: "51c6c018-6966-4b29-b65e-e8f63036bbad",
     name: "Kumar",
@@ -35,11 +35,9 @@ export const KNOWN_USERS_MAP: Record<string, AssigneeDetail> = {
     name: "Shivani",
     avatarUrl: "https://s3-us-west-2.amazonaws.com/public.notion-static.com/e68f6776-c7c3-4994-9244-5179cf5bb722/WhatsApp_Image_2026-03-07_at_9.14.18_PM.jpeg",
   },
-  "327d872b-594c-81b0-a962-00027b0ca975": {
-    id: "327d872b-594c-81b0-a962-00027b0ca975",
-    name: "Guest Member",
-  },
 };
+
+export const KNOWN_USERS_MAP: Record<string, AssigneeDetail> = { ...RPAVAULT_USERS_MAP };
 
 export function resolveUserName(idOrName: string): string {
   if (KNOWN_USERS_MAP[idOrName]) {
@@ -52,12 +50,16 @@ export function resolveUserName(idOrName: string): string {
       return u.name;
     }
   }
-  // If it is a raw UUID or "2do" bot, label cleanly
-  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrName) || idOrName === "2do") {
-    return "Kumar";
+  // If it is a raw UUID or bot name
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrName)) {
+    return "Member";
+  }
+  if (idOrName === "2do") {
+    return "2Do Bot";
   }
   return idOrName;
 }
+
 
 /**
  * Normalizes a raw Notion page into a clean Task object.
@@ -72,11 +74,21 @@ export function normalizeNotionPage(page: any): Task {
     name = titleProp.title.map((t: any) => t.plain_text).join("");
   }
 
-  // Status (status)
+  // Status (status / select / checkbox: Status, Chk, Done, etc.)
   let status: TaskStatus = "To Do";
-  if (props["Status"]?.status?.name) {
-    status = props["Status"].status.name as TaskStatus;
+  const statusProp = props["Status"] || props["Chk"] || props["chk"] || props["Status / Chk"];
+  if (statusProp) {
+    if (statusProp.status?.name) {
+      status = statusProp.status.name as TaskStatus;
+    } else if (statusProp.select?.name) {
+      status = statusProp.select.name as TaskStatus;
+    } else if (typeof statusProp.checkbox === "boolean") {
+      status = statusProp.checkbox ? "Done" : "To Do";
+    }
+  } else if (props["Done"] && typeof props["Done"].checkbox === "boolean") {
+    status = props["Done"].checkbox ? "Done" : "To Do";
   }
+
 
   // Due (date)
   let due: string | null = null;
@@ -150,30 +162,43 @@ export function normalizeNotionPage(page: any): Task {
 }
 
 /**
- * Reads page content text (paragraphs/callouts/images) as page description.
+ * Reads page content blocks (headings, lists, to-dos, quotes, code, paragraphs, and images) as markdown description.
  */
 export async function getPageDescription(pageId: string): Promise<string> {
   try {
     const notion = getNotionClient();
-    const blocks = await notion.blocks.children.list({ block_id: pageId });
-    const texts: string[] = [];
+    const blocks = await notion.blocks.children.list({ block_id: pageId, page_size: 100 });
+    const lines: string[] = [];
+
     for (const b of blocks.results as any[]) {
-      if (b.paragraph?.rich_text) {
-        texts.push(b.paragraph.rich_text.map((t: any) => t.plain_text).join(""));
-      } else if (b.bulleted_list_item?.rich_text) {
-        texts.push("• " + b.bulleted_list_item.rich_text.map((t: any) => t.plain_text).join(""));
-      } else if (b.to_do?.rich_text) {
-        texts.push((b.to_do.checked ? "[x] " : "[ ] ") + b.to_do.rich_text.map((t: any) => t.plain_text).join(""));
-      } else if (b.callout?.rich_text) {
-        texts.push(b.callout.rich_text.map((t: any) => t.plain_text).join(""));
-      } else if (b.image) {
+      if (b.type === "heading_1" && b.heading_1?.rich_text) {
+        lines.push("# " + b.heading_1.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "heading_2" && b.heading_2?.rich_text) {
+        lines.push("## " + b.heading_2.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "heading_3" && b.heading_3?.rich_text) {
+        lines.push("### " + b.heading_3.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "bulleted_list_item" && b.bulleted_list_item?.rich_text) {
+        lines.push("• " + b.bulleted_list_item.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "numbered_list_item" && b.numbered_list_item?.rich_text) {
+        lines.push("1. " + b.numbered_list_item.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "to_do" && b.to_do?.rich_text) {
+        lines.push((b.to_do.checked ? "[x] " : "[ ] ") + b.to_do.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "quote" && b.quote?.rich_text) {
+        lines.push("> " + b.quote.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "code" && b.code?.rich_text) {
+        lines.push("```\n" + b.code.rich_text.map((t: any) => t.plain_text).join("") + "\n```");
+      } else if (b.type === "callout" && b.callout?.rich_text) {
+        lines.push("> " + b.callout.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "paragraph" && b.paragraph?.rich_text) {
+        lines.push(b.paragraph.rich_text.map((t: any) => t.plain_text).join(""));
+      } else if (b.type === "image" && b.image) {
         const url = b.image.external?.url || b.image.file?.url;
         if (url) {
-          texts.push(`![image](${url})`);
+          lines.push(`![image](${url})`);
         }
       }
     }
-    return texts.join("\n");
+    return lines.join("\n");
   } catch (err) {
     console.error("Failed to read page description:", err);
     return "";
@@ -181,69 +206,205 @@ export async function getPageDescription(pageId: string): Promise<string> {
 }
 
 /**
- * Updates the page body content directly in Notion (handling text and images).
+ * Updates the page body content directly in Notion safely (without wiping existing blocks if update fails).
  */
 export async function updatePageDescription(pageId: string, description: string): Promise<void> {
   const notion = getNotionClient();
   try {
-    const existing = await notion.blocks.children.list({ block_id: pageId });
+    const rawLines = (description || "").split("\n");
+    const newChildren: any[] = [];
+
+    for (let i = 0; i < rawLines.length; i++) {
+      const line = rawLines[i].trim();
+      if (!line) continue;
+
+      // Markdown image: ![caption](url)
+      const imgMatch = line.match(/^!\[(.*?)\]\((.+)\)$/);
+      if (imgMatch) {
+        const imgUrl = imgMatch[2].trim();
+        // Notion API external image blocks require valid HTTP/HTTPS URLs <= 2000 chars
+        if (imgUrl.startsWith("http://") || imgUrl.startsWith("https://")) {
+          if (imgUrl.length <= 2000) {
+            newChildren.push({
+              object: "block",
+              type: "image",
+              image: {
+                type: "external",
+                external: { url: imgUrl },
+              },
+            });
+            continue;
+          }
+        }
+        // If image is a local path or data URL, render as callout link instead of invalid block that crashes Notion
+        const caption = imgMatch[1] || "Image Attachment";
+        newChildren.push({
+          object: "block",
+          type: "callout",
+          callout: {
+            rich_text: [
+              {
+                type: "text",
+                text: { content: `🖼️ [${caption}]` },
+              },
+            ],
+          },
+        });
+        continue;
+      }
+
+      // Heading 1
+      if (line.startsWith("# ")) {
+        newChildren.push({
+          object: "block",
+          type: "heading_1",
+          heading_1: {
+            rich_text: [{ type: "text", text: { content: line.slice(2).slice(0, 2000) } }],
+          },
+        });
+        continue;
+      }
+
+      // Heading 2
+      if (line.startsWith("## ")) {
+        newChildren.push({
+          object: "block",
+          type: "heading_2",
+          heading_2: {
+            rich_text: [{ type: "text", text: { content: line.slice(3).slice(0, 2000) } }],
+          },
+        });
+        continue;
+      }
+
+      // Heading 3
+      if (line.startsWith("### ")) {
+        newChildren.push({
+          object: "block",
+          type: "heading_3",
+          heading_3: {
+            rich_text: [{ type: "text", text: { content: line.slice(4).slice(0, 2000) } }],
+          },
+        });
+        continue;
+      }
+
+      // To-Do list
+      if (line.startsWith("- [ ] ") || line.startsWith("[ ] ")) {
+        const text = line.replace(/^-\s*\[\s*\]\s*|^\[\s*\]\s*/, "").slice(0, 2000);
+        newChildren.push({
+          object: "block",
+          type: "to_do",
+          to_do: {
+            rich_text: [{ type: "text", text: { content: text } }],
+            checked: false,
+          },
+        });
+        continue;
+      }
+      if (line.startsWith("- [x] ") || line.startsWith("[x] ")) {
+        const text = line.replace(/^-\s*\[x\]\s*|^\[x\]\s*/i, "").slice(0, 2000);
+        newChildren.push({
+          object: "block",
+          type: "to_do",
+          to_do: {
+            rich_text: [{ type: "text", text: { content: text } }],
+            checked: true,
+          },
+        });
+        continue;
+      }
+
+      // Bulleted list item
+      if (line.startsWith("• ") || line.startsWith("- ") || line.startsWith("* ")) {
+        const text = line.replace(/^([•\-*]\s*)/, "").slice(0, 2000);
+        newChildren.push({
+          object: "block",
+          type: "bulleted_list_item",
+          bulleted_list_item: {
+            rich_text: [{ type: "text", text: { content: text } }],
+          },
+        });
+        continue;
+      }
+
+      // Numbered list item
+      if (/^\d+\.\s/.test(line)) {
+        const text = line.replace(/^\d+\.\s*/, "").slice(0, 2000);
+        newChildren.push({
+          object: "block",
+          type: "numbered_list_item",
+          numbered_list_item: {
+            rich_text: [{ type: "text", text: { content: text } }],
+          },
+        });
+        continue;
+      }
+
+      // Quote / Callout
+      if (line.startsWith("> ")) {
+        newChildren.push({
+          object: "block",
+          type: "quote",
+          quote: {
+            rich_text: [{ type: "text", text: { content: line.slice(2).slice(0, 2000) } }],
+          },
+        });
+        continue;
+      }
+
+      // Standard Paragraph (capped at 2000 chars per Notion API limit)
+      newChildren.push({
+        object: "block",
+        type: "paragraph",
+        paragraph: {
+          rich_text: [{ type: "text", text: { content: line.slice(0, 2000) } }],
+        },
+      });
+    }
+
+    // Retrieve existing blocks
+    const existing = await notion.blocks.children.list({ block_id: pageId, page_size: 100 });
+
+    // Append validated new children in chunks of 50
+    if (newChildren.length > 0) {
+      for (let c = 0; c < newChildren.length; c += 50) {
+        await notion.blocks.children.append({
+          block_id: pageId,
+          children: newChildren.slice(c, c + 50),
+        });
+      }
+    }
+
+    // Safely remove the prior existing blocks only after the new blocks have succeeded!
     for (const b of existing.results) {
       try {
         await notion.blocks.delete({ block_id: b.id });
       } catch {}
-    }
-
-    if (description.trim()) {
-      const lines = description.split("\n").filter(line => line.trim().length > 0);
-      const children: any[] = [];
-
-      for (const line of lines) {
-        // Check if markdown image: ![caption](url)
-        const imgMatch = line.match(/^!\[(.*?)\]\((https?:\/\/[^\s]+)\)$/);
-        if (imgMatch) {
-          children.push({
-            object: "block",
-            type: "image",
-            image: {
-              type: "external",
-              external: { url: imgMatch[2] },
-            },
-          });
-        } else {
-          children.push({
-            object: "block",
-            type: "paragraph",
-            paragraph: {
-              rich_text: [{ type: "text", text: { content: line } }],
-            },
-          });
-        }
-      }
-
-      if (children.length > 0) {
-        await notion.blocks.children.append({
-          block_id: pageId,
-          children: children.slice(0, 100),
-        });
-      }
     }
   } catch (err) {
     console.error("Error saving page description to Notion:", err);
   }
 }
 
+
 /**
  * Get all Notion users (people and guests, cleaned of raw UUID numbers).
  */
 export async function listNotionUsers(): Promise<AssigneeDetail[]> {
   const userMap = new Map<string, AssigneeDetail>();
+  const database_id = getDataSourceId();
+  const isDefaultDb = database_id === "adeee8c4-8df2-82ec-8281-815b6c3ddb80";
 
-  // Add predefined active members
-  Object.values(KNOWN_USERS_MAP).forEach((u) => userMap.set(u.id, u));
+  // Only seed RPAVault team members if connected to the company RPAVault database
+  if (isDefaultDb) {
+    Object.values(RPAVAULT_USERS_MAP).forEach((u) => userMap.set(u.id, u));
+  }
 
   try {
     const notion = getNotionClient();
     const users = await notion.users.list({});
+
     for (const u of users.results) {
       if (u.type === "person" && u.name) {
         userMap.set(u.id, {
@@ -368,7 +529,7 @@ export async function createTaskComment(
 /**
  * List all tasks from Notion data source.
  */
-export async function listTasks(filter?: any): Promise<Task[]> {
+export async function listTasks(filter?: any, maxResults: number = 2000): Promise<Task[]> {
   const notion = getNotionClient();
   const database_id = getDataSourceId();
 
@@ -376,9 +537,10 @@ export async function listTasks(filter?: any): Promise<Task[]> {
   let cursor: string | undefined = undefined;
 
   do {
-    const response: any = await notion.databases.query({
+    const queryPayload: any = {
       database_id,
       start_cursor: cursor,
+      page_size: 100, // Query maximum allowed 100 pages per request for 10x faster loading
       filter,
       sorts: [
         {
@@ -386,11 +548,26 @@ export async function listTasks(filter?: any): Promise<Task[]> {
           direction: "ascending",
         },
       ],
-    });
+    };
+
+    let response: any;
+    try {
+      response = await notion.databases.query(queryPayload);
+    } catch {
+      // If sorting by Due fails because Due property doesn't exist, sort without Due
+      delete queryPayload.sorts;
+      response = await notion.databases.query(queryPayload);
+    }
 
     results.push(...response.results);
     cursor = response.has_more ? response.next_cursor : undefined;
+
+    // Safety cap to prevent browser/server memory timeouts when databases exceed thousands of items
+    if (results.length >= maxResults) {
+      break;
+    }
   } while (cursor);
+
 
   const tasks = results.map(normalizeNotionPage);
 
@@ -520,6 +697,7 @@ export async function updateTask(pageId: string, data: UpdateTaskInput): Promise
       : { date: null };
   }
 
+
   if (data.assignee !== undefined) {
     properties["Assignee"] = {
       people: (data.assignee || []).map((id) => ({ id })),
@@ -550,10 +728,46 @@ export async function updateTask(pageId: string, data: UpdateTaskInput): Promise
     properties["URL"] = { url: data.url || null };
   }
 
-  const page = await notion.pages.update({
-    page_id: pageId,
-    properties,
-  });
+  let page: any;
+  try {
+    page = await notion.pages.update({
+      page_id: pageId,
+      properties,
+    });
+  } catch (err: any) {
+    // If Status property fails because the column is named "Chk"
+    if (data.status !== undefined && (err.message?.includes("Status") || err.message?.includes("is not a property that exists"))) {
+      const fallbackProps = { ...properties };
+      delete fallbackProps["Status"];
+      // Try Chk as checkbox or select
+      fallbackProps["Chk"] = { checkbox: data.status === "Done" };
+      try {
+        page = await notion.pages.update({
+          page_id: pageId,
+          properties: fallbackProps,
+        });
+      } catch {
+        // Try Chk as select or status
+        fallbackProps["Chk"] = { select: { name: data.status } };
+        try {
+          page = await notion.pages.update({
+            page_id: pageId,
+            properties: fallbackProps,
+          });
+        } catch {
+          // If still fails, omit status property and update remaining fields
+          delete fallbackProps["Chk"];
+          page = await notion.pages.update({
+            page_id: pageId,
+            properties: fallbackProps,
+          });
+        }
+      }
+    } else {
+      throw err;
+    }
+  }
+
 
   if (data.description !== undefined) {
     await updatePageDescription(pageId, data.description || "");

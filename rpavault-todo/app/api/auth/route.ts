@@ -6,24 +6,26 @@ export async function POST(req: NextRequest) {
     const { username, password } = await req.json();
     const cleanUser = (username || "").trim().toLowerCase();
 
-    // Default admin / Kumar account
-    const expectedAdminUser = (process.env.AUTH_USERNAME || "admin").toLowerCase();
-    const expectedAdminPass = process.env.AUTH_PASSWORD || "rpavault";
+    // Support configurable credentials for both team and personal instances
+    const adminUser = (process.env.AUTH_USER_1_NAME || process.env.AUTH_USERNAME || "admin").toLowerCase();
+    const adminPass = process.env.AUTH_USER_1_PASSWORD || process.env.AUTH_PASSWORD || "rpavault";
+    const displayName = process.env.AUTH_USER_1_NAME || process.env.AUTH_DISPLAY_NAME || "Kumar";
 
-    // Shivani account
+    // Shivani account (for team workspace)
     const expectedShivaniUser = (process.env.SHIVANI_USERNAME || "shivani").toLowerCase();
     const expectedShivaniPass = process.env.SHIVANI_PASSWORD || "rpavault123";
 
     let authenticatedUser: string | null = null;
 
     if (
-      (cleanUser === expectedAdminUser || cleanUser === "kumar") &&
-      password === expectedAdminPass
+      (cleanUser === adminUser || cleanUser === "admin" || cleanUser === displayName.toLowerCase()) &&
+      password === adminPass
     ) {
-      authenticatedUser = "Kumar";
+      authenticatedUser = displayName;
     } else if (cleanUser === expectedShivaniUser && password === expectedShivaniPass) {
       authenticatedUser = "Shivani";
     }
+
 
     if (authenticatedUser) {
       const token = await encryptSession({ user: authenticatedUser });

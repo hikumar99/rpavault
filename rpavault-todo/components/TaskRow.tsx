@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { format, isPast, isToday, parseISO } from "date-fns";
+import { format, isPast, isToday, isTomorrow, parseISO } from "date-fns";
 import { Repeat, Calendar, Check, ExternalLink } from "lucide-react";
 import { Task } from "@/lib/types";
 
@@ -38,20 +38,31 @@ export const TaskRow: React.FC<TaskRowProps> = ({
   if (task.due) {
     try {
       const parsedDate = parseISO(task.due);
+      const hasTime = task.due.includes("T");
+      const timeStr = hasTime ? format(parsedDate, "h:mm a") : "";
+
       if (isPast(parsedDate) && !isToday(parsedDate) && !isDone) {
         dateBadgeClass = "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border-rose-200 dark:border-rose-500/30";
       } else if (isToday(parsedDate)) {
         dateBadgeClass = "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30";
+      } else if (isTomorrow(parsedDate)) {
+        dateBadgeClass = "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30";
       } else {
         dateBadgeClass = "text-[#4772fa] bg-[#4772fa]/10 border-[#4772fa]/30";
       }
 
-      const hasTime = task.due.includes("T");
-      formattedDate = format(parsedDate, hasTime ? "MMM d, h:mm a" : "MMM d");
+      if (isToday(parsedDate)) {
+        formattedDate = timeStr ? `Today, ${timeStr}` : "Today";
+      } else if (isTomorrow(parsedDate)) {
+        formattedDate = timeStr ? `Tomorrow, ${timeStr}` : "Tomorrow";
+      } else {
+        formattedDate = format(parsedDate, hasTime ? "MMM d, h:mm a" : "MMM d");
+      }
     } catch {
       formattedDate = task.due;
     }
   }
+
 
   return (
     <div

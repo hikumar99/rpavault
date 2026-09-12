@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Download, Smartphone, X } from "lucide-react";
+import { APP_NAME } from "@/lib/config";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -11,7 +12,7 @@ interface BeforeInstallPromptEvent extends Event {
 export function PWAInstallPrompt() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash before checking
   const [showIOSModal, setShowIOSModal] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
@@ -22,10 +23,15 @@ export function PWAInstallPrompt() {
       window.matchMedia("(display-mode: fullscreen)").matches ||
       (window.navigator as any).standalone === true;
     
-    // Check localStorage for previous installation record
+    // Check localStorage for previous installation or dismissal record
     const hasInstalled = localStorage.getItem("rpavault_pwa_installed") === "true";
-    if (isStandaloneMode || hasInstalled) {
+    const hasDismissed = localStorage.getItem("rpavault_pwa_dismissed") === "true";
+
+    if (isStandaloneMode || hasInstalled || hasDismissed) {
       setIsStandalone(true);
+      return;
+    } else {
+      setIsStandalone(false);
     }
 
     // Detect iOS devices
@@ -75,8 +81,10 @@ export function PWAInstallPrompt() {
   function handleDismiss(e: React.MouseEvent) {
     e.stopPropagation();
     localStorage.setItem("rpavault_pwa_installed", "true");
+    localStorage.setItem("rpavault_pwa_dismissed", "true");
     setDismissed(true);
   }
+
 
   return (
     <>
@@ -84,7 +92,7 @@ export function PWAInstallPrompt() {
         <button
           onClick={handleInstallClick}
           className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/40 border border-blue-200/60 dark:border-blue-800/40 transition"
-          title="Install RPAVault To-Do as a desktop or mobile application"
+          title={`Install ${APP_NAME} as a desktop or mobile application`}
         >
           <div className="flex items-center gap-2 truncate">
             <Download className="w-3.5 h-3.5 shrink-0 animate-bounce" />
@@ -116,7 +124,7 @@ export function PWAInstallPrompt() {
             </div>
 
             <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-2">
-              Install RPAVault To-Do
+              Install {APP_NAME}
             </h3>
 
             {isIOS ? (

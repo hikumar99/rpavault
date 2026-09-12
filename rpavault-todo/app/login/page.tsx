@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckSquare, Lock, User, ArrowRight, Loader2 } from "lucide-react";
 
-import { apiPath } from "@/lib/config";
+import { apiPath, APP_NAME } from "@/lib/config";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -46,10 +46,10 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md bg-[#1a1d24] border border-[#2b303c] rounded-2xl p-8 shadow-2xl relative z-10">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-[#4772fa]/10 border border-[#4772fa]/20 flex items-center justify-center text-[#4772fa] mb-3 shadow-inner">
-            <CheckSquare className="w-7 h-7" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#4772fa] to-indigo-600 flex items-center justify-center text-white font-bold text-2xl mb-3 shadow-lg shadow-[#4772fa]/25">
+            K
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">RPAVault To-Do</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-white">{APP_NAME}</h1>
           <p className="text-sm text-gray-400 mt-1">Sign in to manage and collaborate on your tasks</p>
         </div>
 

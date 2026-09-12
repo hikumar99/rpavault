@@ -239,8 +239,11 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
       });
       const data = await res.json();
       if (res.ok && data.success && data.url) {
-        const imageUrl = data.url.startsWith("data:") ? data.url : (window.location.origin + data.url);
-        const markdownImg = `\n![${data.name || "image"}](${imageUrl})\n`;
+        const fullUrl = data.url.startsWith("http://") || data.url.startsWith("https://")
+          ? data.url
+          : `${window.location.origin}${apiPath(data.url)}`;
+        const cleanName = data.name || "Image";
+        const markdownImg = `\n![${cleanName}](${fullUrl})\n`;
         const updatedDesc = (description || "") + markdownImg;
         setDescription(updatedDesc);
         await handleAutoSave({ description: updatedDesc });
@@ -250,6 +253,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
     } finally {
       setUploadingImage(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
+
     }
   }
 
@@ -806,11 +810,11 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
           />
 
           {/* Embedded Image Previews */}
-          {description && Array.from(description.matchAll(/!\[(.*?)\]\(((?:https?:\/\/|data:image\/)[^\s)]+)\)/g)).length > 0 && (
+          {description && Array.from(description.matchAll(/!\[(.*?)\]\(((?:https?:\/\/|\/|data:image\/)[^\s)]+)\)/g)).length > 0 && (
             <div className="mt-2 space-y-2">
               <span className="text-[11px] font-medium text-slate-500 dark:text-gray-400">Attached Images:</span>
               <div className="flex flex-wrap gap-2">
-                {Array.from(description.matchAll(/!\[(.*?)\]\(((?:https?:\/\/|data:image\/)[^\s)]+)\)/g)).map((match, idx) => (
+                {Array.from(description.matchAll(/!\[(.*?)\]\(((?:https?:\/\/|\/|data:image\/)[^\s)]+)\)/g)).map((match, idx) => (
                   <div key={idx} className="relative group border border-slate-200 dark:border-[#2f3544] rounded-lg overflow-hidden bg-black/5 dark:bg-white/5">
                     <img
                       src={match[2]}
@@ -833,6 +837,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
               </div>
             </div>
           )}
+
         </div>
 
         {/* Comments Section with User Tagging (@mention) */}

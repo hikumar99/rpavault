@@ -109,8 +109,11 @@ export function DescriptionModal({
       });
       const data = await res.json();
       if (res.ok && data.success && data.url) {
-        const imageUrl = data.url;
-        const markdownImg = `\n![${data.name || "image"}](${imageUrl})\n`;
+        const fullUrl = data.url.startsWith("http://") || data.url.startsWith("https://")
+          ? data.url
+          : `${window.location.origin}${apiPath(data.url)}`;
+        const cleanName = data.name || "Image";
+        const markdownImg = `\n![${cleanName}](${fullUrl})\n`;
         const updated = (content || "") + markdownImg;
         setContent(updated);
         onChange(updated);
@@ -122,6 +125,7 @@ export function DescriptionModal({
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }
+
 
   function renderPreview(text: string) {
     if (!text.trim()) {
@@ -140,11 +144,19 @@ export function DescriptionModal({
           if (imgMatch) {
             return (
               <div key={idx} className="my-3 max-w-md rounded-xl overflow-hidden border border-slate-200 dark:border-[#343a49] bg-black/5 dark:bg-white/5">
-                <img src={imgMatch[2]} alt={imgMatch[1] || "Image"} className="w-full max-h-72 object-contain bg-slate-900/50" />
+                <img
+                  src={imgMatch[2]}
+                  alt={imgMatch[1] || "Image"}
+                  className="w-full max-h-72 object-contain bg-slate-900/50"
+                  onError={(e) => {
+                    (e.target as HTMLElement).style.display = "none";
+                  }}
+                />
                 <div className="p-1.5 text-[10px] text-slate-500 text-center truncate">{imgMatch[1]}</div>
               </div>
             );
           }
+
 
           if (line.startsWith("# ")) {
             return <h1 key={idx} className="text-lg font-bold text-slate-900 dark:text-white mt-3 mb-1">{line.slice(2)}</h1>;

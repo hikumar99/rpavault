@@ -66,4 +66,11 @@ declare module 'lucide-react' {
   export const CheckSquare2: Icon;
   export const HelpCircle: Icon;
   export const Edit3: Icon;
+  export const Sliders: Icon;
+  export const SlidersHorizontal: Icon;
+  export const ArrowUpDown: Icon;
+  export const Filter: Icon;
 }
+
+
+
