@@ -40,7 +40,13 @@ export default function AppPage() {
   const [syncing, setSyncing] = useState(false);
   const [lastSyncedAt, setLastSyncedAt] = useState<Date | null>(null);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const [activeList, setActiveList] = useState<SmartListType>("today");
+  const [activeList, setActiveList] = useState<SmartListType>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("rpavault_active_list");
+      if (saved) return saved as SmartListType;
+    }
+    return "all";
+  });
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [selectedAssignee, setSelectedAssignee] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -88,7 +94,12 @@ export default function AppPage() {
     }
   }, [isDark]);
 
-  // Load Session User
+  // Persist activeList selection
+  useEffect(() => {
+    try {
+      localStorage.setItem("rpavault_active_list", activeList);
+    } catch (e) {}
+  }, [activeList]);
   async function fetchSession() {
     try {
       const res = await fetch(apiPath("/api/auth/me"));
@@ -852,6 +863,17 @@ export default function AppPage() {
               </button>
             </div>
 
+            {/* Minimalist Filter Control */}
+            <QuickFilterBar
+              filterState={quickFilter}
+              onFilterChange={setQuickFilter}
+              selectedTag={selectedTag}
+              onClearTag={() => setSelectedTag(null)}
+              allTags={allTags}
+              onSelectTag={(tag) => setSelectedTag(tag)}
+              totalFiltered={displayedTasks.length}
+            />
+
             {/* Sorting Control */}
             <div className="flex items-center bg-white dark:bg-[#1e222b] border border-slate-300 dark:border-[#2e3340] rounded-lg px-2 py-1 gap-1 text-xs text-slate-700 dark:text-gray-300 shadow-sm">
               <Sliders className="w-3.5 h-3.5 text-[#4772fa]" />
@@ -876,8 +898,6 @@ export default function AppPage() {
               </button>
             </div>
 
-
-
             {/* Hide completed button */}
             <button
               onClick={() => setHideCompleted(!hideCompleted)}
@@ -891,7 +911,6 @@ export default function AppPage() {
               {hideCompleted ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
               <span>{hideCompleted ? "Completed hidden" : "Showing all"}</span>
             </button>
-
 
             {/* Sync Now button */}
             <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-400">
@@ -920,19 +939,6 @@ export default function AppPage() {
             onAddTask={handleAddTask}
             onOpenFullDetail={handleOpenNewTaskDraft}
           />
-
-          {/* Quick Filter Bar (Links, Recurring, Weekday, Multi-filters) */}
-          <div className="mt-2.5">
-            <QuickFilterBar
-              filterState={quickFilter}
-              onFilterChange={setQuickFilter}
-              selectedTag={selectedTag}
-              onClearTag={() => setSelectedTag(null)}
-              allTags={allTags}
-              onSelectTag={(tag) => setSelectedTag(tag)}
-              totalFiltered={displayedTasks.length}
-            />
-          </div>
 
           {/* Quick Switcher Banner when viewing Today with few tasks */}
           {activeList === "today" && tasks.length > displayedTasks.length && (

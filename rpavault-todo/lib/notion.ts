@@ -78,12 +78,40 @@ export function normalizeNotionPage(page: any): Task {
   let status: TaskStatus = "To Do";
   const statusProp = props["Status"] || props["Chk"] || props["chk"] || props["Status / Chk"];
   if (statusProp) {
+    let rawStatusName = "";
     if (statusProp.status?.name) {
-      status = statusProp.status.name as TaskStatus;
+      rawStatusName = statusProp.status.name.trim();
     } else if (statusProp.select?.name) {
-      status = statusProp.select.name as TaskStatus;
+      rawStatusName = statusProp.select.name.trim();
     } else if (typeof statusProp.checkbox === "boolean") {
       status = statusProp.checkbox ? "Done" : "To Do";
+    }
+
+    if (rawStatusName) {
+      const lower = rawStatusName.toLowerCase();
+      if (
+        lower === "done" ||
+        lower === "completed" ||
+        lower === "complete" ||
+        lower === "finished" ||
+        lower === "closed" ||
+        lower === "yes" ||
+        lower === "checked" ||
+        lower === "chk" ||
+        lower === "resolved"
+      ) {
+        status = "Done";
+      } else if (
+        lower === "doing" ||
+        lower === "in progress" ||
+        lower === "working" ||
+        lower === "in-progress" ||
+        lower === "ongoing"
+      ) {
+        status = "Doing";
+      } else {
+        status = "To Do";
+      }
     }
   } else if (props["Done"] && typeof props["Done"].checkbox === "boolean") {
     status = props["Done"].checkbox ? "Done" : "To Do";
@@ -749,11 +777,14 @@ export async function updateTask(pageId: string, data: UpdateTaskInput): Promise
         if (propType === "checkbox") {
           properties[chkKey] = { checkbox: isDone };
         } else if (propType === "status") {
-          properties[chkKey] = { status: { name: data.status } };
+          // Status properties require an exact option name matching the DB schema
+          const currentOption = existingProps[chkKey]?.status?.name || "";
+          let targetName = isDone ? "Done" : "To Do";
+          // If current is "In progress" or other, or if database defines options
+          properties[chkKey] = { status: { name: targetName } };
         } else if (propType === "select") {
           properties[chkKey] = { select: { name: data.status } };
         } else {
-          // Default to status object
           properties[chkKey] = { status: { name: data.status } };
         }
       } else {
@@ -761,36 +792,56 @@ export async function updateTask(pageId: string, data: UpdateTaskInput): Promise
       }
     }
 
-    page = await notion.pages.update({
-      page_id: pageId,
-      properties,
-    });
-  } catch (err: any) {
-    // Fallback resilient retry
-    console.warn("Retrying Notion page update with fallback properties:", err?.message);
-    const fallbackProps = { ...properties };
-    delete fallbackProps["Status"];
-    fallbackProps["Chk"] = { checkbox: data.status === "Done" };
     try {
       page = await notion.pages.update({
         page_id: pageId,
-        properties: fallbackProps,
+        properties,
       });
-    } catch {
-      fallbackProps["Chk"] = { select: { name: data.status } };
-      try {
-        page = await notion.pages.update({
-          page_id: pageId,
-          properties: fallbackProps,
-        });
-      } catch {
-        delete fallbackProps["Chk"];
-        page = await notion.pages.update({
-          page_id: pageId,
-          properties: fallbackProps,
-        });
+    } catch (firstErr: any) {
+      // If updating status failed (e.g. "Done" is not a status option, "Completed" might be)
+      const chkKey = Object.keys(existingProps).find((k) =>
+        k.toLowerCase() === "chk" || k.toLowerCase() === "done" || k.toLowerCase() === "status" || k.toLowerCase() === "check"
+      ) || "Chk";
+
+      const isDone = data.status === "Done";
+      const statusCandidates = isDone
+        ? ["Completed", "Complete", "Done", "Finished", "Done!"]
+        : ["Not started", "To Do", "Not Started", "Todo", "Open"];
+
+      let succeeded = false;
+      for (const candidate of statusCandidates) {
+        try {
+          const retryProps = { ...properties };
+          retryProps[chkKey] = { status: { name: candidate } };
+          page = await notion.pages.update({
+            page_id: pageId,
+            properties: retryProps,
+          });
+          succeeded = true;
+          break;
+        } catch {}
+      }
+
+      if (!succeeded) {
+        // Try as checkbox or select
+        try {
+          const checkProps = { ...properties };
+          checkProps[chkKey] = { checkbox: isDone };
+          page = await notion.pages.update({
+            page_id: pageId,
+            properties: checkProps,
+          });
+          succeeded = true;
+        } catch {}
+      }
+
+      if (!succeeded) {
+        throw firstErr;
       }
     }
+  } catch (err: any) {
+    console.warn("Failed Notion page update:", err?.message);
+    throw err;
   }
 
 

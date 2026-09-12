@@ -23,11 +23,7 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: APP_NAME,
   },
-  icons: {
-    icon: "/icon-192.png",
-    shortcut: "/favicon.png",
-    apple: "/apple-touch-icon.png",
-  },
+  // icons handled by dynamic app/icon.tsx and app/apple-icon.tsx
   robots: {
     index: false,
     follow: false,
