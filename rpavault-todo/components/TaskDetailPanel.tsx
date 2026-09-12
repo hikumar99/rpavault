@@ -22,11 +22,13 @@ import {
   AtSign,
   Send,
   Check,
+  Maximize2,
 } from "lucide-react";
 import { Task, RecurUnit, Weekday, AssigneeDetail, TaskComment } from "@/lib/types";
 import { computeNextDue } from "@/lib/recurrence";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { apiPath } from "@/lib/config";
+import { DescriptionModal } from "./DescriptionModal";
 
 interface TaskDetailPanelProps {
   task: Task | null;
@@ -90,6 +92,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
   const [syncStatus, setSyncStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [deleting, setDeleting] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [showDescModal, setShowDescModal] = useState(false);
 
   // Tag Dropdown state
   const [tagDropdownOpen, setTagDropdownOpen] = useState(false);
@@ -236,8 +239,8 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
       });
       const data = await res.json();
       if (res.ok && data.success && data.url) {
-        const fullUrl = window.location.origin + data.url;
-        const markdownImg = `\n![${data.name}](${fullUrl})\n`;
+        const imageUrl = data.url.startsWith("data:") ? data.url : (window.location.origin + data.url);
+        const markdownImg = `\n![${data.name || "image"}](${imageUrl})\n`;
         const updatedDesc = (description || "") + markdownImg;
         setDescription(updatedDesc);
         await handleAutoSave({ description: updatedDesc });
@@ -741,7 +744,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
               <FileText className="w-3.5 h-3.5 text-[#4772fa]" />
               Description
             </label>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -767,6 +770,15 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
                   </>
                 )}
               </button>
+              <button
+                type="button"
+                onClick={() => setShowDescModal(true)}
+                className="flex items-center gap-1 text-[11px] text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white px-2 py-0.5 rounded-lg border border-slate-300 dark:border-[#343a49] bg-slate-100 dark:bg-[#232731] hover:bg-slate-200 dark:hover:bg-[#2b303c] transition"
+                title="Open expanded rich editor popup"
+              >
+                <Maximize2 className="w-3 h-3" />
+                <span>Expand Editor</span>
+              </button>
             </div>
           </div>
           <textarea
@@ -774,16 +786,31 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             onBlur={() => handleAutoSave({ description })}
-            placeholder="Detailed notes or paste markdown images ![caption](url)..."
+            placeholder="Detailed notes or paste markdown images ![caption](url)... (Click Expand Editor for Notion-style blocks & rich tools)"
             className="w-full bg-slate-50 dark:bg-[#20242e] border border-slate-300 dark:border-[#2f3544] rounded-xl p-3 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-[#4772fa] resize-y leading-relaxed"
           />
 
+          {/* Expanded Rich Description Modal */}
+          <DescriptionModal
+            isOpen={showDescModal}
+            onClose={() => {
+              setShowDescModal(false);
+              handleAutoSave({ description });
+            }}
+            description={description}
+            onChange={(newDesc) => {
+              setDescription(newDesc);
+              handleAutoSave({ description: newDesc });
+            }}
+            taskTitle={name || "Task"}
+          />
+
           {/* Embedded Image Previews */}
-          {description && Array.from(description.matchAll(/!\[(.*?)\]\((https?:\/\/[^\s)]+)\)/g)).length > 0 && (
+          {description && Array.from(description.matchAll(/!\[(.*?)\]\(((?:https?:\/\/|data:image\/)[^\s)]+)\)/g)).length > 0 && (
             <div className="mt-2 space-y-2">
               <span className="text-[11px] font-medium text-slate-500 dark:text-gray-400">Attached Images:</span>
               <div className="flex flex-wrap gap-2">
-                {Array.from(description.matchAll(/!\[(.*?)\]\((https?:\/\/[^\s)]+)\)/g)).map((match, idx) => (
+                {Array.from(description.matchAll(/!\[(.*?)\]\(((?:https?:\/\/|data:image\/)[^\s)]+)\)/g)).map((match, idx) => (
                   <div key={idx} className="relative group border border-slate-200 dark:border-[#2f3544] rounded-lg overflow-hidden bg-black/5 dark:bg-white/5">
                     <img
                       src={match[2]}

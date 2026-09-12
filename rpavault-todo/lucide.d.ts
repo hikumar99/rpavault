@@ -52,4 +52,18 @@ declare module 'lucide-react' {
   export const Cloud: Icon;
   export const Download: Icon;
   export const Smartphone: Icon;
+  export const Bold: Icon;
+  export const Italic: Icon;
+  export const List: Icon;
+  export const ListOrdered: Icon;
+  export const Code: Icon;
+  export const Heading1: Icon;
+  export const Heading2: Icon;
+  export const Heading3: Icon;
+  export const Quote: Icon;
+  export const Maximize2: Icon;
+  export const Minimize2: Icon;
+  export const CheckSquare2: Icon;
+  export const HelpCircle: Icon;
+  export const Edit3: Icon;
 }
