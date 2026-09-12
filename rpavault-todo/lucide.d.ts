@@ -50,4 +50,6 @@ declare module 'lucide-react' {
   export const AtSign: Icon;
   export const Send: Icon;
   export const Cloud: Icon;
+  export const Download: Icon;
+  export const Smartphone: Icon;
 }

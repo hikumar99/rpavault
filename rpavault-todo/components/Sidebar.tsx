@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { SmartListType } from "@/lib/smartLists";
 import { AssigneeDetail } from "@/lib/types";
+import { PWAInstallPrompt } from "./PWAInstallPrompt";
 
 interface SidebarProps {
   activeList: SmartListType;
@@ -410,11 +411,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       {/* Footer Profile & Logout */}
-      <div className="p-3 border-t border-slate-200 dark:border-[#262930] flex items-center justify-between">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#4772fa] to-purple-500 flex items-center justify-center text-white text-xs font-bold shadow shrink-0">
-            {currentUser.charAt(0).toUpperCase()}
-          </div>
+      <div className="p-3 border-t border-slate-200 dark:border-[#262930]">
+        <PWAInstallPrompt />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#4772fa] to-purple-500 flex items-center justify-center text-white text-xs font-bold shadow shrink-0">
+              {currentUser.charAt(0).toUpperCase()}
+            </div>
           <div className="text-left min-w-0">
             <p className="text-xs font-medium text-slate-900 dark:text-white truncate">{currentUser}</p>
             <p className="text-[10px] text-slate-500 dark:text-gray-500">
@@ -429,6 +432,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <LogOut className="w-4 h-4" />
         </button>
+        </div>
       </div>
     </aside>
   );
