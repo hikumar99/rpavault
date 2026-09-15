@@ -583,7 +583,7 @@ const htmlContent = `<!DOCTYPE html>
         </div>
         <div class="cover-stat-card">
           <div class="cover-stat-label">PHASES</div>
-          <div class="cover-stat-val">3</div>
+          <div class="cover-stat-val">4</div>
           <div class="cover-stat-sub">Structured progression</div>
         </div>
         <div class="cover-stat-card">
@@ -637,9 +637,9 @@ const htmlContent = `<!DOCTYPE html>
           <div style="font-size:10px; color:#64748b;">Full stack</div>
         </div>
         <div class="card" style="border-top: 3px solid #0284c7; padding: 9px 11px;">
-          <span class="ghost-num" style="font-size:26px;">03</span>
+          <span class="ghost-num" style="font-size:26px;">04</span>
           <div style="font-family:'IBM Plex Mono'; font-size:9.5px; font-weight:700; color:#0284c7;">PHASES</div>
-          <div style="font-family:'Sora'; font-size:17px; font-weight:800; color:#0f172a;">3 Stages</div>
+          <div style="font-family:'Sora'; font-size:17px; font-weight:800; color:#0f172a;">4 Stages</div>
           <div style="font-size:10px; color:#64748b;">Zero to agentic</div>
         </div>
         <div class="card" style="border-top: 3px solid #7c3aed; padding: 9px 11px;">
@@ -771,9 +771,9 @@ const htmlContent = `<!DOCTYPE html>
         <div class="day-item" style="border-left: 3.5px solid #ea580c;">
           <div class="day-header">
             <span class="day-pill amber">Day 05</span>
-            <span class="day-title">Modern DU Architecture &amp; Pre-Trained Models</span>
+            <span class="day-title">Introduction to AI Center &amp; ML Training</span>
           </div>
-          <p class="day-desc">Comparing traditional DU vs Modern DU, utilizing out-of-the-box pre-trained document models (Invoices, Receipts, Purchase Orders), and establishing new project pipelines.</p>
+          <p class="day-desc">Create and deploy ML packages, building dataset pipelines and training documents in Document Manager. Creating pipelines, ML Skill deployment, and retraining models.</p>
         </div>
       </div>
 
@@ -815,93 +815,108 @@ const htmlContent = `<!DOCTYPE html>
   <!-- ================= PAGE 4: PHASE 01 (PART B) - AI CENTER & IXP ================= -->
   <div class="page">
     <div class="doc-header">
-      <div class="dh-left">PHASE 01 · DAYS 06–11</div>
-      <div class="dh-right">AI CENTER, HITL &amp; IXP</div>
+      <div class="dh-left">PHASE 01 · DAYS 06–10</div>
+      <div class="dh-right">ACTION CENTER, IXP &amp; APIS</div>
     </div>
 
     <div class="page-main">
       <div>
         <span class="eyebrow">PHASE 01 · ENTERPRISE MODULES</span>
-        <h2 class="page-title">AI Center ML Retraining, <em>Action Center &amp; IXP</em></h2>
-        <p class="page-subtitle">Deploy ML models, orchestrate human-in-the-loop validation tasks, and extract multi-page unstructured layouts.</p>
+        <h2 class="page-title">Action Center HITL, <em>Cloud APIs &amp; IXP</em></h2>
+        <p class="page-subtitle">Deploy modern pre-trained models, orchestrate Action Center HITL validation, connect Cloud APIs, and build IXP &amp; Studio Web API workflows.</p>
       </div>
 
       <div class="grid-2">
         <div class="card amber">
-          <span class="ghost-num amber">06</span>
-          <span class="card-tag amber">DAY 06</span>
-          <h4 class="card-title">AI Center ML Training &amp; Pipelines</h4>
-          <p class="card-desc">Deploying ML packages, building dataset pipelines, retraining models with enterprise domain documents, and consuming ML Skills in Studio.</p>
-          <ul class="bullet-list">
-            <li>ML Packages &amp; Dataset Pipelines</li>
-            <li>Retraining with Domain Documents</li>
-            <li>ML Skill Activity Deployment</li>
-          </ul>
+          <span class="ghost-num amber">06–07</span>
+          <span class="card-tag amber">DAYS 06–07</span>
+          <h4 class="card-title">Action Center HITL &amp; Modern DU Models</h4>
+          <p class="card-desc">Deploying human-in-the-loop validation tasks and leveraging modern pre-trained models for zero-shot extraction:</p>
+
+          <div class="day-list">
+            <div class="day-item">
+              <div class="day-header">
+                <span class="day-pill amber">Day 06</span>
+                <span class="day-title">Action Center &amp; Human-in-the-Loop</span>
+              </div>
+              <p class="day-desc">Human-in-the-loop validation concepts, creating validation tasks, Action Center user routing workflows, and Orchestrator catalogs.</p>
+            </div>
+
+            <div class="day-item">
+              <div class="day-header">
+                <span class="day-pill amber">Day 07</span>
+                <span class="day-title">Modern DU Architecture &amp; Pre-Trained Models</span>
+              </div>
+              <p class="day-desc">Comparing traditional DU vs Modern DU, utilizing out-of-the-box pre-trained models (Invoices, Receipts, POs), and building end-to-end custom scenarios.</p>
+            </div>
+          </div>
+
+          <div class="tags-row">
+            <span class="pill-tag">Action Center</span>
+            <span class="pill-tag">HITL Tasks</span>
+            <span class="pill-tag">Modern DU</span>
+            <span class="pill-tag">Pre-Trained Models</span>
+          </div>
         </div>
 
         <div class="card amber">
-          <span class="ghost-num amber">07</span>
-          <span class="card-tag amber">DAY 07</span>
-          <h4 class="card-title">Action Center &amp; Human-in-the-Loop</h4>
-          <p class="card-desc">Human-in-the-Loop validation concepts, creating validation tasks, Action Center user routing workflows, and approval orchestration.</p>
-          <ul class="bullet-list">
-            <li>Creating HITL Validation Tasks</li>
-            <li>Action Center Orchestrator Catalogs</li>
-            <li>User Routing &amp; Multi-Tier Approvals</li>
-          </ul>
-        </div>
+          <span class="ghost-num amber">08–10</span>
+          <span class="card-tag amber">DAYS 08–10</span>
+          <h4 class="card-title">Cloud APIs, IXP &amp; Studio Web API Workflows</h4>
+          <p class="card-desc">Integrating serverless Cloud APIs, next-gen Intelligent Xtraction, and API-driven automation flows:</p>
 
-        <div class="card amber">
-          <span class="ghost-num amber">08</span>
-          <span class="card-tag amber">DAY 08</span>
-          <h4 class="card-title">Validation Station &amp; Thresholds</h4>
-          <p class="card-desc">Presenting Validation Station to users, configuring confidence thresholds (&lt;85%), field-level overrides, and validation station best practices.</p>
-          <ul class="bullet-list">
-            <li>Confidence Threshold Rules (&lt;85%)</li>
-            <li>Field-Level Exception Overrides</li>
-            <li>Validation Station Best Practices</li>
-          </ul>
-        </div>
+          <div class="day-list">
+            <div class="day-item">
+              <div class="day-header">
+                <span class="day-pill amber">Day 08</span>
+                <span class="day-title">DU Cloud APIs</span>
+              </div>
+              <p class="day-desc">Consume Document Understanding capability using cloud REST APIs for high-throughput, serverless document extraction pipelines.</p>
+            </div>
 
-        <div class="card amber">
-          <span class="ghost-num amber">09</span>
-          <span class="card-tag amber">DAY 09</span>
-          <h4 class="card-title">REST API Workflows &amp; Web Services</h4>
-          <p class="card-desc">REST API architecture, executing HTTP Request activities, parsing JSON responses, and integrating web services into Document Understanding.</p>
-          <ul class="bullet-list">
-            <li>HTTP Request &amp; OAuth 2.0 Auth</li>
-            <li>JSON Deserialization &amp; Data Tables</li>
-            <li>ERP Ingestion Web Services</li>
-          </ul>
-        </div>
+            <div class="day-item">
+              <div class="day-header">
+                <span class="day-pill amber">Day 09</span>
+                <span class="day-title">Introduction to IXP (Intelligent Xtraction)</span>
+              </div>
+              <p class="day-desc">What IXP is, why it is required for complex layouts, and IXP vs traditional extraction comparison. Build an end-to-end production use case.</p>
+            </div>
 
-        <div class="card amber">
-          <span class="ghost-num amber">10</span>
-          <span class="card-tag amber">DAY 10</span>
-          <h4 class="card-title">Intelligent Xtraction (IXP) Architecture</h4>
-          <p class="card-desc">What Intelligent Xtraction &amp; Processing (IXP) is, why it is required for complex layouts, and IXP vs traditional extraction comparison.</p>
-          <ul class="bullet-list">
-            <li>IXP Next-Gen Extraction Engine</li>
-            <li>Complex Unstructured Layouts</li>
-            <li>IXP vs Traditional DU Comparison</li>
-          </ul>
-        </div>
+            <div class="day-item">
+              <div class="day-header">
+                <span class="day-pill amber">Day 10</span>
+                <span class="day-title">Introduction to API Workflows</span>
+              </div>
+              <p class="day-desc">Understanding API workflows in Studio Web. Build a complete automated use case handling enterprise IT support tickets.</p>
+            </div>
+          </div>
 
-        <div class="card amber">
-          <span class="ghost-num amber">11</span>
-          <span class="card-tag amber">DAY 11</span>
-          <h4 class="card-title">Live IXP Multi-Page Capstone</h4>
-          <p class="card-desc">Real-time production use case implementing IXP on complex unstructured multi-page documents with end-to-end downstream ERP sync.</p>
-          <ul class="bullet-list">
-            <li>Multi-Page PDF Processing</li>
-            <li>Complex Table Reconciliation</li>
-            <li>End-to-End Downstream Sync</li>
-          </ul>
+          <div class="tags-row">
+            <span class="pill-tag">Cloud REST APIs</span>
+            <span class="pill-tag">IXP Framework</span>
+            <span class="pill-tag">Studio Web</span>
+            <span class="pill-tag">API Workflows</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="mini-card" style="border-top: 2.5px solid #ea580c;">
+          <h5>Action Center</h5>
+          <p>Orchestrator catalogs &amp; validation tasks.</p>
+        </div>
+        <div class="mini-card" style="border-top: 2.5px solid #0f766e;">
+          <h5>IXP Next-Gen</h5>
+          <p>Multi-page complex layout parsing.</p>
+        </div>
+        <div class="mini-card" style="border-top: 2.5px solid #0284c7;">
+          <h5>API Workflows</h5>
+          <p>Cloud triggers &amp; Studio Web tickets.</p>
         </div>
       </div>
 
       <div class="callout-box">
-        <strong>PRACTICE LAB &amp; EXIT CHECK:</strong> Build a complete Document Understanding pipeline with AI Center ML skill integration, Action Center validation triggers on low confidence (&lt;85%), and downstream REST API ERP sync.
+        <strong>PRACTICE LAB &amp; EXIT CHECK:</strong> Deploy an Action Center HITL validation task with Modern DU pre-trained models, integrate Cloud APIs, and trigger downstream Studio Web API workflows on completion.
       </div>
 
       <div class="page-cta-bar">
@@ -919,96 +934,72 @@ const htmlContent = `<!DOCTYPE html>
   <!-- ================= PAGE 5: PHASE 02 - ADVANCED AI INSIDE UIPATH ================= -->
   <div class="page">
     <div class="doc-header">
-      <div class="dh-left">PHASE 02 · DAYS 12–17</div>
+      <div class="dh-left">PHASE 02 · DAYS 11–13</div>
       <div class="dh-right">NATIVE AI &amp; AUTOPILOT</div>
     </div>
 
     <div class="page-main">
       <div>
-        <span class="eyebrow">PHASE 02 · ADVANCED AI</span>
-        <h2 class="page-title">Autopilot, <em>Self-Healing Selectors &amp; Vision</em></h2>
-        <p class="page-subtitle">Master Generative AI activities, Autopilot in Studio, Clipboard AI, Self-Healing Agents, ScreenPlay, and Semantic Activities.</p>
+        <span class="eyebrow">PHASE 02 · ADVANCED AI INSIDE UIPATH</span>
+        <h2 class="page-title">GenAI, Autopilot, <em>Self-Healing &amp; ScreenPlay</em></h2>
+        <p class="page-subtitle">Master Generative AI activities, Autopilot for Everyone, dynamic Self-Healing Selectors, and ScreenPlay vision automation.</p>
       </div>
 
       <div class="grid-2">
-        <!-- Card 1: Studio GenAI & Autopilot (Days 12-14) -->
+        <!-- Card 1: GenAI & Autopilot (Day 11) -->
         <div class="card cyan">
-          <span class="ghost-num cyan">12–14</span>
-          <span class="card-tag cyan">DAYS 12–14</span>
-          <h4 class="card-title">Studio Gen AI Activities, Autopilot &amp; Clipboard AI</h4>
-          <p class="card-desc">Generating workflows from plain English, controlling LLM parameters, and automating cross-application data flow:</p>
+          <span class="ghost-num cyan">11</span>
+          <span class="card-tag cyan">DAY 11</span>
+          <h4 class="card-title">GenAI Activities &amp; Autopilot for Everyone</h4>
+          <p class="card-desc">Harnessing Generative AI natively inside UiPath Studio and business operations:</p>
 
           <div class="day-list">
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill cyan">Day 12</span>
-                <span class="day-title">Gen AI Activities in Studio</span>
+                <span class="day-pill cyan">Day 11</span>
+                <span class="day-title">GenAI Activities &amp; Autopilot for Everyone</span>
               </div>
-              <p class="day-desc">Prompt grounding, temperature tuning, system instructions, and real-time business summarization.</p>
-            </div>
-
-            <div class="day-item">
-              <div class="day-header">
-                <span class="day-pill cyan">Day 13</span>
-                <span class="day-title">Autopilot in Studio &amp; Workflow Synthesis</span>
-              </div>
-              <p class="day-desc">Generating complex automation workflows from natural language prompts and automated expression building.</p>
-            </div>
-
-            <div class="day-item">
-              <div class="day-header">
-                <span class="day-pill cyan">Day 14</span>
-                <span class="day-title">Clipboard AI Cross-App Transfer</span>
-              </div>
-              <p class="day-desc">Cross-app intelligent copy-paste and autonomous field mapping between spreadsheets, web portals, and legacy desktop apps.</p>
+              <p class="day-desc">Introduction to GenAI activities. Deploy Autopilot for Everyone for enterprise business use cases. Use Context using Autopilot for Everyone.</p>
             </div>
           </div>
 
           <div class="tags-row">
             <span class="pill-tag">Gen AI Activities</span>
-            <span class="pill-tag">Autopilot Studio</span>
-            <span class="pill-tag">Clipboard AI</span>
-            <span class="pill-tag">Prompt Grounding</span>
+            <span class="pill-tag">Autopilot for Everyone</span>
+            <span class="pill-tag">Context Grounding</span>
+            <span class="pill-tag">Studio AI</span>
           </div>
         </div>
 
-        <!-- Card 2: Self-Healing & ScreenPlay (Days 15-17) -->
+        <!-- Card 2: Self-Healing & ScreenPlay (Days 12-13) -->
         <div class="card cyan">
-          <span class="ghost-num cyan">15–17</span>
-          <span class="card-tag cyan">DAYS 15–17</span>
-          <h4 class="card-title">Self-Healing Agents, ScreenPlay Vision &amp; Semantic Actions</h4>
-          <p class="card-desc">Building resilient bots that automatically repair broken selectors, see remote desktops with computer vision, and execute business intent:</p>
+          <span class="ghost-num cyan">12–13</span>
+          <span class="card-tag cyan">DAYS 12–13</span>
+          <h4 class="card-title">Self-Healing Selectors &amp; ScreenPlay Vision</h4>
+          <p class="card-desc">Building resilient automations that automatically recover from broken UI and navigate remote environments:</p>
 
           <div class="day-list">
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill cyan">Day 15</span>
-                <span class="day-title">Self-Healing Agents &amp; Dynamic Recovery</span>
+                <span class="day-pill cyan">Day 12</span>
+                <span class="day-title">Introduction to Self-Healing Selectors</span>
               </div>
-              <p class="day-desc">Dynamic selector recovery, self-healing runtime execution, and zero maintenance when web interfaces change.</p>
+              <p class="day-desc">Dynamic selector recovery, self-healing runtime execution, and zero maintenance when web and desktop interfaces change.</p>
             </div>
 
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill cyan">Day 16</span>
-                <span class="day-title">ScreenPlay Vision-Based Automation</span>
+                <span class="day-pill cyan">Day 13</span>
+                <span class="day-title">ScreenPlay &amp; Computer Vision</span>
               </div>
-              <p class="day-desc">Next-generation vision-based automation patterns for automating challenging remote desktop environments.</p>
-            </div>
-
-            <div class="day-item">
-              <div class="day-header">
-                <span class="day-pill cyan">Day 17</span>
-                <span class="day-title">Semantic Activities &amp; Intent Execution</span>
-              </div>
-              <p class="day-desc">Executing automation tasks using natural language business intent rather than brittle CSS or XPath selectors.</p>
+              <p class="day-desc">Next-generation vision-based automation patterns for automating challenging remote desktop and virtual environments.</p>
             </div>
           </div>
 
           <div class="tags-row">
-            <span class="pill-tag">Self-Healing Runtime</span>
+            <span class="pill-tag">Self-Healing Selectors</span>
             <span class="pill-tag">ScreenPlay Vision</span>
-            <span class="pill-tag">Semantic Intent</span>
+            <span class="pill-tag">Runtime Recovery</span>
             <span class="pill-tag">Remote Desktop AI</span>
           </div>
         </div>
@@ -1021,11 +1012,11 @@ const htmlContent = `<!DOCTYPE html>
         </div>
         <div class="mini-card" style="border-top: 2.5px solid #0f766e;">
           <h5>Autopilot Studio</h5>
-          <p>Natural language activity &amp; LINQ synthesis.</p>
+          <p>Natural language workflow &amp; expression synthesis.</p>
         </div>
         <div class="mini-card" style="border-top: 2.5px solid #7c3aed;">
-          <h5>Semantic Execution</h5>
-          <p>Intent-driven actions over brittle DOM selectors.</p>
+          <h5>ScreenPlay Vision</h5>
+          <p>Computer vision automation for Citrix &amp; remote desktops.</p>
         </div>
       </div>
 
@@ -1048,7 +1039,7 @@ const htmlContent = `<!DOCTYPE html>
   <!-- ================= PAGE 6: PHASE 03 - AGENT BUILDER & EVALUATIONS ================= -->
   <div class="page">
     <div class="doc-header">
-      <div class="dh-left">PHASE 03 · DAYS 18–25</div>
+      <div class="dh-left">PHASE 03 · DAYS 14–21</div>
       <div class="dh-right">AGENT BUILDER &amp; EVALUATION</div>
     </div>
 
@@ -1060,44 +1051,44 @@ const htmlContent = `<!DOCTYPE html>
       </div>
 
       <div class="grid-2">
-        <!-- Card 1: Agent Builder & Guardrails (Days 18-21) -->
+        <!-- Card 1: Agent Builder & Guardrails (Days 14-17) -->
         <div class="card emerald">
-          <span class="ghost-num emerald">18–21</span>
-          <span class="card-tag emerald">DAYS 18–21</span>
+          <span class="ghost-num emerald">14–17</span>
+          <span class="card-tag emerald">DAYS 14–17</span>
           <h4 class="card-title">Agent Builder &amp; Prompt Guardrails Architecture</h4>
           <p class="card-desc">Transitioning from deterministic automation to autonomous decision loops with structured system instructions and memory context:</p>
 
           <div class="day-list">
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill emerald">Day 18</span>
-                <span class="day-title">Agentic AI Fundamentals &amp; Agent Builder</span>
+                <span class="day-pill emerald">Day 14</span>
+                <span class="day-title">Introduction to LLM and Agentic AI</span>
               </div>
-              <p class="day-desc">Agent vs traditional automation architecture, autonomous decision loops, and the Agent Builder platform.</p>
+              <p class="day-desc">What an LLM is, LLM architecture, LLM vs Agentic AI, agent vs traditional automation architecture, and autonomous decision loops.</p>
             </div>
 
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill emerald">Day 19</span>
-                <span class="day-title">Agent Builder Core Concepts &amp; Memory</span>
+                <span class="day-pill emerald">Day 15</span>
+                <span class="day-title">Agent Builder Core Concepts</span>
               </div>
-              <p class="day-desc">Context grounding, system instructions, short/long-term memory, and tool integration.</p>
+              <p class="day-desc">Agent Builder core capabilities: System Prompt, User Prompt, Tool Calling, context grounding, and memory integration.</p>
             </div>
 
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill emerald">Day 20</span>
-                <span class="day-title">Prompt Engineering &amp; Guardrails</span>
-              </div>
-              <p class="day-desc">Techniques for prompt engineering, system instructions, few-shot prompting, schema validation, and guardrails.</p>
-            </div>
-
-            <div class="day-item">
-              <div class="day-header">
-                <span class="day-pill emerald">Day 21</span>
-                <span class="day-title">Build Your First Autonomous Agent</span>
+                <span class="day-pill emerald">Day 16</span>
+                <span class="day-title">Build Your First Agent</span>
               </div>
               <p class="day-desc">Live production build configuring autonomous agent parameters, input/output schemas, and testing.</p>
+            </div>
+
+            <div class="day-item">
+              <div class="day-header">
+                <span class="day-pill emerald">Day 17</span>
+                <span class="day-title">Prompt Engineering &amp; Guardrails</span>
+              </div>
+              <p class="day-desc">Prompt engineering techniques (Zero-shot, Few-shot, Prompt Chaining), schema validation, and practical guardrails implementation.</p>
             </div>
           </div>
 
@@ -1109,52 +1100,52 @@ const htmlContent = `<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- Card 2: HITL & AgentScore (Days 22-25) -->
+        <!-- Card 2: RAG, HITL & Evaluations (Days 18-21) -->
         <div class="card emerald">
-          <span class="ghost-num emerald">22–25</span>
-          <span class="card-tag emerald">DAYS 22–25</span>
-          <h4 class="card-title">HITL Escalations &amp; AgentScore Benchmarking</h4>
-          <p class="card-desc">Governing agent behavior in production: measuring reasoning accuracy, stress-testing edge cases, and invoking agents from RPA:</p>
+          <span class="ghost-num emerald">18–21</span>
+          <span class="card-tag emerald">DAYS 18–21</span>
+          <h4 class="card-title">RAG, HITL Escalations &amp; AgentScore Benchmarking</h4>
+          <p class="card-desc">Governing agent behavior in production: context grounding, Action Center human-in-the-loop, and measuring reasoning accuracy:</p>
 
           <div class="day-list">
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill emerald">Day 22</span>
+                <span class="day-pill emerald">Day 18</span>
+                <span class="day-title">Context Grounding and RAG</span>
+              </div>
+              <p class="day-desc">Introduction to Context Grounding. What RAG is and how it works with LLMs. End-to-end production use case on RAG.</p>
+            </div>
+
+            <div class="day-item">
+              <div class="day-header">
+                <span class="day-pill emerald">Day 19</span>
                 <span class="day-title">Agent Escalations (HITL) &amp; Action Center</span>
               </div>
-              <p class="day-desc">Human validation, escalation thresholds, approval workflows, and Action Center integration.</p>
+              <p class="day-desc">Create Action APP for human validation, escalation thresholds, approval workflows, and Action Center integration.</p>
             </div>
 
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill emerald">Day 23</span>
+                <span class="day-pill emerald">Day 20</span>
                 <span class="day-title">Agent Evaluations &amp; Agent Score</span>
               </div>
-              <p class="day-desc">Evaluation benchmarks, metrics, ground truth datasets, and Agent Score calculation.</p>
+              <p class="day-desc">Evaluation benchmarks, metrics, ground truth datasets, testing agents, and calculating Agent Score.</p>
             </div>
 
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill emerald">Day 24</span>
-                <span class="day-title">Agent Tools Selection &amp; Edge Cases</span>
+                <span class="day-pill emerald">Day 21</span>
+                <span class="day-title">Build an Agent with Tool Selection</span>
               </div>
-              <p class="day-desc">Evaluating agent accuracy, testing edge cases, tool selection benchmarks, and continuous monitoring.</p>
-            </div>
-
-            <div class="day-item">
-              <div class="day-header">
-                <span class="day-pill emerald">Day 25</span>
-                <span class="day-title">Bidirectional Agent + RPA Integration</span>
-              </div>
-              <p class="day-desc">Invoking autonomous agents from deterministic RPA workflows and passing structured context bidirectionally.</p>
+              <p class="day-desc">End-to-end production use case configuring autonomous agents with intelligent dynamic tool selection.</p>
             </div>
           </div>
 
           <div class="tags-row">
+            <span class="pill-tag">RAG &amp; Grounding</span>
             <span class="pill-tag">Agent Score</span>
-            <span class="pill-tag">Evaluation Datasets</span>
-            <span class="pill-tag">Action Center Escalation</span>
-            <span class="pill-tag">RPA Invocation</span>
+            <span class="pill-tag">HITL Action Center</span>
+            <span class="pill-tag">Dynamic Tool Selection</span>
           </div>
         </div>
       </div>
@@ -1334,14 +1325,17 @@ const htmlContent = `<!DOCTYPE html>
       </div>
 
       <div class="grid-2">
-        <div class="card gold">
+        <div class="card gold" style="border-left: 3.5px solid #d97706;">
           <span class="ghost-num gold">01</span>
-          <span class="card-tag gold">PILLAR 01</span>
-          <h4 class="card-title">Live Instructor-Led Builds</h4>
-          <p class="card-desc">Interactive coding sessions in every class — not pre-recorded slides or generic videos. You build real pipelines alongside senior architects.</p>
+          <span class="card-tag gold">LEAD INSTRUCTOR</span>
+          <h4 class="card-title">Akash Javalekar</h4>
+          <p class="card-desc" style="font-weight:700; color:#0f172a; margin-bottom:2px;">UiPath RPA Tech Lead | AI &amp; Agentic Automation Expert</p>
+          <p class="card-desc" style="font-size:10px; color:#64748b; margin-bottom:5px;">Consultant @ Capgemini · UiPath Community Champion · 5+ Yrs Exp</p>
           <ul class="bullet-list">
-            <li>Live step-by-step code walkthroughs</li>
-            <li>Real-time debugging &amp; problem solving</li>
+            <li>🥇 UiPath Community Automation Champion</li>
+            <li>⭐ Featured on the UiPath Champion Page</li>
+            <li>🏆 6× UiPath Community Forum Award Winner</li>
+            <li>🤖 AI &amp; Agentic + Document Understanding Specialist</li>
           </ul>
         </div>
 
@@ -1489,10 +1483,14 @@ const htmlContent = `<!DOCTYPE html>
       margin: { top: 0, right: 0, bottom: 0, left: 0 }
     });
 
-    // Also copy to _site if _site/assets/docs exists
+    // Also copy to legacy curriculum name and _site
+    const legacyPath = path.join(__dirname, '../assets/docs/advance-agentic-rpa-uipath-curriculum.pdf');
+    fs.copyFileSync(outputPath, legacyPath);
+
     const siteDocsDir = path.join(__dirname, '../_site/assets/docs');
     if (fs.existsSync(siteDocsDir)) {
       fs.copyFileSync(outputPath, path.join(siteDocsDir, 'advance-agentic-rpa-syllabus.pdf'));
+      fs.copyFileSync(outputPath, path.join(siteDocsDir, 'advance-agentic-rpa-uipath-curriculum.pdf'));
     }
 
     await browser.close();
