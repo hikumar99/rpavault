@@ -562,7 +562,7 @@ const htmlContent = `<!DOCTYPE html>
       <div class="cover-audience">BEYOND RPA · ADVANCE AGENTIC AUTOMATION</div>
       <div class="cover-title">Advance Agentic RPA &amp;<br>UiPath Architecture</div>
       <div class="cover-desc">
-        A 35-session masterclass covering Document Intelligence, AI Center ML pipelines, Studio Autopilot, Self-Healing Selectors, Model Context Protocol (MCP) Servers, Python Coded Agents, and UiPath Maestro Multi-Agent Swarms.
+        A 30-session masterclass covering Document Intelligence, AI Center ML pipelines, Studio Autopilot, Self-Healing Selectors, Model Context Protocol (MCP) Servers, Python Coded Agents, and UiPath Maestro Multi-Agent Swarms.
       </div>
 
       <div class="cover-box">
@@ -573,7 +573,7 @@ const htmlContent = `<!DOCTYPE html>
       <div class="cover-stats-grid">
         <div class="cover-stat-card">
           <div class="cover-stat-label">SESSIONS</div>
-          <div class="cover-stat-val">35</div>
+          <div class="cover-stat-val">30</div>
           <div class="cover-stat-sub">Live interactive builds</div>
         </div>
         <div class="cover-stat-card">
@@ -625,9 +625,9 @@ const htmlContent = `<!DOCTYPE html>
 
       <div class="grid-4">
         <div class="card" style="border-top: 3px solid #ea580c; padding: 9px 11px;">
-          <span class="ghost-num" style="font-size:26px;">35</span>
+          <span class="ghost-num" style="font-size:26px;">30</span>
           <div style="font-family:'IBM Plex Mono'; font-size:9.5px; font-weight:700; color:#ea580c;">SESSIONS</div>
-          <div style="font-family:'Sora'; font-size:17px; font-weight:800; color:#0f172a;">35 Live</div>
+          <div style="font-family:'Sora'; font-size:17px; font-weight:800; color:#0f172a;">30 Live</div>
           <div style="font-size:10px; color:#64748b;">Code builds</div>
         </div>
         <div class="card" style="border-top: 3px solid #0f766e; padding: 9px 11px;">
@@ -1193,7 +1193,7 @@ const htmlContent = `<!DOCTYPE html>
   <!-- ================= PAGE 7: PHASE 04 - MCP SERVERS & MAESTRO SWARMS ================= -->
   <div class="page">
     <div class="doc-header">
-      <div class="dh-left">PHASE 04 · DAYS 26–35</div>
+      <div class="dh-left">PHASE 04 · DAYS 22–30</div>
       <div class="dh-right">PROTOCOLS &amp; SWARMS</div>
     </div>
 
@@ -1206,15 +1206,15 @@ const htmlContent = `<!DOCTYPE html>
 
       <!-- MCP Suite Card -->
       <div class="card purple">
-        <span class="ghost-num purple">26–30</span>
-        <span class="card-tag purple">MODULE 01 · DAYS 26–30</span>
+        <span class="ghost-num purple">23–27</span>
+        <span class="card-tag purple">MODULE 01 · DAYS 23–27</span>
         <h4 class="card-title">The Model Context Protocol (MCP) Server Suite</h4>
         <p class="card-desc">Mastering Anthropic's open standard for connecting LLMs to enterprise tools across UiPath, Python, and local CLIs.</p>
 
         <div class="day-list">
           <div class="day-item">
             <div class="day-header">
-              <span class="day-pill purple">Day 26</span>
+              <span class="day-pill purple">Day 23</span>
               <span class="day-title">Introduction to Model Context Protocol (MCP)</span>
             </div>
             <p class="day-desc">What Model Context Protocol is, why it matters for autonomous agents, and client-server tool registration architecture.</p>
@@ -1222,7 +1222,7 @@ const htmlContent = `<!DOCTYPE html>
 
           <div class="day-item">
             <div class="day-header">
-              <span class="day-pill purple">Day 27</span>
+              <span class="day-pill purple">Day 24</span>
               <span class="day-title">UiPath MCP Server Configuration &amp; Tool Registration</span>
             </div>
             <p class="day-desc">Practical demo configuring and registering enterprise automation tools inside the native UiPath MCP Server.</p>
@@ -1230,7 +1230,7 @@ const htmlContent = `<!DOCTYPE html>
 
           <div class="day-item">
             <div class="day-header">
-              <span class="day-pill purple">Day 28</span>
+              <span class="day-pill purple">Day 25</span>
               <span class="day-title">Coded MCP Server Development with Python + UiPath</span>
             </div>
             <p class="day-desc">Practical demo building a custom Coded MCP Server using Python + UiPath to expose custom business logic to LLMs.</p>
@@ -1238,7 +1238,7 @@ const htmlContent = `<!DOCTYPE html>
 
           <div class="day-item">
             <div class="day-header">
-              <span class="day-pill purple">Day 29</span>
+              <span class="day-pill purple">Day 26</span>
               <span class="day-title">Command MCP Server for Local CLI &amp; Process Tools</span>
             </div>
             <p class="day-desc">Local tool execution, process invocation, and command-line Model Context Protocol integration.</p>
@@ -1246,7 +1246,7 @@ const htmlContent = `<!DOCTYPE html>
 
           <div class="day-item">
             <div class="day-header">
-              <span class="day-pill purple">Day 30</span>
+              <span class="day-pill purple">Day 27</span>
               <span class="day-title">Remote MCP Server Enterprise Deployment &amp; Security</span>
             </div>
             <p class="day-desc">Distributed enterprise MCP server deployment, remote endpoint hosting, and network security protocols.</p>
@@ -1257,21 +1257,21 @@ const htmlContent = `<!DOCTYPE html>
       <!-- Modules 02 & 03 -->
       <div class="grid-2">
         <div class="card purple">
-          <span class="ghost-num purple">31–32</span>
-          <span class="card-tag purple">MODULE 02 · DAYS 31–32</span>
+          <span class="ghost-num purple">22 &amp; 30</span>
+          <span class="card-tag purple">MODULE 02 · DAYS 22 &amp; 30</span>
           <h4 class="card-title">Python Coded Agents &amp; AI Coding</h4>
           <p class="card-desc">Writing pure Python automation scripts, deploying to Orchestrator, and synthesizing workflows using Claude 3.5 Sonnet &amp; Codex.</p>
           <div class="day-list">
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill purple">Day 31</span>
+                <span class="day-pill purple">Day 22</span>
                 <span class="day-title">Python Coded Agents</span>
               </div>
               <p class="day-desc">Building a Coded Agent in Python and deploying to Orchestrator.</p>
             </div>
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill purple">Day 32</span>
+                <span class="day-pill purple">Day 30</span>
                 <span class="day-title">AI Coding Skills (Claude &amp; Codex)</span>
               </div>
               <p class="day-desc">Synthesizing and optimizing RPA workflows automatically.</p>
@@ -1280,21 +1280,21 @@ const htmlContent = `<!DOCTYPE html>
         </div>
 
         <div class="card purple">
-          <span class="ghost-num purple">33–35</span>
-          <span class="card-tag purple">MODULE 03 · DAYS 33–35</span>
+          <span class="ghost-num purple">28–29</span>
+          <span class="card-tag purple">MODULE 03 · DAYS 28–29</span>
           <h4 class="card-title">UiPath Maestro &amp; CrewAI Swarms</h4>
           <p class="card-desc">BPMN 2.0 process modeling, state management, event orchestration, and coordinating autonomous CrewAI swarms.</p>
           <div class="day-list">
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill purple">Day 33</span>
+                <span class="day-pill purple">Day 28</span>
                 <span class="day-title">Maestro BPMN 2.0 Flows</span>
               </div>
               <p class="day-desc">BPMN standard, tasks, events, and decision gateways.</p>
             </div>
             <div class="day-item">
               <div class="day-header">
-                <span class="day-pill purple">Days 34–35</span>
+                <span class="day-pill purple">Day 29</span>
                 <span class="day-title">Multi-Agent Swarm Demo</span>
               </div>
               <p class="day-desc">Executing swarms with external CrewAI frameworks.</p>
@@ -1404,7 +1404,7 @@ const htmlContent = `<!DOCTYPE html>
       <div class="navy-callout">
         <span class="tn-tag">READY TO CLOSE THE GAP?</span>
         <h4>Advance your career to the forefront of Agentic Automation.</h4>
-        <p>35 sessions. Three phases. One destination: agentic. Connect with RPA Vault mentors to enroll in the next live batch.</p>
+        <p>30 sessions. Four phases. One destination: agentic. Connect with RPA Vault mentors to enroll in the next live batch.</p>
       </div>
 
       <div class="page-cta-bar">
@@ -1430,7 +1430,7 @@ const htmlContent = `<!DOCTYPE html>
       <div class="cover-audience">YOUR NEXT PRACTICAL STEP</div>
       <div class="cover-title" style="font-size:38px;">Learn the tools.<br>Build the evidence.</div>
       <div class="cover-desc" style="font-size:14.5px; margin:0 auto 6mm;">
-        Explore the complete course, review the 35-session curriculum, and connect with RPA Vault mentors to plan your advanced automation journey.
+        Explore the complete course, review the 30-session curriculum, and connect with RPA Vault mentors to plan your advanced automation journey.
       </div>
 
       <div class="grid-2" style="text-align:left; margin-bottom:6mm;">
