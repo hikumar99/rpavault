@@ -10,10 +10,9 @@ image: "/assets/images/blog/uipath-for-beginners-zero-coding.jpg"
 og_image: "https://rpavault.com/assets/images/blog/uipath-for-beginners-zero-coding.jpg"
 og_title: "Meet Your First Digital Robot: The Zero-Coding Guide to UiPath"
 og_description: "Not interested in writing complex code? Discover how UiPath lets beginners and freshers build software robots using visual drag-and-drop blocks."
-cta_text: "Ready to launch your high-demand IT career without writing syntax from scratch? Master UiPath & Power Automate with RPAVault's 35-day live beginner program, honestly."
+cta_text: "Ready to launch your high-demand IT career without writing syntax from scratch? Master UiPath with RPAVault's 35-day live beginner program, honestly."
 related_courses:
   - "rpa-agentic-uipath-power-automate"
-  - "advance-agentic-rpa-uipath"
 related_posts:
   - "/blog/non-it-to-it-career/"
   - "/blog/rpa-vs-ai-agents/"
@@ -519,7 +518,7 @@ related_posts:
   <select id="toc-selector">
     <option value="#chapter-1">Ch 1: What is a Software Robot?</option>
     <option value="#chapter-2">Ch 2: Meet UiPath (Drag &amp; Drop)</option>
-    <option value="#chapter-video">Video: What is Power Automate? (2 Min)</option>
+    <option value="#chapter-video">Video: What is RPA? (5 Min)</option>
     <option value="#chapter-3">Ch 3: The 4 Visual Shapes You Need</option>
     <option value="#chapter-4">Ch 4: Build Your First Mini Bot</option>
     <option value="#chapter-5">Ch 5: 4 Real Bots Freshers Can Build</option>
@@ -570,12 +569,12 @@ document.addEventListener('DOMContentLoaded', () => {
     <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 202, 58, 0.2); color: #ffca3a; font-size: 0.78rem; font-weight: 850; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
       ⚡ Live Mentor-Led Program • 35 Days
     </div>
-    <h3>Want to Master UiPath &amp; Power Automate without Coding?</h3>
-    <p>Zero coding experience needed. 15+ real-world projects, live doubt clearing, and complete interview placement support.</p>
+    <h3>Want to Master UiPath without Writing Code?</h3>
+    <p>Zero coding experience needed. 15+ real-world automation projects, daily mentor guidance, and complete placement interview support.</p>
   </div>
   <div class="enroll-btn-group">
     <a href="/course/rpa-agentic-uipath-power-automate/" class="btn-enroll-gold">
-      Enroll for ₹17,000 →
+      Enroll in 35-Day Program (₹17,000) →
     </a>
     <a href="/contact/" class="btn-enroll-ghost">
       Book Free Demo Call
@@ -591,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 Every day, thousands of students and non-technical graduates believe they are locked out of high-paying tech jobs because they aren't computer programmers. 
 
-Here is the truth: **The technology world has changed.** You no longer need to write thousands of lines of complex code to automate computer tasks. Today, the world's largest companies — from banks to tech giants — run on visual automation platforms called **RPA (Robotic Process Automation)**, powered by **UiPath** and **Microsoft Power Automate**.
+Here is the truth: **The technology world has changed.** You no longer need to write thousands of lines of complex code to automate computer tasks. Today, the world's largest companies — from banks to tech giants — run on visual automation platforms called **RPA (Robotic Process Automation)**, powered by **UiPath**.
 
 Let's meet your very first digital robot!
 
@@ -722,36 +721,33 @@ Here is how you work with the three main panels:
 
 ---
 
-<!-- CHAPTER: WHAT IS POWER AUTOMATE (SHORT VIDEO) -->
-<h2 id="chapter-video">Bonus: What is Microsoft Power Automate? (Watch in 2 Minutes)</h2>
+<!-- CHAPTER: WHAT IS RPA (5 MIN VIDEO) -->
+<h2 id="chapter-video">Video: What is RPA in 5 Minutes? (Watch First)</h2>
 
-Along with UiPath, **Microsoft Power Automate** is the other major player transforming the automation industry. 
-
-While UiPath is famous for powerful desktop and enterprise desktop automation, Power Automate connects seamlessly with Microsoft 365, Teams, Outlook, and cloud web services. Watch this quick 2-minute video to see how simple it is:
+Before exploring how UiPath works, take 5 minutes to watch this visual overview of **Robotic Process Automation (RPA)** and how digital software robots take over repetitive computer tasks across industries:
 
 <div class="video-showcase-card">
   <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
     <div>
       <span style="background: #e8f2ff; color: #0058b0; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">
-        🎥 Quick Watch • Under 2 Minutes
+        🎥 Quick Watch • 5 Minutes
       </span>
       <h4 style="margin: 8px 0 0 0; font-size: 1.25rem; font-weight: 800; color: #1d1d1f;">
-        Microsoft Power Automate Explained Visually
+        RPA Explained: What is Robotic Process Automation?
       </h4>
     </div>
     <span style="font-size: 0.85rem; font-weight: 700; color: #0058b0; background: #e8f2ff; padding: 6px 12px; border-radius: 8px;">
-      Zero Coding • Cloud &amp; Desktop
+      Zero Coding • Beginner Friendly
     </span>
   </div>
 
   <div class="video-container">
-    <iframe src="https://www.youtube-nocookie.com/embed/Fj-F_k1S9dM" title="Power Automate Explained in Under 2 Minutes" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+    <iframe src="https://www.youtube-nocookie.com/embed/9URSbTOE4YI" title="RPA In 5 Minutes | What Is RPA - Robotic Process Automation?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
   </div>
 
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.2rem; margin-top: 1.2rem;">
     <p style="font-size: 0.92rem; color: #334155; margin: 0; line-height: 1.5;">
-      💡 <strong>Why we teach BOTH UiPath + Power Automate at RPAVault:</strong><br>
-      Most companies don't just use one tool. When your resume proves that you can automate enterprise Windows apps with <strong>UiPath</strong> AND connect Office 365 / Cloud apps with <strong>Power Automate</strong>, you stand out head-and-shoulders above candidates who only know one!
+      💡 <strong>Key Takeaway:</strong> In RPA, you don't build software from scratch with complex programming syntax. You simply teach a digital robot to follow rule-based steps across applications you already use every day like Excel, web browsers, and email!
     </p>
   </div>
 </div>
@@ -993,7 +989,7 @@ Why are companies hiring RPA developers so aggressively?
     🚀 35-Day Beginner to Career Cohort
   </span>
   <h3 style="color: #ffffff !important; font-size: clamp(1.8rem, 3.5vw, 2.4rem) !important; margin: 1.2rem 0 0.5rem 0 !important; font-weight: 850 !important;">
-    UiPath &amp; Power Automate Beginner Masterclass
+    35-Day UiPath Beginner Training Program
   </h3>
   <p style="color: #94a3b8 !important; max-width: 620px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6;">
     Zero coding prerequisites. One structured, mentor-led pathway from absolute beginner to portfolio-ready automation professional.
