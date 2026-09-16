@@ -10,7 +10,7 @@ image: "/assets/images/blog/uipath-for-beginners-zero-coding.jpg"
 og_image: "https://rpavault.com/assets/images/blog/uipath-for-beginners-zero-coding.jpg"
 og_title: "Meet Your First Digital Robot: The Zero-Coding Guide to UiPath"
 og_description: "Not interested in writing complex code? Discover how UiPath lets beginners and freshers build software robots using visual drag-and-drop blocks."
-cta_text: "Ready to launch your high-demand IT career without writing syntax from scratch? Master UiPath with RPAVault's mentor-led 35-day beginner program, honestly."
+cta_text: "Ready to launch your high-demand IT career without writing syntax from scratch? Master UiPath & Power Automate with RPAVault's 35-day live beginner program, honestly."
 related_courses:
   - "rpa-agentic-uipath-power-automate"
   - "advance-agentic-rpa-uipath"
@@ -20,9 +20,105 @@ related_posts:
   - "/blog/uipath-certification-guide-2026/"
 ---
 
-<!-- Custom Landing Page Styling for Visual Fun & High Engagement -->
+<!-- Custom Landing Page Styling for Visual Fun, Distraction-Free Reading & High Conversion -->
 <style>
-  /* Landing page visual component styling */
+  /* 1. HIDE SIDEBAR & CONVERT TO FULL-WIDTH CLEAN LANDING PAGE */
+  .article-sidebar {
+    display: none !important;
+  }
+  .article-layout {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+    max-width: 920px !important;
+    margin: 0 auto 5rem auto !important;
+  }
+  .article-main {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .article-content {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .article-hero {
+    max-width: 920px !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+  .article-hero h1 {
+    text-align: center !important;
+  }
+  .article-meta {
+    justify-content: center !important;
+  }
+
+  /* 2. PROMINENT TOP ENROLLMENT CALLOUT BANNER */
+  .enroll-hero-card {
+    background: linear-gradient(135deg, #0b1f3a 0%, #0058b0 100%);
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 1.8rem 2rem;
+    margin: 2rem 0 3rem 0;
+    box-shadow: 0 12px 32px rgba(0, 88, 176, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  
+  .enroll-hero-info h3 {
+    color: #ffffff !important;
+    margin: 0 0 6px 0 !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+  }
+  
+  .enroll-hero-info p {
+    color: rgba(255, 255, 255, 0.88) !important;
+    margin: 0 !important;
+    font-size: 0.95rem !important;
+  }
+  
+  .enroll-btn-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .btn-enroll-gold {
+    background: #ffca3a !important;
+    color: #0b1f3a !important;
+    font-weight: 850 !important;
+    padding: 12px 24px !important;
+    border-radius: 10px !important;
+    text-decoration: none !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 4px 15px rgba(255, 202, 58, 0.4) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+    display: inline-block !important;
+  }
+  
+  .btn-enroll-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 202, 58, 0.6) !important;
+  }
+  
+  .btn-enroll-ghost {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    font-weight: 700 !important;
+    padding: 11px 20px !important;
+    border-radius: 10px !important;
+    text-decoration: none !important;
+    font-size: 0.92rem !important;
+    display: inline-block !important;
+  }
+
+  /* 3. VISUAL COMPONENT CARDS & GRIDS */
   .visual-hero-badge {
     display: inline-flex;
     align-items: center;
@@ -195,7 +291,36 @@ related_posts:
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   }
   
-  /* Interactive Shape Guide */
+  /* 4. YOUTUBE VIDEO SHOWCASE CARD */
+  .video-showcase-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e7;
+    border-radius: 22px;
+    padding: 1.6rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    margin: 2.5rem 0;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #0b1f3a;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  
+  /* 5. INTERACTIVE SHAPES GUIDE */
   .shape-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -239,7 +364,7 @@ related_posts:
     border-radius: 6px;
   }
   
-  /* Mini Bot Steps */
+  /* 6. MINI BOT STEPS */
   .steps-pipeline {
     display: flex;
     flex-direction: column;
@@ -284,7 +409,7 @@ related_posts:
     color: #555558 !important;
   }
   
-  /* Roadmap Phases Visual */
+  /* 7. ROADMAP PHASES VISUAL */
   .phase-container {
     border-left: 3px solid #0058b0;
     padding-left: 1.8rem;
@@ -344,7 +469,7 @@ related_posts:
     margin: 0;
   }
   
-  /* Offer / Pricing High-Conversion Box */
+  /* 8. OFFER & PRICING HIGH-CONVERSION BOX */
   .offer-box {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     border-radius: 24px;
@@ -393,20 +518,21 @@ related_posts:
   </span>
   <select id="toc-selector">
     <option value="#chapter-1">Ch 1: What is a Software Robot?</option>
-    <option value="#chapter-2">Ch 2: Meet UiPath (Drag & Drop)</option>
+    <option value="#chapter-2">Ch 2: Meet UiPath (Drag &amp; Drop)</option>
+    <option value="#chapter-video">Video: What is Power Automate? (2 Min)</option>
     <option value="#chapter-3">Ch 3: The 4 Visual Shapes You Need</option>
     <option value="#chapter-4">Ch 4: Build Your First Mini Bot</option>
     <option value="#chapter-5">Ch 5: 4 Real Bots Freshers Can Build</option>
     <option value="#chapter-6">Ch 6: Do I Need Coding? (Truth)</option>
     <option value="#chapter-7">Ch 7: The 35-Day Learning Roadmap</option>
-    <option value="#chapter-8">Ch 8: High Demand & RPAVault Training</option>
+    <option value="#chapter-8">Ch 8: High Demand &amp; Enroll for Training</option>
   </select>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const selector = document.getElementById('toc-selector');
-  const headings = Array.from(document.querySelectorAll('.article-content h2[id^="chapter-"]'));
+  const headings = Array.from(document.querySelectorAll('.article-content h2[id]'));
   
   selector.addEventListener('change', (e) => {
     const target = document.querySelector(e.target.value);
@@ -438,6 +564,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<!-- TOP ENROLLMENT FOCUS CALLOUT -->
+<div class="enroll-hero-card">
+  <div class="enroll-hero-info">
+    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 202, 58, 0.2); color: #ffca3a; font-size: 0.78rem; font-weight: 850; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
+      ⚡ Live Mentor-Led Program • 35 Days
+    </div>
+    <h3>Want to Master UiPath &amp; Power Automate without Coding?</h3>
+    <p>Zero coding experience needed. 15+ real-world projects, live doubt clearing, and complete interview placement support.</p>
+  </div>
+  <div class="enroll-btn-group">
+    <a href="/course/rpa-agentic-uipath-power-automate/" class="btn-enroll-gold">
+      Enroll for ₹17,000 →
+    </a>
+    <a href="/contact/" class="btn-enroll-ghost">
+      Book Free Demo Call
+    </a>
+  </div>
+</div>
+
 <div class="visual-hero-badge">
   <span>🤖 Zero Coding? Start Here</span>
 </div>
@@ -446,11 +591,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 Every day, thousands of students and non-technical graduates believe they are locked out of high-paying tech jobs because they aren't computer programmers. 
 
-Here is the truth: **The technology world has changed.** You no longer need to write thousands of lines of complex code to automate computer tasks. Today, the world's largest companies — from banks to tech giants — run on visual automation platforms called **RPA (Robotic Process Automation)**, powered by **UiPath**.
+Here is the truth: **The technology world has changed.** You no longer need to write thousands of lines of complex code to automate computer tasks. Today, the world's largest companies — from banks to tech giants — run on visual automation platforms called **RPA (Robotic Process Automation)**, powered by **UiPath** and **Microsoft Power Automate**.
 
-If you're eager to see how real students transition from absolute zero to job-ready automation engineers in just weeks, check out our flagship [RPA Agentic (UiPath + Power Automate) Course](/course/rpa-agentic-uipath-power-automate/) or talk to our mentors directly through a [Discovery Callback](/contact/).
-
-Now, let's meet your very first digital robot!
+Let's meet your very first digital robot!
 
 ---
 
@@ -460,7 +603,15 @@ When people hear the word *"robot"*, they picture a mechanical metal machine wal
 
 An **RPA robot** is completely different: **it is a software assistant that lives inside your computer.** It interacts with websites, Excel spreadsheets, emails, and desktop software the exact same way a human does — only 10x faster, without making typos, and without ever getting bored!
 
-### The Before & After Picture
+<!-- UiPath Bot Image Used Wisely -->
+<div style="margin: 2.5rem 0; text-align: center;">
+  <img src="/assets/images/blog/uipath-bot-mascot-at-work.jpg" alt="UiPath software robot mascot running an Excel automation on Studio and giving a thumbs up" style="width: 100%; max-width: 820px; border-radius: 20px; border: 1px solid #e5e5e7; box-shadow: 0 8px 30px rgba(0,0,0,0.08);">
+  <p style="font-size: 0.92rem; color: #555; margin-top: 0.8rem; font-weight: 600;">
+    🤖 <strong>Meet your new digital co-worker:</strong> The UiPath bot works quietly on your desktop, reading spreadsheets, clicking web forms, and finishing hours of repetitive data tasks in seconds with 100% accuracy!
+  </p>
+</div>
+
+### The Before &amp; After Picture
 
 Think about a typical office job where an employee has to copy information all day:
 
@@ -533,7 +684,7 @@ Any computer task is a perfect candidate for an RPA bot if it meets these 4 crit
 
 ---
 
-<h2 id="chapter-2">Chapter 2: Meet UiPath — The Drag & Drop Automation Builder</h2>
+<h2 id="chapter-2">Chapter 2: Meet UiPath — The Drag &amp; Drop Automation Builder</h2>
 
 **UiPath** is the global industry leader in Robotic Process Automation. It is used by over 10,000 enterprises worldwide, including 60% of the Fortune 500.
 
@@ -567,7 +718,43 @@ Here is how you work with the three main panels:
    - `Send Outlook Mail` (attaches files and sends emails)
    - `Move File` (organizes folders)
 2. **The Designer Panel (Center):** Your visual canvas! You simply drag an activity from the left panel and drop it into the flow. You connect them with arrows in the exact order you want them executed.
-3. **The Properties & Variables Panel (Right & Bottom):** Where you tell the bot what values to remember (e.g. `CustomerName`, `TotalInvoiceAmount`, `FilePath`).
+3. **The Properties &amp; Variables Panel (Right &amp; Bottom):** Where you tell the bot what values to remember (e.g. `CustomerName`, `TotalInvoiceAmount`, `FilePath`).
+
+---
+
+<!-- CHAPTER: WHAT IS POWER AUTOMATE (SHORT VIDEO) -->
+<h2 id="chapter-video">Bonus: What is Microsoft Power Automate? (Watch in 2 Minutes)</h2>
+
+Along with UiPath, **Microsoft Power Automate** is the other major player transforming the automation industry. 
+
+While UiPath is famous for powerful desktop and enterprise desktop automation, Power Automate connects seamlessly with Microsoft 365, Teams, Outlook, and cloud web services. Watch this quick 2-minute video to see how simple it is:
+
+<div class="video-showcase-card">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 8px;">
+    <div>
+      <span style="background: #e8f2ff; color: #0058b0; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">
+        🎥 Quick Watch • Under 2 Minutes
+      </span>
+      <h4 style="margin: 8px 0 0 0; font-size: 1.25rem; font-weight: 800; color: #1d1d1f;">
+        Microsoft Power Automate Explained Visually
+      </h4>
+    </div>
+    <span style="font-size: 0.85rem; font-weight: 700; color: #0058b0; background: #e8f2ff; padding: 6px 12px; border-radius: 8px;">
+      Zero Coding • Cloud &amp; Desktop
+    </span>
+  </div>
+
+  <div class="video-container">
+    <iframe src="https://www.youtube-nocookie.com/embed/Fj-F_k1S9dM" title="Power Automate Explained in Under 2 Minutes" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.2rem; margin-top: 1.2rem;">
+    <p style="font-size: 0.92rem; color: #334155; margin: 0; line-height: 1.5;">
+      💡 <strong>Why we teach BOTH UiPath + Power Automate at RPAVault:</strong><br>
+      Most companies don't just use one tool. When your resume proves that you can automate enterprise Windows apps with <strong>UiPath</strong> AND connect Office 365 / Cloud apps with <strong>Power Automate</strong>, you stand out head-and-shoulders above candidates who only know one!
+    </p>
+  </div>
+</div>
 
 ---
 
@@ -707,7 +894,7 @@ To start building bots in UiPath, **you do not need any coding background**.
 Your primary tools are your natural human thinking skills:
 1. **Logical Thinking:** Can you list the steps you take to log into a website in order? (Open browser ➔ Enter URL ➔ Type username ➔ Type password ➔ Click Login). If yes, you have the logic needed.
 2. **Attention to Detail:** Can you spot which button on a screen needs to be clicked?
-3. **Practice & Curiosity:** Willingness to try, run the bot, see what happens, and tweak it.
+3. **Practice &amp; Curiosity:** Willingness to try, run the bot, see what happens, and tweak it.
 
 ### Your 4-Level Skill Evolution:
 
@@ -787,7 +974,7 @@ At RPAVault, we designed a structured **35-Day UiPath Visual Learning Pathway** 
 
 ---
 
-<h2 id="chapter-8">Chapter 8: The Growing RPA Demand & RPAVault Training</h2>
+<h2 id="chapter-8">Chapter 8: The Growing RPA Demand &amp; Enroll for Training</h2>
 
 Why are companies hiring RPA developers so aggressively?
 
@@ -800,15 +987,15 @@ Why are companies hiring RPA developers so aggressively?
 * **RPA / Bot Support Specialist:** Monitor bots running in Orchestrator, investigate exceptions, and keep operations running smoothly.
 * **Automation Business Analyst:** Speak with business teams, map manual workflows, and identify which processes should be automated.
 
-<!-- Complete High-Conversion Offer Box -->
+<!-- Complete High-Conversion Training Enrollment Card -->
 <div class="offer-box">
-  <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.82rem; font-weight: 800; padding: 6px 14px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em;">
-    🚀 35-Day Mentor-Led Program
+  <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.82rem; font-weight: 850; padding: 6px 14px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em;">
+    🚀 35-Day Beginner to Career Cohort
   </span>
   <h3 style="color: #ffffff !important; font-size: clamp(1.8rem, 3.5vw, 2.4rem) !important; margin: 1.2rem 0 0.5rem 0 !important; font-weight: 850 !important;">
     UiPath &amp; Power Automate Beginner Masterclass
   </h3>
-  <p style="color: #94a3b8 !important; max-width: 600px; margin: 0 auto; font-size: 1rem;">
+  <p style="color: #94a3b8 !important; max-width: 620px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6;">
     Zero coding prerequisites. One structured, mentor-led pathway from absolute beginner to portfolio-ready automation professional.
   </p>
 
@@ -833,18 +1020,22 @@ Why are companies hiring RPA developers so aggressively?
       <span>🤝</span> 1-on-1 Mock Interview Sessions
     </div>
     <div class="feature-pill">
-      <span>🎥</span> Lifetime Access to Recordings &amp; Code
+      <span>🎥</span> Lifetime Access to Class Recordings
     </div>
   </div>
 
   <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-    <a href="/course/rpa-agentic-uipath-power-automate/" style="background: #0058b0; color: #ffffff !important; font-weight: 800; padding: 14px 28px; border-radius: 12px; text-decoration: none; display: inline-block; font-size: 1rem; box-shadow: 0 4px 20px rgba(0,88,176,0.4); transition: transform 0.2s ease;">
-      Explore Full Syllabus &amp; Enroll →
+    <a href="/course/rpa-agentic-uipath-power-automate/" style="background: #ffca3a; color: #0b1f3a !important; font-weight: 900; padding: 15px 32px; border-radius: 12px; text-decoration: none; display: inline-block; font-size: 1.05rem; box-shadow: 0 4px 20px rgba(255,202,58,0.4); transition: transform 0.2s ease;">
+      👉 Enroll in 35-Day Program Now (₹17,000)
     </a>
-    <a href="/contact/" style="background: rgba(255,255,255,0.1); color: #ffffff !important; border: 1px solid rgba(255,255,255,0.25); font-weight: 700; padding: 14px 24px; border-radius: 12px; text-decoration: none; display: inline-block; font-size: 1rem; transition: background 0.2s ease;">
-      Request Free Discovery Call
+    <a href="/contact/" style="background: rgba(255,255,255,0.12); color: #ffffff !important; border: 1px solid rgba(255,255,255,0.3); font-weight: 700; padding: 14px 24px; border-radius: 12px; text-decoration: none; display: inline-block; font-size: 1rem; transition: background 0.2s ease;">
+      Request Free 1-on-1 Discovery Call
     </a>
   </div>
+  
+  <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 1.2rem;">
+    🔒 Limited seats per batch for personalized 1-on-1 mentor feedback.
+  </p>
 </div>
 
 ---
