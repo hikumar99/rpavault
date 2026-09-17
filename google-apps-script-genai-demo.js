@@ -30,12 +30,12 @@ const CONFIG = {
   SENDER_NAME: "RPAVault Live Demo Team",
   REPLY_TO: "RPAVault1@gmail.com",
 
-  // DIC Specific Campaign Configuration (Sep 16, 2026 7:30 AM IST)
+  // DIC Specific Campaign Configuration (Sep 18, 2026 7:30 AM IST)
   DIC_ZOOM_LINK: "https://us06web.zoom.us/j/82486304090?pwd=zfUfYRqcnEOgD7a5QvlcQXKJD0LJmi.1",
   DIC_MEETING_ID: "824 8630 4090",
   DIC_PASSCODE: "059882",
-  DIC_DEMO_DATE_STR: "Wednesday, September 16, 2026 at 7:30 AM IST",
-  DIC_DEMO_DATE_US: "Sep 15, 2026 at 10:00 PM EDT (US/Canada)"
+  DIC_DEMO_DATE_STR: "Friday, September 18, 2026 at 7:30 AM IST",
+  DIC_DEMO_DATE_US: "Sep 17, 2026 at 10:00 PM EDT (US/Canada)"
 };
 
 // ================= WEB ENDPOINT (doPost) =================
@@ -280,7 +280,7 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
 
   const firstName = name ? name.split(" ")[0] : "there";
   const subject = isDic 
-    ? "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 16, 7:30 AM IST"
+    ? "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 18, 7:30 AM IST"
     : "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 8, 7:00 AM IST";
 
   const encName = encodeURIComponent(name || "");
@@ -518,7 +518,7 @@ function sendMeetingReminderEmails() {
 
 /**
  * 3. Schedule the Automated 30-Minute Reminder Trigger (Run this once from Apps Script)
- * Automatically triggers sendMeetingReminderEmails() on Sep 16, 2026 at 07:00 AM IST (30 mins before 7:30 AM IST).
+ * Automatically triggers sendMeetingReminderEmails() on Sep 18, 2026 at 07:00 AM IST (30 mins before 7:30 AM IST).
  */
 function setupDemoReminderTrigger() {
   // Clear any existing triggers for this function to avoid duplicate triggers
@@ -529,9 +529,9 @@ function setupDemoReminderTrigger() {
     }
   }
 
-  // Set for September 16, 2026 at 07:00:00 IST (UTC: Sep 16 01:30:00)
+  // Set for September 18, 2026 at 07:00:00 IST (UTC: Sep 18 01:30:00)
   // Month is 0-indexed in JS (8 = September)
-  const triggerDate = new Date(2026, 8, 16, 7, 0, 0);
+  const triggerDate = new Date(2026, 8, 18, 7, 0, 0);
 
   ScriptApp.newTrigger("sendMeetingReminderEmails")
     .timeBased()
@@ -544,7 +544,7 @@ function setupDemoReminderTrigger() {
 
 /**
  * 4. Send Fresh Confirmation to All Existing Registrants (Fresh Start)
- * Run this function from Apps Script to blast the updated Sep 16 Zoom link & date
+ * Run this function from Apps Script to blast the updated Sep 18 Zoom link & date
  * to all existing candidates in the DIC campaign sheet.
  */
 function sendFreshConfirmationToAllRegistrants() {
@@ -572,7 +572,7 @@ function sendFreshConfirmationToAllRegistrants() {
         sendInstantConfirmationEmail(name, email, pageUrl);
         // Update Column 25 (Confirmation Email Status)
         sheet.getRange(r + 1, 25).setValue("Sent (Fresh Start: " + Utilities.formatDate(now, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")");
-        // Clear old reminder status so they receive the Sep 16 reminder
+        // Clear old reminder status so they receive the Sep 18 reminder
         sheet.getRange(r + 1, 26).setValue("");
         totalSent++;
       } catch (err) {
@@ -594,7 +594,7 @@ function buildGoogleCalendarUrl(pageUrl) {
   const zoomLink = isDic ? CONFIG.DIC_ZOOM_LINK : CONFIG.ZOOM_LINK;
   const meetingId = isDic ? CONFIG.DIC_MEETING_ID : CONFIG.MEETING_ID;
   const passcode = isDic ? CONFIG.DIC_PASSCODE : CONFIG.PASSCODE;
-  const dates = isDic ? "20260916T020000Z/20260916T033000Z" : "20260908T013000Z/20260908T030000Z";
+  const dates = isDic ? "20260918T020000Z/20260918T033000Z" : "20260908T013000Z/20260908T030000Z";
 
   const title = encodeURIComponent("Live GenAI Demo & Engineering Masterclass — RPAVault (Zoom)");
   const details = encodeURIComponent(
