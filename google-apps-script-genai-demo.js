@@ -28,7 +28,14 @@ const CONFIG = {
   DEMO_DATE_STR: "Tuesday, September 8, 2026 at 7:00 AM IST",
   DEMO_DATE_US: "Sep 8, 2026 at 9:30 PM EDT (US/Canada)",
   SENDER_NAME: "RPAVault Live Demo Team",
-  REPLY_TO: "RPAVault1@gmail.com"
+  REPLY_TO: "RPAVault1@gmail.com",
+
+  // DIC Specific Campaign Configuration (Sep 16, 2026 7:30 AM IST)
+  DIC_ZOOM_LINK: "https://us06web.zoom.us/j/82486304090?pwd=zfUfYRqcnEOgD7a5QvlcQXKJD0LJmi.1",
+  DIC_MEETING_ID: "824 8630 4090",
+  DIC_PASSCODE: "059882",
+  DIC_DEMO_DATE_STR: "Wednesday, September 16, 2026 at 7:30 AM IST",
+  DIC_DEMO_DATE_US: "Sep 15, 2026 at 10:00 PM EDT (US/Canada)"
 };
 
 // ================= WEB ENDPOINT (doPost) =================
@@ -140,23 +147,9 @@ function doPost(e) {
     }
 
     let pageUrl = "https://rpavault.com/genai-demo/";
-    if (sourcePage.toLowerCase().includes("dic") || targetSheetName.toLowerCase().includes("dic")) {
+    const isDic = sourcePage.toLowerCase().includes("dic") || targetSheetName.toLowerCase().includes("dic");
+    if (isDic) {
       pageUrl = "https://rpavault.com/dic-genai-demo/";
-    }
-
-    // Check if user has already registered in this sheet
-    let isExistingUser = false;
-    const lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      // Column C is Email Address (column 3, 1-indexed)
-      const existingEmails = sheet.getRange(2, 3, lastRow - 1, 1).getValues();
-      for (let i = 0; i < existingEmails.length; i++) {
-        const rowEmail = (existingEmails[i][0] || "").toString().trim().toLowerCase();
-        if (rowEmail && rowEmail === email) {
-          isExistingUser = true;
-          break;
-        }
-      }
     }
 
     const action = (data.action || "").toString().trim();
@@ -165,11 +158,9 @@ function doPost(e) {
     const timestamp = new Date();
     let confirmStatus = "Pending";
 
-    // Handle live attendance check-in vs new registration vs duplicate registration
+    // Handle live attendance check-in vs registration (treated as fresh start: always dispatch confirmation)
     if (isAttendanceCheckin) {
       confirmStatus = "Live Join / Attended (" + Utilities.formatDate(timestamp, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")";
-    } else if (isExistingUser) {
-      confirmStatus = "Already Registered (Email Skipped)";
     } else {
       try {
         sendInstantConfirmationEmail(name, email, pageUrl);
@@ -247,9 +238,9 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({
       success: true,
       message: "Registration successful! Confirmation email dispatched.",
-      zoomUrl: CONFIG.ZOOM_LINK,
-      meetingId: CONFIG.MEETING_ID,
-      passcode: CONFIG.PASSCODE,
+      zoomUrl: isDic ? CONFIG.DIC_ZOOM_LINK : CONFIG.ZOOM_LINK,
+      meetingId: isDic ? CONFIG.DIC_MEETING_ID : CONFIG.MEETING_ID,
+      passcode: isDic ? CONFIG.DIC_PASSCODE : CONFIG.PASSCODE,
       whatsappGroup: CONFIG.WHATSAPP_GROUP
     })).setMimeType(ContentService.MimeType.JSON);
 
@@ -280,8 +271,17 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
   if (!pageUrl) {
     pageUrl = "https://rpavault.com/genai-demo/";
   }
+  const isDic = pageUrl.toLowerCase().includes("dic");
+  const zoomLink = isDic ? CONFIG.DIC_ZOOM_LINK : CONFIG.ZOOM_LINK;
+  const meetingId = isDic ? CONFIG.DIC_MEETING_ID : CONFIG.MEETING_ID;
+  const passcode = isDic ? CONFIG.DIC_PASSCODE : CONFIG.PASSCODE;
+  const demoDateStr = isDic ? CONFIG.DIC_DEMO_DATE_STR : CONFIG.DEMO_DATE_STR;
+  const demoDateUs = isDic ? CONFIG.DIC_DEMO_DATE_US : CONFIG.DEMO_DATE_US;
+
   const firstName = name ? name.split(" ")[0] : "there";
-  const subject = "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 8, 7:00 AM IST";
+  const subject = isDic 
+    ? "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 16, 7:30 AM IST"
+    : "Confirmed: Your Zoom Link for Live GenAI Demo — Sep 8, 7:00 AM IST";
 
   const encName = encodeURIComponent(name || "");
   const encEmail = encodeURIComponent(email || "");
@@ -348,17 +348,17 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
             <tr>
               <td class="lbl">Date &amp; Time:</td>
               <td class="val" style="font-family:inherit; font-size:13px;">
-                <strong>${CONFIG.DEMO_DATE_STR}</strong><br>
-                <span style="font-weight:400; color:#6b7280; font-size:12px;">(${CONFIG.DEMO_DATE_US})</span>
+                <strong>${demoDateStr}</strong><br>
+                <span style="font-weight:400; color:#6b7280; font-size:12px;">(${demoDateUs})</span>
               </td>
             </tr>
             <tr>
               <td class="lbl">Meeting ID:</td>
-              <td class="val">${CONFIG.MEETING_ID}</td>
+              <td class="val">${meetingId}</td>
             </tr>
             <tr>
               <td class="lbl">Passcode:</td>
-              <td class="val">${CONFIG.PASSCODE}</td>
+              <td class="val">${passcode}</td>
             </tr>
           </table>
         </div>
@@ -393,12 +393,12 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
         <!-- Dial-in info (Standard Zoom Format) -->
         <div class="dialin-section">
           <strong>Or iPhone one-tap:</strong><br>
-          +13017158592,,82666730613#,,,,*059882# US (Washington DC)<br>
-          +13126266799,,82666730613#,,,,*059882# US (Chicago)<br><br>
+          +13017158592,,${meetingId.replace(/\s+/g, '')}#,,,,*${passcode}# US (Washington DC)<br>
+          +13126266799,,${meetingId.replace(/\s+/g, '')}#,,,,*${passcode}# US (Chicago)<br><br>
           <strong>Or Telephone:</strong><br>
           Dial: +1 301 715 8592 (US)<br>
-          Meeting ID: 826 6673 0613 &nbsp;|&nbsp; Passcode: 059882<br>
-          SIP: 82666730613@zoomcrc.com
+          Meeting ID: ${meetingId} &nbsp;|&nbsp; Passcode: ${passcode}<br>
+          SIP: ${meetingId.replace(/\s+/g, '')}@zoomcrc.com
         </div>
 
         <div class="footer-note">
@@ -421,7 +421,7 @@ function sendInstantConfirmationEmail(name, email, pageUrl) {
 }
 
 /**
- * 2. 30-Minute Meeting Reminder Email (Scheduled for Sep 8, 6:30 AM IST)
+ * 2. 30-Minute Meeting Reminder Email
  */
 function sendMeetingReminderEmails() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -450,9 +450,14 @@ function sendMeetingReminderEmails() {
       if (email && email.includes("@") && !reminderStatus) {
         try {
           const firstName = name ? name.split(" ")[0] : "there";
-          const subject = "🔴 Starting in 30 Minutes! Join Live GenAI Demo";
           const rowSource = (row[17] || "").toString().toLowerCase();
-          const targetUrl = rowSource.includes("dic") ? "https://rpavault.com/dic-genai-demo/" : item.defaultUrl;
+          const isDic = rowSource.includes("dic") || item.name.includes("DIC");
+          const targetUrl = isDic ? "https://rpavault.com/dic-genai-demo/" : item.defaultUrl;
+          const meetingId = isDic ? CONFIG.DIC_MEETING_ID : CONFIG.MEETING_ID;
+          const passcode = isDic ? CONFIG.DIC_PASSCODE : CONFIG.PASSCODE;
+          const timeBadge = isDic ? "Starting at 7:30 AM IST" : "Starting at 7:00 AM IST";
+
+          const subject = "🔴 Starting in 30 Minutes! Join Live GenAI Demo";
           const encName = encodeURIComponent(name || "");
           const encEmail = encodeURIComponent(email || "");
           const joinLink = targetUrl + (targetUrl.includes("?") ? "&" : "?") + "join=1&name=" + encName + "&email=" + encEmail;
@@ -461,7 +466,7 @@ function sendMeetingReminderEmails() {
           <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; max-width:600px; margin:0 auto; padding:24px; border:1px solid #cce3fa; border-radius:16px; background:#ffffff;">
             <div style="text-align:center; margin-bottom:20px;">
               <div style="display:inline-block; background:#fee2e2; color:#ef4444; font-weight:800; font-size:12px; padding:6px 14px; border-radius:99px; text-transform:uppercase;">
-                Starting at 7:00 AM IST
+                ${timeBadge}
               </div>
               <h2 style="color:#0f172a; margin:12px 0 6px;">Your GenAI Demo Begins in 30 Minutes!</h2>
               <p style="color:#64748b; font-size:14px; margin:0;">Python + GenAI + Agentic AI Engineering Track</p>
@@ -478,8 +483,8 @@ function sendMeetingReminderEmails() {
             </div>
 
             <div style="background:#f8fafc; border-radius:12px; padding:16px; font-size:14px; color:#334155; margin-bottom:20px;">
-              <strong>Meeting ID:</strong> ${CONFIG.MEETING_ID}<br>
-              <strong>Passcode:</strong> ${CONFIG.PASSCODE}<br>
+              <strong>Meeting ID:</strong> ${meetingId}<br>
+              <strong>Passcode:</strong> ${passcode}<br>
               <strong>WhatsApp Demo Community:</strong> <a href="${CONFIG.WHATSAPP_GROUP}" style="color:#0058b0;">Join WhatsApp Group</a>
             </div>
 
@@ -512,8 +517,8 @@ function sendMeetingReminderEmails() {
 }
 
 /**
- * 3. Schedule the Automated Trigger (Run this once from Apps Script)
- * Automatically triggers sendMeetingReminderEmails() on Sep 8, 2026 at 06:30 AM IST.
+ * 3. Schedule the Automated 30-Minute Reminder Trigger (Run this once from Apps Script)
+ * Automatically triggers sendMeetingReminderEmails() on Sep 16, 2026 at 07:00 AM IST (30 mins before 7:30 AM IST).
  */
 function setupDemoReminderTrigger() {
   // Clear any existing triggers for this function to avoid duplicate triggers
@@ -524,9 +529,9 @@ function setupDemoReminderTrigger() {
     }
   }
 
-  // Set for September 8, 2026 at 06:30:00 IST (UTC: Sep 8 01:00:00)
+  // Set for September 16, 2026 at 07:00:00 IST (UTC: Sep 16 01:30:00)
   // Month is 0-indexed in JS (8 = September)
-  const triggerDate = new Date(2026, 8, 8, 6, 30, 0);
+  const triggerDate = new Date(2026, 8, 16, 7, 0, 0);
 
   ScriptApp.newTrigger("sendMeetingReminderEmails")
     .timeBased()
@@ -538,21 +543,68 @@ function setupDemoReminderTrigger() {
 }
 
 /**
+ * 4. Send Fresh Confirmation to All Existing Registrants (Fresh Start)
+ * Run this function from Apps Script to blast the updated Sep 16 Zoom link & date
+ * to all existing candidates in the DIC campaign sheet.
+ */
+function sendFreshConfirmationToAllRegistrants() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("DIC_GenAI_Demo_Registrations");
+  if (!sheet) {
+    console.warn("Sheet DIC_GenAI_Demo_Registrations not found");
+    return;
+  }
+
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return;
+
+  let totalSent = 0;
+  const now = new Date();
+  const pageUrl = "https://rpavault.com/dic-genai-demo/";
+
+  for (let r = 1; r < data.length; r++) {
+    const row = data[r];
+    const name = row[1] || "";
+    const email = (row[2] || "").toString().trim().toLowerCase();
+
+    if (email && email.includes("@")) {
+      try {
+        sendInstantConfirmationEmail(name, email, pageUrl);
+        // Update Column 25 (Confirmation Email Status)
+        sheet.getRange(r + 1, 25).setValue("Sent (Fresh Start: " + Utilities.formatDate(now, "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss") + ")");
+        // Clear old reminder status so they receive the Sep 16 reminder
+        sheet.getRange(r + 1, 26).setValue("");
+        totalSent++;
+      } catch (err) {
+        console.error("Failed sending fresh confirmation to " + email, err);
+        sheet.getRange(r + 1, 25).setValue("Failed Fresh Start: " + err.message);
+      }
+    }
+  }
+
+  console.log("Fresh confirmation emails dispatched to " + totalSent + " registrants in DIC campaign.");
+}
+
+/**
  * Helper: Generates 1-click Google Calendar Link with meeting details
  */
 function buildGoogleCalendarUrl(pageUrl) {
   const targetUrl = pageUrl || "https://rpavault.com/genai-demo/";
+  const isDic = targetUrl.toLowerCase().includes("dic");
+  const zoomLink = isDic ? CONFIG.DIC_ZOOM_LINK : CONFIG.ZOOM_LINK;
+  const meetingId = isDic ? CONFIG.DIC_MEETING_ID : CONFIG.MEETING_ID;
+  const passcode = isDic ? CONFIG.DIC_PASSCODE : CONFIG.PASSCODE;
+  const dates = isDic ? "20260916T020000Z/20260916T033000Z" : "20260908T013000Z/20260908T030000Z";
+
   const title = encodeURIComponent("Live GenAI Demo & Engineering Masterclass — RPAVault (Zoom)");
   const details = encodeURIComponent(
     "Join Meeting via Live Portal:\\n" + targetUrl +
-    "\\n\\nDirect Zoom Backup: " + CONFIG.ZOOM_LINK +
-    "\\nMeeting ID: " + CONFIG.MEETING_ID +
-    "\\nPasscode: " + CONFIG.PASSCODE +
+    "\\n\\nDirect Zoom Backup: " + zoomLink +
+    "\\nMeeting ID: " + meetingId +
+    "\\nPasscode: " + passcode +
     "\\nWhatsApp Group: " + CONFIG.WHATSAPP_GROUP +
     "\\n\\nTopic: Python + GenAI + Agentic AI Engineering Track Demo"
   );
   const location = encodeURIComponent(targetUrl);
-  // Sep 8, 2026 07:00 IST = 01:30 UTC. Duration 1 hour 30 mins -> 03:00 UTC
-  const dates = "20260908T013000Z/20260908T030000Z";
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
 }
