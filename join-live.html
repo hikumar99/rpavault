@@ -1902,6 +1902,276 @@ permalink: /join-live/
     background: #334155;
   }
 
+  /* Freeze Batch Popup Modal */
+  .freeze-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: freezeFadeIn 0.2s ease;
+  }
+
+  @keyframes freezeFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .freeze-modal-content {
+    background: #ffffff;
+    border-radius: 22px;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e2e8f0;
+  }
+
+  .freeze-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    position: relative;
+  }
+
+  .freeze-modal-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #fee2e2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .freeze-modal-title {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.12rem;
+    font-weight: 800;
+    margin: 0;
+    color: #0f172a;
+  }
+
+  .freeze-modal-sub {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin: 0.15rem 0 0 0;
+  }
+
+  .freeze-modal-close {
+    position: absolute;
+    right: 1.25rem;
+    top: 1.25rem;
+    border: none;
+    background: #f1f5f9;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    transition: all 0.15s ease;
+  }
+
+  .freeze-modal-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .freeze-modal-body {
+    padding: 1.4rem 1.5rem;
+  }
+
+  .freeze-modal-alert {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.83rem;
+    line-height: 1.45;
+    margin-bottom: 1.25rem;
+  }
+
+  .freeze-modal-field {
+    margin-bottom: 1.2rem;
+  }
+
+  .freeze-label {
+    display: block;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 0.45rem;
+  }
+
+  .freeze-file-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 14px;
+    padding: 1.1rem;
+    text-align: center;
+    background: #f8fafc;
+    transition: all 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .freeze-file-dropzone:hover {
+    border-color: #0058b0;
+    background: #f0f7ff;
+  }
+
+  .freeze-file-name {
+    font-size: 0.82rem;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  .btn-browse-file {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #0058b0;
+    transition: all 0.15s ease;
+  }
+
+  .btn-browse-file:hover {
+    background: #0058b0;
+    color: #ffffff;
+    border-color: #0058b0;
+  }
+
+  .freeze-input {
+    width: 100%;
+    padding: 0.7rem 0.95rem;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+  }
+
+  .freeze-input:focus {
+    border-color: #0058b0;
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.1);
+  }
+
+  .freeze-status-box {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    line-height: 1.4;
+    margin-top: 0.85rem;
+  }
+
+  .freeze-status-box.info {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+  }
+
+  .freeze-status-box.error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+  }
+
+  .freeze-status-box.success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+  }
+
+  .freeze-modal-footer {
+    padding: 1rem 1.5rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-modal-cancel {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    color: #64748b;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn-modal-cancel:hover {
+    background: #e2e8f0;
+    color: #334155;
+  }
+
+  .btn-modal-download {
+    background: #ffffff;
+    border: 1.5px solid #0058b0;
+    color: #0058b0;
+    padding: 0.6rem 1.1rem;
+    border-radius: 10px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.15s ease;
+  }
+
+  .btn-modal-download:hover {
+    background: #eff6ff;
+  }
+
+  .btn-modal-commit {
+    background: #dc2626;
+    border: none;
+    color: #ffffff;
+    padding: 0.65rem 1.4rem;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(220, 38, 38, 0.3);
+    transition: all 0.15s ease;
+  }
+
+  .btn-modal-commit:hover {
+    background: #b91c1c;
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-modal-commit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   /* Unauthorized Notice Card */
   .dash-unauthorized-notice {
     display: flex;
@@ -3022,6 +3292,59 @@ permalink: /join-live/
     </button>
   </div>
 
+  <!-- Modal: Freeze Batch & Commit to Website -->
+  <div class="freeze-modal-overlay" id="freezeModalOverlay" style="display: none;">
+    <div class="freeze-modal-content">
+      <div class="freeze-modal-header">
+        <div class="freeze-modal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div>
+          <h3 class="freeze-modal-title">Freeze &amp; Publish Batch</h3>
+          <p class="freeze-modal-sub" id="freezeModalBatchDesc">Mark batch as completed and save permanently to website.</p>
+        </div>
+        <button type="button" class="freeze-modal-close" onclick="closeFreezeModal()" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="freeze-modal-body">
+        <div class="freeze-modal-alert">
+          <strong>Notice:</strong> Freezing saves this batch's final statistics and candidate history permanently on the website. Once committed to GitHub, you can safely clear the active Google Sheet for the next batch.
+        </div>
+
+        <!-- Option: File Upload Dropzone -->
+        <div class="freeze-modal-field">
+          <label class="freeze-label">Finalized Batch Snapshot (.json)</label>
+          <div class="freeze-file-dropzone" id="freezeDropzone">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <div class="freeze-file-name" id="freezeFileName">Current active batch data is loaded &bull; Or select a downloaded .json file</div>
+            <input type="file" id="freezeFileInput" accept=".json" style="display: none;" onchange="handleFreezeFileSelect(event)">
+            <button type="button" class="btn-browse-file" onclick="document.getElementById('freezeFileInput').click()">📁 Choose Downloaded .json File</button>
+          </div>
+        </div>
+
+        <!-- Admin Password -->
+        <div class="freeze-modal-field">
+          <label class="freeze-label" for="freezeAdminPwd">Admin Password *</label>
+          <input type="password" id="freezeAdminPwd" class="freeze-input" placeholder="Enter admin password to commit to GitHub" autocomplete="current-password">
+        </div>
+
+        <!-- Status / Error message -->
+        <div id="freezeModalStatus" class="freeze-status-box" style="display: none;"></div>
+      </div>
+
+      <div class="freeze-modal-footer">
+        <button type="button" class="btn-modal-cancel" onclick="closeFreezeModal()">Cancel</button>
+        <button type="button" class="btn-modal-download" onclick="downloadFreezeJsonBackup()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Download JSON</span>
+        </button>
+        <button type="button" class="btn-modal-commit" id="btnCommitFreeze" onclick="submitFreezeCommit()">
+          <span>Confirm &amp; Commit to GitHub &rarr;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>
 </div>
 
@@ -3038,6 +3361,7 @@ permalink: /join-live/
   const pageStartTime = Date.now();
 
   document.addEventListener('DOMContentLoaded', () => {
+    loadServerFrozenBatches();
     initJoinForm();
     initDashboardToggleAndForm();
     initSearch();
@@ -4078,12 +4402,26 @@ permalink: /join-live/
   // Courses/batches built dynamically from GSheet data; starts empty
   let availableBatchesByCourse = {};
 
-  function getFrozenBatchesStore() {
+  let serverFrozenBatchesStore = {};
+
+  async function loadServerFrozenBatches() {
     try {
-      return JSON.parse(localStorage.getItem('rpv_frozen_batches') || '{}');
-    } catch (_) {
-      return {};
-    }
+      const res = await fetch('/assets/data/frozen_batches.json?t=' + Date.now());
+      if (res.ok) {
+        const json = await res.json();
+        if (json && typeof json === 'object') {
+          serverFrozenBatchesStore = json;
+        }
+      }
+    } catch (_) {}
+  }
+
+  function getFrozenBatchesStore() {
+    let local = {};
+    try {
+      local = JSON.parse(localStorage.getItem('rpv_frozen_batches') || '{}');
+    } catch (_) {}
+    return Object.assign({}, local, serverFrozenBatchesStore || {});
   }
 
   function isBatchFrozen(courseId, batchId) {
@@ -4303,6 +4641,173 @@ permalink: /join-live/
     onDashBatchChange();
   }
 
+  let freezeModalTarget = {
+    course: "",
+    batch: "",
+    batchKey: "",
+    data: null
+  };
+
+  function openFreezeModal(courseName, batchName, batchKey) {
+    freezeModalTarget.course = courseName;
+    freezeModalTarget.batch = batchName;
+    freezeModalTarget.batchKey = batchKey;
+    freezeModalTarget.data = currentDashboardData;
+
+    const modal = document.getElementById('freezeModalOverlay');
+    const desc = document.getElementById('freezeModalBatchDesc');
+    const fileName = document.getElementById('freezeFileName');
+    const statusBox = document.getElementById('freezeModalStatus');
+    const pwdInput = document.getElementById('freezeAdminPwd');
+    const fileInput = document.getElementById('freezeFileInput');
+
+    if (desc) desc.textContent = `Freezing "${courseName} — ${batchName}"`;
+    if (fileName) fileName.textContent = `Current active batch data is loaded & ready to commit. (Or choose a downloaded .json file below)`;
+    if (statusBox) statusBox.style.display = 'none';
+    if (pwdInput) pwdInput.value = '';
+    if (fileInput) fileInput.value = '';
+
+    if (modal) modal.style.display = 'flex';
+  }
+
+  function closeFreezeModal() {
+    const modal = document.getElementById('freezeModalOverlay');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function handleFreezeFileSelect(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        if (parsed) {
+          freezeModalTarget.data = parsed;
+          const fileName = document.getElementById('freezeFileName');
+          if (fileName) {
+            fileName.textContent = `✓ Loaded file: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+          }
+          const statusBox = document.getElementById('freezeModalStatus');
+          if (statusBox) {
+            statusBox.className = 'freeze-status-box info';
+            statusBox.innerHTML = `Loaded finalized data from <strong>${escapeHTML(file.name)}</strong>. Enter password below and click confirm to commit.`;
+            statusBox.style.display = 'block';
+          }
+        }
+      } catch (err) {
+        alert("Invalid JSON file. Please choose a valid attendance snapshot JSON file.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function downloadFreezeJsonBackup() {
+    try {
+      const dataToDownload = freezeModalTarget.data || currentDashboardData || {};
+      const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToDownload, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", jsonStr);
+      const courseSlug = slugify(freezeModalTarget.course || currentSelectedCourse || 'course');
+      const batchSlug = slugify(freezeModalTarget.batch || currentSelectedBatch || 'batch');
+      downloadAnchor.setAttribute("download", `attendance-${courseSlug}-${batchSlug}-finalized.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    } catch (e) {
+      console.warn('Download error:', e);
+    }
+  }
+
+  async function submitFreezeCommit() {
+    const pwdInput = document.getElementById('freezeAdminPwd');
+    const pwd = (pwdInput ? pwdInput.value : "").trim();
+    const statusBox = document.getElementById('freezeModalStatus');
+    const commitBtn = document.getElementById('btnCommitFreeze');
+
+    if (!pwd) {
+      if (statusBox) {
+        statusBox.className = 'freeze-status-box error';
+        statusBox.textContent = 'Please enter your Admin Password to authorize commit.';
+        statusBox.style.display = 'block';
+      }
+      if (pwdInput) pwdInput.focus();
+      return;
+    }
+
+    if (!freezeModalTarget.data) {
+      freezeModalTarget.data = currentDashboardData;
+    }
+
+    if (commitBtn) {
+      commitBtn.disabled = true;
+      commitBtn.innerHTML = '<span>⏳ Committing to GitHub...</span>';
+    }
+    if (statusBox) {
+      statusBox.className = 'freeze-status-box info';
+      statusBox.textContent = 'Connecting to GitHub API to save assets/data/frozen_batches.json...';
+      statusBox.style.display = 'block';
+    }
+
+    try {
+      const res = await fetch('/api/freeze-batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: pwd,
+          batchKey: freezeModalTarget.batchKey,
+          course: freezeModalTarget.course,
+          batch: freezeModalTarget.batch,
+          data: freezeModalTarget.data
+        })
+      });
+
+      const resData = await res.json();
+
+      if (res.ok && resData.success) {
+        // Also save to localStorage and server in-memory store immediately
+        const store = getFrozenBatchesStore();
+        store[freezeModalTarget.batchKey] = {
+          frozen: true,
+          frozenAt: new Date().toISOString(),
+          course: freezeModalTarget.course,
+          batch: freezeModalTarget.batch,
+          data: freezeModalTarget.data
+        };
+        serverFrozenBatchesStore[freezeModalTarget.batchKey] = store[freezeModalTarget.batchKey];
+        localStorage.setItem('rpv_frozen_batches', JSON.stringify(store));
+
+        if (statusBox) {
+          statusBox.className = 'freeze-status-box success';
+          statusBox.innerHTML = `<strong>✅ Success!</strong> Batch is committed to GitHub. Cloudflare Pages is now deploying it.`;
+        }
+
+        setTimeout(() => {
+          closeFreezeModal();
+          onDashBatchChange();
+          alert(`Batch "${freezeModalTarget.batch}" is now permanently frozen on the website!`);
+        }, 1400);
+
+      } else {
+        if (statusBox) {
+          statusBox.className = 'freeze-status-box error';
+          statusBox.textContent = resData.error || 'Failed to commit. Please check password.';
+        }
+      }
+    } catch (err) {
+      if (statusBox) {
+        statusBox.className = 'freeze-status-box error';
+        statusBox.textContent = 'Network error: ' + err.message;
+      }
+    } finally {
+      if (commitBtn) {
+        commitBtn.disabled = false;
+        commitBtn.innerHTML = '<span>Confirm &amp; Commit to GitHub &rarr;</span>';
+      }
+    }
+  }
+
   function handleFreezeBatchClick() {
     if (!currentUserIsAdmin) {
       alert("Only instructors and admins can freeze or unfreeze batch records.");
@@ -4319,39 +4824,14 @@ permalink: /join-live/
     const currentlyFrozen = !!store[batchKey];
 
     if (!currentlyFrozen) {
-      const confirmFreeze = confirm(`Freeze Batch: Are you sure you want to mark "${courseName} - ${batchName}" as completed and finalized?\n\nThis will lock the attendance metrics in static mode and export the finalized JSON snapshot.`);
-      if (!confirmFreeze) return;
-
-      // Save frozen metadata and snapshot
-      store[batchKey] = {
-        frozen: true,
-        frozenAt: new Date().toISOString(),
-        course: courseName,
-        batch: batchName,
-        data: currentDashboardData
-      };
-      localStorage.setItem('rpv_frozen_batches', JSON.stringify(store));
-
-      // Trigger static JSON snapshot download for repo/static deployment
-      try {
-        const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentDashboardData || {}, null, 2));
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", jsonStr);
-        downloadAnchor.setAttribute("download", `attendance-${currentSelectedCourse}-${currentSelectedBatch}-finalized.json`);
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-      } catch (e) {
-        console.warn('Snapshot download error:', e);
-      }
-
-      onDashBatchChange();
-      alert(`Batch "${batchName}" is now successfully frozen and marked completed! The static JSON snapshot has been downloaded for your repository archives.`);
+      // Open the popup modal asking for file upload (or active data) and commit confirmation
+      openFreezeModal(courseName, batchName, batchKey);
     } else {
       const confirmUnfreeze = confirm(`Unfreeze Batch: Do you want to unfreeze "${batchName}" and return to live sync mode?`);
       if (!confirmUnfreeze) return;
 
       delete store[batchKey];
+      delete serverFrozenBatchesStore[batchKey];
       localStorage.setItem('rpv_frozen_batches', JSON.stringify(store));
       onDashBatchChange();
       alert(`Batch "${batchName}" has been unfrozen and returned to live sync mode.`);
@@ -4363,6 +4843,9 @@ permalink: /join-live/
     currentUserIsAdmin = sessionStorage.getItem('rpv_user_is_admin') === 'true' || 
                          currentUserEmail.includes('admin') || 
                          currentUserEmail.endsWith('@rpavault.com');
+
+    // Ensure server frozen batches are loaded first
+    await loadServerFrozenBatches();
 
     const section = document.getElementById('dashboardSection');
     section.style.display = 'block';
