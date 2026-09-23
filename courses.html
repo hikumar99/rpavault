@@ -450,10 +450,38 @@ schema_ld: |
     const btn = form.querySelector(".qz-submit"); btn.disabled = true; btn.textContent = "Sending…";
     const fd = new FormData(form);
     lastFormData = fd;
-    const payload = { _subject: `Course questionnaire — ${active.label}`, _template: "table", persona: active.label,
-      name: fd.get("name"), email: fd.get("email"), phone: fd.get("phone"), description: fd.get("description") || "" };
+    const payload = { 
+      _subject: `Course questionnaire — ${active.label}`, 
+      _template: "table", 
+      form_type: `Course Questionnaire (${active.label})`,
+      form_type_name: `Course Questionnaire (${active.label})`,
+      "Form Type": `Course Questionnaire (${active.label})`,
+      "Form Type Name": `Course Questionnaire (${active.label})`,
+      persona: active.label,
+      course: "IT Courses",
+      topic: "IT Courses & Batches",
+      name: fd.get("name"), 
+      email: fd.get("email"), 
+      phone: fd.get("phone"), 
+      description: fd.get("description") || "",
+      source_page: window.location.pathname || "/courses/",
+      source_page_title: document.title || "Courses"
+    };
     answers.forEach((a,i)=>{ payload["Q"+(i+1)+" — "+a.q] = a.a; });
     submitted = true;
+
+    // Direct Webhook dispatch to Google Sheets
+    const webhookUrl = window.rpvConfig?.webhookEndpoint || "https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec";
+    if (webhookUrl) {
+      fetch(webhookUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload)
+      }).catch(()=>{});
+      payload._webhookSent = true;
+    }
+
     fetch(FORMSUBMIT, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(payload) })
       .catch(()=>{})
       .finally(()=>{

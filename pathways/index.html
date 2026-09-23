@@ -334,6 +334,10 @@ description: Choose your profile, complete a quick fit-check, and get a customiz
           const payload = {
             _subject: active.persona + " plan request",
             _template: "table",
+            form_type: "Career Pathway (" + active.persona + ")",
+            form_type_name: "Career Pathway (" + active.persona + ")",
+            "Form Type": "Career Pathway (" + active.persona + ")",
+            "Form Type Name": "Career Pathway (" + active.persona + ")",
             persona: active.persona,
             name: answers.name,
             email: answers.email,

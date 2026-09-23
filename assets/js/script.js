@@ -281,6 +281,26 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
       tzVal = originalPayload.timezone;
     }
 
+    // Ensure form type name is prominently and cleanly populated under all key variations
+    const formTypeName = originalPayload.form_type_name || 
+                         originalPayload.form_type || 
+                         originalPayload['Form Type Name'] || 
+                         originalPayload['Form Type'] || 
+                         originalPayload['Form Name'] || 
+                         originalPayload.form_name || 
+                         originalPayload.formType || 
+                         originalPayload.persona || 
+                         '';
+    if (formTypeName) {
+      userData['Form Type Name'] = formTypeName;
+      userData['Form Type'] = formTypeName;
+      userData['form_type_name'] = formTypeName;
+      userData['form_type'] = formTypeName;
+      userData['Form Name'] = formTypeName;
+      userData['form_name'] = formTypeName;
+      userData['formType'] = formTypeName;
+    }
+
     const enriched = {};
 
     // Place configuration keys first
@@ -361,6 +381,19 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
             const payload = JSON.parse(init.body);
             const enriched = enrichPayload(payload);
             init.body = JSON.stringify(enriched);
+
+            // Auto-forward to Google Sheet webhook if not already sent by caller
+            const webhookUrl = window.rpvConfig?.webhookEndpoint;
+            if (webhookUrl && webhookUrl.trim() !== '' && !payload._webhookSent) {
+              originalFetch(webhookUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                  'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify(enriched)
+              }).catch(err => console.warn("Background webhook auto-dispatch failed:", err));
+            }
           }
         } catch (err) {
           console.warn("FormSubmit fetch enrichment failed:", err);
@@ -384,6 +417,30 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
     const pageTitle=document.title||'';
     const courseSlug=document.body.getAttribute('data-course-slug')||'';
     leadForms.forEach(form=>{
+      // Resolve form type name from existing fields, data attributes, or modal parent
+      const resolvedFormType = form.querySelector('input[name="form_type_name"]')?.value ||
+                               form.querySelector('input[name="form_type"]')?.value ||
+                               form.querySelector('input[name="Form Type Name"]')?.value ||
+                               form.querySelector('input[name="Form Type"]')?.value ||
+                               form.getAttribute('data-form-type') ||
+                               (form.closest('[data-callback-modal]') ? 'Callback request (popup)' :
+                                form.closest('[data-consulting-modal]') ? 'Consulting Staffing request (popup)' :
+                                form.closest('[data-discovery-modal]') ? 'Automation Discovery request (popup)' :
+                                form.closest('[data-college-modal]') ? 'College program request (popup)' :
+                                form.closest('[data-corporate-modal]') ? 'Corporate upskilling request (popup)' :
+                                form.closest('[data-guidance-modal]') ? 'Personalized Guidance Request' :
+                                form.closest('[data-syllabus-modal]') ? 'Syllabus Download (Email & WhatsApp)' :
+                                form.classList.contains('syllabus-lead-form') ? 'Syllabus Download (Email & WhatsApp)' :
+                                location.pathname.includes('/contact') ? 'Contact form' : 'Website Lead Form');
+
+      setField(form, 'form_type', resolvedFormType);
+      setField(form, 'form_type_name', resolvedFormType);
+      setField(form, 'Form Type', resolvedFormType);
+      setField(form, 'Form Type Name', resolvedFormType);
+      setField(form, 'Form Name', resolvedFormType);
+      setField(form, 'form_name', resolvedFormType);
+      setField(form, 'formType', resolvedFormType);
+
       setField(form,'source_page',pagePath);
       setField(form,'source_page_title',pageTitle);
       if(courseSlug){setField(form,'course_page','https://rpavault.com/'+courseSlug+'.html');}
@@ -482,6 +539,27 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
           data[key] = value;
         }
       });
+
+      // Ensure form type name is explicitly present across all expected aliases
+      const finalFormType = data.form_type_name || 
+                            data.form_type || 
+                            data['Form Type Name'] || 
+                            data['Form Type'] || 
+                            data['Form Name'] || 
+                            data.form_name || 
+                            data.formType || 
+                            form.querySelector('input[name="form_type_name"]')?.value ||
+                            form.querySelector('input[name="form_type"]')?.value ||
+                            'Website Lead Form';
+
+      data['form_type'] = finalFormType;
+      data['form_type_name'] = finalFormType;
+      data['Form Type'] = finalFormType;
+      data['Form Type Name'] = finalFormType;
+      data['Form Name'] = finalFormType;
+      data['form_name'] = finalFormType;
+      data['formType'] = finalFormType;
+      data._webhookSent = true;
 
       let action = form.getAttribute('action') || 'https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2';
 

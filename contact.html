@@ -293,11 +293,14 @@ schema_ld: |
     <!-- Left Column: Form Panel -->
     <div class="contact-form-panel reveal">
       <h2>Send us a message</h2>
-      <form class="form-grid js-lead-form" action="https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2" method="POST">
+      <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint | default('https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2') }}" method="POST">
         <input type="hidden" name="_subject" value="New inquiry — rpavault.com">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="form_type" value="Contact form">
+        <input type="hidden" name="form_type_name" value="Contact form">
+        <input type="hidden" name="Form Type" value="Contact form">
+        <input type="hidden" name="Form Type Name" value="Contact form">
         <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/contact/?sent=1">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
         

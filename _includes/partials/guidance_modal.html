@@ -3,11 +3,14 @@
     <button class="rpv-modal-close" type="button" data-close-modal aria-label="Close">✕</button>
     <h2>Get Personalized Guidance</h2>
     <p class="modal-sub">Confused between courses? Tell us your background below. Our senior architect will analyze your details and recommend the perfect pathway, honestly.</p>
-    <form class="form-grid js-lead-form" action="https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2" method="POST">
+    <form class="form-grid js-lead-form" action="{{ settings.forms.formsubmit_endpoint | default('https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2') }}" method="POST">
       <input type="hidden" name="_subject" value="Personalized Guidance Request — RPAVault">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="form_type" value="Personalized Guidance Request">
+      <input type="hidden" name="form_type_name" value="Personalized Guidance Request">
+      <input type="hidden" name="Form Type" value="Personalized Guidance Request">
+      <input type="hidden" name="Form Type Name" value="Personalized Guidance Request">
       <input type="hidden" name="_next" value="{{ settings.footer.domain_url }}/contact/?sent=1">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
       

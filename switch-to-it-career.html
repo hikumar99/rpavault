@@ -1,0 +1,2067 @@
+---
+layout: layouts/base.html
+title: "Switch to IT Career with UiPath RPA | Zero-Coding Drag & Drop Masterclass"
+description: "Launch your high-paying IT career with UiPath RPA. Designed for fresh college students and non-IT graduates. Visual drag-and-drop automation with zero complex coding. Claim your free live Zoom demo seat."
+og_image: "/assets/images/blog/uipath-for-beginners-zero-coding.jpg"
+permalink: /switch-to-it-career/
+canonical_url: https://rpavault.com/switch-to-it-career/
+---
+
+<style>
+  /* ================= THEME VARIABLES (LIGHT & DARK DUAL-MODE) ================= */
+  :root, [data-theme="light"] {
+    --m-bg: #f8fafc;
+    --m-surface: #ffffff;
+    --m-card: #ffffff;
+    --m-card-inner: #f1f5f9;
+    --m-border: #e2e8f0;
+    --m-border-subtle: #edf2f7;
+    --m-border-glow: rgba(0, 88, 176, 0.25);
+    --m-uipath: #fa4616;
+    --m-uipath-dark: #dc3408;
+    --m-uipath-soft: rgba(250, 70, 22, 0.08);
+    --m-blue: #0058b0;
+    --m-blue-soft: #eff6ff;
+    --m-cyan: #0284c7;
+    --m-green: #10b981;
+    --m-green-soft: #ecfdf5;
+    --m-text: #0f172a;
+    --m-text-sub: #334155;
+    --m-muted: #64748b;
+    --m-canvas-bg: #f1f5f9;
+    --m-sim-log-bg: #0f172a;
+    --m-header-bg: rgba(255, 255, 255, 0.94);
+    --m-shadow-card: 0 10px 30px rgba(0, 0, 0, 0.06);
+    --m-shadow-pop: 0 16px 36px rgba(0, 88, 176, 0.12);
+  }
+
+  [data-theme="dark"] {
+    --m-bg: #070e1a;
+    --m-surface: #0e1a2f;
+    --m-card: #14233c;
+    --m-card-inner: #1b2f4f;
+    --m-border: #233757;
+    --m-border-subtle: #1a2a44;
+    --m-border-glow: #3b82f6;
+    --m-uipath: #fa4616;
+    --m-uipath-dark: #ff6838;
+    --m-uipath-soft: rgba(250, 70, 22, 0.15);
+    --m-blue: #0058b0;
+    --m-blue-soft: rgba(0, 88, 176, 0.2);
+    --m-cyan: #38bdf8;
+    --m-green: #10b981;
+    --m-green-soft: rgba(16, 185, 129, 0.15);
+    --m-text: #f8fafc;
+    --m-text-sub: #cbd5e1;
+    --m-muted: #94a3b8;
+    --m-canvas-bg: rgba(0, 0, 0, 0.35);
+    --m-sim-log-bg: #060b13;
+    --m-header-bg: rgba(7, 14, 26, 0.94);
+    --m-shadow-card: 0 12px 36px rgba(0, 0, 0, 0.45);
+    --m-shadow-pop: 0 16px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  /* RESET SITE GLOBAL HEADER & FOOTER */
+  .site-header, header.site-header, #site-header {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  .site-footer, footer.site-footer {
+    display: none !important;
+  }
+
+  html, body {
+    background-color: var(--m-bg) !important;
+    background: var(--m-bg) !important;
+    color: var(--m-text);
+    font-family: var(--font, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  main {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* MOBILE-FIRST CONTAINER (Centered on desktop, edge-to-edge on mobile) */
+  .mobile-shell {
+    width: 100%;
+    max-width: 490px;
+    margin: 0 auto;
+    background: var(--m-bg);
+    min-height: 100vh;
+    padding: 0 1rem 6.5rem;
+    box-sizing: border-box;
+    position: relative;
+    border-left: 1px solid var(--m-border);
+    border-right: 1px solid var(--m-border);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.08);
+  }
+
+  /* TOP STICKY BAR */
+  .m-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    background: var(--m-header-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--m-border);
+    margin: 0 -1rem 0.85rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .m-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .m-brand-logo {
+    height: 36px;
+    width: auto;
+    max-width: 145px;
+    object-fit: contain;
+  }
+
+  .m-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* THEME MODE TOGGLE BUTTON */
+  .m-theme-btn {
+    background: var(--m-card-inner);
+    border: 1px solid var(--m-border);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.76rem;
+    font-weight: 750;
+    color: var(--m-text);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+  }
+
+  .m-theme-btn:active {
+    transform: scale(0.95);
+  }
+
+  .m-zoom-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #0b5cff 0%, #0052cc 100%);
+    border: 1px solid rgba(147, 197, 253, 0.4);
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(11, 92, 255, 0.3);
+  }
+
+  .m-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff3838;
+    box-shadow: 0 0 7px #ff3838;
+    animation: mPulse 1.4s infinite;
+  }
+
+  @keyframes mPulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+  }
+
+  /* COUNTDOWN TIMER BANNER */
+  .m-countdown-strip {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 14px;
+    padding: 0.75rem 1rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  }
+
+  .m-countdown-label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .m-countdown-label strong {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .m-countdown-label span {
+    font-size: 0.68rem;
+    color: #94a3b8;
+  }
+
+  .m-timer-boxes {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .m-timer-box {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 3px 6px;
+    text-align: center;
+    min-width: 28px;
+  }
+
+  .m-timer-val {
+    font-size: 0.88rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .m-timer-unit {
+    font-size: 0.58rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+  }
+
+  .m-timer-colon {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #38bdf8;
+  }
+
+  /* FRESHER TARGET PILL */
+  .m-fresher-badge {
+    background: var(--m-uipath-soft);
+    border: 1px solid rgba(250, 70, 22, 0.3);
+    border-radius: 999px;
+    padding: 0.38rem 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    font-weight: 750;
+    color: var(--m-uipath);
+    margin-bottom: 0.85rem;
+  }
+
+  /* HERO BANNER */
+  .m-hero {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: 20px;
+    padding: 1.35rem 1.15rem;
+    margin-bottom: 1.15rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--m-shadow-card);
+  }
+
+  .m-hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #fa4616, #0058b0, #10b981);
+  }
+
+  .m-hero h1 {
+    font-size: 1.58rem;
+    line-height: 1.25;
+    font-weight: 850;
+    margin: 0 0 0.65rem 0;
+    color: var(--m-text);
+    letter-spacing: -0.02em;
+  }
+
+  .m-hero h1 span.highlight-uipath {
+    color: #fa4616;
+  }
+
+  .m-hero h1 span.highlight-blue {
+    color: #0058b0;
+  }
+
+  .m-hero-sub {
+    font-size: 0.9rem;
+    line-height: 1.48;
+    color: var(--m-text-sub);
+    margin: 0 0 1rem 0;
+  }
+
+  /* METRICS GRID */
+  .m-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 0.85rem;
+  }
+
+  .m-metric-chip {
+    background: var(--m-card-inner);
+    border: 1px solid var(--m-border);
+    border-radius: 12px;
+    padding: 0.55rem 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .m-metric-icon {
+    font-size: 1.15rem;
+  }
+
+  .m-metric-chip strong {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--m-text);
+    line-height: 1.15;
+  }
+
+  .m-metric-chip span {
+    font-size: 0.68rem;
+    color: var(--m-muted);
+  }
+
+  /* SOCIAL PROOF LIVE BADGE */
+  .m-social-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--m-blue-soft);
+    border: 1px solid rgba(0, 88, 176, 0.18);
+    border-radius: 12px;
+    padding: 0.6rem 0.85rem;
+    margin-bottom: 1.15rem;
+    font-size: 0.76rem;
+    color: #004182;
+    font-weight: 650;
+  }
+
+  .m-avatar-group {
+    display: flex;
+    margin-left: 2px;
+  }
+
+  .m-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    margin-left: -6px;
+    background: #0058b0;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .m-avatar:first-child { margin-left: 0; }
+  .m-avatar.av-1 { background: #fa4616; }
+  .m-avatar.av-2 { background: #0058b0; }
+  .m-avatar.av-3 { background: #10b981; }
+
+  /* LEAD CAPTURE FORM CARD (Ticket Design) */
+  .m-form-card {
+    background: var(--m-surface);
+    border-radius: 20px;
+    padding: 1.35rem 1.15rem;
+    margin-bottom: 1.35rem;
+    color: var(--m-text);
+    box-shadow: var(--m-shadow-pop);
+    position: relative;
+    border: 2px solid #0058b0;
+  }
+
+  .m-form-header {
+    text-align: center;
+    margin-bottom: 1.1rem;
+  }
+
+  .m-form-pill {
+    display: inline-block;
+    background: var(--m-uipath-soft);
+    color: #fa4616;
+    font-size: 0.72rem;
+    font-weight: 850;
+    padding: 3px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .m-form-header h2 {
+    font-size: 1.25rem;
+    font-weight: 850;
+    color: var(--m-text);
+    margin: 0 0 4px 0;
+    line-height: 1.25;
+  }
+
+  .m-form-header p {
+    font-size: 0.82rem;
+    color: var(--m-text-sub);
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .m-form-group {
+    margin-bottom: 0.85rem;
+  }
+
+  .m-label {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 750;
+    color: var(--m-text);
+    margin-bottom: 4px;
+  }
+
+  .m-input-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .m-input-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--m-muted);
+    font-size: 0.95rem;
+    pointer-events: none;
+  }
+
+  .m-input {
+    width: 100%;
+    padding: 0.78rem 0.85rem 0.78rem 2.35rem;
+    border: 1.5px solid var(--m-border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--m-text);
+    background: var(--m-card-inner);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  .m-input:focus {
+    outline: none;
+    border-color: #0058b0;
+    background: var(--m-surface);
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.15);
+  }
+
+  /* STREAM/DEGREE CHIPS */
+  .m-chips-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .m-chip-opt {
+    position: relative;
+  }
+
+  .m-chip-opt input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .m-chip-label {
+    display: block;
+    padding: 7px 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--m-text-sub);
+    background: var(--m-card-inner);
+    border: 1.5px solid var(--m-border);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .m-chip-opt input:checked + .m-chip-label {
+    background: var(--m-blue-soft);
+    border-color: #0058b0;
+    color: #0058b0;
+    font-weight: 800;
+  }
+
+  /* SUBMIT BUTTON */
+  .m-btn-submit {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #fa4616 0%, #d63205 100%);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 850;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(250, 70, 22, 0.35);
+    transition: transform 0.18s, box-shadow 0.18s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+
+  .m-btn-submit:active {
+    transform: scale(0.98);
+  }
+
+  .m-btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .m-trust-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 0.75rem;
+    font-size: 0.72rem;
+    color: var(--m-muted);
+  }
+
+  /* SUCCESS CARD */
+  .m-success-card {
+    display: none;
+    background: var(--m-surface);
+    border-radius: 20px;
+    padding: 1.5rem 1.25rem;
+    margin-bottom: 1.35rem;
+    color: var(--m-text);
+    box-shadow: var(--m-shadow-pop);
+    border: 2px solid #10b981;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .m-success-icon {
+    font-size: 2.8rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .m-success-card h3 {
+    font-size: 1.3rem;
+    font-weight: 850;
+    color: #10b981;
+    margin: 0 0 6px 0;
+  }
+
+  .m-success-card p {
+    font-size: 0.85rem;
+    color: var(--m-text-sub);
+    line-height: 1.4;
+    margin: 0 0 1.2rem 0;
+  }
+
+  .m-meeting-box {
+    background: var(--m-green-soft);
+    border: 1px dashed #10b981;
+    border-radius: 14px;
+    padding: 0.85rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    font-size: 0.8rem;
+  }
+
+  .m-meeting-box div {
+    margin-bottom: 4px;
+    color: var(--m-text);
+  }
+
+  .m-meeting-box div strong {
+    color: #065f46;
+  }
+
+  .m-btn-zoom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: linear-gradient(135deg, #0b5cff 0%, #0052cc 100%);
+    color: #ffffff !important;
+    border-radius: 12px;
+    font-weight: 850;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(11, 92, 255, 0.4);
+    margin-bottom: 8px;
+    box-sizing: border-box;
+  }
+
+  .m-btn-wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0.82rem 1rem;
+    background: #25d366;
+    color: #ffffff !important;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-decoration: none;
+    box-sizing: border-box;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+  }
+
+  /* 3 FREE BONUSES STRIP */
+  .m-bonuses-card {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 1.4rem;
+    box-shadow: var(--m-shadow-card);
+  }
+
+  .m-bonuses-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+  }
+
+  .m-bonuses-head h4 {
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 850;
+    color: var(--m-text);
+  }
+
+  .m-bonus-pill {
+    background: rgba(245, 158, 11, 0.15);
+    color: #d97706;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .m-bonus-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--m-text-sub);
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .m-bonus-item:last-child { margin-bottom: 0; }
+
+  /* SECTION HEADERS */
+  .m-section-title {
+    font-size: 1.25rem;
+    font-weight: 850;
+    margin: 1.8rem 0 0.5rem 0;
+    color: var(--m-text);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .m-section-sub {
+    font-size: 0.84rem;
+    color: var(--m-muted);
+    margin: 0 0 1.1rem 0;
+    line-height: 1.45;
+  }
+
+  /* INTERACTIVE DRAG & DROP SIMULATOR */
+  .m-simulator-card {
+    background: var(--m-surface);
+    border: 1.5px solid var(--m-border);
+    border-radius: 20px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    box-shadow: var(--m-shadow-card);
+  }
+
+  .m-sim-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--m-blue-soft);
+    border: 1px solid rgba(0, 88, 176, 0.2);
+    color: #0058b0;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .m-sim-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--m-text);
+    margin: 0 0 4px 0;
+  }
+
+  .m-sim-sub {
+    font-size: 0.78rem;
+    color: var(--m-muted);
+    margin: 0 0 1rem 0;
+  }
+
+  /* FLOW CANVAS */
+  .m-flow-canvas {
+    background: var(--m-canvas-bg);
+    border: 1px solid var(--m-border);
+    border-radius: 14px;
+    padding: 0.9rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .m-flow-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--m-surface);
+    border: 1.5px solid var(--m-border);
+    border-radius: 12px;
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 8px;
+    transition: all 0.25s ease;
+  }
+
+  .m-flow-block.active-step {
+    border-color: #10b981;
+    background: var(--m-green-soft);
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+    transform: scale(1.02);
+  }
+
+  .m-flow-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .m-icon-excel { background: #107c41; color: #fff; }
+  .m-icon-browser { background: #0078d4; color: #fff; }
+  .m-icon-click { background: #fa4616; color: #fff; }
+  .m-icon-notify { background: #8b5cf6; color: #fff; }
+
+  .m-flow-text {
+    flex-grow: 1;
+  }
+
+  .m-flow-text strong {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--m-text);
+    font-weight: 750;
+  }
+
+  .m-flow-text span {
+    font-size: 0.7rem;
+    color: var(--m-muted);
+  }
+
+  .m-flow-badge {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #0058b0;
+    background: var(--m-blue-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .m-flow-arrow {
+    text-align: center;
+    color: var(--m-muted);
+    font-size: 0.8rem;
+    margin: -4px 0 4px;
+  }
+
+  /* SIMULATOR RUN BUTTON & LOG */
+  .m-btn-run-sim {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1.5px solid #10b981;
+    background: var(--m-green-soft);
+    color: #059669;
+    font-weight: 850;
+    font-size: 0.88rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+
+  .m-btn-run-sim:active {
+    background: #10b981;
+    color: #ffffff;
+  }
+
+  .m-sim-log {
+    margin-top: 0.75rem;
+    background: var(--m-sim-log-bg);
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    line-height: 1.4;
+    min-height: 48px;
+  }
+
+  .m-sim-log span.sim-highlight {
+    color: #34d399;
+    font-weight: 700;
+  }
+
+  /* BEFORE VS AFTER */
+  .m-compare-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.4rem;
+  }
+
+  .m-compare-card {
+    border-radius: 16px;
+    padding: 1.1rem;
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    box-shadow: var(--m-shadow-card);
+  }
+
+  .m-card-before {
+    border-left: 4px solid #ef4444;
+  }
+
+  .m-card-after {
+    border-left: 4px solid #10b981;
+  }
+
+  .m-compare-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .m-card-before .m-compare-head { color: #dc2626; }
+  .m-card-after .m-compare-head { color: #059669; }
+
+  .m-compare-body {
+    font-size: 0.8rem;
+    line-height: 1.44;
+    color: var(--m-text-sub);
+    margin: 0;
+  }
+
+  /* WHY FRESHERS LOVE IT */
+  .m-reasons-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .m-reason-card {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    box-shadow: var(--m-shadow-card);
+  }
+
+  .m-reason-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--m-uipath-soft);
+    color: #fa4616;
+    font-weight: 850;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(250, 70, 22, 0.3);
+  }
+
+  .m-reason-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--m-text);
+  }
+
+  .m-reason-info p {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--m-muted);
+  }
+
+  /* 4 REAL BOTS YOU BUILD */
+  .m-bots-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .m-bot-box {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: 16px;
+    padding: 0.95rem 1.1rem;
+    box-shadow: var(--m-shadow-card);
+  }
+
+  .m-bot-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .m-bot-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--m-text);
+  }
+
+  .m-bot-tag {
+    font-size: 0.68rem;
+    font-weight: 750;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: var(--m-green-soft);
+    color: #059669;
+  }
+
+  .m-bot-desc {
+    font-size: 0.77rem;
+    line-height: 1.4;
+    color: var(--m-muted);
+    margin: 0;
+  }
+
+  /* TRAINER TRUST CARD */
+  .m-mentor-card {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: 18px;
+    padding: 1.1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--m-shadow-card);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .m-mentor-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0058b0, #002e60);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .m-mentor-info h4 {
+    margin: 0 0 2px 0;
+    font-size: 0.92rem;
+    font-weight: 850;
+    color: var(--m-text);
+  }
+
+  .m-mentor-info span {
+    display: block;
+    font-size: 0.74rem;
+    color: #0058b0;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .m-mentor-info p {
+    margin: 0;
+    font-size: 0.74rem;
+    color: var(--m-muted);
+    line-height: 1.35;
+  }
+
+  /* SALARY / CAREER CARD */
+  .m-salary-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1.5px solid rgba(245, 158, 11, 0.4);
+    border-radius: 20px;
+    padding: 1.25rem 1.15rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: var(--m-shadow-pop);
+  }
+
+  .m-salary-pill {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .m-salary-number {
+    font-size: 1.85rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .m-salary-sub {
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    margin: 0 0 1rem 0;
+  }
+
+  .m-companies-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .m-comp-tag {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 4px 9px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+
+  /* FAQ ACCORDION */
+  .m-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 2rem;
+  }
+
+  .m-faq-item {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.2s;
+    box-shadow: var(--m-shadow-card);
+  }
+
+  .m-faq-btn {
+    width: 100%;
+    padding: 0.95rem 1rem;
+    background: none;
+    border: none;
+    text-align: left;
+    color: var(--m-text);
+    font-size: 0.88rem;
+    font-weight: 750;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .m-faq-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.25s;
+    color: #0058b0;
+  }
+
+  .m-faq-ans {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding: 0 1rem;
+    color: var(--m-text-sub);
+    font-size: 0.8rem;
+    line-height: 1.48;
+  }
+
+  .m-faq-ans p {
+    margin: 0 0 0.95rem 0;
+  }
+
+  .m-faq-item.open {
+    border-color: #0058b0;
+  }
+
+  .m-faq-item.open .m-faq-arrow {
+    transform: rotate(180deg);
+  }
+
+  .m-faq-item.open .m-faq-ans {
+    max-height: 200px;
+  }
+
+  /* STICKY MOBILE BOTTOM BAR */
+  .m-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--m-header-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--m-border);
+    padding: 0.65rem 1rem;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .m-bottom-wrap {
+    max-width: 490px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .m-bottom-cta {
+    flex: 1;
+    padding: 0.82rem 1rem;
+    background: linear-gradient(135deg, #fa4616 0%, #d63205 100%);
+    color: #ffffff !important;
+    font-weight: 850;
+    font-size: 0.92rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(250, 70, 22, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+
+  .m-bottom-wa {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff !important;
+    font-size: 1.35rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  }
+
+  /* LIVE REGISTRATION TOAST */
+  .m-toast {
+    position: fixed;
+    bottom: 74px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(15, 23, 42, 0.94);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.74rem;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    z-index: 90;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .m-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+</style>
+
+<div class="mobile-shell" id="appShell">
+
+  <!-- TOP MOBILE HEADER -->
+  <header class="m-header">
+    <div class="m-logo-wrap">
+      <img id="mBrandLogo" src="/assets/images/logo-rpavault.png" alt="RPAVault" class="m-brand-logo">
+    </div>
+    <div class="m-header-actions">
+      <!-- Mode Switcher -->
+      <button type="button" id="mThemeToggle" class="m-theme-btn" onclick="toggleTheme()" title="Switch Light/Dark Mode">
+        <span id="mThemeIcon">🌙</span>
+        <span id="mThemeText">Dark</span>
+      </button>
+
+      <!-- Zoom Meeting Pill -->
+      <a href="https://us06web.zoom.us/meeting/register/i9sKeDtDTtmekLLu94uXJg" target="_blank" rel="noopener" class="m-zoom-pill">
+        <span class="m-pulse-dot"></span>
+        <span>Zoom Masterclass</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- LIVE COUNTDOWN TIMER STRIP -->
+  <div class="m-countdown-strip">
+    <div class="m-countdown-label">
+      <strong>🔴 Live Workshop Approaching</strong>
+      <span>Free Zoom interactive session</span>
+    </div>
+    <div class="m-timer-boxes">
+      <div class="m-timer-box">
+        <div class="m-timer-val" id="tDays">02</div>
+        <div class="m-timer-unit">Days</div>
+      </div>
+      <span class="m-timer-colon">:</span>
+      <div class="m-timer-box">
+        <div class="m-timer-val" id="tHours">14</div>
+        <div class="m-timer-unit">Hrs</div>
+      </div>
+      <span class="m-timer-colon">:</span>
+      <div class="m-timer-box">
+        <div class="m-timer-val" id="tMins">35</div>
+        <div class="m-timer-unit">Min</div>
+      </div>
+      <span class="m-timer-colon">:</span>
+      <div class="m-timer-box">
+        <div class="m-timer-val" id="tSecs">20</div>
+        <div class="m-timer-unit">Sec</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRESHER AUDIENCE CALLOUT -->
+  <div class="m-fresher-badge">
+    <span>🎓</span>
+    <span>Exclusively for Freshers &amp; Non-IT Students</span>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="m-hero">
+    <h1>
+      Switch to a High-Paying IT Career with <span class="highlight-uipath">UiPath RPA</span>
+    </h1>
+    <p class="m-hero-sub">
+      Tired of confusing coding syntax and abstract math? Discover <strong>UiPath</strong> — the global #1 visual drag-and-drop tool that lets you build digital software robots in minutes without writing complex code.
+    </p>
+
+    <!-- METRICS GRID -->
+    <div class="m-metrics-grid">
+      <div class="m-metric-chip">
+        <div class="m-metric-icon">🧩</div>
+        <div>
+          <strong>Zero Coding</strong>
+          <span>Visual drag &amp; drop</span>
+        </div>
+      </div>
+      <div class="m-metric-chip">
+        <div class="m-metric-icon">💼</div>
+        <div>
+          <strong>85%+ Fortune 500</strong>
+          <span>Hire UiPath developers</span>
+        </div>
+      </div>
+      <div class="m-metric-chip">
+        <div class="m-metric-icon">💰</div>
+        <div>
+          <strong>₹9L – ₹15L</strong>
+          <span>Target packages</span>
+        </div>
+      </div>
+      <div class="m-metric-chip">
+        <div class="m-metric-icon">⏱️</div>
+        <div>
+          <strong>35–45 Days</strong>
+          <span>To become job ready</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF LIVE STRIP -->
+  <div class="m-social-strip">
+    <div class="m-avatar-group">
+      <div class="m-avatar av-1">R</div>
+      <div class="m-avatar av-2">S</div>
+      <div class="m-avatar av-3">P</div>
+    </div>
+    <span>🔥 <strong>340+ students</strong> registered for upcoming batch</span>
+  </div>
+
+  <!-- LEAD CAPTURE FORM SECTION -->
+  <section id="mFormSection">
+    
+    <!-- REGISTRATION CARD -->
+    <div id="mFormCard" class="m-form-card">
+      <div class="m-form-header">
+        <span class="m-form-pill">⚡ Free Live Zoom Demo</span>
+        <h2>Claim Your Free Demo Seat</h2>
+        <p>Learn how to build your first software robot live. Zero prior coding required.</p>
+      </div>
+
+      <form id="mLeadForm" novalidate>
+        <!-- Full Name -->
+        <div class="m-form-group">
+          <label class="m-label" for="mName">Your Full Name *</label>
+          <div class="m-input-box">
+            <span class="m-input-icon">👤</span>
+            <input type="text" id="mName" name="name" class="m-input" placeholder="e.g. Rahul Sharma" required autocomplete="name">
+          </div>
+        </div>
+
+        <!-- WhatsApp / Mobile -->
+        <div class="m-form-group">
+          <label class="m-label" for="mPhone">WhatsApp / Mobile Number *</label>
+          <div class="m-input-box">
+            <span class="m-input-icon">📱</span>
+            <input type="tel" id="mPhone" name="phone" class="m-input" placeholder="10-digit mobile number" pattern="[0-9]{10}" inputmode="numeric" required autocomplete="tel">
+          </div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="m-form-group">
+          <label class="m-label" for="mEmail">Email Address *</label>
+          <div class="m-input-box">
+            <span class="m-input-icon">✉️</span>
+            <input type="email" id="mEmail" name="email" class="m-input" placeholder="e.g. rahul@gmail.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <!-- Current Education / Background Chips -->
+        <div class="m-form-group">
+          <label class="m-label">Your Current Background</label>
+          <div class="m-chips-grid">
+            <label class="m-chip-opt">
+              <input type="radio" name="background" value="Final Year Student" checked>
+              <span class="m-chip-label">Final Year Student</span>
+            </label>
+            <label class="m-chip-opt">
+              <input type="radio" name="background" value="Recent Graduate (2024-2026)">
+              <span class="m-chip-label">Fresh Graduate</span>
+            </label>
+            <label class="m-chip-opt">
+              <input type="radio" name="background" value="Non-IT / Degree Graduate">
+              <span class="m-chip-label">Non-IT Stream</span>
+            </label>
+            <label class="m-chip-opt">
+              <input type="radio" name="background" value="Working Professional Switching">
+              <span class="m-chip-label">Career Switcher</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="mBtnSubmit" class="m-btn-submit">
+          <span>Reserve Free Demo Seat 🚀</span>
+        </button>
+
+        <div class="m-trust-row">
+          <span>🔒 100% Free</span>
+          <span>•</span>
+          <span>No Spam</span>
+          <span>•</span>
+          <span>Instant Zoom Access</span>
+        </div>
+      </form>
+    </div>
+
+    <!-- SUCCESS CONFIRMATION CARD (Revealed upon form submission) -->
+    <div id="mSuccessCard" class="m-success-card">
+      <div class="m-success-icon">🎉</div>
+      <h3 id="mSuccessName">Seat Reserved Successfully!</h3>
+      <p>Your spot for the <strong>Live UiPath RPA Masterclass</strong> is confirmed. Tap below to access the session on Zoom and grab your free starter kit on WhatsApp:</p>
+
+      <div class="m-meeting-box">
+        <div><strong>Platform:</strong> Zoom Video Meeting</div>
+        <div><strong>Topic:</strong> Build Your 1st Robot &amp; Switch to IT</div>
+        <div><strong>Status:</strong> Registration Verified ✅</div>
+      </div>
+
+      <!-- Live Zoom Button (Configured via G_CONFIG.ZOOM_URL) -->
+      <a href="https://us06web.zoom.us/meeting/register/i9sKeDtDTtmekLLu94uXJg" id="mZoomJoinBtn" target="_blank" rel="noopener" class="m-btn-zoom">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 5.5A1.5 1.5 0 0 0 3 7v10a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5V7a1.5 1.5 0 0 0-1.5-1.5h-11zM18 10.2l4-2.5v8.6l-4-2.5v-3.6z"/></svg>
+        <span>Join Zoom Masterclass &rarr;</span>
+      </a>
+
+      <!-- WhatsApp Group Button (Configured via G_CONFIG.WHATSAPP_GROUP) -->
+      <a href="https://chat.whatsapp.com/CJH4PQcLnedC7SR6LImQxj" id="mWaJoinBtn" target="_blank" rel="noopener" class="m-btn-wa">
+        <span>💬 Join WhatsApp for Notes &amp; Robot Files</span>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- 3 FREE REGISTRATION BONUSES -->
+  <div class="m-bonuses-card">
+    <div class="m-bonuses-head">
+      <span class="m-bonus-pill">Free Bonus Kit</span>
+      <h4>Included When You Register Today</h4>
+    </div>
+    <div class="m-bonus-item">
+      <span>📘</span>
+      <span><strong>UiPath Zero-Coding Cheat Sheet (PDF):</strong> 20 most-used visual activity blocks explained.</span>
+    </div>
+    <div class="m-bonus-item">
+      <span>🤖</span>
+      <span><strong>4 Ready-to-Run Bot Files:</strong> Download and run automated projects directly on your laptop.</span>
+    </div>
+    <div class="m-bonus-item">
+      <span>💼</span>
+      <span><strong>Fresher Placement Guide:</strong> Top 40 RPA interview questions and sample fresher resumes.</span>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE DRAG & DROP SIMULATOR -->
+  <section class="m-simulator-card">
+    <div class="m-sim-tag">Interactive Simulation</div>
+    <h3 class="m-sim-title">How UiPath Works: Zero Syntax</h3>
+    <p class="m-sim-sub">Instead of writing code, you drag visual activities and connect them. Tap the button below to see the robot execute live:</p>
+
+    <div class="m-flow-canvas">
+      <!-- Step 1 -->
+      <div class="m-flow-block" id="simStep1">
+        <div class="m-flow-icon m-icon-excel">📊</div>
+        <div class="m-flow-text">
+          <strong>1. Read Range (Excel)</strong>
+          <span>Extract 500 student/invoice rows</span>
+        </div>
+        <span class="m-flow-badge">Drag &amp; Drop</span>
+      </div>
+
+      <div class="m-flow-arrow">▼</div>
+
+      <!-- Step 2 -->
+      <div class="m-flow-block" id="simStep2">
+        <div class="m-flow-icon m-icon-browser">🌐</div>
+        <div class="m-flow-text">
+          <strong>2. Open Browser (Chrome)</strong>
+          <span>Auto-launch portal and login</span>
+        </div>
+        <span class="m-flow-badge">Pre-built</span>
+      </div>
+
+      <div class="m-flow-arrow">▼</div>
+
+      <!-- Step 3 -->
+      <div class="m-flow-block" id="simStep3">
+        <div class="m-flow-icon m-icon-click">🖱️</div>
+        <div class="m-flow-text">
+          <strong>3. Type Into &amp; Click</strong>
+          <span>Fill forms with 100% accuracy</span>
+        </div>
+        <span class="m-flow-badge">Visual</span>
+      </div>
+
+      <div class="m-flow-arrow">▼</div>
+
+      <!-- Step 4 -->
+      <div class="m-flow-block" id="simStep4">
+        <div class="m-flow-icon m-icon-notify">✅</div>
+        <div class="m-flow-text">
+          <strong>4. Send Confirmation</strong>
+          <span>Email status report to manager</span>
+        </div>
+        <span class="m-flow-badge">Instant</span>
+      </div>
+    </div>
+
+    <button type="button" id="mBtnRunSim" class="m-btn-run-sim" onclick="runSimAnimation()">
+      <span>▶️ Test Run Robot (Watch it Flow)</span>
+    </button>
+
+    <div id="mSimLog" class="m-sim-log">
+      🤖 Status: Robot ready on canvas. Tap <strong>"Test Run Robot"</strong> to test.
+    </div>
+  </section>
+
+  <!-- MENTOR / TRAINER TRUST CARD -->
+  <div class="m-mentor-card">
+    <div class="m-mentor-icon">👨‍🏫</div>
+    <div class="m-mentor-info">
+      <h4>Led by Senior UiPath Solution Architect</h4>
+      <span>12+ Years Enterprise Automation Experience</span>
+      <p>Certified UiPath Master &amp; ex-MNC Lead. Mentored 2,500+ freshers successfully placed across TCS, Infosys, Cognizant, and Deloitte.</p>
+    </div>
+  </div>
+
+  <!-- WHAT IS RPA IN PLAIN ENGLISH -->
+  <section>
+    <h2 class="m-section-title">What is RPA? Explained Like You're 10</h2>
+    <p class="m-section-sub">
+      Robotic Process Automation (RPA) is <strong>not</strong> a metal robot walking in a factory. It is a <strong>smart software assistant inside your computer</strong> that mimics human keyboard clicks and mouse movements.
+    </p>
+
+    <div class="m-compare-grid">
+      <!-- Manual -->
+      <div class="m-compare-card m-card-before">
+        <div class="m-compare-head">
+          <span>😫 Manual Work (Before RPA)</span>
+        </div>
+        <p class="m-compare-body">
+          You spend 4 to 6 hours every day copying rows from Excel sheets, logging into websites, typing the same data, and downloading invoices. It is exhausting, repetitive, and full of human copy-paste errors.
+        </p>
+      </div>
+
+      <!-- RPA -->
+      <div class="m-compare-card m-card-after">
+        <div class="m-compare-head">
+          <span>🚀 With UiPath Bot (After RPA)</span>
+        </div>
+        <p class="m-compare-body">
+          You hit <strong>Run</strong> (or schedule it). The UiPath software robot opens your apps, reads the files, completes all 500 entries in <strong>30 seconds</strong> with zero errors, and sends you a completed summary.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY FRESHERS LOVE UIPATH -->
+  <section>
+    <h2 class="m-section-title">Why Freshers Love UiPath</h2>
+    <p class="m-section-sub">
+      The IT landscape has shifted. You no longer need to spend 2 years struggling with complex syntax to land an IT placement.
+    </p>
+
+    <div class="m-reasons-grid">
+      <div class="m-reason-card">
+        <div class="m-reason-num">01</div>
+        <div class="m-reason-info">
+          <h4>No Code Panic</h4>
+          <p>You don't need to memorize thousands of syntax rules, semicolons, or data structures. UiPath connects activities like digital LEGO blocks.</p>
+        </div>
+      </div>
+
+      <div class="m-reason-card">
+        <div class="m-reason-num">02</div>
+        <div class="m-reason-info">
+          <h4>Any College Stream Can Learn</h4>
+          <p>Whether you did Mechanical, Civil, EEE, Commerce, B.Sc, BBA, BCA, or B.Tech — RPA looks at your logical thinking, not your branch.</p>
+        </div>
+      </div>
+
+      <div class="m-reason-card">
+        <div class="m-reason-num">03</div>
+        <div class="m-reason-info">
+          <h4>Massive MNC Hiring</h4>
+          <p>TCS, Infosys, Cognizant, Wipro, Accenture, Deloitte, PwC, and EY have massive RPA Automation practices hiring freshers continuously.</p>
+        </div>
+      </div>
+
+      <div class="m-reason-card">
+        <div class="m-reason-num">04</div>
+        <div class="m-reason-info">
+          <h4>Fastest Path to Placement</h4>
+          <p>Become proficient in 35 to 45 days of focused project practice, build a portfolio of 4 live bots, and enter placement interviews with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 REAL BOTS YOU'LL BUILD -->
+  <section>
+    <h2 class="m-section-title">4 Real Robots You'll Build in Training</h2>
+    <p class="m-section-sub">
+      Practical, hands-on experience you can put directly on your fresher resume:
+    </p>
+
+    <div class="m-bots-scroll">
+      <div class="m-bot-box">
+        <div class="m-bot-top">
+          <span class="m-bot-title">📑 Automated PDF Invoice Extractor</span>
+          <span class="m-bot-tag">Finance</span>
+        </div>
+        <p class="m-bot-desc">Reads 100+ PDF invoices, extracts totals and vendor names, and automatically logs them into an Excel spreadsheet in seconds.</p>
+      </div>
+
+      <div class="m-bot-box">
+        <div class="m-bot-top">
+          <span class="m-bot-title">🌐 Web Scraper &amp; Price Tracker</span>
+          <span class="m-bot-tag">E-Commerce</span>
+        </div>
+        <p class="m-bot-desc">Scrapes laptop and smartphone prices across multiple portals and alerts you whenever a price drop happens.</p>
+      </div>
+
+      <div class="m-bot-box">
+        <div class="m-bot-top">
+          <span class="m-bot-title">🎓 Student Exam Result Downloader</span>
+          <span class="m-bot-tag">Education</span>
+        </div>
+        <p class="m-bot-desc">Auto-inputs 500 college roll numbers into university portals and downloads every marksheet PDF automatically.</p>
+      </div>
+
+      <div class="m-bot-box">
+        <div class="m-bot-top">
+          <span class="m-bot-title">📩 HR Resume Screener &amp; Mailer</span>
+          <span class="m-bot-tag">HR &amp; Operations</span>
+        </div>
+        <p class="m-bot-desc">Scans resumes for key skills, updates recruitment trackers, and sends automated interview scheduling emails.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALARY & INDUSTRY CARD -->
+  <section class="m-salary-card">
+    <span class="m-salary-pill">Compensation Benchmark</span>
+    <div class="m-salary-number">₹9L – ₹15L</div>
+    <p class="m-salary-sub">Target salary package range for Certified UiPath Automation Developers</p>
+
+    <div class="m-companies-list">
+      <span class="m-comp-tag">TCS</span>
+      <span class="m-comp-tag">Infosys</span>
+      <span class="m-comp-tag">Cognizant</span>
+      <span class="m-comp-tag">Accenture</span>
+      <span class="m-comp-tag">Deloitte</span>
+      <span class="m-comp-tag">PwC</span>
+      <span class="m-comp-tag">Wipro</span>
+      <span class="m-comp-tag">Capgemini</span>
+    </div>
+  </section>
+
+  <!-- FREQUENTLY ASKED QUESTIONS -->
+  <section>
+    <h2 class="m-section-title">Frequently Asked Questions</h2>
+    <p class="m-section-sub">Everything college students and freshers ask before getting started:</p>
+
+    <div class="m-faq-list">
+      
+      <!-- FAQ 1 -->
+      <div class="m-faq-item">
+        <button type="button" class="m-faq-btn" onclick="toggleFaq(this)">
+          <span>I don't know Java or C++. Can I really learn UiPath?</span>
+          <span class="m-faq-arrow">▼</span>
+        </button>
+        <div class="m-faq-ans">
+          <p><strong>Yes, 100%!</strong> UiPath was created specifically so people without hardcore coding backgrounds can build automations. You work with visual flowchart blocks, drag-and-drop actions, and simple if/then conditions.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="m-faq-item">
+        <button type="button" class="m-faq-btn" onclick="toggleFaq(this)">
+          <span>Can Non-IT students (Mechanical, Civil, Commerce) switch?</span>
+          <span class="m-faq-arrow">▼</span>
+        </button>
+        <div class="m-faq-ans">
+          <p><strong>Absolutely.</strong> Over 60% of successful RPA developers come from non-computer science streams. Top MNCs look for logical problem-solving and hands-on tool mastery rather than your college degree branch.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="m-faq-item">
+        <button type="button" class="m-faq-btn" onclick="toggleFaq(this)">
+          <span>Is UiPath software free to practice?</span>
+          <span class="m-faq-arrow">▼</span>
+        </button>
+        <div class="m-faq-ans">
+          <p>Yes. UiPath provides the <strong>Community Edition</strong> completely free of charge for students and individual learners. You can install it on your laptop and build unlimited software robots.</p>
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="m-faq-item">
+        <button type="button" class="m-faq-btn" onclick="toggleFaq(this)">
+          <span>What laptop configuration do I need?</span>
+          <span class="m-faq-arrow">▼</span>
+        </button>
+        <div class="m-faq-ans">
+          <p>Any Windows laptop or desktop with 8GB RAM and an Intel i3/i5 processor (or AMD Ryzen equivalent) runs UiPath Studio smoothly. (If you use a Mac, you can run Windows using Parallels or Boot Camp).</p>
+        </div>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="m-faq-item">
+        <button type="button" class="m-faq-btn" onclick="toggleFaq(this)">
+          <span>What will happen in this free live Zoom demo?</span>
+          <span class="m-faq-arrow">▼</span>
+        </button>
+        <div class="m-faq-ans">
+          <p>You will see a live demonstration of UiPath Studio, watch an instructor build a real robot from scratch in 30 minutes, get a 35-day placement roadmap, and have all your career doubts answered directly by working RPA architects.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- STICKY MOBILE BOTTOM BAR -->
+<div class="m-bottom-bar">
+  <div class="m-bottom-wrap">
+    <a href="#mFormSection" id="mBottomCta" class="m-bottom-cta" onclick="scrollToForm(event)">
+      <span>Claim Free Demo Seat 🚀</span>
+    </a>
+    <a href="https://chat.whatsapp.com/CJH4PQcLnedC7SR6LImQxj" target="_blank" rel="noopener" class="m-bottom-wa" title="Join WhatsApp Group">
+      💬
+    </a>
+  </div>
+</div>
+
+<!-- LIVE RECENT REGISTRATION NOTIFICATION TOAST -->
+<div id="mToast" class="m-toast">
+  <span>⚡</span>
+  <span id="mToastMsg">Karthik from Hyderabad just registered</span>
+</div>
+
+<script>
+  // ================= OFFICIAL CONFIGURATION =================
+  const G_CONFIG = {
+    GOOGLE_SHEET_ENDPOINT: "https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec",
+    ZOOM_URL: "https://us06web.zoom.us/meeting/register/i9sKeDtDTtmekLLu94uXJg",
+    WHATSAPP_GROUP: "https://chat.whatsapp.com/CJH4PQcLnedC7SR6LImQxj",
+    CAMPAIGN: "Switch_To_IT_Career_UiPath_Freshers"
+  };
+
+  const pageStartTime = Date.now();
+
+  // ================= THEME TOGGLE (LIGHT / DARK) =================
+  function initTheme() {
+    const saved = localStorage.getItem("rpv_theme_mode") || "light";
+    setTheme(saved);
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute("data-theme") || "light";
+    const next = current === "light" ? "dark" : "light";
+    setTheme(next);
+    localStorage.setItem("rpv_theme_mode", next);
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    const icon = document.getElementById("mThemeIcon");
+    const text = document.getElementById("mThemeText");
+    const logo = document.getElementById("mBrandLogo");
+
+    if (theme === "dark") {
+      if (icon) icon.textContent = "☀️";
+      if (text) text.textContent = "Light";
+      if (logo) logo.src = "/assets/images/logo-rpavault-white.png";
+    } else {
+      if (icon) icon.textContent = "🌙";
+      if (text) text.textContent = "Dark";
+      if (logo) logo.src = "/assets/images/logo-rpavault.png";
+    }
+  }
+
+  // ================= COUNTDOWN TIMER =================
+  function initCountdown() {
+    // Upcoming rolling workshop target (next Sunday 11:00 AM IST)
+    const now = new Date();
+    const target = new Date();
+    target.setDate(now.getDate() + ((7 - now.getDay()) % 7 || 7));
+    target.setHours(11, 0, 0, 0);
+
+    function update() {
+      const diff = target.getTime() - Date.now();
+      if (diff <= 0) return;
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      const dEl = document.getElementById("tDays");
+      const hEl = document.getElementById("tHours");
+      const mEl = document.getElementById("tMins");
+      const sEl = document.getElementById("tSecs");
+
+      if (dEl) dEl.textContent = String(d).padStart(2, "0");
+      if (hEl) hEl.textContent = String(h).padStart(2, "0");
+      if (mEl) mEl.textContent = String(m).padStart(2, "0");
+      if (sEl) sEl.textContent = String(s).padStart(2, "0");
+    }
+
+    update();
+    setInterval(update, 1000);
+  }
+
+  // ================= LIVE TOAST NOTIFICATIONS =================
+  function initLiveToast() {
+    const samples = [
+      "Pooja from Pune just registered",
+      "Karthik from Hyderabad just registered",
+      "Neha (B.Tech 2025) reserved a seat",
+      "Vikas from Bangalore joined WhatsApp group",
+      "Ananya from Chennai claimed Starter Kit"
+    ];
+    let idx = 0;
+    const toast = document.getElementById("mToast");
+    const msg = document.getElementById("mToastMsg");
+
+    setInterval(() => {
+      if (!toast || !msg) return;
+      msg.textContent = samples[idx % samples.length];
+      idx++;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 4000);
+    }, 11000);
+  }
+
+  // ================= SMOOTH SCROLL TO FORM =================
+  function scrollToForm(e) {
+    if (e) e.preventDefault();
+    const target = document.getElementById("mFormSection");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const nameInput = document.getElementById("mName");
+      if (nameInput) setTimeout(() => nameInput.focus(), 400);
+    }
+  }
+
+  // ================= FAQ ACCORDION =================
+  function toggleFaq(btn) {
+    const item = btn.closest(".m-faq-item");
+    if (!item) return;
+    const isOpen = item.classList.contains("open");
+    document.querySelectorAll(".m-faq-item").forEach(el => el.classList.remove("open"));
+    if (!isOpen) {
+      item.classList.add("open");
+    }
+  }
+
+  // ================= SIMULATOR ANIMATION =================
+  let isSimRunning = false;
+  function runSimAnimation() {
+    if (isSimRunning) return;
+    isSimRunning = true;
+
+    const btn = document.getElementById("mBtnRunSim");
+    const log = document.getElementById("mSimLog");
+    const steps = [
+      document.getElementById("simStep1"),
+      document.getElementById("simStep2"),
+      document.getElementById("simStep3"),
+      document.getElementById("simStep4")
+    ];
+
+    btn.disabled = true;
+    btn.innerHTML = "<span>⚙️ Robot Running on Canvas...</span>";
+    steps.forEach(s => s.classList.remove("active-step"));
+
+    // Step 1
+    log.innerHTML = "🤖 [00:01] <span class='sim-highlight'>UiPath Bot Initialized:</span> Opening Excel, reading 500 rows...";
+    steps[0].classList.add("active-step");
+
+    setTimeout(() => {
+      // Step 2
+      log.innerHTML = "🌐 [00:02] <span class='sim-highlight'>Browser Activity:</span> Launching Chrome, navigating to portal...";
+      steps[0].classList.remove("active-step");
+      steps[1].classList.add("active-step");
+    }, 900);
+
+    setTimeout(() => {
+      // Step 3
+      log.innerHTML = "🖱️ [00:03] <span class='sim-highlight'>Data Insertion:</span> Typing records, auto-clicking Submit...";
+      steps[1].classList.remove("active-step");
+      steps[2].classList.add("active-step");
+    }, 1800);
+
+    setTimeout(() => {
+      // Step 4
+      log.innerHTML = "✅ [00:04] <span class='sim-highlight'>Complete:</span> 500 records processed in 3.4 seconds with 0 errors!";
+      steps[2].classList.remove("active-step");
+      steps[3].classList.add("active-step");
+    }, 2700);
+
+    setTimeout(() => {
+      steps[3].classList.remove("active-step");
+      btn.disabled = false;
+      btn.innerHTML = "<span>▶️ Run Again (Test Another Process)</span>";
+      isSimRunning = false;
+    }, 3800);
+  }
+
+  // ================= INITIALIZE & FORM SUBMIT =================
+  document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+    initCountdown();
+    initLiveToast();
+
+    const form = document.getElementById("mLeadForm");
+    const submitBtn = document.getElementById("mBtnSubmit");
+    const formCard = document.getElementById("mFormCard");
+    const successCard = document.getElementById("mSuccessCard");
+    const zoomLink = document.getElementById("mZoomJoinBtn");
+    const waLink = document.getElementById("mWaJoinBtn");
+
+    if (zoomLink && G_CONFIG.ZOOM_URL) zoomLink.href = G_CONFIG.ZOOM_URL;
+    if (waLink && G_CONFIG.WHATSAPP_GROUP) waLink.href = G_CONFIG.WHATSAPP_GROUP;
+
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("mName").value.trim();
+      const phone = document.getElementById("mPhone").value.trim();
+      const email = document.getElementById("mEmail").value.trim();
+      const bgInput = document.querySelector("input[name='background']:checked");
+      const background = bgInput ? bgInput.value : "Student";
+
+      if (!name) {
+        alert("Please enter your name");
+        document.getElementById("mName").focus();
+        return;
+      }
+
+      if (!phone || phone.replace(/\D/g, '').length < 10) {
+        alert("Please enter a valid 10-digit WhatsApp number");
+        document.getElementById("mPhone").focus();
+        return;
+      }
+
+      if (!email || !email.includes("@")) {
+        alert("Please enter a valid email address");
+        document.getElementById("mEmail").focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "<span>Reserving Your Seat... ⏳</span>";
+
+      const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
+      const urlParams = new URLSearchParams(window.location.search);
+      const visitorId = localStorage.getItem('rpv_visitor_id') || ('v-' + Date.now() + '-' + Math.floor(Math.random() * 1000000));
+      const visitCount = localStorage.getItem('rpv_visit_count') || "1";
+
+      const payload = {
+        name: name,
+        phone: phone,
+        email: email,
+        course: "UiPath RPA Starter - Switch to IT Career",
+        track: "UiPath Robotic Process Automation (Drag & Drop)",
+        topic: "IT Courses & Batches",
+        campaign: G_CONFIG.CAMPAIGN,
+        background: background,
+        sheetName: "Switch_To_IT_Career_Leads",
+        deviceType: /Mobile|iP(hone|od)|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+        referrer: document.referrer || "direct",
+        source_page: window.location.pathname || "/switch-to-it-career/",
+        source_page_title: document.title || "Switch to IT Career with UiPath RPA",
+        visitorId: visitorId,
+        visitCount: visitCount,
+        timeOnPage: timeOnPage.toString(),
+        utm_source: urlParams.get('utm_source') || 'mobile_landing',
+        utm_campaign: urlParams.get('utm_campaign') || 'freshers_uipath',
+        submitted_at_local: new Date().toString()
+      };
+
+      try {
+        if (G_CONFIG.GOOGLE_SHEET_ENDPOINT) {
+          fetch(G_CONFIG.GOOGLE_SHEET_ENDPOINT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(payload)
+          }).catch(err => console.warn("Notice: Lead dispatched asynchronously", err));
+        }
+      } catch (err) {
+        console.warn("Webhook dispatch:", err);
+      }
+
+      setTimeout(() => {
+        formCard.style.display = "none";
+        successCard.style.display = "block";
+        const nameHeader = document.getElementById("mSuccessName");
+        if (nameHeader) {
+          nameHeader.textContent = "Seat Reserved, " + name.split(" ")[0] + "! 🎉";
+        }
+        const bottomCta = document.getElementById("mBottomCta");
+        if (bottomCta && G_CONFIG.ZOOM_URL) {
+          bottomCta.href = G_CONFIG.ZOOM_URL;
+          bottomCta.target = "_blank";
+          bottomCta.innerHTML = "<span>🎥 Join Zoom Masterclass &rarr;</span>";
+          bottomCta.style.background = "linear-gradient(135deg, #0b5cff 0%, #0052cc 100%)";
+          bottomCta.onclick = null;
+        }
+        successCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 500);
+    });
+  });
+</script>
