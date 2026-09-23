@@ -2011,6 +2011,12 @@ canonical_url: https://rpavault.com/switch-to-it-career/
       const visitCount = localStorage.getItem('rpv_visit_count') || "1";
 
       const payload = {
+        _subject: "Switch to IT Career Demo Registration — " + name,
+        _template: "table",
+        form_type: "Switch to IT Career - UiPath RPA Masterclass",
+        form_type_name: "Switch to IT Career - UiPath RPA Masterclass",
+        "Form Type": "Switch to IT Career - UiPath RPA Masterclass",
+        "Form Type Name": "Switch to IT Career - UiPath RPA Masterclass",
         name: name,
         phone: phone,
         email: email,
@@ -2029,18 +2035,26 @@ canonical_url: https://rpavault.com/switch-to-it-career/
         timeOnPage: timeOnPage.toString(),
         utm_source: urlParams.get('utm_source') || 'mobile_landing',
         utm_campaign: urlParams.get('utm_campaign') || 'freshers_uipath',
-        submitted_at_local: new Date().toString()
+        submitted_at_local: new Date().toString(),
+        _webhookSent: true
       };
 
       try {
-        if (G_CONFIG.GOOGLE_SHEET_ENDPOINT) {
-          fetch(G_CONFIG.GOOGLE_SHEET_ENDPOINT, {
+        const sheetEndpoint = G_CONFIG.GOOGLE_SHEET_ENDPOINT || window.rpvConfig?.webhookEndpoint;
+        if (sheetEndpoint) {
+          fetch(sheetEndpoint, {
             method: "POST",
             mode: "no-cors",
             headers: { "Content-Type": "text/plain" },
             body: JSON.stringify(payload)
           }).catch(err => console.warn("Notice: Lead dispatched asynchronously", err));
         }
+        // Also dispatch to FormSubmit for instant email notification
+        fetch("https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload)
+        }).catch(()=>{});
       } catch (err) {
         console.warn("Webhook dispatch:", err);
       }

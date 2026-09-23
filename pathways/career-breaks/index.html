@@ -690,8 +690,23 @@ schema_ld: |
             phone: answers.phone,
             q1: answers.q1,
             q2: answers.q2,
-            q3: answers.q3
+            q3: answers.q3,
+            topic: "Career Fit Pathway",
+            source_page: window.location.pathname || PATH,
+            source_page_title: document.title || "Career Breaks Pathway"
           };
+
+          // Direct Webhook dispatch to Google Sheets
+          const webhookUrl = window.rpvConfig?.webhookEndpoint || "https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec";
+          if (webhookUrl) {
+            fetch(webhookUrl, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "text/plain" },
+              body: JSON.stringify(payload)
+            }).catch(()=>{});
+            payload._webhookSent = true;
+          }
 
           fetch(FORMSUBMIT, {
             method: "POST",

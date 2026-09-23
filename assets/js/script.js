@@ -383,7 +383,7 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
             init.body = JSON.stringify(enriched);
 
             // Auto-forward to Google Sheet webhook if not already sent by caller
-            const webhookUrl = window.rpvConfig?.webhookEndpoint;
+            const webhookUrl = window.rpvConfig?.webhookEndpoint || 'https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec';
             if (webhookUrl && webhookUrl.trim() !== '' && !payload._webhookSent) {
               originalFetch(webhookUrl, {
                 method: 'POST',
@@ -569,7 +569,7 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
       }
 
       // 1. Submit to custom webhook first in background (fire-and-forget, simple request, no-cors)
-      const webhookUrl = window.rpvConfig?.webhookEndpoint;
+      const webhookUrl = window.rpvConfig?.webhookEndpoint || 'https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec';
       if (webhookUrl && webhookUrl.trim() !== '') {
         fetch(webhookUrl, {
           method: 'POST',
