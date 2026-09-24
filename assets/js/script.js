@@ -281,7 +281,14 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
       tzVal = originalPayload.timezone;
     }
 
-    // Ensure form type name is prominently and cleanly populated under all key variations
+    // Strip any redundant alias keys so FormSubmit email only contains a single clean form_type_name
+    delete userData['form_type'];
+    delete userData['Form Type'];
+    delete userData['Form Type Name'];
+    delete userData['Form Name'];
+    delete userData['form_name'];
+    delete userData['formType'];
+
     const formTypeName = originalPayload.form_type_name || 
                          originalPayload.form_type || 
                          originalPayload['Form Type Name'] || 
@@ -292,13 +299,7 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
                          originalPayload.persona || 
                          '';
     if (formTypeName) {
-      userData['Form Type Name'] = formTypeName;
-      userData['Form Type'] = formTypeName;
       userData['form_type_name'] = formTypeName;
-      userData['form_type'] = formTypeName;
-      userData['Form Name'] = formTypeName;
-      userData['form_name'] = formTypeName;
-      userData['formType'] = formTypeName;
     }
 
     const enriched = {};
@@ -433,13 +434,11 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
                                 form.classList.contains('syllabus-lead-form') ? 'Syllabus Download (Email & WhatsApp)' :
                                 location.pathname.includes('/contact') ? 'Contact form' : 'Website Lead Form');
 
-      setField(form, 'form_type', resolvedFormType);
+      // Remove any duplicate alias hidden inputs if present
+      ['form_type', 'Form Type', 'Form Type Name', 'Form Name', 'form_name', 'formType'].forEach(alias => {
+        form.querySelectorAll(`input[name="${alias}"]`).forEach(el => el.remove());
+      });
       setField(form, 'form_type_name', resolvedFormType);
-      setField(form, 'Form Type', resolvedFormType);
-      setField(form, 'Form Type Name', resolvedFormType);
-      setField(form, 'Form Name', resolvedFormType);
-      setField(form, 'form_name', resolvedFormType);
-      setField(form, 'formType', resolvedFormType);
 
       setField(form,'source_page',pagePath);
       setField(form,'source_page_title',pageTitle);
@@ -540,25 +539,19 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
         }
       });
 
-      // Ensure form type name is explicitly present across all expected aliases
+      // Ensure only single clean form_type_name is sent in payload
+      delete data['form_type'];
+      delete data['Form Type'];
+      delete data['Form Type Name'];
+      delete data['Form Name'];
+      delete data['form_name'];
+      delete data['formType'];
+
       const finalFormType = data.form_type_name || 
-                            data.form_type || 
-                            data['Form Type Name'] || 
-                            data['Form Type'] || 
-                            data['Form Name'] || 
-                            data.form_name || 
-                            data.formType || 
                             form.querySelector('input[name="form_type_name"]')?.value ||
-                            form.querySelector('input[name="form_type"]')?.value ||
                             'Website Lead Form';
 
-      data['form_type'] = finalFormType;
       data['form_type_name'] = finalFormType;
-      data['Form Type'] = finalFormType;
-      data['Form Type Name'] = finalFormType;
-      data['Form Name'] = finalFormType;
-      data['form_name'] = finalFormType;
-      data['formType'] = finalFormType;
       data._webhookSent = true;
 
       let action = form.getAttribute('action') || 'https://formsubmit.co/f89e890a8c606cde8e0e84b29c03a3d2';
