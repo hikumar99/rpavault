@@ -261,6 +261,12 @@ canonical_url: https://rpavault.com/switch-to-it-career/
   }
 
   /* FRESHER TARGET PILL */
+  .m-fresher-badge-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+  }
+
   .m-fresher-badge {
     background: var(--m-uipath-soft);
     border: 1px solid rgba(250, 70, 22, 0.3);
@@ -268,11 +274,13 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     padding: 0.38rem 0.85rem;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     font-size: 0.76rem;
     font-weight: 750;
     color: var(--m-uipath);
-    margin-bottom: 0.85rem;
+    margin: 0 auto;
+    text-align: center;
   }
 
   /* HERO BANNER */
@@ -285,6 +293,7 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     position: relative;
     overflow: hidden;
     box-shadow: var(--m-shadow-card);
+    text-align: center;
   }
 
   .m-hero::before {
@@ -299,9 +308,10 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     font-size: 1.58rem;
     line-height: 1.25;
     font-weight: 850;
-    margin: 0 0 0.65rem 0;
+    margin: 0 auto 0.65rem auto;
     color: var(--m-text);
     letter-spacing: -0.02em;
+    text-align: center;
   }
 
   .m-hero h1 span.highlight-uipath {
@@ -316,7 +326,8 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     font-size: 0.9rem;
     line-height: 1.48;
     color: var(--m-text-sub);
-    margin: 0 0 1rem 0;
+    margin: 0 auto 1rem auto;
+    text-align: center;
   }
 
   /* METRICS GRID */
@@ -358,6 +369,8 @@ canonical_url: https://rpavault.com/switch-to-it-career/
   .m-social-strip {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 8px;
     background: var(--m-blue-soft);
     border: 1px solid rgba(0, 88, 176, 0.18);
@@ -704,17 +717,20 @@ canonical_url: https://rpavault.com/switch-to-it-career/
   .m-section-title {
     font-size: 1.25rem;
     font-weight: 850;
-    margin: 1.8rem 0 0.5rem 0;
+    margin: 1.8rem auto 0.5rem auto;
     color: var(--m-text);
     line-height: 1.25;
     letter-spacing: -0.01em;
+    text-align: center;
   }
 
   .m-section-sub {
     font-size: 0.84rem;
     color: var(--m-muted);
-    margin: 0 0 1.1rem 0;
+    margin: 0 auto 1.1rem auto;
     line-height: 1.45;
+    text-align: center;
+    max-width: 440px;
   }
 
   /* INTERACTIVE DRAG & DROP SIMULATOR */
@@ -728,10 +744,14 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     box-shadow: var(--m-shadow-card);
   }
 
+  .m-sim-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
   .m-sim-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    display: table;
+    margin: 0 auto 0.6rem auto;
     background: var(--m-blue-soft);
     border: 1px solid rgba(0, 88, 176, 0.2);
     color: #0058b0;
@@ -739,7 +759,6 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     font-weight: 800;
     padding: 3px 9px;
     border-radius: 6px;
-    margin-bottom: 0.6rem;
     text-transform: uppercase;
   }
 
@@ -747,13 +766,15 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     font-size: 1.05rem;
     font-weight: 800;
     color: var(--m-text);
-    margin: 0 0 4px 0;
+    margin: 0 auto 4px auto;
+    text-align: center;
   }
 
   .m-sim-sub {
     font-size: 0.78rem;
     color: var(--m-muted);
-    margin: 0 0 1rem 0;
+    margin: 0 auto 1rem auto;
+    text-align: center;
   }
 
   /* FLOW CANVAS */
@@ -1316,9 +1337,11 @@ canonical_url: https://rpavault.com/switch-to-it-career/
   </div>
 
   <!-- FRESHER AUDIENCE CALLOUT -->
-  <div class="m-fresher-badge">
-    <span>🎓</span>
-    <span>Exclusively for Freshers &amp; Non-IT Students</span>
+  <div class="m-fresher-badge-wrap">
+    <div class="m-fresher-badge">
+      <span>🎓</span>
+      <span>Exclusively for Freshers &amp; Non-IT Students</span>
+    </div>
   </div>
 
   <!-- HERO SECTION -->

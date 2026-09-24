@@ -78,21 +78,40 @@ def generate_og():
     draw.ellipse([badge_x + 16, badge_y + 16, badge_x + 30, badge_y + 30], fill=(239, 68, 68))
     draw.text((badge_x + 40, badge_y + 13), "LIVE ZOOM MASTERCLASS", fill=(125, 211, 252), font=f_badge)
 
-    # 4. Kicker Pill / Accent Line
-    draw.line([(64, 140), (104, 140)], fill=(250, 70, 22), width=4)
-    draw.text((114, 131), "EXCLUSIVELY FOR COLLEGE STUDENTS & NON-IT GRADUATES", fill=(255, 130, 70), font=f_sub)
+    # 4. Kicker Pill / Accent Line (Centered)
+    kicker_text = "EXCLUSIVELY FOR COLLEGE STUDENTS & NON-IT GRADUATES"
+    bbox_k = f_sub.getbbox(kicker_text)
+    k_w = bbox_k[2] - bbox_k[0]
+    line_w = 40
+    k_gap = 10
+    total_k_w = line_w + k_gap + k_w
+    start_k_x = (width - total_k_w) // 2
+    draw.line([(start_k_x, 140), (start_k_x + line_w, 140)], fill=(250, 70, 22), width=4)
+    draw.text((start_k_x + line_w + k_gap, 131), kicker_text, fill=(255, 130, 70), font=f_sub)
 
-    # 5. Main Headlines
+    # 5. Main Headlines (Centered)
     # "Switch to a High-Paying IT Career"
-    draw.text((64, 168), "Switch to a High-Paying IT Career", fill=(255, 255, 255), font=f_title1)
+    t1_text = "Switch to a High-Paying IT Career"
+    bbox_t1 = f_title1.getbbox(t1_text)
+    t1_w = bbox_t1[2] - bbox_t1[0]
+    draw.text(((width - t1_w) // 2, 168), t1_text, fill=(255, 255, 255), font=f_title1)
     
     # "with UiPath RPA"
-    draw.text((64, 234), "with ", fill=(255, 255, 255), font=f_title2)
+    full_t2 = "with UiPath RPA"
+    bbox_t2 = f_title2.getbbox(full_t2)
+    t2_w = bbox_t2[2] - bbox_t2[0]
+    start_t2_x = (width - t2_w) // 2
+    
     bbox_with = f_title2.getbbox("with ")
-    draw.text((64 + (bbox_with[2] - bbox_with[0]), 234), "UiPath RPA", fill=(250, 70, 22), font=f_title2)
+    with_w = bbox_with[2] - bbox_with[0]
+    draw.text((start_t2_x, 234), "with ", fill=(255, 255, 255), font=f_title2)
+    draw.text((start_t2_x + with_w, 234), "UiPath RPA", fill=(250, 70, 22), font=f_title2)
 
-    # Subtitle: Zero Coding Required • Visual Drag & Drop Automation
-    draw.text((64, 308), "Zero Coding Required  •  Visual Drag & Drop Automation", fill=(56, 189, 248), font=f_tagline)
+    # Subtitle: Zero Coding Required • Visual Drag & Drop Automation (Centered)
+    sub_text = "Zero Coding Required  •  Visual Drag & Drop Automation"
+    bbox_sub = f_tagline.getbbox(sub_text)
+    sub_w = bbox_sub[2] - bbox_sub[0]
+    draw.text(((width - sub_w) // 2, 308), sub_text, fill=(56, 189, 248), font=f_tagline)
 
     # 6. Feature Value Pills (4 evenly-spaced 256px boxes matching 1072px width)
     highlights = [
