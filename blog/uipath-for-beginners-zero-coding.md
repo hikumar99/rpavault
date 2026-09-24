@@ -10,7 +10,7 @@ image: "/assets/images/blog/uipath-for-beginners-zero-coding.jpg"
 og_image: "https://rpavault.com/assets/images/blog/uipath-for-beginners-zero-coding.jpg"
 og_title: "Meet Your First Digital Robot: The Zero-Coding Guide to UiPath"
 og_description: "Not interested in writing complex code? Discover how UiPath lets beginners and freshers build software robots using visual drag-and-drop blocks."
-cta_text: "Ready to launch your high-demand IT career without writing syntax from scratch? Master UiPath with RPAVault's 35-day live beginner program, honestly."
+cta_text: "Join our FREE live UiPath Demo Session this Monday, 28th September at 8:00 AM! Learn how freshers and non-coders launch high-demand automation careers, honestly."
 related_courses:
   - "rpa-agentic-uipath-power-automate"
 related_posts:
@@ -51,70 +51,157 @@ related_posts:
     justify-content: center !important;
   }
 
-  /* 2. PROMINENT TOP ENROLLMENT CALLOUT BANNER */
-  .enroll-hero-card {
-    background: linear-gradient(135deg, #0b1f3a 0%, #0058b0 100%);
+  /* 2. PROMINENT FREE DEMO EVENT CARD */
+  .free-demo-card {
+    background: linear-gradient(135deg, #0b1f3a 0%, #00458f 60%, #0058b0 100%);
     color: #ffffff;
-    border-radius: 20px;
-    padding: 1.8rem 2rem;
+    border-radius: 24px;
+    padding: 2.2rem 2.4rem;
     margin: 2rem 0 3rem 0;
-    box-shadow: 0 12px 32px rgba(0, 88, 176, 0.22);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 16px 40px rgba(0, 88, 176, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
   }
   
-  .enroll-hero-info h3 {
+  .free-demo-card::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255,202,58,0.25) 0%, rgba(255,202,58,0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .demo-live-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffca3a;
+    color: #0b1f3a;
+    font-size: 0.8rem;
+    font-weight: 850;
+    padding: 6px 14px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(255, 202, 58, 0.35);
+  }
+
+  .demo-live-dot {
+    width: 8px;
+    height: 8px;
+    background: #d93025;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulseDot 1.5s infinite;
+  }
+  @keyframes pulseDot {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+  }
+
+  .demo-title {
     color: #ffffff !important;
-    margin: 0 0 6px 0 !important;
-    font-size: 1.35rem !important;
-    font-weight: 800 !important;
-  }
-  
-  .enroll-hero-info p {
-    color: rgba(255, 255, 255, 0.88) !important;
-    margin: 0 !important;
-    font-size: 0.95rem !important;
-  }
-  
-  .enroll-btn-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  
-  .btn-enroll-gold {
-    background: #ffca3a !important;
-    color: #0b1f3a !important;
+    font-size: clamp(1.35rem, 3vw, 1.85rem) !important;
     font-weight: 850 !important;
-    padding: 12px 24px !important;
-    border-radius: 10px !important;
-    text-decoration: none !important;
-    font-size: 0.95rem !important;
-    box-shadow: 0 4px 15px rgba(255, 202, 58, 0.4) !important;
-    transition: transform 0.2s, box-shadow 0.2s !important;
-    display: inline-block !important;
+    line-height: 1.35 !important;
+    margin: 0 0 1rem 0 !important;
+    letter-spacing: -0.015em;
   }
-  
-  .btn-enroll-gold:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 202, 58, 0.6) !important;
+
+  .demo-subtitle {
+    color: rgba(255, 255, 255, 0.92) !important;
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+    margin: 0 0 1.5rem 0 !important;
+    max-width: 780px;
   }
-  
-  .btn-enroll-ghost {
-    background: rgba(255, 255, 255, 0.12) !important;
+
+  .demo-meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.8rem;
+  }
+
+  .demo-meta-pill {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .btn-zoom {
+    background: #0084ff !important;
     color: #ffffff !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    font-weight: 700 !important;
-    padding: 11px 20px !important;
-    border-radius: 10px !important;
+    font-weight: 850 !important;
+    font-size: 1rem !important;
+    padding: 14px 26px !important;
+    border-radius: 14px !important;
     text-decoration: none !important;
-    font-size: 0.92rem !important;
-    display: inline-block !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 6px 20px rgba(0, 132, 255, 0.4) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .btn-zoom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 132, 255, 0.6) !important;
+  }
+
+  .btn-whatsapp {
+    background: #25d366 !important;
+    color: #ffffff !important;
+    font-weight: 850 !important;
+    font-size: 1rem !important;
+    padding: 14px 26px !important;
+    border-radius: 14px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .btn-whatsapp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.55) !important;
+  }
+
+  .demo-notice-bar {
+    background: rgba(255, 202, 58, 0.16);
+    border: 1px dashed rgba(255, 202, 58, 0.5);
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 0.92rem;
+    color: #ffca3a;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1.2rem;
   }
 
   /* 3. VISUAL COMPONENT CARDS & GRIDS */
@@ -524,7 +611,7 @@ related_posts:
     <option value="#chapter-5">Ch 5: 4 Real Bots Freshers Can Build</option>
     <option value="#chapter-6">Ch 6: Do I Need Coding? (Truth)</option>
     <option value="#chapter-7">Ch 7: The 35-Day Learning Roadmap</option>
-    <option value="#chapter-8">Ch 8: High Demand &amp; Enroll for Training</option>
+    <option value="#chapter-8">Ch 8: High Demand &amp; FREE Live Demo</option>
   </select>
 </div>
 
@@ -563,22 +650,38 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- TOP ENROLLMENT FOCUS CALLOUT -->
-<div class="enroll-hero-card">
-  <div class="enroll-hero-info">
-    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 202, 58, 0.2); color: #ffca3a; font-size: 0.78rem; font-weight: 850; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
-      ⚡ Live Mentor-Led Program • 35 Days
-    </div>
-    <h3>Want to Master UiPath without Writing Code?</h3>
-    <p>Zero coding experience needed. 15+ real-world automation projects, daily mentor guidance, and complete placement interview support.</p>
+<!-- TOP FREE DEMO SESSION CALLOUT -->
+<div class="free-demo-card">
+  <div class="demo-live-tag">
+    <span class="demo-live-dot"></span>
+    <span>🔥 Upcoming Free Live Event</span>
   </div>
-  <div class="enroll-btn-group">
-    <a href="/course/rpa-agentic-uipath-power-automate/" class="btn-enroll-gold">
-      Enroll in 35-Day Program (₹17,000) →
+  
+  <h3 class="demo-title">
+    Hi! 👋 We’re conducting a FREE Demo Session this Monday, 28th September at 8:00 AM 🚀
+  </h3>
+  
+  <p class="demo-subtitle">
+    If you’re looking to start your IT career, switch to IT, or upgrade your skills, this session will help you understand what you’ll learn and how the training works.
+  </p>
+
+  <div class="demo-meta-grid">
+    <div class="demo-meta-pill">📅 Date: Monday, 28th September 2026</div>
+    <div class="demo-meta-pill">⏰ Time: 8:00 AM (IST)</div>
+    <div class="demo-meta-pill">🎟️ Entry: 100% Free Live Session</div>
+  </div>
+
+  <div class="demo-actions">
+    <a href="https://us06web.zoom.us/meeting/register/i9sKeDtDTtmekLLu94uXJg" target="_blank" rel="noopener noreferrer" class="btn-zoom">
+      💻 Register for the Zoom Demo →
     </a>
-    <a href="/contact/" class="btn-enroll-ghost">
-      Book Free Demo Call
+    <a href="https://chat.whatsapp.com/CJH4PQcLnedC7SR6LImQxj" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+      📲 Join the WhatsApp Group →
     </a>
+  </div>
+
+  <div class="demo-notice-bar">
+    <span>⚠️ Please join the WhatsApp group and register on Zoom before the session. See you Monday at 8:00 AM! 😊🚀</span>
   </div>
 </div>
 
@@ -970,7 +1073,7 @@ At RPAVault, we designed a structured **35-Day UiPath Visual Learning Pathway** 
 
 ---
 
-<h2 id="chapter-8">Chapter 8: The Growing RPA Demand &amp; Enroll for Training</h2>
+<h2 id="chapter-8">Chapter 8: The Growing RPA Demand &amp; FREE Live Demo Session</h2>
 
 Why are companies hiring RPA developers so aggressively?
 
@@ -983,20 +1086,22 @@ Why are companies hiring RPA developers so aggressively?
 * **RPA / Bot Support Specialist:** Monitor bots running in Orchestrator, investigate exceptions, and keep operations running smoothly.
 * **Automation Business Analyst:** Speak with business teams, map manual workflows, and identify which processes should be automated.
 
-<!-- Complete High-Conversion Training Enrollment Card -->
-<div class="offer-box">
-  <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.82rem; font-weight: 850; padding: 6px 14px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em;">
-    🚀 35-Day Beginner to Career Cohort
+<!-- Complete Free Demo & Training Overview Card (No Payment Details) -->
+<div class="offer-box" style="background: linear-gradient(135deg, #0b1f3a 0%, #00458f 60%, #0058b0 100%); border: 1px solid rgba(255,255,255,0.22); box-shadow: 0 16px 40px rgba(0, 88, 176, 0.3);">
+  <span style="background: #ffca3a; color: #0b1f3a; font-size: 0.82rem; font-weight: 850; padding: 6px 16px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block;">
+    🚀 UPCOMING LIVE EVENT • FREE DEMO SESSION
   </span>
   <h3 style="color: #ffffff !important; font-size: clamp(1.8rem, 3.5vw, 2.4rem) !important; margin: 1.2rem 0 0.5rem 0 !important; font-weight: 850 !important;">
-    35-Day UiPath Beginner Training Program
+    Join Our FREE Live UiPath Demo Session!
   </h3>
-  <p style="color: #94a3b8 !important; max-width: 620px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6;">
-    Zero coding prerequisites. One structured, mentor-led pathway from absolute beginner to portfolio-ready automation professional.
+  <p style="color: rgba(255,255,255,0.92) !important; max-width: 680px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6;">
+    If you’re looking to start your IT career, switch to IT, or upgrade your skills, this session will help you understand what you’ll learn and how the training works.
   </p>
 
-  <div class="offer-price">
-    ₹17,000 <span style="font-size: 1rem; color: #94a3b8; font-weight: 500;">all-inclusive</span>
+  <div class="demo-meta-grid" style="justify-content: center; margin: 1.8rem 0;">
+    <div class="demo-meta-pill" style="background: rgba(255,255,255,0.16);">📅 Date: Monday, 28th September 2026</div>
+    <div class="demo-meta-pill" style="background: rgba(255,255,255,0.16);">⏰ Time: 8:00 AM (IST)</div>
+    <div class="demo-meta-pill" style="background: rgba(255,255,255,0.16);">🎟️ 100% Free Live Session</div>
   </div>
 
   <div class="offer-features">
@@ -1020,18 +1125,24 @@ Why are companies hiring RPA developers so aggressively?
     </div>
   </div>
 
-  <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-    <a href="/course/rpa-agentic-uipath-power-automate/" style="background: #ffca3a; color: #0b1f3a !important; font-weight: 900; padding: 15px 32px; border-radius: 12px; text-decoration: none; display: inline-block; font-size: 1.05rem; box-shadow: 0 4px 20px rgba(255,202,58,0.4); transition: transform 0.2s ease;">
-      👉 Enroll in 35-Day Program Now (₹17,000)
+  <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+    <a href="https://us06web.zoom.us/meeting/register/i9sKeDtDTtmekLLu94uXJg" target="_blank" rel="noopener noreferrer" class="btn-zoom" style="font-size: 1.05rem; padding: 15px 30px;">
+      💻 Register for the Zoom Demo →
     </a>
-    <a href="/contact/" style="background: rgba(255,255,255,0.12); color: #ffffff !important; border: 1px solid rgba(255,255,255,0.3); font-weight: 700; padding: 14px 24px; border-radius: 12px; text-decoration: none; display: inline-block; font-size: 1rem; transition: background 0.2s ease;">
-      Request Free 1-on-1 Discovery Call
+    <a href="https://chat.whatsapp.com/CJH4PQcLnedC7SR6LImQxj" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" style="font-size: 1.05rem; padding: 15px 30px;">
+      📲 Join the WhatsApp Group →
     </a>
   </div>
   
-  <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 1.2rem;">
-    🔒 Limited seats per batch for personalized 1-on-1 mentor feedback.
-  </p>
+  <div style="margin-top: 1.5rem;">
+    <a href="/course/rpa-agentic-uipath-power-automate/" style="color: rgba(255,255,255,0.85); font-size: 0.92rem; text-decoration: underline;">
+      View full 35-day curriculum, projects &amp; career track →
+    </a>
+  </div>
+
+  <div class="demo-notice-bar" style="justify-content: center; text-align: center; margin-top: 1.5rem;">
+    <span>⚠️ Please join the WhatsApp group and register on Zoom before the session. See you Monday at 8:00 AM! 😊🚀</span>
+  </div>
 </div>
 
 ---
