@@ -223,18 +223,30 @@ related_posts:
   
   .visual-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
     margin: 2rem 0;
+  }
+  @media (max-width: 900px) {
+    .visual-card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 540px) {
+    .visual-card-grid {
+      grid-template-columns: 1fr;
+    }
   }
   
   .visual-card {
     background: #ffffff;
-    border-radius: 18px;
-    padding: 1.6rem;
+    border-radius: 16px;
+    padding: 1.25rem 1rem;
     border: 1px solid #e5e5e7;
     box-shadow: 0 4px 20px rgba(0,0,0,0.04);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
   }
   
   .visual-card:hover {
@@ -243,14 +255,15 @@ related_posts:
   }
   
   .visual-icon-box {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
   }
   
   .icon-blue { background: #e8f2ff; color: #0058b0; }
@@ -409,17 +422,29 @@ related_posts:
   /* 5. INTERACTIVE SHAPES GUIDE */
   .shape-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
     margin: 2.5rem 0;
+  }
+  @media (max-width: 900px) {
+    .shape-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 540px) {
+    .shape-grid {
+      grid-template-columns: 1fr;
+    }
   }
   
   .shape-card {
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1.25rem 1rem;
     color: #ffffff;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
   
   .shape-blue { background: #0058b0; }
@@ -429,16 +454,17 @@ related_posts:
   
   .shape-card h4 {
     color: #ffffff !important;
-    margin: 0 0 6px 0 !important;
-    font-size: 1.2rem !important;
+    margin: 10px 0 6px 0 !important;
+    font-size: 1.05rem !important;
     font-weight: 800 !important;
   }
   
   .shape-card p {
     color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 0.92rem !important;
+    font-size: 0.86rem !important;
     margin-bottom: 0.8rem !important;
     line-height: 1.4 !important;
+    flex-grow: 1;
   }
   
   .shape-badge {
@@ -650,40 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- TOP FREE DEMO SESSION CALLOUT -->
-<div class="free-demo-card">
-  <div class="demo-live-tag">
-    <span class="demo-live-dot"></span>
-    <span>🔥 Upcoming Free Live Event</span>
-  </div>
-  
-  <h3 class="demo-title">
-    Hi! 👋 We’re conducting a FREE Demo Session this Monday, 28th September at 8:00 AM 🚀
-  </h3>
-  
-  <p class="demo-subtitle">
-    If you’re looking to start your IT career, switch to IT, or upgrade your skills, this session will help you understand what you’ll learn and how the training works.
-  </p>
-
-  <div class="demo-meta-grid">
-    <div class="demo-meta-pill">📅 Date: Monday, 28th September 2026</div>
-    <div class="demo-meta-pill">⏰ Time: 8:00 AM (IST)</div>
-    <div class="demo-meta-pill">🎟️ Entry: 100% Free Live Session</div>
-  </div>
-
-  <div class="demo-actions">
-    <a href="https://us06web.zoom.us/meeting/register/i9sKeDtDTtmekLLu94uXJg" target="_blank" rel="noopener noreferrer" class="btn-zoom">
-      💻 Register for the Zoom Demo →
-    </a>
-    <a href="https://chat.whatsapp.com/CJH4PQcLnedC7SR6LImQxj" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
-      📲 Join the WhatsApp Group →
-    </a>
-  </div>
-
-  <div class="demo-notice-bar">
-    <span>⚠️ Please join the WhatsApp group and register on Zoom before the session. See you Monday at 8:00 AM! 😊🚀</span>
-  </div>
-</div>
 
 <div class="visual-hero-badge">
   <span>🤖 Zero Coding? Start Here</span>
@@ -764,23 +756,23 @@ Any computer task is a perfect candidate for an RPA bot if it meets these 4 crit
 <div class="visual-card-grid">
   <div class="visual-card">
     <div class="visual-icon-box icon-blue">01</div>
-    <h4 style="margin: 0 0 6px 0; font-weight: 800;">Repeatable</h4>
-    <p style="margin: 0; font-size: 0.92rem; color: #666;">Tasks you do over and over in identical, predictable steps.</p>
+    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Repeatable</h4>
+    <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Tasks you do over and over in identical, predictable steps.</p>
   </div>
   <div class="visual-card">
     <div class="visual-icon-box icon-orange">02</div>
-    <h4 style="margin: 0 0 6px 0; font-weight: 800;">Rule-Based</h4>
-    <p style="margin: 0; font-size: 0.92rem; color: #666;">Clear rules apply: <em>"If amount is over 10,000, send an email to manager."</em></p>
+    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Rule-Based</h4>
+    <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Clear rules apply: <em>"If amount &gt; 10k, email manager."</em></p>
   </div>
   <div class="visual-card">
     <div class="visual-icon-box icon-green">03</div>
-    <h4 style="margin: 0 0 6px 0; font-weight: 800;">Digital</h4>
-    <p style="margin: 0; font-size: 0.92rem; color: #666;">Works across existing apps: Chrome, Outlook, Excel, SAP, and PDFs.</p>
+    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Digital</h4>
+    <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Works across existing apps: Chrome, Excel, SAP, PDFs.</p>
   </div>
   <div class="visual-card">
     <div class="visual-icon-box icon-purple">04</div>
-    <h4 style="margin: 0 0 6px 0; font-weight: 800;">Measurable</h4>
-    <p style="margin: 0; font-size: 0.92rem; color: #666;">Saves dozens of hours every week and eliminates human error completely.</p>
+    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Measurable</h4>
+    <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Saves hours every week and eliminates human error completely.</p>
   </div>
 </div>
 
@@ -865,29 +857,29 @@ When you build an automation in UiPath, you don't write complex algorithms. You 
   <div class="shape-card shape-blue">
     <span class="shape-badge">Shape 1</span>
     <h4>➔ Sequence</h4>
-    <p>Step 1 ➔ Step 2 ➔ Step 3. Best for simple, straightforward processes that run top-to-bottom without branching.</p>
-    <div style="font-size: 0.8rem; opacity: 0.85;">Example: Open Excel ➔ Copy Cell ➔ Paste to Notepad</div>
+    <p>Step 1 ➔ Step 2 ➔ Step 3. Simple linear processes that run top-to-bottom.</p>
+    <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. Open Excel ➔ Copy Cell ➔ Paste</div>
   </div>
 
   <div class="shape-card shape-orange">
     <span class="shape-badge">Shape 2</span>
     <h4>◇ If / Decision</h4>
-    <p>Choose a path based on a rule. If condition is true, take the left path; if false, take the right path.</p>
-    <div style="font-size: 0.8rem; opacity: 0.85;">Example: If total &gt; ₹50,000 ➔ Ask Manager approval</div>
+    <p>Choose a path based on a rule: If true take left; if false take right.</p>
+    <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. If total &gt; ₹50k ➔ Manager approval</div>
   </div>
 
   <div class="shape-card shape-green">
     <span class="shape-badge">Shape 3</span>
     <h4>🔁 Loop (For Each)</h4>
-    <p>Repeat an action for every row in a table or every file in a folder until the list is finished.</p>
-    <div style="font-size: 0.8rem; opacity: 0.85;">Example: For every row in Excel ➔ Enter data into form</div>
+    <p>Repeat an action for every row in a table or every file until finished.</p>
+    <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. For each row ➔ Enter in form</div>
   </div>
 
   <div class="shape-card shape-purple">
     <span class="shape-badge">Shape 4</span>
     <h4>🔀 Flowchart</h4>
-    <p>Connect multiple decisions and paths visually. Perfect when processes have multiple outcomes.</p>
-    <div style="font-size: 0.8rem; opacity: 0.85;">Example: Customer support routing &amp; ticket triage</div>
+    <p>Connect multiple decisions and paths visually when processes branch.</p>
+    <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. Ticket triage &amp; query routing</div>
   </div>
 </div>
 
@@ -948,35 +940,35 @@ What can you build once you know the basics of UiPath? Here are four real-world 
 
 <div class="visual-card-grid">
   <div class="visual-card" style="border-top: 4px solid #0058b0;">
-    <h4 style="color: #0058b0; margin: 0 0 8px 0;">1. Excel ➔ Web Form Bot</h4>
-    <p style="font-size: 0.92rem; color: #555; margin-bottom: 1rem;">
-      The bot opens a CRM or government website, reads 200 rows of customer details from Excel, and types them into web fields automatically without human intervention.
+    <h4 style="color: #0058b0; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">1. Excel ➔ Web Form</h4>
+    <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
+      Reads customer details from Excel and types them into web form fields automatically without errors.
     </p>
-    <div class="flow-pill" style="font-size: 0.78rem;">Excel ➔ Loop Each Row ➔ Type into Form</div>
+    <div class="flow-pill" style="font-size: 0.74rem; padding: 6px 10px; margin-top: auto;">Excel ➔ Loop ➔ Web Form</div>
   </div>
 
   <div class="visual-card" style="border-top: 4px solid #ff6b35;">
-    <h4 style="color: #ff6b35; margin: 0 0 8px 0;">2. Email Attachment Downloader</h4>
-    <p style="font-size: 0.92rem; color: #555; margin-bottom: 1rem;">
-      The bot monitors your Outlook or Gmail inbox for emails with the subject <em>"Invoice"</em>, downloads PDF attachments, and saves them into a designated folder.
+    <h4 style="color: #ff6b35; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">2. Email Downloader</h4>
+    <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
+      Monitors inbox for emails with subject <em>"Invoice"</em>, downloads PDF attachments, and saves them to folders.
     </p>
-    <div class="flow-pill" style="font-size: 0.78rem;">Inbox ➔ Check Subject ➔ Save to Folder</div>
+    <div class="flow-pill" style="font-size: 0.74rem; padding: 6px 10px; margin-top: auto;">Inbox ➔ Check ➔ Save PDF</div>
   </div>
 
   <div class="visual-card" style="border-top: 4px solid #00a86b;">
-    <h4 style="color: #00a86b; margin: 0 0 8px 0;">3. Bulk File Renamer</h4>
-    <p style="font-size: 0.92rem; color: #555; margin-bottom: 1rem;">
-      Scans a messy folder containing hundreds of raw images or documents and renames them to standard company formats like <code>Invoice_ClientName_2026.pdf</code>.
+    <h4 style="color: #00a86b; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">3. Bulk File Renamer</h4>
+    <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
+      Scans messy folders containing hundreds of raw files and standardizes names like <code>Invoice_2026.pdf</code>.
     </p>
-    <div class="flow-pill" style="font-size: 0.78rem;">Scan Folder ➔ Apply Pattern ➔ Rename</div>
+    <div class="flow-pill" style="font-size: 0.74rem; padding: 6px 10px; margin-top: auto;">Folder ➔ Pattern ➔ Rename</div>
   </div>
 
   <div class="visual-card" style="border-top: 4px solid #7928ca;">
-    <h4 style="color: #7928ca; margin: 0 0 8px 0;">4. Daily Automated Report</h4>
-    <p style="font-size: 0.92rem; color: #555; margin-bottom: 1rem;">
-      Pulls numbers from 3 different Excel workbooks, sums up the revenue figures, creates a clean summary sheet, and automatically emails it to management every day at 6 PM.
+    <h4 style="color: #7928ca; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">4. Daily Report Bot</h4>
+    <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
+      Merges data from 3 Excel workbooks, sums revenue figures, and automatically emails a daily summary at 6 PM.
     </p>
-    <div class="flow-pill" style="font-size: 0.78rem;">3 Workbooks ➔ Merge &amp; Sum ➔ Send Email</div>
+    <div class="flow-pill" style="font-size: 0.74rem; padding: 6px 10px; margin-top: auto;">3 Workbooks ➔ Merge ➔ Email</div>
   </div>
 </div>
 
