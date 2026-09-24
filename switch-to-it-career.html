@@ -203,6 +203,7 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
     margin-bottom: 0.85rem;
     box-shadow: 0 4px 14px rgba(0,0,0,0.1);
   }
@@ -1309,13 +1310,13 @@ canonical_url: https://rpavault.com/switch-to-it-career/
 
   <!-- LIVE COUNTDOWN TIMER STRIP -->
   <div class="m-countdown-strip">
-    <div class="m-countdown-label">
-      <strong>🔴 Live Workshop Approaching</strong>
-      <span>Free Zoom interactive session</span>
+    <div class="m-countdown-label" id="mCountdownLabel">
+      <strong>🔴 Live Workshop • Mon, Sep 28 @ 8:00 AM</strong>
+      <span>Free Interactive Zoom Session</span>
     </div>
     <div class="m-timer-boxes">
       <div class="m-timer-box">
-        <div class="m-timer-val" id="tDays">02</div>
+        <div class="m-timer-val" id="tDays">03</div>
         <div class="m-timer-unit">Days</div>
       </div>
       <span class="m-timer-colon">:</span>
@@ -1325,12 +1326,12 @@ canonical_url: https://rpavault.com/switch-to-it-career/
       </div>
       <span class="m-timer-colon">:</span>
       <div class="m-timer-box">
-        <div class="m-timer-val" id="tMins">35</div>
+        <div class="m-timer-val" id="tMins">30</div>
         <div class="m-timer-unit">Min</div>
       </div>
       <span class="m-timer-colon">:</span>
       <div class="m-timer-box">
-        <div class="m-timer-val" id="tSecs">20</div>
+        <div class="m-timer-val" id="tSecs">00</div>
         <div class="m-timer-unit">Sec</div>
       </div>
     </div>
@@ -1402,7 +1403,7 @@ canonical_url: https://rpavault.com/switch-to-it-career/
     <!-- REGISTRATION CARD -->
     <div id="mFormCard" class="m-form-card">
       <div class="m-form-header">
-        <span class="m-form-pill">⚡ Free Live Zoom Demo</span>
+        <span class="m-form-pill">⚡ Live Zoom Masterclass • Mon 28th @ 8:00 AM</span>
         <h2>Claim Your Free Demo Seat</h2>
         <p>Learn how to build your first software robot live. Zero prior coding required.</p>
       </div>
@@ -1480,6 +1481,7 @@ canonical_url: https://rpavault.com/switch-to-it-career/
       <p>Your spot for the <strong>Live UiPath RPA Masterclass</strong> is confirmed. Tap below to access the session on Zoom and grab your free starter kit on WhatsApp:</p>
 
       <div class="m-meeting-box">
+        <div><strong>Date &amp; Time:</strong> Monday, Sep 28 • 8:00 AM IST</div>
         <div><strong>Platform:</strong> Zoom Video Meeting</div>
         <div><strong>Topic:</strong> Build Your 1st Robot &amp; Switch to IT</div>
         <div><strong>Status:</strong> Registration Verified ✅</div>
@@ -1778,11 +1780,11 @@ canonical_url: https://rpavault.com/switch-to-it-career/
       <!-- FAQ 5 -->
       <div class="m-faq-item">
         <button type="button" class="m-faq-btn" onclick="toggleFaq(this)">
-          <span>What will happen in this free live Zoom demo?</span>
+          <span>When is the session and what happens in it?</span>
           <span class="m-faq-arrow">▼</span>
         </button>
         <div class="m-faq-ans">
-          <p>You will see a live demonstration of UiPath Studio, watch an instructor build a real robot from scratch in 30 minutes, get a 35-day placement roadmap, and have all your career doubts answered directly by working RPA architects.</p>
+          <p>The live masterclass takes place on <strong>Monday, September 28th at 8:00 AM IST</strong> on Zoom. You will see a live demonstration of UiPath Studio, watch an instructor build a real robot from scratch in 30 minutes, get a 35-day placement roadmap, and have all your career doubts answered directly by working RPA architects.</p>
         </div>
       </div>
 
@@ -1852,25 +1854,32 @@ canonical_url: https://rpavault.com/switch-to-it-career/
 
   // ================= COUNTDOWN TIMER =================
   function initCountdown() {
-    // Upcoming rolling workshop target (next Sunday 11:00 AM IST)
-    const now = new Date();
-    const target = new Date();
-    target.setDate(now.getDate() + ((7 - now.getDay()) % 7 || 7));
-    target.setHours(11, 0, 0, 0);
+    // Scheduled Workshop: Monday, September 28, 2026 at 8:00 AM IST (+05:30)
+    const target = new Date("2026-09-28T08:00:00+05:30");
 
     function update() {
       const diff = target.getTime() - Date.now();
-      if (diff <= 0) return;
+      const dEl = document.getElementById("tDays");
+      const hEl = document.getElementById("tHours");
+      const mEl = document.getElementById("tMins");
+      const sEl = document.getElementById("tSecs");
+
+      if (diff <= 0) {
+        if (dEl) dEl.textContent = "00";
+        if (hEl) hEl.textContent = "00";
+        if (mEl) mEl.textContent = "00";
+        if (sEl) sEl.textContent = "00";
+        const stripLabel = document.getElementById("mCountdownLabel");
+        if (stripLabel) {
+          stripLabel.innerHTML = "<strong>🔴 Workshop is Live Now!</strong><span>Free Interactive Zoom Session</span>";
+        }
+        return;
+      }
 
       const d = Math.floor(diff / (1000 * 60 * 60 * 24));
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const m = Math.floor((diff / (1000 * 60)) % 60);
       const s = Math.floor((diff / 1000) % 60);
-
-      const dEl = document.getElementById("tDays");
-      const hEl = document.getElementById("tHours");
-      const mEl = document.getElementById("tMins");
-      const sEl = document.getElementById("tSecs");
 
       if (dEl) dEl.textContent = String(d).padStart(2, "0");
       if (hEl) hEl.textContent = String(h).padStart(2, "0");
@@ -2061,6 +2070,13 @@ canonical_url: https://rpavault.com/switch-to-it-career/
         submitted_at_local: new Date().toString(),
         _webhookSent: true
       };
+
+      // Save local backup in browser storage
+      try {
+        const localLeads = JSON.parse(localStorage.getItem('rpv_submitted_leads') || '[]');
+        localLeads.push(payload);
+        localStorage.setItem('rpv_submitted_leads', JSON.stringify(localLeads));
+      } catch (_) {}
 
       try {
         const sheetEndpoint = G_CONFIG.GOOGLE_SHEET_ENDPOINT || window.rpvConfig?.webhookEndpoint;
