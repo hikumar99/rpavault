@@ -32,7 +32,7 @@ level: "Beginner Friendly"
 support: "Recordings · doubt clearing · community support"
 
 # Cohort Prices (USD & INR values display based on visitor locale timezone)
-price_inr: "₹16,999"
+price_inr: "₹19,999"
 price_inr_strike: "₹25,000"
 price_usd: "$399"
 price_usd_strike: "$599"

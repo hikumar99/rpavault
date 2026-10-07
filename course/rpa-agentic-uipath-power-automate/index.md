@@ -34,13 +34,10 @@ classes: "33 Live Classes"
 mode: "Live Online · Weekday Mornings"
 level: "Beginner Friendly"
 support: "Recordings · doubt clearing · community support"
-# Pricing & Geo-detection Configuration
-price_inr: "₹16,999"
+# Pricing Configuration
+price_inr: "₹19,999"
 price_inr_strike: "₹25,000"
-price_usd: "$399"
-price_usd_strike: "$599"
 payment_inr_url: "/go/enroll"
-payment_usd_url: "/go/enroll"
 next_batch: "New batch enrolling — weekday mornings"
 # Two Demo Video Embeds
 videos:

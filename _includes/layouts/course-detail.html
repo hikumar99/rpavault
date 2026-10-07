@@ -500,9 +500,9 @@ layout: layouts/base.html
         </div>
         <div class="price-block featured" style="border:none;border-radius:0;height:100%;display:flex;flex-direction:column">
           <div class="ribbon">MOST CHOSEN</div>
-          <div class="price-tag" id="price-region-label">One-time enrollment &middot; INR</div>
+          <div class="price-tag" id="price-region-label">{% if price_usd %}One-time enrollment &middot; INR{% else %}One-time enrollment{% endif %}</div>
           <div class="price-amt">
-            <span class="now" id="price-now">{{ price_inr | default("₹16,999") }}</span>
+            <span class="now" id="price-now">{{ price_inr | default("₹19,999") }}</span>
             <span class="was" id="price-was">{{ price_inr_strike | default("₹25,000") }}</span>
           </div>
           <div class="price-disclaimer" style="font-size:12px; color:var(--body-soft); margin-top:4px; margin-bottom:8px; text-align:center">Pricing may vary batch to batch. Reach out for latest pricing.</div>
@@ -516,7 +516,7 @@ layout: layouts/base.html
           </ul>
           <!-- Trigger callback modal since standard site has partials/callback.html -->
           <button type="button" class="btn btn-primary btn-block btn-lg" style="margin-top:22px;" data-open-callback data-select="IT Courses &amp; Batches">Request a Callback — Start Free</button>
-          <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-white btn-block" style="margin-top:10px">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+          <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-white btn-block" style="margin-top:10px">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹19,999") }}</span></a>
           <div class="guarantee" style="margin-top:16px">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
             <span>You've already seen 4 full classes free before paying — zero blind risk.</span>
@@ -2816,7 +2816,7 @@ layout: layouts/base.html
                 <div class="msbi-stat-card" style="border-top: 3px solid #d97706;">
                   <div class="m-top">
                     <span class="m-title" style="color:#d97706;">FEE</span>
-                    <span class="m-num" style="font-size:15px;">₹16,999</span>
+                    <span class="m-num" style="font-size:15px;">{{ price_inr | default("₹19,999") }}</span>
                   </div>
                   <p class="m-sub">Complete job-ready curriculum</p>
                 </div>
@@ -4413,7 +4413,7 @@ layout: layouts/base.html
         <p>{{ settings.blocks.course_cta_subtitle | default("Join our live classes for free until you're satisfied — no card, no commitment.") }}</p>
         <div class="final-cta-btns">
           <button type="button" class="btn btn-white btn-lg" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
-          <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-pay btn-lg">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+          <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-pay btn-lg">Enroll &amp; Pay <span class="price-inline">{{ price_inr | default("₹19,999") }}</span></a>
         </div>
       </div>
     </div>
@@ -4422,7 +4422,7 @@ layout: layouts/base.html
   <!-- MOBILE BOTTOM BAR -->
   <div class="mobile-bar">
     <button type="button" class="btn btn-ghost" data-open-callback data-select="IT Courses &amp; Batches">Talk to Us</button>
-    <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-pay">Enroll <span class="price-inline">{{ price_inr | default("₹16,999") }}</span></a>
+    <a href="/go/enroll" target="_blank" rel="noopener" class="btn btn-pay">Enroll <span class="price-inline">{{ price_inr | default("₹19,999") }}</span></a>
   </div>
 
   <!-- DESKTOP STICKY CTA -->
@@ -4430,7 +4430,7 @@ layout: layouts/base.html
     <div class="sticky-cta-inner">
       <div class="sc-info">
         <span class="sc-title">{{ name | default(title) }}</span>
-        <span class="sc-price"><span class="sc-now price-inline">{{ price_inr | default("₹16,999") }}</span><span class="sc-note">Cohort program · live classes · first 4 free</span></span>
+        <span class="sc-price"><span class="sc-now price-inline">{{ price_inr | default("₹19,999") }}</span><span class="sc-note">Cohort program · live classes · first 4 free</span></span>
       </div>
       <div class="sc-btns">
         <button type="button" class="btn btn-ghost btn-sm" data-open-callback data-select="IT Courses &amp; Batches">Request Callback</button>
@@ -4654,10 +4654,11 @@ function showToast(msg){ const t=document.getElementById('toast'); if(typeof msg
 
 /* REGION-BASED SINGLE PRICING */
 (function initPricing(){
+  {% if price_usd %}
   const PRICE = {
-    inr: { region:'One-time enrollment · INR', now:'{{ price_inr | default("₹16,999") }}', was:'{{ price_inr_strike | default("₹25,000") }}',
+    inr: { region:'One-time enrollment · INR', now:'{{ price_inr | default("₹19,999") }}', was:'{{ price_inr_strike | default("₹25,000") }}',
       urgency:'🎟️ Launch price · limited seats per batch for close mentoring' },
-    usd: { region:'One-time enrollment · USD', now:'{{ price_usd | default("$399") }}', was:'{{ price_usd_strike | default("$599") }}',
+    usd: { region:'One-time enrollment · USD', now:'{{ price_usd }}', was:'{{ price_usd_strike }}',
       urgency:'🎟️ Launch price · limited seats per batch for close mentoring' }
   };
   let region = 'inr';
@@ -4680,6 +4681,10 @@ function showToast(msg){ const t=document.getElementById('toast'); if(typeof msg
     document.querySelectorAll('.price-inline').forEach(el=>{ el.textContent = p.now; });
   }
   render();
+  {% else %}
+  const regionEl = document.getElementById('price-region-label');
+  if (regionEl) regionEl.textContent = 'One-time enrollment';
+  {% endif %}
 })();
 
 /* DESKTOP STICKY CTA */

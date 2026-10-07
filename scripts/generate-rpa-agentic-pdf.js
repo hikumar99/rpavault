@@ -475,7 +475,7 @@ const htmlContent = `<!DOCTYPE html>
         </div>
         <div class="cover-stat-card">
           <div class="cover-stat-label">Programme Fee</div>
-          <div class="cover-stat-val">₹16,999</div>
+          <div class="cover-stat-val">₹19,999</div>
           <div class="cover-stat-sub">Complete job-ready curriculum</div>
         </div>
       </div>
