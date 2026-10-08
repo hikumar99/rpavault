@@ -4478,11 +4478,18 @@ permalink: /join-live/
       return `<option value="${key}">${escapeHTML(info.label)}</option>`;
     }).join('');
 
-    // Pre-select user's enrolled course if known
-    const userEnrolledCourseKey = slugify(currentUserEnrolledBatch ? '' : '');
+    // Pre-select user's enrolled course and batch if known
     let defaultCourse = Object.keys(availableBatchesByCourse)[0];
-    // Try to match user's batch to a course
-    if (currentUserEnrolledBatch) {
+    if (data && data.students && currentUserEmail) {
+      const me = data.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
+      if (me) {
+        if (me.batch) currentUserEnrolledBatch = me.batch;
+        if (me.course) {
+          const key = slugify(me.course);
+          if (availableBatchesByCourse[key]) defaultCourse = key;
+        }
+      }
+    } else if (currentUserEnrolledBatch) {
       for (const [key, info] of Object.entries(availableBatchesByCourse)) {
         if (info.batches.some(b => b.name.toLowerCase().includes(currentUserEnrolledBatch.toLowerCase()) || currentUserEnrolledBatch.toLowerCase().includes(b.name.toLowerCase()))) {
           defaultCourse = key;
@@ -4512,12 +4519,29 @@ permalink: /join-live/
       return;
     }
 
+    // Determine target batch name for logged in student if applicable
+    let targetBatchName = currentUserEnrolledBatch || '';
+    if (!targetBatchName && currentDashboardData && currentDashboardData.students && currentUserEmail) {
+      const me = currentDashboardData.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
+      if (me && me.batch) targetBatchName = me.batch;
+    }
+
+    let matchedIdx = -1;
+    if (targetBatchName) {
+      const targetClean = targetBatchName.replace(/\bBatch\b/gi, '').trim().toLowerCase();
+      matchedIdx = batches.findIndex(b => {
+        const bClean = b.name.replace(/\bBatch\b/gi, '').trim().toLowerCase();
+        return bClean === targetClean || bClean.includes(targetClean) || targetClean.includes(bClean);
+      });
+    }
+
     batchSelect.innerHTML = batches.map((b, idx) => {
       const frozen = isBatchFrozen(currentSelectedCourse, b.id);
       // Strip redundant "Batch" word from display name
       const cleanName = b.name.replace(/\bBatch\b/gi, '').replace(/\s{2,}/g, ' ').trim();
       const prefix = frozen ? '✓ ' : '● ';
-      return `<option value="${b.id}" ${b.isDefault || idx === 0 ? 'selected' : ''}>${prefix}${escapeHTML(cleanName)}</option>`;
+      const isSelected = matchedIdx >= 0 ? (idx === matchedIdx) : (b.isDefault || idx === 0);
+      return `<option value="${b.id}" ${isSelected ? 'selected' : ''}>${prefix}${escapeHTML(cleanName)}</option>`;
     }).join('');
 
     currentSelectedBatch = batchSelect.value;
@@ -4626,18 +4650,20 @@ permalink: /join-live/
   function switchToUserEnrolledBatch() {
     const courseSelect = document.getElementById('dashCourseSelect');
     const batchSelect = document.getElementById('dashBatchSelect');
-    // Find user's enrolled course from data
+    // Find user's enrolled course and batch from data
     if (currentDashboardData && currentDashboardData.students && currentUserEmail) {
       const me = currentDashboardData.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
-      if (me && me.course) {
-        const key = slugify(me.course);
-        if (courseSelect && availableBatchesByCourse[key]) courseSelect.value = key;
+      if (me) {
+        if (me.course) {
+          const key = slugify(me.course);
+          if (courseSelect && availableBatchesByCourse[key]) courseSelect.value = key;
+        }
+        if (me.batch) {
+          currentUserEnrolledBatch = me.batch;
+        }
       }
     }
     populateBatchDropdown();
-    if (batchSelect && batchSelect.options.length > 0) {
-      batchSelect.selectedIndex = 0;
-    }
     onDashBatchChange();
   }
 
@@ -4916,7 +4942,41 @@ permalink: /join-live/
       const rate = totalClassesHeld > 0 ? Math.round((present / totalClassesHeld) * 100) : 0;
       if (absent === 0 && totalClassesHeld > 0) perfectCount++;
       totalPresent += present;
-      return Object.assign({}, s, { present, absent, rate });
+
+      // Recalculate calendarTiles and absentDates strictly for this batch's class dates
+      const batchCalendarTiles = sortedDates.map(d => {
+        const tile = tileMap[d];
+        const isPresent = tile && tile.status === 'Present';
+        const parts = d.split('-');
+        const dayNum = parseInt(parts[2], 10);
+        const dt = new Date(d + 'T00:00:00');
+        const formatted = dt.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+        const short = `${dayNum} ${dt.toLocaleDateString('en-GB', { month: 'short' })}`;
+        return {
+          dateStr: d,
+          dayNum: dayNum,
+          formatted: (tile && tile.formatted) ? tile.formatted : formatted,
+          short: (tile && tile.short) ? tile.short : short,
+          status: isPresent ? 'Present' : 'Absent'
+        };
+      });
+
+      const batchAbsentDates = sortedDates
+        .filter(d => !tileMap[d] || tileMap[d].status !== 'Present')
+        .map(d => {
+          const parts = d.split('-');
+          const dayNum = parseInt(parts[2], 10);
+          const dt = new Date(d + 'T00:00:00');
+          return `${dayNum} ${dt.toLocaleDateString('en-GB', { month: 'short' })}`;
+        });
+
+      return Object.assign({}, s, {
+        present,
+        absent,
+        rate,
+        calendarTiles: batchCalendarTiles,
+        absentDates: batchAbsentDates
+      });
     });
 
     const overallRate = (totalStudents > 0 && totalClassesHeld > 0)

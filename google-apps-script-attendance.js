@@ -186,6 +186,44 @@ function doPost(e) {
       }
     }
 
+    // 2b. Also check if student email is present in Settings sheet under a batch row
+    if (!isStudent && settingsSheet) {
+      try {
+        const sData = settingsSheet.getDataRange().getValues();
+        for (let r = 0; r < sData.length; r++) {
+          const row = sData[r];
+          const colA = (row[0] || "").toString().trim();
+          const colB = (row[1] || "").toString().trim();
+          const colD = (row[3] || "").toString().trim();
+          const colE = (row[4] || "").toString().trim();
+
+          let rowBatch = "";
+          let rowCourse = "";
+          [colA, colB, colD, colE].forEach(function(val) {
+            if (!rowBatch && val && !isLikelyUrl(val) && !val.includes("@")) {
+              if (/batch|\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(val)) {
+                rowBatch = formatCleanBatch(val);
+              } else if (!rowCourse && /(rpa|uipath|power\s*automate|python|data)/i.test(val)) {
+                rowCourse = val;
+              }
+            }
+          });
+
+          for (let c = 0; c < row.length; c++) {
+            const cell = (row[c] || "").toString().trim().toLowerCase();
+            if (cell.includes(inputEmail)) {
+              isStudent = true;
+              studentName = studentName || inputEmail.split("@")[0];
+              if (rowBatch) batchName = rowBatch;
+              if (rowCourse) courseName = rowCourse;
+              break;
+            }
+          }
+          if (isStudent && batchName) break;
+        }
+      } catch (_) {}
+    }
+
     // 3. Evaluate verification and assign meeting URL based on user type & action
     const isTempUser = !!tempMeetingMap[inputEmail];
     const isAdmin = adminEmails.has(inputEmail) || !!adminMeetingMap[inputEmail];
@@ -363,12 +401,14 @@ function doGet(e) {
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const regSheet = getSheet(ss, "Registered_Students");
+    const settingsSheet = getSheet(ss, "Settings");
     const logSheet = getSheet(ss, "Attendance_Logs");
 
     const regData = regSheet ? regSheet.getDataRange().getValues() : [];
+    const settingsData = settingsSheet ? settingsSheet.getDataRange().getValues() : [];
     const logData = logSheet ? logSheet.getDataRange().getValues() : [];
 
-    // 1. Extract registered students
+    // 1. Extract registered students from "Registered_Students"
     const studentsMap = {};
     const registeredList = [];
     let detectedBatch = "Live RPA Batch";
@@ -401,7 +441,7 @@ function doGet(e) {
 
         if (email && email.includes("@")) {
           studentsMap[email] = {
-            id: i,
+            id: registeredList.length + 1,
             name: name || email.split("@")[0],
             email: email,
             mobile: mobile,
@@ -414,9 +454,66 @@ function doGet(e) {
       }
     }
 
+    // 1b. Also sync students & batches defined in "Settings" tab
+    if (settingsData && settingsData.length > 0) {
+      for (let r = 0; r < settingsData.length; r++) {
+        const row = settingsData[r];
+        const colA = (row[0] || "").toString().trim();
+        const colB = (row[1] || "").toString().trim();
+        const colC = (row[2] || "").toString().trim();
+        const colD = (row[3] || "").toString().trim();
+        const colE = (row[4] || "").toString().trim();
+        const colF = (row[5] || "").toString().trim();
+
+        // Check if row has batch identifier (e.g. contains 'batch' or date-like)
+        let rowBatch = "";
+        let rowCourse = "";
+        [colA, colB, colD, colE].forEach(function(val) {
+          if (!rowBatch && val && !isLikelyUrl(val) && !val.includes("@")) {
+            if (/batch|\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(val)) {
+              rowBatch = formatCleanBatch(val);
+            } else if (!rowCourse && /(rpa|uipath|power\s*automate|python|data)/i.test(val)) {
+              rowCourse = val;
+            }
+          }
+        });
+
+        // Scan row for email addresses not yet registered
+        for (let c = 0; c < row.length; c++) {
+          const cell = (row[c] || "").toString().trim();
+          if (cell.includes("@") && cell.includes(".")) {
+            const emailsInCell = cell.split(/[,\s;]+/);
+            emailsInCell.forEach(function(em) {
+              const cleanEm = em.toLowerCase().trim();
+              if (cleanEm && cleanEm.includes("@") && cleanEm.includes(".")) {
+                // If not in studentsMap, add student from Settings
+                if (!studentsMap[cleanEm]) {
+                  const sBatch = rowBatch || detectedBatch;
+                  const sCourse = rowCourse || "RPA Uipath & PA";
+                  studentsMap[cleanEm] = {
+                    id: registeredList.length + 1,
+                    name: cleanEm.split("@")[0],
+                    email: cleanEm,
+                    mobile: "",
+                    batch: sBatch,
+                    course: sCourse,
+                    presentDates: new Set()
+                  };
+                  registeredList.push(studentsMap[cleanEm]);
+                } else if (rowBatch && !studentsMap[cleanEm].batch) {
+                  studentsMap[cleanEm].batch = rowBatch;
+                }
+              }
+            });
+          }
+        }
+      }
+    }
+
     // 2. Extract unique class dates and map student attendance
     const uniqueDatesSet = new Set();
     const dateCountsMap = {};
+    const batchDatesMap = {}; // batchName -> Set of class dates where this batch attended
 
     for (let i = 1; i < logData.length; i++) {
       const rawTimestamp = logData[i][0];
@@ -434,6 +531,12 @@ function doGet(e) {
             }
             dateCountsMap[dateStr].add(email);
             studentsMap[email].presentDates.add(dateStr);
+
+            const bName = studentsMap[email].batch || detectedBatch;
+            if (!batchDatesMap[bName]) {
+              batchDatesMap[bName] = new Set();
+            }
+            batchDatesMap[bName].add(dateStr);
           }
         }
       }
@@ -483,16 +586,20 @@ function doGet(e) {
       }
     });
 
-    // 5. Compute candidate details
+    // 5. Compute candidate details (using batch-specific class dates)
     let perfectAttendanceCount = 0;
     const totalStudentsCount = registeredList.length || 0;
 
     const studentsReport = registeredList.map(function(s) {
-      const presentCount = s.presentDates.size;
-      const absentCount = totalClassesHeld > 0 ? Math.max(0, totalClassesHeld - presentCount) : 0;
-      const rate = totalClassesHeld > 0 ? Math.round((presentCount / totalClassesHeld) * 100) : 0;
+      const bName = s.batch || detectedBatch;
+      const studentBatchDates = batchDatesMap[bName] ? Array.from(batchDatesMap[bName]).sort() : sortedDates;
+      const sTotalClasses = studentBatchDates.length > 0 ? studentBatchDates.length : 1;
 
-      if (absentCount === 0 && totalClassesHeld > 0) {
+      const presentCount = s.presentDates.size;
+      const absentCount = Math.max(0, sTotalClasses - presentCount);
+      const rate = sTotalClasses > 0 ? Math.round((presentCount / sTotalClasses) * 100) : 0;
+
+      if (absentCount === 0 && sTotalClasses > 0) {
         perfectAttendanceCount++;
       }
 
@@ -500,7 +607,7 @@ function doGet(e) {
       let curStreak = 0;
       let activeStreak = 0;
 
-      sortedDates.forEach(function(d) {
+      studentBatchDates.forEach(function(d) {
         if (s.presentDates.has(d)) {
           curStreak++;
           if (curStreak > maxStreak) maxStreak = curStreak;
@@ -509,15 +616,16 @@ function doGet(e) {
         }
       });
 
-      for (let i = sortedDates.length - 1; i >= 0; i--) {
-        if (s.presentDates.has(sortedDates[i])) {
+      for (let i = studentBatchDates.length - 1; i >= 0; i--) {
+        if (s.presentDates.has(studentBatchDates[i])) {
           activeStreak++;
         } else {
           break;
         }
       }
 
-      const calendarTiles = sortedDates.map(function(d) {
+      // Calendar tiles strictly for this batch's class dates
+      const calendarTiles = studentBatchDates.map(function(d) {
         const isPresent = s.presentDates.has(d);
         const dayNum = parseInt(d.split("-")[2], 10);
         return {
@@ -529,18 +637,18 @@ function doGet(e) {
         };
       });
 
-      const absentDates = sortedDates
+      const absentDates = studentBatchDates
         .filter(function(d) { return !s.presentDates.has(d); })
         .map(formatShortDate);
 
       let firstAttended = null;
-      for (let j = 0; j < sortedDates.length; j++) {
-        if (s.presentDates.has(sortedDates[j])) {
-          firstAttended = sortedDates[j];
+      for (let j = 0; j < studentBatchDates.length; j++) {
+        if (s.presentDates.has(studentBatchDates[j])) {
+          firstAttended = studentBatchDates[j];
           break;
         }
       }
-      const joinedFormatted = firstAttended ? formatFullDate(firstAttended) : (sortedDates[0] ? formatFullDate(sortedDates[0]) : "N/A");
+      const joinedFormatted = firstAttended ? formatFullDate(firstAttended) : (studentBatchDates[0] ? formatFullDate(studentBatchDates[0]) : "N/A");
 
       return {
         id: s.id,
