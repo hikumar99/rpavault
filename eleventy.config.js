@@ -104,6 +104,17 @@ module.exports = function(eleventyConfig) {
     return clean.trim();
   });
 
+  // Ensure YouTube URLs are valid embed URLs for iframes
+  eleventyConfig.addFilter("youtubeEmbed", function(url) {
+    if (!url) return "";
+    const match = url.match(/(?:youtube\.com\/(?:watch\?v=|live\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return url;
+  });
+
+
   return {
     dir: {
       input: ".",

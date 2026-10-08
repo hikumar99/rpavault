@@ -4285,7 +4285,7 @@ layout: layouts/base.html
           {% if video1 %}
             <div class="preview-block">
               <div class="preview-video">
-                <iframe src="{{ video1.url }}" title="{{ video1.title }}" allowfullscreen></iframe>
+                <iframe src="{{ video1.url | youtubeEmbed }}" title="{{ video1.title }}" allowfullscreen></iframe>
               </div>
               <span class="preview-day">Day 1 &middot; Live Demo</span>
               <h4>{{ video1.title }}</h4>
@@ -4312,7 +4312,7 @@ layout: layouts/base.html
           {% if video2 %}
             <div class="preview-block">
               <div class="preview-video">
-                <iframe src="{{ video2.url }}" title="{{ video2.title }}" allowfullscreen></iframe>
+                <iframe src="{{ video2.url | youtubeEmbed }}" title="{{ video2.title }}" allowfullscreen></iframe>
               </div>
               <span class="preview-day">Day 2 &middot; Live Demo</span>
               <h4>{{ video2.title }}</h4>

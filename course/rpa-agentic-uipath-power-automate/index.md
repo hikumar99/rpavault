@@ -41,11 +41,11 @@ payment_inr_url: "/go/enroll"
 next_batch: "New batch enrolling — weekday mornings"
 # Two Demo Video Embeds
 videos:
-  - title: "RPA Agentic Live Demo Session - Day 1"
-    url: "https://www.youtube.com/embed/i-24YXRNpQU"
+  - title: "RPA Career - Switch to IT Career Demo 1"
+    url: "https://www.youtube.com/embed/1ltvxCnybjI"
     description: "Watch the full introductory session covering RPA fundamentals, tool ecosystems, and career paths."
-  - title: "Agentic Automation & AI Integrations - Day 2"
-    url: "https://www.youtube.com/embed/EMlDpQswovs"
+  - title: "RPA Career - Switch to IT Career Demo 2"
+    url: "https://www.youtube.com/embed/P7xswLZR0uE"
     description: "Learn how we integrate generative AI agents and Microsoft Power Automate into traditional RPA workflows."
 # Fit Check & What You Get
 fit_check:
