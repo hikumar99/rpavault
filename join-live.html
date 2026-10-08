@@ -2246,6 +2246,49 @@ permalink: /join-live/
     flex-shrink: 0;
   }
 
+  /* Dashboard Live Loading State Indicator */
+  .dash-loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+    background: #ffffff;
+    border: 1px solid var(--line, #cce8f3);
+    border-radius: 22px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 24px rgba(0, 88, 176, 0.05);
+  }
+
+  .dash-loading-spinner {
+    width: 44px;
+    height: 44px;
+    border: 3.5px solid rgba(0, 88, 176, 0.15);
+    border-top-color: var(--blue, #0058b0);
+    border-radius: 50%;
+    animation: dashSpin 0.8s linear infinite;
+    margin-bottom: 1.2rem;
+  }
+
+  @keyframes dashSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  .dash-loading-title {
+    font-family: var(--font-heading, 'Sora', sans-serif);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    margin: 0 0 0.35rem 0;
+  }
+
+  .dash-loading-subtitle {
+    font-size: 0.88rem;
+    color: var(--muted, #607987);
+    margin: 0;
+  }
+
   .kpi-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -3138,6 +3181,11 @@ permalink: /join-live/
         <strong>Batch Completed &amp; Archived:</strong>
         <span id="dashFrozenBannerText">This batch has concluded. All final attendance logs and benchmark metrics are frozen in read-only mode without dependency on external sheet edits.</span>
       </div>
+    <!-- Dashboard Loading State Indicator -->
+    <div class="dash-loading-state" id="dashLoadingState" style="display: none;">
+      <div class="dash-loading-spinner"></div>
+      <div class="dash-loading-title">Loading Attendance &amp; Batch Data...</div>
+      <div class="dash-loading-subtitle">Fetching latest session attendance records from Google Sheet</div>
     </div>
 
     <div id="dashMainContent">
@@ -3592,20 +3640,26 @@ permalink: /join-live/
       // 2. Not in frozen data — call GAS as normal
       const payload = buildTelemetryPayload(email, "dashboard_access");
 
+      const abortController = new AbortController();
+      const timeoutId = setTimeout(() => abortController.abort(), 12000);
+
       try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
           method: 'POST',
           mode: 'cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          signal: abortController.signal
         });
+        clearTimeout(timeoutId);
         const result = await response.json();
 
         if (result.verified && !result.isTempUser) {
           sessionStorage.setItem('rpv_verified_user_email', email);
           sessionStorage.setItem('rpv_user_is_admin', (result.isAdmin || email.includes('admin') || email.endsWith('@rpavault.com')) ? 'true' : 'false');
+          dashSubmitBtn.innerHTML = '<span>Access Verified! Loading...</span>';
           authCard.style.display = 'none';
-          unlockAndLoadDashboard(email);
+          await unlockAndLoadDashboard(email);
         } else if (result.isTempUser) {
           dashErrorMsg.innerHTML = 'Attendance dashboard is only for registered students and admins.';
           dashErrorMsg.style.display = 'block';
@@ -3614,8 +3668,13 @@ permalink: /join-live/
           dashErrorMsg.style.display = 'block';
         }
       } catch (err) {
+        clearTimeout(timeoutId);
         console.error('Dashboard unlock error:', err);
-        dashErrorMsg.textContent = 'Unable to verify. Please check your connection or contact support.';
+        if (err.name === 'AbortError') {
+          dashErrorMsg.textContent = 'Request timed out. Please check your connection and try again.';
+        } else {
+          dashErrorMsg.textContent = 'Unable to verify. Please check your connection or contact support.';
+        }
         dashErrorMsg.style.display = 'block';
       } finally {
         dashSubmitBtn.disabled = false;
@@ -4595,11 +4654,12 @@ permalink: /join-live/
     // Filter students to only those belonging to selected course + batch
     function getFilteredData(data) {
       if (!data || !data.students) return data;
+      const cleanSelectedBatch = selectedBatchName.replace(/\bBatch\b/gi, '').trim().toLowerCase();
       const filtered = data.students.filter(s => {
         const sCourse = slugify(s.course || '');
-        const sBatch = (s.batch || '').trim().toLowerCase();
+        const sBatchClean = (s.batch || '').replace(/\bBatch\b/gi, '').trim().toLowerCase();
         const courseMatch = !s.course || sCourse === currentSelectedCourse || slugify(selectedCourseName).includes(sCourse) || sCourse.includes(slugify(selectedCourseName));
-        const batchMatch = !s.batch || sBatch === selectedBatchName.toLowerCase() || selectedBatchName.toLowerCase().includes(sBatch) || sBatch.includes(selectedBatchName.toLowerCase());
+        const batchMatch = !s.batch || sBatchClean === cleanSelectedBatch || cleanSelectedBatch.includes(sBatchClean) || sBatchClean.includes(cleanSelectedBatch);
         return courseMatch && batchMatch;
       });
       // Recompute batchInfo based on filtered students only
@@ -4620,13 +4680,14 @@ permalink: /join-live/
 
     // Check if this student is enrolled in selected course+batch
     let isEnrolledInBatch = false;
+    const cleanSelectedBatch = selectedBatchName.replace(/\bBatch\b/gi, '').trim().toLowerCase();
     if (sourceData && sourceData.students) {
       isEnrolledInBatch = sourceData.students.some(s => {
         if (s.email.toLowerCase() !== currentUserEmail.toLowerCase()) return false;
         const sCourse = slugify(s.course || '');
-        const sBatch = (s.batch || '').trim().toLowerCase();
-        const courseMatch = !s.course || sCourse === currentSelectedCourse;
-        const batchMatch = !s.batch || sBatch === selectedBatchName.toLowerCase() || selectedBatchName.toLowerCase().includes(sBatch);
+        const sBatchClean = (s.batch || '').replace(/\bBatch\b/gi, '').trim().toLowerCase();
+        const courseMatch = !s.course || sCourse === currentSelectedCourse || slugify(selectedCourseName).includes(sCourse) || sCourse.includes(slugify(selectedCourseName));
+        const batchMatch = !s.batch || sBatchClean === cleanSelectedBatch || cleanSelectedBatch.includes(sBatchClean) || sBatchClean.includes(cleanSelectedBatch);
         return courseMatch && batchMatch;
       });
     }
@@ -4874,24 +4935,39 @@ permalink: /join-live/
     await loadServerFrozenBatches();
 
     const section = document.getElementById('dashboardSection');
-    section.style.display = 'block';
+    const loadingState = document.getElementById('dashLoadingState');
+    const mainContent = document.getElementById('dashMainContent');
+
+    if (section) section.style.display = 'block';
 
     setTimeout(() => {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
 
     // Check if batch is already frozen in local store
     const batchKey = `${currentSelectedCourse}_${currentSelectedBatch}`;
     const frozenStore = getFrozenBatchesStore();
     if (frozenStore[batchKey] && frozenStore[batchKey].data) {
+      if (loadingState) loadingState.style.display = 'none';
+      if (mainContent) mainContent.style.display = 'block';
       currentDashboardData = frozenStore[batchKey].data;
       initCourseAndBatchDropdowns(currentDashboardData);
       onDashBatchChange();
       return;
     }
 
+    // Show loading state while fetching live data from GAS
+    if (loadingState) loadingState.style.display = 'flex';
+    if (mainContent) mainContent.style.display = 'none';
+
+    const getAbort = new AbortController();
+    const getTimeout = setTimeout(() => getAbort.abort(), 15000);
+
     try {
-      const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard');
+      const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard', {
+        signal: getAbort.signal
+      });
+      clearTimeout(getTimeout);
       const data = await res.json();
       
       if (data && data.students) {
@@ -4900,7 +4976,16 @@ permalink: /join-live/
         onDashBatchChange();
       }
     } catch (err) {
+      clearTimeout(getTimeout);
       console.warn('Dashboard fetch error:', err);
+      // Fallback: if we have any cached or partial data, still try to initialize
+      if (currentDashboardData && currentDashboardData.students) {
+        initCourseAndBatchDropdowns(currentDashboardData);
+        onDashBatchChange();
+      }
+    } finally {
+      if (loadingState) loadingState.style.display = 'none';
+      if (mainContent) mainContent.style.display = 'block';
     }
   }
 
