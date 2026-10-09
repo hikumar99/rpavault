@@ -2366,6 +2366,25 @@ permalink: /join-live/
     font-size: 0.82rem;
     font-weight: 700;
     color: var(--ink-soft, #303030);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .schedule-date-badge:hover {
+    background: var(--blue-soft, #e6f1fb);
+    border-color: var(--blue, #0058b0);
+    color: var(--blue-deep, #004182);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 88, 176, 0.12);
+  }
+
+  .schedule-date-badge.is-active {
+    background: var(--blue, #0058b0) !important;
+    border-color: var(--blue, #0058b0) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 88, 176, 0.25);
   }
 
   .schedule-date-badge .turnout-dot {
@@ -2373,6 +2392,94 @@ permalink: /join-live/
     height: 6px;
     border-radius: 50%;
     background: var(--green, #39b87f);
+    transition: background 0.2s ease;
+  }
+
+  .schedule-date-badge.is-active .turnout-dot {
+    background: #ffffff !important;
+  }
+
+  /* Attendees Popover Drawer for Class Schedule Dates */
+  .schedule-attendees-drawer {
+    margin-top: 1rem;
+    padding: 1.1rem 1.3rem;
+    background: #f8fafc;
+    border: 1.5px solid var(--line, #cce8f3);
+    border-radius: 16px;
+    animation: fadeIn 0.2s ease;
+    box-shadow: 0 6px 18px rgba(0, 88, 176, 0.05);
+  }
+
+  .schedule-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .schedule-drawer-title {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--ink, #1a181b);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .schedule-drawer-title .badge-count {
+    background: var(--blue, #0058b0);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+  }
+
+  .schedule-drawer-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+  }
+
+  .schedule-drawer-close:hover {
+    color: #dc2626;
+    background: #fee2e2;
+  }
+
+  .schedule-attendees-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    max-height: 240px;
+    overflow-y: auto;
+    padding-right: 0.2rem;
+  }
+
+  .attendee-name-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #1e293b;
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .attendee-name-chip .chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
   }
 
   /* Last 2 Days Absentees Callout Grid (Positioned After Class Schedule Dates) */
@@ -3225,9 +3332,25 @@ permalink: /join-live/
 
     <!-- 2. Classes Held Schedule Timeline Card -->
     <div class="schedule-card" id="scheduleCard" style="display: none;">
-      <h3>Class Schedule Dates (<span id="scheduleTotalClasses">0</span> Held)</h3>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.85rem;">
+        <h3 style="margin: 0;">Class Schedule Dates (<span id="scheduleTotalClasses">0</span> Held)</h3>
+        <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Click any date pill to view attendees</span>
+      </div>
       <div class="schedule-dates-flow" id="scheduleDatesFlow">
         <!-- Injected dynamically -->
+      </div>
+      <!-- Attendees Drawer Popup for selected date -->
+      <div class="schedule-attendees-drawer" id="scheduleAttendeesDrawer" style="display: none;">
+        <div class="schedule-drawer-header">
+          <div class="schedule-drawer-title">
+            <span>Joined on <span id="scheduleDrawerDate">--</span>:</span>
+            <span class="badge-count" id="scheduleDrawerCount">0 Candidates</span>
+          </div>
+          <button type="button" class="schedule-drawer-close" onclick="closeScheduleAttendeesDrawer()" title="Close">&times;</button>
+        </div>
+        <div class="schedule-attendees-tags" id="scheduleAttendeesTags">
+          <!-- Chips injected dynamically -->
+        </div>
       </div>
     </div>
 
@@ -4490,17 +4613,36 @@ permalink: /join-live/
     availableBatches = [];
     const liveBatchName = (data && data.batchInfo && data.batchInfo.batchName) ? data.batchInfo.batchName.trim() : '';
 
+    function cleanBatchDisplayName(raw) {
+      if (!raw) return '';
+      let str = raw.toString().trim();
+      // If it is a hyphenated slug or underscore string, convert to readable title
+      str = str.replace(/[-_]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+      // Capitalize standard acronyms and words
+      str = str.split(' ').map(w => {
+        const lower = w.toLowerCase();
+        if (lower === 'rpa') return 'RPA';
+        if (lower === 'pa') return 'PA';
+        if (lower === 'adv') return 'ADV';
+        if (lower === 'uipath') return 'UiPath';
+        if (lower === 'sql') return 'SQL';
+        return w.charAt(0).toUpperCase() + w.slice(1);
+      }).join(' ');
+      return str.replace(/\bBatch\b/gi, '').trim();
+    }
+
     // 1. From backend explicit batches array (Settings Column F / Registered Students Column D)
     if (data && data.batches && Array.isArray(data.batches) && data.batches.length > 0) {
       data.batches.forEach(function(bInfo) {
         const raw = (bInfo.name || bInfo.batch || '').trim();
         if (!raw) return;
+        const displayName = cleanBatchDisplayName(raw);
         const bId = bInfo.id || slugify(raw);
-        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(raw))) {
+        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(displayName))) {
           const isLive = liveBatchName && slugify(raw) === slugify(liveBatchName);
           availableBatches.push({
             id: bId,
-            name: raw,
+            name: displayName,
             isLive: isLive,
             isDefault: isLive
           });
@@ -4511,12 +4653,13 @@ permalink: /join-live/
       data.students.forEach(function(s) {
         const raw = (s.batch || '').trim();
         if (!raw) return;
+        const displayName = cleanBatchDisplayName(raw);
         const bId = slugify(raw);
-        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(raw))) {
+        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(displayName))) {
           const isLive = liveBatchName && slugify(raw) === slugify(liveBatchName);
           availableBatches.push({
             id: bId,
-            name: raw,
+            name: displayName,
             isLive: isLive,
             isDefault: isLive
           });
@@ -4529,12 +4672,13 @@ permalink: /join-live/
       const fStore = getFrozenBatchesStore();
       for (const [fKey, fRecord] of Object.entries(fStore)) {
         if (!fRecord) continue;
-        const bName = fRecord.batchName || fKey.replace(/^[^_]+_/, '');
-        const bId = slugify(bName);
-        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(bName))) {
+        const rawName = fRecord.batchName || fRecord.batch || fKey.replace(/^[^_]+_/, '');
+        const displayName = cleanBatchDisplayName(rawName);
+        const bId = slugify(rawName);
+        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(displayName))) {
           availableBatches.push({
             id: bId,
-            name: bName,
+            name: displayName,
             isLive: false,
             isDefault: false
           });
@@ -5075,16 +5219,30 @@ permalink: /join-live/
     document.getElementById('kpiPeakTurnout').textContent = peakCount || '--';
     document.getElementById('kpiPeakTurnoutSub').textContent = peakDate ? fmt(peakDate) : '';
 
-    // 2. Class Schedule Timeline
+    // 2. Class Schedule Timeline with interactive click-to-view attendees
+    // Store current batch attendees map globally for date pill clicks
+    window._currentBatchDateAttendees = {};
+    sortedDates.forEach(d => {
+      window._currentBatchDateAttendees[d] = {
+        title: fmt(d),
+        attendees: enrichedStudents.filter(s => {
+          const tile = s.calendarTiles && s.calendarTiles.find(t => t.dateStr === d);
+          return tile && tile.status === 'Present';
+        }).map(s => s.name)
+      };
+    });
+
     if (sortedDates.length > 0) {
       document.getElementById('scheduleCard').style.display = 'block';
       document.getElementById('scheduleTotalClasses').textContent = sortedDates.length;
       document.getElementById('scheduleDatesFlow').innerHTML = sortedDates.map(d => {
         const turnout = dateTurnout[d] || 0;
         const parts = d.split('-');
-        const short = parts[2] ? `${parseInt(parts[2])} ${new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short' })}` : d;
-        return `<div class="schedule-date-badge" title="${fmt(d)} - Turnout: ${turnout}"><span class="turnout-dot"></span><span>${short}</span></div>`;
+        const short = parts[2] ? `${parseInt(parts[2], 10)} ${new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short' })}` : d;
+        return `<div class="schedule-date-badge" id="schedBadge_${d}" onclick="toggleScheduleDateAttendees('${d}')" title="Click to view joined users for ${fmt(d)}"><span class="turnout-dot"></span><span>${short}</span></div>`;
       }).join('');
+      // Close drawer if previously open on batch change
+      closeScheduleAttendeesDrawer();
     }
 
     // 3. Absentees of Last Two Days — from enriched (batch-corrected) students
@@ -5274,12 +5432,55 @@ permalink: /join-live/
     }
   }
 
-  function initSearch() {
-    const searchInput = document.getElementById('candidateSearch');
-    searchInput.addEventListener('input', (e) => {
-      if (currentFilteredStudents && currentFilteredStudents.length > 0) {
-        renderLeaderboard(currentFilteredStudents, e.target.value);
-      }
-    });
+  // Interactive Class Schedule Date Pill Click Handler
+  let activeScheduleDate = null;
+
+  function toggleScheduleDateAttendees(dateStr) {
+    const drawer = document.getElementById('scheduleAttendeesDrawer');
+    const drawerDate = document.getElementById('scheduleDrawerDate');
+    const drawerCount = document.getElementById('scheduleDrawerCount');
+    const tagsContainer = document.getElementById('scheduleAttendeesTags');
+
+    if (!drawer || !window._currentBatchDateAttendees) return;
+
+    // Remove active class from all pills
+    document.querySelectorAll('.schedule-date-badge').forEach(el => el.classList.remove('is-active'));
+
+    // If clicking same date pill that is already open, toggle it closed
+    if (activeScheduleDate === dateStr) {
+      drawer.style.display = 'none';
+      activeScheduleDate = null;
+      return;
+    }
+
+    const info = window._currentBatchDateAttendees[dateStr];
+    if (!info) return;
+
+    activeScheduleDate = dateStr;
+    const badge = document.getElementById(`schedBadge_${dateStr}`);
+    if (badge) badge.classList.add('is-active');
+
+    drawerDate.textContent = info.title || dateStr;
+    drawerCount.textContent = `${info.attendees.length} Joined`;
+
+    if (info.attendees.length > 0) {
+      tagsContainer.innerHTML = info.attendees.map(name => `
+        <span class="attendee-name-chip">
+          <span class="chip-dot"></span>
+          <span>${escapeHTML(name)}</span>
+        </span>
+      `).join('');
+    } else {
+      tagsContainer.innerHTML = '<span style="font-size: 0.85rem; color: #64748b; font-style: italic;">No attendees recorded for this date.</span>';
+    }
+
+    drawer.style.display = 'block';
+  }
+
+  function closeScheduleAttendeesDrawer() {
+    const drawer = document.getElementById('scheduleAttendeesDrawer');
+    if (drawer) drawer.style.display = 'none';
+    activeScheduleDate = null;
+    document.querySelectorAll('.schedule-date-badge').forEach(el => el.classList.remove('is-active'));
   }
 </script>
