@@ -2234,12 +2234,12 @@ permalink: /join-live/
     align-items: center;
     gap: 0.8rem;
     padding: 0.85rem 1.25rem;
-    background: #eff6ff;
-    border: 1.5px solid #bfdbfe;
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
     border-radius: 14px;
     margin-bottom: 1.8rem;
-    font-size: 0.86rem;
-    color: #1e40af;
+    font-size: 0.92rem;
+    color: #166534;
   }
 
   .dash-frozen-icon {
@@ -3275,12 +3275,11 @@ permalink: /join-live/
 
     <!-- Batch Frozen / Finalized Banner -->
     <div class="dash-frozen-banner" id="dashFrozenBanner" style="display: none;">
-      <div class="dash-frozen-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <div class="dash-frozen-icon" style="display: flex; align-items: center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="16 10 11 15 8 12"></polyline></svg>
       </div>
       <div class="dash-frozen-text">
-        <strong>Batch Completed &amp; Archived:</strong>
-        <span id="dashFrozenBannerText">This batch has concluded. All final attendance logs and benchmark metrics are frozen in read-only mode without dependency on external sheet edits.</span>
+        <strong id="dashFrozenBannerText" style="color: #166534; font-size: 0.95rem;">This batch has been Successfully Completed</strong>
       </div>
     </div>
 
@@ -4584,7 +4583,32 @@ permalink: /join-live/
     } catch (_) {}
   }
 
+  function cleanLegacyFrozenLocalStorage() {
+    try {
+      const raw = localStorage.getItem('rpv_frozen_batches');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        let modified = false;
+        for (const k of Object.keys(parsed)) {
+          const s = slugify(k);
+          if ((s.includes('20-jul') || s.includes('20-july')) && k !== 'rpa-uipath-20-july-2026') {
+            delete parsed[k];
+            modified = true;
+          }
+          if (s.includes('rpa-pa-uipath')) {
+            delete parsed[k];
+            modified = true;
+          }
+        }
+        if (modified) {
+          localStorage.setItem('rpv_frozen_batches', JSON.stringify(parsed));
+        }
+      }
+    } catch (_) {}
+  }
+
   function getFrozenBatchesStore() {
+    cleanLegacyFrozenLocalStorage();
     let local = {};
     try {
       local = JSON.parse(localStorage.getItem('rpv_frozen_batches') || '{}');
@@ -4634,6 +4658,22 @@ permalink: /join-live/
       return str.replace(/\bBatch\b/gi, '').trim();
     }
 
+    function isBatchDuplicate(candId, candName) {
+      const cId = slugify(candId || candName);
+      const cName = slugify(candName || candId);
+      return availableBatches.some(b => {
+        const bId = slugify(b.id);
+        const bName = slugify(b.name);
+        if (bId === cId || bName === cName) return true;
+        // Check for 20 July variation duplicate (e.g. '20-jul-2026' vs 'rpa-uipath-20-july-2026')
+        if ((cId.includes('20-jul') || cName.includes('20-jul')) &&
+            (bId.includes('20-jul') || bName.includes('20-jul'))) {
+          return true;
+        }
+        return false;
+      });
+    }
+
     // 1. From backend explicit batches array (Settings Column F / Registered Students Column D)
     if (data && data.batches && Array.isArray(data.batches) && data.batches.length > 0) {
       data.batches.forEach(function(bInfo) {
@@ -4641,7 +4681,7 @@ permalink: /join-live/
         if (!raw) return;
         const displayName = cleanBatchDisplayName(raw);
         const bId = bInfo.id || slugify(raw);
-        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(displayName))) {
+        if (!isBatchDuplicate(bId, displayName)) {
           const isLive = liveBatchName && slugify(raw) === slugify(liveBatchName);
           availableBatches.push({
             id: bId,
@@ -4658,7 +4698,7 @@ permalink: /join-live/
         if (!raw) return;
         const displayName = cleanBatchDisplayName(raw);
         const bId = slugify(raw);
-        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(displayName))) {
+        if (!isBatchDuplicate(bId, displayName)) {
           const isLive = liveBatchName && slugify(raw) === slugify(liveBatchName);
           availableBatches.push({
             id: bId,
@@ -4678,7 +4718,7 @@ permalink: /join-live/
         const rawName = fRecord.batchName || fRecord.batch || fKey.replace(/^[^_]+_/, '');
         const displayName = cleanBatchDisplayName(rawName);
         const bId = slugify(rawName);
-        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(displayName))) {
+        if (!isBatchDuplicate(bId, displayName)) {
           availableBatches.push({
             id: bId,
             name: displayName,
@@ -4688,6 +4728,26 @@ permalink: /join-live/
         }
       }
     } catch (_) {}
+
+    // 4. Strict Deduplication & Purging Fragmented Names (e.g. '20 Jul 2026')
+    const finalBatches = [];
+    const seenBatchKeys = new Set();
+    const hasFullJuly = availableBatches.some(x => {
+      const s = slugify(x.name);
+      return (s.includes('rpa') || s.includes('uipath')) && (s.includes('20-jul') || s.includes('20-july'));
+    });
+    availableBatches.forEach(b => {
+      const s = slugify(b.name);
+      // Remove fragmented/short duplicate "20 Jul 2026"
+      if (hasFullJuly && (s === '20-jul-2026' || s === '20-july-2026' || s === '20-jul' || s === '20-july')) {
+        return;
+      }
+      if (!seenBatchKeys.has(s)) {
+        seenBatchKeys.add(s);
+        finalBatches.push(b);
+      }
+    });
+    availableBatches = finalBatches;
 
     if (availableBatches.length === 0) {
       availableBatches.push({ id: 'batch-live', name: liveBatchName || 'Live RPA Batch', isLive: true, isDefault: true });
@@ -4738,12 +4798,17 @@ permalink: /join-live/
 
     if (frozen) {
       if (frozenBanner) frozenBanner.style.display = 'flex';
-      if (freezeBtnText) freezeBtnText.textContent = 'Unfreeze Batch';
-      if (freezeBtn) freezeBtn.classList.add('is-frozen');
+      // Completely hide freeze footer and button for frozen batches - no unfreeze button
+      if (freezeFooter) freezeFooter.style.display = 'none';
+      if (freezeBtn) freezeBtn.style.display = 'none';
     } else {
       if (frozenBanner) frozenBanner.style.display = 'none';
+      if (freezeFooter && currentUserIsAdmin) freezeFooter.style.display = 'flex';
+      if (freezeBtn) {
+        freezeBtn.style.display = 'inline-flex';
+        freezeBtn.classList.remove('is-frozen');
+      }
       if (freezeBtnText) freezeBtnText.textContent = 'Freeze Batch / Mark Completed';
-      if (freezeBtn) freezeBtn.classList.remove('is-frozen');
     }
 
     const unauthorizedNotice = document.getElementById('dashUnauthorizedNotice');
@@ -4778,7 +4843,7 @@ permalink: /join-live/
 
     // Admin: universal access to all batches
     if (currentUserIsAdmin) {
-      if (freezeFooter) freezeFooter.style.display = 'flex';
+      if (freezeFooter) freezeFooter.style.display = frozen ? 'none' : 'flex';
       if (unauthorizedNotice) unauthorizedNotice.style.display = 'none';
       if (mainContent) mainContent.style.display = 'block';
       if (sourceData) renderDashboard(getFilteredData(sourceData), currentUserEmail);
@@ -5252,8 +5317,10 @@ permalink: /join-live/
     }
 
     // 3. Absentees of Last Two Days — from enriched (batch-corrected) students
+    // For frozen batches: do not show the last two days absentees
     const container = document.getElementById('recentAbsenteesContainer');
-    if (sortedDates.length > 0) {
+    const isFrozen = isBatchFrozen(currentSelectedBatch);
+    if (!isFrozen && sortedDates.length > 0) {
       const recentDates = sortedDates.slice(-2).reverse();
       const recentAbsentees = recentDates.map(d => {
         const absentees = enrichedStudents.filter(s => {
@@ -5263,21 +5330,26 @@ permalink: /join-live/
         return { title: fmt(d), absentees };
       });
 
-      container.innerHTML = recentAbsentees.map(item => `
-        <div class="absentee-card">
-          <div class="absentee-card-top">
-            <span class="absentee-date-title">${item.title}</span>
+      if (container) {
+        container.innerHTML = recentAbsentees.map(item => `
+          <div class="absentee-card">
+            <div class="absentee-card-top">
+              <span class="absentee-date-title">${item.title}</span>
+            </div>
+            <div class="absentee-tags">
+              ${item.absentees.length > 0
+                ? item.absentees.map(name => `<span class="absentee-pill">${name}</span>`).join('')
+                : '<span style="font-size:0.84rem; color:#15803d; font-weight:700;">100% Turnout! No Absentees.</span>'}
+            </div>
           </div>
-          <div class="absentee-tags">
-            ${item.absentees.length > 0
-              ? item.absentees.map(name => `<span class="absentee-pill">${name}</span>`).join('')
-              : '<span style="font-size:0.84rem; color:#15803d; font-weight:700;">100% Turnout! No Absentees.</span>'}
-          </div>
-        </div>
-      `).join('');
-      container.style.display = 'grid';
+        `).join('');
+        container.style.display = 'grid';
+      }
     } else {
-      container.style.display = 'none';
+      if (container) {
+        container.style.display = 'none';
+        container.innerHTML = '';
+      }
     }
 
     // 4. Trend chart — recomputed from filtered students
