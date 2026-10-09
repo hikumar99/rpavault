@@ -3181,6 +3181,8 @@ permalink: /join-live/
         <strong>Batch Completed &amp; Archived:</strong>
         <span id="dashFrozenBannerText">This batch has concluded. All final attendance logs and benchmark metrics are frozen in read-only mode without dependency on external sheet edits.</span>
       </div>
+    </div>
+
     <!-- Dashboard Loading State Indicator -->
     <div class="dash-loading-state" id="dashLoadingState" style="display: none;">
       <div class="dash-loading-spinner"></div>
@@ -4497,14 +4499,45 @@ permalink: /join-live/
     const batchSelect = document.getElementById('dashBatchSelect');
     if (!courseSelect || !batchSelect) return;
 
-    // Build courses and batches dynamically from student data
+    // Build courses and batches dynamically from student data and sheet batch list
     availableBatchesByCourse = {};
     const liveBatchName = (data && data.batchInfo && data.batchInfo.batchName) ? data.batchInfo.batchName.trim() : '';
 
-    if (data && data.students) {
+    // Helper to filter out fake date batches
+    function isGenuineBatchName(b) {
+      if (!b) return false;
+      const s = b.trim();
+      // Exclude single daily dates like "01 Sep 2026 Batch", "02 Sep", "16 Sep"
+      if (/^(0[1-9]|1[0-6])\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(s)) return false;
+      return true;
+    }
+
+    // If backend returns explicit sheet batches list, use ONLY those
+    if (data && data.batches && Array.isArray(data.batches) && data.batches.length > 0) {
+      data.batches.forEach(function(bInfo) {
+        const course = (bInfo.course || 'RPA / UiPath').trim();
+        const batch = (bInfo.name || bInfo.batch || '').trim();
+        if (!batch || !isGenuineBatchName(batch)) return;
+        const courseKey = slugify(course);
+        if (!availableBatchesByCourse[courseKey]) {
+          availableBatchesByCourse[courseKey] = { label: course, batches: [] };
+        }
+        const existing = availableBatchesByCourse[courseKey].batches;
+        if (!existing.some(b => b.name === batch)) {
+          const isLive = liveBatchName && batch.toLowerCase() === liveBatchName.toLowerCase();
+          existing.push({
+            id: slugify(courseKey + '-' + batch),
+            name: batch,
+            isLive: isLive,
+            isDefault: isLive
+          });
+        }
+      });
+    } else if (data && data.students) {
       data.students.forEach(function(s) {
         const course = (s.course || 'RPA / UiPath').trim();
         const batch = (s.batch || '').trim();
+        if (!isGenuineBatchName(batch)) return;
         const courseKey = slugify(course);
 
         if (!availableBatchesByCourse[courseKey]) {
@@ -4525,6 +4558,29 @@ permalink: /join-live/
         }
       });
     }
+
+    // Also merge any completed/frozen batches from frozen batches store
+    try {
+      const fStore = getFrozenBatchesStore();
+      for (const [fKey, fRecord] of Object.entries(fStore)) {
+        if (!fRecord) continue;
+        const [cSlug, bSlug] = fKey.split('_');
+        const cLabel = fRecord.courseName || 'RPA / UiPath';
+        const bName = fRecord.batchName || 'Archived Batch';
+        if (!availableBatchesByCourse[cSlug]) {
+          availableBatchesByCourse[cSlug] = { label: cLabel, batches: [] };
+        }
+        const existing = availableBatchesByCourse[cSlug].batches;
+        if (!existing.some(b => b.id === bSlug || b.name === bName)) {
+          existing.push({
+            id: bSlug || slugify(cSlug + '-' + bName),
+            name: bName,
+            isLive: false,
+            isDefault: false
+          });
+        }
+      }
+    } catch (_) {}
 
     // If no data, create a placeholder
     if (Object.keys(availableBatchesByCourse).length === 0) {
@@ -4956,6 +5012,24 @@ permalink: /join-live/
       return;
     }
 
+    // Check client sessionStorage cache (5 min TTL) for ultra-fast instant rendering
+    const cachedLiveStr = sessionStorage.getItem('rpv_live_dash_cache');
+    const cachedLiveTime = sessionStorage.getItem('rpv_live_dash_cache_time');
+    const isCacheFresh = cachedLiveStr && cachedLiveTime && (Date.now() - parseInt(cachedLiveTime, 10) < 5 * 60 * 1000);
+    if (isCacheFresh) {
+      try {
+        const cachedObj = JSON.parse(cachedLiveStr);
+        if (cachedObj && cachedObj.students) {
+          currentDashboardData = cachedObj;
+          if (loadingState) loadingState.style.display = 'none';
+          if (mainContent) mainContent.style.display = 'block';
+          initCourseAndBatchDropdowns(cachedObj);
+          onDashBatchChange();
+          return;
+        }
+      } catch (_) {}
+    }
+
     // Show loading state while fetching live data from GAS
     if (loadingState) loadingState.style.display = 'flex';
     if (mainContent) mainContent.style.display = 'none';
@@ -4972,6 +5046,10 @@ permalink: /join-live/
       
       if (data && data.students) {
         currentDashboardData = data;
+        try {
+          sessionStorage.setItem('rpv_live_dash_cache', JSON.stringify(data));
+          sessionStorage.setItem('rpv_live_dash_cache_time', Date.now().toString());
+        } catch (_) {}
         initCourseAndBatchDropdowns(data);
         onDashBatchChange();
       }
