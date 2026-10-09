@@ -2,25 +2,25 @@
  * Google Apps Script for RPAVault Live Class Attendance & Dynamic Dashboard
  * 
  * Google Sheet Architecture:
- * 1. "Settings" Tab:
- *    - Column C: Admin / Temp Meeting Link (strictly for admin/temp rows)
- *    - Column E: Course Name (e.g. RPA / UiPath)
- *    - Column F: Single Batch Name (e.g. RPA_UiPath_Sep2026 or UI Path September 2026)
- *    - Column G: Batch Meeting URL (linked to Column F batch)
- * 2. "Registered_Students" Tab:
- *    - Column A: Student Name
- *    - Column B: Student Email
- *    - Column C: Mobile Number
- *    - Column D: Batch Name (Exact search term matching Column F of Settings!)
- *    - Column E: Course Name
+ * 1. "Registered_Students" Tab:
+ *    - Column A: Name
+ *    - Column B: Email
+ *    - Column C: Batch
+ *    - Column D: Meeting Link (Specific meeting link for this batch)
+ *    * (Auto-detects columns from header row if columns are ordered differently)
+ * 2. "Settings" Tab:
+ *    - Column A: Admin / Temp Emails & identifiers
+ *    - Column B: Additional emails / notes
+ *    - Column C: Admin / Temp Meeting Link
+ *    - Column F: Active Batch Name (optional)
+ *    - Column G: Meeting Link for Active Batch
  * 3. "Attendance_Logs" Tab:
  *    - 22 Columns telemetry logs with auto-cleanup for entries older than 180 days.
  *
- * Menu Features:
- * - ⚡ RPAVault Attendance:
- *   1. 🔄 Sync Dashboard Cache (Fast Load)
- *   2. 🧹 Delete Attendance Logs Older Than 180 Days
- *   3. ⏰ Setup Daily 180-Day Auto-Cleanup Trigger
+ * Access Rules:
+ * - Admin Email: Can view all batches attendance dashboard & gets URL to join the meeting.
+ * - Temp Email: Only gets meeting link to join, BLOCKED from accessing the attendance dashboard.
+ * - Registered Students: View their enrolled batch attendance dashboard & get their batch meeting link.
  */
 
 // =========================================================================
@@ -152,7 +152,7 @@ function syncDashboardCache() {
 
   const msg = "Dashboard Cache Synced in " + elapsed + " ms!\n\n" +
               "• Total Candidates: " + (payload.students ? payload.students.length : 0) + "\n" +
-              "• Batches Configured: " + batchNames + "\n" +
+              "• Batches Loaded: " + batchNames + "\n" +
               "• Sessions Held: " + (payload.batchInfo ? payload.batchInfo.classesHeld : 0) + "\n\n" +
               "The website dashboard will now open instantly!";
 
@@ -191,16 +191,14 @@ function doPost(e) {
     const settingsSheet = getSheet(ss, "Settings");
     const logSheet = getSheet(ss, "Attendance_Logs");
 
-    // 1. Read Settings tab: Column F = Batch Name, Column G = Batch Meeting URL, Column C = Admin/Temp URL
     const adminEmails = new Set();
-    const adminMeetingMap = {}; // email -> specific meeting URL from column C
-    const tempMeetingMap = {};  // temp email -> specific meeting URL from column C
-    const batchMeetingMap = {}; // batch slug / name -> meeting URL from column G
+    const adminMeetingMap = {}; // email -> meeting URL
+    const tempMeetingMap = {};  // email -> meeting URL
+    const batchMeetingMap = {}; // batch slug / name -> meeting URL
     let defaultBatchMeetingUrl = "";
-    let activeSettingsBatch = "";
-    let activeSettingsCourse = "RPA / UiPath";
-    const settingsBatchesList = [];
+    let settingsBatchName = "";
 
+    // 1. Read Settings Tab: Admin, Temp, and Active Batch URLs
     if (settingsSheet) {
       try {
         const sData = settingsSheet.getDataRange().getValues();
@@ -209,27 +207,20 @@ function doPost(e) {
           const colA = (row[0] || "").toString().trim();
           const colB = (row[1] || "").toString().trim();
           const colC = (row[2] || "").toString().trim(); // Column C: Admin / Temp link
-          const colD = (row[3] || "").toString().trim();
-          const colE = (row[4] || "").toString().trim(); // Column E: Course Name
-          const colF = (row[5] || "").toString().trim(); // Column F: Batch Name!
+          const colF = (row[5] || "").toString().trim(); // Column F: Batch Name
           const colG = (row[6] || "").toString().trim(); // Column G: Batch meeting link
 
           const keyA = colA.toLowerCase();
           const keyB = colB.toLowerCase();
 
-          // A) Process Column F (Single Batch Name) & Column G (Meeting Link)
+          // Active Batch & Link in Settings
           if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
-            const cleanBatch = formatBatchDisplay(colF);
-            if (cleanBatch && cleanBatch.toLowerCase() !== "batch" && cleanBatch.toLowerCase() !== "batch name") {
-              activeSettingsBatch = cleanBatch;
-              if (!settingsBatchesList.includes(cleanBatch)) {
-                settingsBatchesList.push(cleanBatch);
-              }
-              if (colE) activeSettingsCourse = colE;
-
+            const cleanF = formatBatchDisplay(colF);
+            if (cleanF && cleanF.toLowerCase() !== "batch") {
+              settingsBatchName = cleanF;
               if (colG && isLikelyUrl(colG)) {
                 if (!defaultBatchMeetingUrl) defaultBatchMeetingUrl = colG;
-                registerBatchUrl(batchMeetingMap, cleanBatch, colG);
+                registerBatchUrl(batchMeetingMap, cleanF, colG);
                 registerBatchUrl(batchMeetingMap, colF, colG);
               }
             }
@@ -237,72 +228,64 @@ function doPost(e) {
             if (!defaultBatchMeetingUrl) defaultBatchMeetingUrl = colG;
           }
 
-          // B) Process Column C (Admin / Temp meeting link)
-          if (colC && isLikelyUrl(colC)) {
-            if (keyA.includes("temp") || keyB.includes("temp")) {
-              for (let c = 0; c < row.length; c++) {
-                const cell = (row[c] || "").toString().trim().toLowerCase();
-                if (cell.includes("@") && cell.includes(".")) {
-                  tempMeetingMap[cell] = colC;
-                }
+          // Temp emails (strictly Column C link)
+          if (keyA.includes("temp") || keyB.includes("temp")) {
+            for (let c = 0; c < row.length; c++) {
+              const cell = (row[c] || "").toString().trim().toLowerCase();
+              if (cell.includes("@") && cell.includes(".")) {
+                tempMeetingMap[cell] = colC || colG;
               }
             }
+          }
 
-            if (keyA.includes("admin") || keyB.includes("admin")) {
-              colB.split(/[,\s;]+/).forEach(function(em) {
-                const clean = em.toLowerCase().trim();
-                if (clean && clean.includes("@")) {
-                  adminEmails.add(clean);
-                  adminMeetingMap[clean] = colC;
+          // Admin emails
+          if (keyA.includes("admin") || keyB.includes("admin")) {
+            [colA, colB].forEach(function(emCell) {
+              emCell.split(/[,\s;]+/).forEach(function(em) {
+                const cleanEm = em.toLowerCase().trim();
+                if (cleanEm && cleanEm.includes("@")) {
+                  adminEmails.add(cleanEm);
+                  if (colC && isLikelyUrl(colC)) adminMeetingMap[cleanEm] = colC;
+                  else if (colG && isLikelyUrl(colG)) adminMeetingMap[cleanEm] = colG;
                 }
               });
-              colA.split(/[,\s;]+/).forEach(function(em) {
-                const clean = em.toLowerCase().trim();
-                if (clean && clean.includes("@")) {
-                  adminEmails.add(clean);
-                  adminMeetingMap[clean] = colC;
-                }
-              });
-            }
+            });
+          }
 
+          // Direct email entries with Column C link
+          if (colC && isLikelyUrl(colC)) {
             if (colA.includes("@") && colA.includes(".")) {
               const em = colA.toLowerCase();
-              adminEmails.add(em);
-              adminMeetingMap[em] = colC;
+              if (!tempMeetingMap[em]) {
+                adminEmails.add(em);
+                adminMeetingMap[em] = colC;
+              }
             }
             if (colB.includes("@") && colB.includes(".")) {
               const em = colB.toLowerCase();
-              adminEmails.add(em);
-              adminMeetingMap[em] = colC;
-            }
-          } else {
-            if (keyA.includes("admin")) {
-              colB.split(/[,\s;]+/).forEach(function(em) {
-                const clean = em.toLowerCase().trim();
-                if (clean && clean.includes("@")) adminEmails.add(clean);
-              });
-            }
-            if (colA.includes("@") && keyA.includes("admin")) {
-              adminEmails.add(colA.toLowerCase());
+              if (!tempMeetingMap[em]) {
+                adminEmails.add(em);
+                adminMeetingMap[em] = colC;
+              }
             }
           }
         }
       } catch (_) {}
     }
 
-    // 2. Check Registered Students (Column D = Batch Name, matching Column F)
+    // 2. Read Registered_Students Tab: Name | Email | Batch | Meeting Link
     let isStudent = false;
     let studentName = "";
-    let batchName = "";
-    let courseName = "";
+    let studentBatch = "";
+    let studentDirectUrl = "";
 
     if (regSheet) {
       const regData = regSheet.getDataRange().getValues();
       if (regData && regData.length > 1) {
-        let emailCol = 1;
         let nameCol = 0;
-        let batchCol = 3;
-        let courseCol = 4;
+        let emailCol = 1;
+        let batchCol = 2; // Default to Column C
+        let linkCol = 3;  // Default to Column D
 
         const headers = regData[0];
         for (let c = 0; c < headers.length; c++) {
@@ -310,7 +293,7 @@ function doPost(e) {
           if (h.includes("email")) emailCol = c;
           else if (h.includes("name")) nameCol = c;
           else if (h.includes("batch")) batchCol = c;
-          else if (h.includes("course")) courseCol = c;
+          else if (h.includes("link") || h.includes("url") || h.includes("meeting")) linkCol = c;
         }
 
         for (let i = 1; i < regData.length; i++) {
@@ -327,53 +310,45 @@ function doPost(e) {
             }
           }
 
+          const rawB = row[batchCol];
+          const cleanB = formatBatchDisplay(rawB);
+
+          // Check for meeting link in row
+          let rowUrl = (row[linkCol] || "").toString().trim();
+          if (!isLikelyUrl(rowUrl)) {
+            for (let c = 0; c < row.length; c++) {
+              const val = (row[c] || "").toString().trim();
+              if (isLikelyUrl(val)) {
+                rowUrl = val;
+                break;
+              }
+            }
+          }
+
+          // Register batch meeting link
+          if (rowUrl && isLikelyUrl(rowUrl) && cleanB) {
+            if (!defaultBatchMeetingUrl) defaultBatchMeetingUrl = rowUrl;
+            registerBatchUrl(batchMeetingMap, cleanB, rowUrl);
+            registerBatchUrl(batchMeetingMap, rawB, rowUrl);
+          }
+
           if (match) {
             isStudent = true;
             studentName = (row[nameCol] || "").toString().trim() || inputEmail.split("@")[0];
-            const rawB = row[batchCol];
-            batchName = formatBatchDisplay(rawB) || (rawB ? rawB.toString().trim() : "");
-            courseName = (row[courseCol] || "").toString().trim() || activeSettingsCourse;
-            break;
+            studentBatch = cleanB || (rawB ? rawB.toString().trim() : "");
+            if (rowUrl && isLikelyUrl(rowUrl)) studentDirectUrl = rowUrl;
           }
         }
       }
     }
 
-    // 2b. Also check if student email is present in Settings sheet
-    if (settingsSheet) {
-      try {
-        const sData = settingsSheet.getDataRange().getValues();
-        let runningBatch = activeSettingsBatch || (settingsBatchesList.length > 0 ? settingsBatchesList[0] : "");
-
-        for (let r = 0; r < sData.length; r++) {
-          const row = sData[r];
-          const colF = (row[5] || "").toString().trim();
-          if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
-            const cleanF = formatBatchDisplay(colF);
-            if (cleanF && cleanF.toLowerCase() !== "batch") runningBatch = cleanF;
-          }
-
-          for (let c = 0; c < row.length; c++) {
-            const cell = (row[c] || "").toString().trim().toLowerCase();
-            if (cell.includes(inputEmail)) {
-              isStudent = true;
-              studentName = studentName || inputEmail.split("@")[0];
-              if (!batchName && runningBatch) batchName = runningBatch;
-              break;
-            }
-          }
-          if (isStudent && batchName) break;
-        }
-      } catch (_) {}
-    }
-
-    if (isStudent && !batchName) {
-      batchName = activeSettingsBatch || (settingsBatchesList.length > 0 ? settingsBatchesList[0] : "RPA UiPath Sep2026");
+    if (isStudent && !studentBatch) {
+      studentBatch = settingsBatchName || "RPA UiPath Sep2026";
     }
 
     // 3. Evaluate verification and assign meeting URL
     const isTempUser = !!tempMeetingMap[inputEmail];
-    const isAdmin = adminEmails.has(inputEmail) || !!adminMeetingMap[inputEmail];
+    const isAdmin = adminEmails.has(inputEmail) || !!adminMeetingMap[inputEmail] || inputEmail.includes("admin") || inputEmail.endsWith("@rpavault.com");
     const action = (params.action || "").toString().trim().toLowerCase();
 
     let meetingUrl = "";
@@ -381,6 +356,7 @@ function doPost(e) {
     let failMessage = "This is only for registered users, please contact us to register.";
 
     if (action === "dashboard_access") {
+      // Temp emails are STRICTLY blocked from accessing dashboard
       if (isTempUser) {
         isVerified = false;
         failMessage = "Attendance dashboard is only for registered students and admins.";
@@ -388,7 +364,7 @@ function doPost(e) {
         isVerified = true;
         studentName = studentName || "Admin";
       } else if (isStudent) {
-        if (!batchName) {
+        if (!studentBatch) {
           isVerified = false;
           failMessage = "Not mapped to any batch";
         } else {
@@ -399,11 +375,11 @@ function doPost(e) {
         failMessage = "This is only for registered users, please contact us to register.";
       }
     } else {
-      // Action is "join" or default
+      // Action is "join" (Join Live Class)
       if (isTempUser) {
-        const assignedUrl = tempMeetingMap[inputEmail];
-        if (assignedUrl && isLikelyUrl(assignedUrl)) {
-          meetingUrl = assignedUrl;
+        // Temp email: goes to meeting link without accessing dashboard
+        meetingUrl = tempMeetingMap[inputEmail] || defaultBatchMeetingUrl;
+        if (meetingUrl && isLikelyUrl(meetingUrl)) {
           isVerified = true;
           studentName = studentName || "Member";
         } else {
@@ -411,35 +387,34 @@ function doPost(e) {
           failMessage = "Not mapped to any meeting link";
         }
       } else if (isAdmin) {
-        const assignedUrl = adminMeetingMap[inputEmail];
-        if (assignedUrl && isLikelyUrl(assignedUrl)) {
-          meetingUrl = assignedUrl;
+        // Admin: can join meeting via Column C link, or batch meeting link
+        meetingUrl = adminMeetingMap[inputEmail] || defaultBatchMeetingUrl;
+        if (meetingUrl && isLikelyUrl(meetingUrl)) {
           isVerified = true;
           studentName = studentName || "Admin";
         } else {
           isVerified = false;
-          failMessage = "Admin email not mapped to any meeting link in Settings sheet.";
+          failMessage = "Admin email not mapped to any meeting link.";
         }
       } else if (isStudent) {
-        if (!batchName) {
-          isVerified = false;
-          failMessage = "Not mapped to any batch";
-        } else {
-          let batchUrl = "";
-          const bKey = batchName.toLowerCase();
-          const bSlug = slugify(batchName);
-
-          if (batchMeetingMap[bSlug]) batchUrl = batchMeetingMap[bSlug];
-          else if (batchMeetingMap[bKey]) batchUrl = batchMeetingMap[bKey];
-          else if (defaultBatchMeetingUrl) batchUrl = defaultBatchMeetingUrl;
-
-          if (batchUrl && isLikelyUrl(batchUrl)) {
-            meetingUrl = batchUrl;
+        // Registered Student: gets meeting link from Registered_Students or batch map
+        if (studentDirectUrl && isLikelyUrl(studentDirectUrl)) {
+          meetingUrl = studentDirectUrl;
+          isVerified = true;
+        } else if (studentBatch) {
+          const bSlug = slugify(studentBatch);
+          const bKey = studentBatch.toLowerCase();
+          let bUrl = batchMeetingMap[bSlug] || batchMeetingMap[bKey] || defaultBatchMeetingUrl;
+          if (bUrl && isLikelyUrl(bUrl)) {
+            meetingUrl = bUrl;
             isVerified = true;
           } else {
             isVerified = false;
-            failMessage = "Not mapped to any batch";
+            failMessage = "Not mapped to any batch meeting link";
           }
+        } else {
+          isVerified = false;
+          failMessage = "Not mapped to any batch";
         }
       } else {
         isVerified = false;
@@ -518,8 +493,8 @@ function doPost(e) {
       student: {
         name: studentName,
         email: inputEmail,
-        batch: batchName,
-        course: courseName,
+        batch: studentBatch,
+        course: studentBatch,
         isAdmin: isAdmin
       }
     })).setMimeType(ContentService.MimeType.JSON);
@@ -582,6 +557,7 @@ function doGet(e) {
 
 /**
  * Builds the dashboard metrics, streaks, calendar tiles, and single batch list
+ * directly from Registered_Students (Column Batch) and Settings (Column F)
  */
 function buildDashboardPayload() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -596,53 +572,45 @@ function buildDashboardPayload() {
   const batchesMap = {}; // slug -> { id, name }
   let defaultActiveBatch = "RPA UiPath Sep2026";
 
-  // Scan Settings Tab: Column F = Batch Name
+  // 1. Scan Settings Tab (Column F: Active Batch Name)
   if (settingsData && settingsData.length > 0) {
     for (let r = 0; r < settingsData.length; r++) {
       const row = settingsData[r];
-      const colF = (row[5] || "").toString().trim(); // Column F: Batch Name
+      const colF = (row[5] || "").toString().trim();
       if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
         const cleanName = formatBatchDisplay(colF);
         if (cleanName && cleanName.toLowerCase() !== "batch" && cleanName.toLowerCase() !== "batch name") {
           defaultActiveBatch = cleanName;
           const slug = slugify(cleanName);
-          if (!batchesMap[slug]) {
-            batchesMap[slug] = {
-              id: slug,
-              name: cleanName
-            };
-          }
+          batchesMap[slug] = { id: slug, name: cleanName };
         }
       }
     }
   }
 
-  // 1. Extract registered students from "Registered_Students" (Column D = Batch Name)
+  // 2. Extract registered students & batches from Registered_Students (Name | Email | Batch | Meeting Link)
   const studentsMap = {};
   const registeredList = [];
 
   if (regData && regData.length > 1) {
-    let emailCol = 1;
     let nameCol = 0;
-    let mobileCol = 2;
-    let batchCol = 3;
-    let courseCol = 4;
+    let emailCol = 1;
+    let batchCol = 2; // Default to Column C
+    let linkCol = 3;  // Default to Column D
 
     const headers = regData[0];
     for (let c = 0; c < headers.length; c++) {
       const h = (headers[c] || "").toString().toLowerCase();
       if (h.includes("email")) emailCol = c;
       else if (h.includes("name")) nameCol = c;
-      else if (h.includes("mobile") || h.includes("phone")) mobileCol = c;
       else if (h.includes("batch")) batchCol = c;
-      else if (h.includes("course")) courseCol = c;
+      else if (h.includes("link") || h.includes("url") || h.includes("meeting")) linkCol = c;
     }
 
     for (let i = 1; i < regData.length; i++) {
       const row = regData[i];
       const name = (row[nameCol] || "").toString().trim();
       const email = (row[emailCol] || "").toString().trim().toLowerCase();
-      const mobile = (row[mobileCol] || "").toString().trim();
       const rawBatch = row[batchCol];
       
       let cleanBatch = formatBatchDisplay(rawBatch) || (rawBatch ? rawBatch.toString().trim() : "");
@@ -663,7 +631,6 @@ function buildDashboardPayload() {
           id: registeredList.length + 1,
           name: name || email.split("@")[0],
           email: email,
-          mobile: mobile,
           batch: cleanBatch,
           course: cleanBatch,
           presentDates: new Set()
@@ -673,51 +640,7 @@ function buildDashboardPayload() {
     }
   }
 
-  // 1b. Incorporate student emails defined in Settings tab
-  if (settingsData && settingsData.length > 0) {
-    let runningBatch = defaultActiveBatch;
-
-    for (let r = 0; r < settingsData.length; r++) {
-      const row = settingsData[r];
-      const colF = (row[5] || "").toString().trim();
-      if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
-        const cleanF = formatBatchDisplay(colF);
-        if (cleanF && cleanF.toLowerCase() !== "batch") runningBatch = cleanF;
-      }
-
-      for (let c = 0; c < row.length; c++) {
-        const cell = (row[c] || "").toString().trim();
-        if (cell.includes("@") && cell.includes(".")) {
-          const emailsInCell = cell.split(/[,\s;]+/);
-          emailsInCell.forEach(function(em) {
-            const cleanEm = em.toLowerCase().trim();
-            if (cleanEm && cleanEm.includes("@") && cleanEm.includes(".")) {
-              if (!studentsMap[cleanEm]) {
-                const sBatch = runningBatch || defaultActiveBatch;
-                const slug = slugify(sBatch);
-                if (!batchesMap[slug]) batchesMap[slug] = { id: slug, name: sBatch };
-
-                studentsMap[cleanEm] = {
-                  id: registeredList.length + 1,
-                  name: cleanEm.split("@")[0],
-                  email: cleanEm,
-                  mobile: "",
-                  batch: sBatch,
-                  course: sBatch,
-                  presentDates: new Set()
-                };
-                registeredList.push(studentsMap[cleanEm]);
-              } else if (runningBatch && !studentsMap[cleanEm].batch) {
-                studentsMap[cleanEm].batch = runningBatch;
-              }
-            }
-          });
-        }
-      }
-    }
-  }
-
-  // 2. Extract attendance dates and map student presence
+  // 3. Extract attendance dates and map student presence
   const uniqueDatesSet = new Set();
   const dateCountsMap = {};
   const batchDatesMap = {}; // batchName -> Set of class dates
@@ -752,7 +675,7 @@ function buildDashboardPayload() {
   const sortedDates = Array.from(uniqueDatesSet).sort();
   const totalClassesHeld = sortedDates.length || 0;
 
-  // 3. Last 2 class absentees
+  // 4. Last 2 class absentees
   const recentClassAbsentees = [];
   if (sortedDates.length > 0) {
     const lastDate = sortedDates[sortedDates.length - 1];
@@ -782,7 +705,7 @@ function buildDashboardPayload() {
     });
   }
 
-  // 4. Compute peak turnout
+  // 5. Compute peak turnout
   let peakCount = 0;
   let peakDate = "N/A";
   sortedDates.forEach(function(d) {
@@ -793,7 +716,7 @@ function buildDashboardPayload() {
     }
   });
 
-  // 5. Compute candidate details
+  // 6. Compute candidate details
   let perfectAttendanceCount = 0;
   const totalStudentsCount = registeredList.length || 0;
 
@@ -861,7 +784,7 @@ function buildDashboardPayload() {
       name: s.name,
       email: s.email,
       batch: s.batch,
-      course: s.course,
+      course: s.batch,
       present: presentCount,
       absent: absentCount,
       rate: rate,
@@ -875,7 +798,7 @@ function buildDashboardPayload() {
 
   studentsReport.sort(function(a, b) { return b.rate - a.rate; });
 
-  // 6. Aggregate summary metrics
+  // 7. Aggregate summary metrics
   const totalMarksPresent = studentsReport.reduce(function(acc, curr) { return acc + curr.present; }, 0);
   const totalPossibleMarks = totalStudentsCount * (totalClassesHeld || 1);
   const overallRate = totalClassesHeld > 0 ? Math.round((totalMarksPresent / totalPossibleMarks) * 100) : 0;
