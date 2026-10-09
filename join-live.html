@@ -3636,13 +3636,16 @@ permalink: /join-live/
         clearTimeout(timeoutId);
         const result = await response.json();
 
-        if (result.verified && !result.isTempUser) {
+        const isVerifiedUser = !!(result.verified || result.isVerified || result.status === 'success');
+        const isTempUser = !!(result.isTempUser || result.role === 'temp');
+
+        if (isVerifiedUser && !isTempUser) {
           sessionStorage.setItem('rpv_verified_user_email', email);
-          sessionStorage.setItem('rpv_user_is_admin', (result.isAdmin || email.includes('admin') || email.endsWith('@rpavault.com')) ? 'true' : 'false');
+          sessionStorage.setItem('rpv_user_is_admin', (result.isAdmin || result.role === 'admin' || email.includes('admin') || email.endsWith('@rpavault.com')) ? 'true' : 'false');
           dashSubmitBtn.innerHTML = '<span>Access Verified! Loading...</span>';
           authCard.style.display = 'none';
           await unlockAndLoadDashboard(email);
-        } else if (result.isTempUser) {
+        } else if (isTempUser) {
           dashErrorMsg.innerHTML = 'Attendance dashboard is only for registered students and admins.';
           dashErrorMsg.style.display = 'block';
         } else {
