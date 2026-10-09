@@ -3505,12 +3505,11 @@ permalink: /join-live/
 
       const payload = buildTelemetryPayload(email, "join");
 
+      const joinUrl = `${GOOGLE_APPS_SCRIPT_URL}?action=join&email=${encodeURIComponent(email)}`;
+
       try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
+        const response = await fetch(joinUrl, {
+          method: 'GET'
         });
         const result = await response.json();
 
@@ -3624,18 +3623,14 @@ permalink: /join-live/
         }
       } catch (_) {}
 
-      // 2. Not in frozen data — call GAS as normal
-      const payload = buildTelemetryPayload(email, "dashboard_access");
-
+      // 2. Not in frozen data — verify via Google Apps Script (GET request for reliable CORS/redirect handling)
+      const verifyUrl = `${GOOGLE_APPS_SCRIPT_URL}?action=dashboard_access&email=${encodeURIComponent(email)}`;
       const abortController = new AbortController();
       const timeoutId = setTimeout(() => abortController.abort(), 12000);
 
       try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload),
+        const response = await fetch(verifyUrl, {
+          method: 'GET',
           signal: abortController.signal
         });
         clearTimeout(timeoutId);
