@@ -1,1 +1,3806 @@
-{}
+{
+  "rpa-uipath-20-july-2026": {
+    "frozen": true,
+    "frozenAt": "2026-10-09T21:13:24.157528Z",
+    "course": "Advance Agentic RPA UiPath",
+    "batch": "RPA UiPath 20 July 2026",
+    "batchName": "RPA UiPath 20 July 2026",
+    "data": {
+      "batches": [
+        {
+          "id": "rpa-uipath-20-july-2026",
+          "name": "RPA UiPath 20 July 2026",
+          "isLive": false
+        }
+      ],
+      "batchInfo": {
+        "batchName": "RPA UiPath 20 July 2026",
+        "overallAttendanceRate": "73%",
+        "overallAttendanceSub": "329 of 448 marks",
+        "avgPresentPerClass": 12,
+        "avgPresentSub": "out of 16 candidates",
+        "classesHeld": 28,
+        "dateRangeSub": "Mon, 20 Jul 2026 \u2013 Tue, 15 Sep 2026",
+        "perfectAttendanceCount": 3,
+        "perfectAttendanceSub": "candidates, 0 absences",
+        "peakTurnout": 15,
+        "peakTurnoutSub": "20 Aug",
+        "totalStudents": 16,
+        "allClassDates": [
+          {
+            "dateStr": "2026-07-20",
+            "short": "20 Jul",
+            "full": "Mon, 20 Jul 2026",
+            "turnout": 10
+          },
+          {
+            "dateStr": "2026-07-21",
+            "short": "21 Jul",
+            "full": "Tue, 21 Jul 2026",
+            "turnout": 11
+          },
+          {
+            "dateStr": "2026-07-22",
+            "short": "22 Jul",
+            "full": "Wed, 22 Jul 2026",
+            "turnout": 11
+          },
+          {
+            "dateStr": "2026-07-23",
+            "short": "23 Jul",
+            "full": "Thu, 23 Jul 2026",
+            "turnout": 11
+          },
+          {
+            "dateStr": "2026-07-27",
+            "short": "27 Jul",
+            "full": "Mon, 27 Jul 2026",
+            "turnout": 10
+          },
+          {
+            "dateStr": "2026-07-30",
+            "short": "30 Jul",
+            "full": "Thu, 30 Jul 2026",
+            "turnout": 12
+          },
+          {
+            "dateStr": "2026-07-31",
+            "short": "31 Jul",
+            "full": "Fri, 31 Jul 2026",
+            "turnout": 9
+          },
+          {
+            "dateStr": "2026-08-03",
+            "short": "3 Aug",
+            "full": "Mon, 03 Aug 2026",
+            "turnout": 12
+          },
+          {
+            "dateStr": "2026-08-04",
+            "short": "4 Aug",
+            "full": "Tue, 04 Aug 2026",
+            "turnout": 13
+          },
+          {
+            "dateStr": "2026-08-05",
+            "short": "5 Aug",
+            "full": "Wed, 05 Aug 2026",
+            "turnout": 13
+          },
+          {
+            "dateStr": "2026-08-06",
+            "short": "6 Aug",
+            "full": "Thu, 06 Aug 2026",
+            "turnout": 12
+          },
+          {
+            "dateStr": "2026-08-11",
+            "short": "11 Aug",
+            "full": "Tue, 11 Aug 2026",
+            "turnout": 12
+          },
+          {
+            "dateStr": "2026-08-12",
+            "short": "12 Aug",
+            "full": "Wed, 12 Aug 2026",
+            "turnout": 13
+          },
+          {
+            "dateStr": "2026-08-14",
+            "short": "14 Aug",
+            "full": "Fri, 14 Aug 2026",
+            "turnout": 11
+          },
+          {
+            "dateStr": "2026-08-18",
+            "short": "18 Aug",
+            "full": "Tue, 18 Aug 2026",
+            "turnout": 13
+          },
+          {
+            "dateStr": "2026-08-19",
+            "short": "19 Aug",
+            "full": "Wed, 19 Aug 2026",
+            "turnout": 11
+          },
+          {
+            "dateStr": "2026-08-20",
+            "short": "20 Aug",
+            "full": "Thu, 20 Aug 2026",
+            "turnout": 15
+          },
+          {
+            "dateStr": "2026-08-24",
+            "short": "24 Aug",
+            "full": "Mon, 24 Aug 2026",
+            "turnout": 13
+          },
+          {
+            "dateStr": "2026-08-25",
+            "short": "25 Aug",
+            "full": "Tue, 25 Aug 2026",
+            "turnout": 14
+          },
+          {
+            "dateStr": "2026-08-26",
+            "short": "26 Aug",
+            "full": "Wed, 26 Aug 2026",
+            "turnout": 13
+          },
+          {
+            "dateStr": "2026-08-27",
+            "short": "27 Aug",
+            "full": "Thu, 27 Aug 2026",
+            "turnout": 12
+          },
+          {
+            "dateStr": "2026-08-31",
+            "short": "31 Aug",
+            "full": "Mon, 31 Aug 2026",
+            "turnout": 10
+          },
+          {
+            "dateStr": "2026-09-01",
+            "short": "1 Sep",
+            "full": "Tue, 01 Sep 2026",
+            "turnout": 12
+          },
+          {
+            "dateStr": "2026-09-02",
+            "short": "2 Sep",
+            "full": "Wed, 02 Sep 2026",
+            "turnout": 12
+          },
+          {
+            "dateStr": "2026-09-04",
+            "short": "4 Sep",
+            "full": "Fri, 04 Sep 2026",
+            "turnout": 10
+          },
+          {
+            "dateStr": "2026-09-07",
+            "short": "7 Sep",
+            "full": "Mon, 07 Sep 2026",
+            "turnout": 14
+          },
+          {
+            "dateStr": "2026-09-09",
+            "short": "9 Sep",
+            "full": "Wed, 09 Sep 2026",
+            "turnout": 11
+          },
+          {
+            "dateStr": "2026-09-15",
+            "short": "15 Sep",
+            "full": "Tue, 15 Sep 2026",
+            "turnout": 9
+          }
+        ]
+      },
+      "recentAbsentees": [
+        {
+          "dateStr": "2026-09-15",
+          "dateFormatted": "Tue, 15 Sep 2026",
+          "title": "Tue, 15 Sep 2026 Absentees",
+          "absentees": [
+            "Sharanu Padshetty",
+            "Andepapaiahgari Chaitanya kumar",
+            "Akshay paulkar",
+            "Sateesh kumar k c",
+            "Rohan",
+            "Veeresh",
+            "Chekreswar varma r"
+          ]
+        }
+      ],
+      "trend": {
+        "dates": [
+          "20 Jul",
+          "21 Jul",
+          "22 Jul",
+          "23 Jul",
+          "27 Jul",
+          "30 Jul",
+          "31 Jul",
+          "3 Aug",
+          "4 Aug",
+          "5 Aug",
+          "6 Aug",
+          "11 Aug",
+          "12 Aug",
+          "14 Aug",
+          "18 Aug",
+          "19 Aug",
+          "20 Aug",
+          "24 Aug",
+          "25 Aug",
+          "26 Aug",
+          "27 Aug",
+          "31 Aug",
+          "1 Sep",
+          "2 Sep",
+          "4 Sep",
+          "7 Sep",
+          "9 Sep",
+          "15 Sep"
+        ],
+        "counts": [
+          10,
+          11,
+          11,
+          11,
+          10,
+          12,
+          9,
+          12,
+          13,
+          13,
+          12,
+          12,
+          13,
+          11,
+          13,
+          11,
+          15,
+          13,
+          14,
+          13,
+          12,
+          10,
+          12,
+          12,
+          10,
+          14,
+          11,
+          9
+        ]
+      },
+      "students": [
+        {
+          "id": 2,
+          "name": "Gunashekar S",
+          "email": "guna2404@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 28,
+          "absent": 0,
+          "rate": 100,
+          "bestStreak": 28,
+          "currentStreak": 28,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": []
+        },
+        {
+          "id": 14,
+          "name": "Sreedharala Anusha",
+          "email": "anusri.sw@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 28,
+          "absent": 0,
+          "rate": 100,
+          "bestStreak": 28,
+          "currentStreak": 28,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": []
+        },
+        {
+          "id": 8,
+          "name": "Srinivas snv",
+          "email": "nvsrinivass@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 28,
+          "absent": 0,
+          "rate": 100,
+          "bestStreak": 28,
+          "currentStreak": 28,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": []
+        },
+        {
+          "id": 16,
+          "name": "Rama Jyoshna Bijjam",
+          "email": "ramajyoshnabijjam@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 27,
+          "absent": 1,
+          "rate": 96,
+          "bestStreak": 14,
+          "currentStreak": 14,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": [
+            "14 Aug"
+          ]
+        },
+        {
+          "id": 12,
+          "name": "Sharanu Padshetty",
+          "email": "spsharnu@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 26,
+          "absent": 2,
+          "rate": 93,
+          "bestStreak": 26,
+          "currentStreak": 0,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Absent"
+            }
+          ],
+          "absentDates": [
+            "9 Sep",
+            "15 Sep"
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Vikas",
+          "email": "rpauipathvikas@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 26,
+          "absent": 2,
+          "rate": 93,
+          "bestStreak": 21,
+          "currentStreak": 21,
+          "joinedFormatted": "Tue, 21 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": [
+            "20 Jul",
+            "31 Jul"
+          ]
+        },
+        {
+          "id": 6,
+          "name": "kalyani BandariBandari",
+          "email": "kalyani.bandari57@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 26,
+          "absent": 2,
+          "rate": 93,
+          "bestStreak": 15,
+          "currentStreak": 15,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": [
+            "11 Aug",
+            "12 Aug"
+          ]
+        },
+        {
+          "id": 13,
+          "name": "Andepapaiahgari Chaitanya kumar",
+          "email": "apchaitanya123@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 24,
+          "absent": 4,
+          "rate": 86,
+          "bestStreak": 16,
+          "currentStreak": 0,
+          "joinedFormatted": "Tue, 21 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Absent"
+            }
+          ],
+          "absentDates": [
+            "20 Jul",
+            "31 Jul",
+            "6 Aug",
+            "15 Sep"
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Lava kumar salagala",
+          "email": "lavasalagala3880@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 23,
+          "absent": 5,
+          "rate": 82,
+          "bestStreak": 10,
+          "currentStreak": 6,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": [
+            "21 Jul",
+            "22 Jul",
+            "27 Jul",
+            "19 Aug",
+            "31 Aug"
+          ]
+        },
+        {
+          "id": 10,
+          "name": "Niharika",
+          "email": "niharika.dwps@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 21,
+          "absent": 7,
+          "rate": 75,
+          "bestStreak": 10,
+          "currentStreak": 3,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": [
+            "27 Jul",
+            "30 Jul",
+            "31 Jul",
+            "3 Aug",
+            "6 Aug",
+            "31 Aug",
+            "4 Sep"
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Akshay paulkar",
+          "email": "akshaypaulkar1111@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 20,
+          "absent": 8,
+          "rate": 71,
+          "bestStreak": 17,
+          "currentStreak": 0,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Absent"
+            }
+          ],
+          "absentDates": [
+            "21 Jul",
+            "22 Jul",
+            "23 Jul",
+            "27 Jul",
+            "30 Jul",
+            "31 Jul",
+            "4 Sep",
+            "15 Sep"
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Sateesh kumar k c",
+          "email": "sateeshncet@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 20,
+          "absent": 8,
+          "rate": 71,
+          "bestStreak": 12,
+          "currentStreak": 0,
+          "joinedFormatted": "Tue, 21 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Absent"
+            }
+          ],
+          "absentDates": [
+            "20 Jul",
+            "14 Aug",
+            "19 Aug",
+            "24 Aug",
+            "27 Aug",
+            "31 Aug",
+            "1 Sep",
+            "15 Sep"
+          ]
+        },
+        {
+          "id": 15,
+          "name": "Swathi SriLakshmi Chodisetti",
+          "email": "swathi.sri7095@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 18,
+          "absent": 10,
+          "rate": 64,
+          "bestStreak": 14,
+          "currentStreak": 1,
+          "joinedFormatted": "Thu, 30 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Present"
+            }
+          ],
+          "absentDates": [
+            "20 Jul",
+            "21 Jul",
+            "22 Jul",
+            "23 Jul",
+            "27 Jul",
+            "4 Aug",
+            "2 Sep",
+            "4 Sep",
+            "7 Sep",
+            "9 Sep"
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Rohan",
+          "email": "rohanjs94blr@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 8,
+          "absent": 20,
+          "rate": 29,
+          "bestStreak": 3,
+          "currentStreak": 0,
+          "joinedFormatted": "Mon, 27 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Absent"
+            }
+          ],
+          "absentDates": [
+            "20 Jul",
+            "21 Jul",
+            "22 Jul",
+            "23 Jul",
+            "31 Jul",
+            "3 Aug",
+            "5 Aug",
+            "11 Aug",
+            "14 Aug",
+            "18 Aug",
+            "19 Aug",
+            "26 Aug",
+            "27 Aug",
+            "31 Aug",
+            "1 Sep",
+            "2 Sep",
+            "4 Sep",
+            "7 Sep",
+            "9 Sep",
+            "15 Sep"
+          ]
+        },
+        {
+          "id": 11,
+          "name": "Veeresh",
+          "email": "veereshkumarc9@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 4,
+          "absent": 24,
+          "rate": 14,
+          "bestStreak": 3,
+          "currentStreak": 0,
+          "joinedFormatted": "Mon, 20 Jul 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Absent"
+            }
+          ],
+          "absentDates": [
+            "23 Jul",
+            "27 Jul",
+            "30 Jul",
+            "31 Jul",
+            "3 Aug",
+            "4 Aug",
+            "5 Aug",
+            "6 Aug",
+            "11 Aug",
+            "12 Aug",
+            "14 Aug",
+            "18 Aug",
+            "19 Aug",
+            "20 Aug",
+            "24 Aug",
+            "25 Aug",
+            "26 Aug",
+            "27 Aug",
+            "31 Aug",
+            "1 Sep",
+            "2 Sep",
+            "4 Sep",
+            "9 Sep",
+            "15 Sep"
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Chekreswar varma r",
+          "email": "chekreswarvarmar@gmail.com",
+          "batch": "RPA UiPath 20 July 2026",
+          "course": "Advance Agentic RPA UiPath",
+          "present": 2,
+          "absent": 26,
+          "rate": 7,
+          "bestStreak": 1,
+          "currentStreak": 0,
+          "joinedFormatted": "Thu, 20 Aug 2026",
+          "calendarTiles": [
+            {
+              "dateStr": "2026-07-20",
+              "dayNum": 20,
+              "formatted": "Mon, 20 Jul 2026",
+              "short": "20 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-21",
+              "dayNum": 21,
+              "formatted": "Tue, 21 Jul 2026",
+              "short": "21 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-22",
+              "dayNum": 22,
+              "formatted": "Wed, 22 Jul 2026",
+              "short": "22 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-23",
+              "dayNum": 23,
+              "formatted": "Thu, 23 Jul 2026",
+              "short": "23 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-27",
+              "dayNum": 27,
+              "formatted": "Mon, 27 Jul 2026",
+              "short": "27 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-30",
+              "dayNum": 30,
+              "formatted": "Thu, 30 Jul 2026",
+              "short": "30 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-07-31",
+              "dayNum": 31,
+              "formatted": "Fri, 31 Jul 2026",
+              "short": "31 Jul",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-03",
+              "dayNum": 3,
+              "formatted": "Mon, 03 Aug 2026",
+              "short": "3 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-04",
+              "dayNum": 4,
+              "formatted": "Tue, 04 Aug 2026",
+              "short": "4 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-05",
+              "dayNum": 5,
+              "formatted": "Wed, 05 Aug 2026",
+              "short": "5 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-06",
+              "dayNum": 6,
+              "formatted": "Thu, 06 Aug 2026",
+              "short": "6 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-11",
+              "dayNum": 11,
+              "formatted": "Tue, 11 Aug 2026",
+              "short": "11 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-12",
+              "dayNum": 12,
+              "formatted": "Wed, 12 Aug 2026",
+              "short": "12 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-14",
+              "dayNum": 14,
+              "formatted": "Fri, 14 Aug 2026",
+              "short": "14 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-18",
+              "dayNum": 18,
+              "formatted": "Tue, 18 Aug 2026",
+              "short": "18 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-19",
+              "dayNum": 19,
+              "formatted": "Wed, 19 Aug 2026",
+              "short": "19 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-20",
+              "dayNum": 20,
+              "formatted": "Thu, 20 Aug 2026",
+              "short": "20 Aug",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-08-24",
+              "dayNum": 24,
+              "formatted": "Mon, 24 Aug 2026",
+              "short": "24 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-25",
+              "dayNum": 25,
+              "formatted": "Tue, 25 Aug 2026",
+              "short": "25 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-26",
+              "dayNum": 26,
+              "formatted": "Wed, 26 Aug 2026",
+              "short": "26 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-27",
+              "dayNum": 27,
+              "formatted": "Thu, 27 Aug 2026",
+              "short": "27 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-08-31",
+              "dayNum": 31,
+              "formatted": "Mon, 31 Aug 2026",
+              "short": "31 Aug",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-01",
+              "dayNum": 1,
+              "formatted": "Tue, 01 Sep 2026",
+              "short": "1 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-02",
+              "dayNum": 2,
+              "formatted": "Wed, 02 Sep 2026",
+              "short": "2 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-04",
+              "dayNum": 4,
+              "formatted": "Fri, 04 Sep 2026",
+              "short": "4 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-07",
+              "dayNum": 7,
+              "formatted": "Mon, 07 Sep 2026",
+              "short": "7 Sep",
+              "status": "Present"
+            },
+            {
+              "dateStr": "2026-09-09",
+              "dayNum": 9,
+              "formatted": "Wed, 09 Sep 2026",
+              "short": "9 Sep",
+              "status": "Absent"
+            },
+            {
+              "dateStr": "2026-09-15",
+              "dayNum": 15,
+              "formatted": "Tue, 15 Sep 2026",
+              "short": "15 Sep",
+              "status": "Absent"
+            }
+          ],
+          "absentDates": [
+            "20 Jul",
+            "21 Jul",
+            "22 Jul",
+            "23 Jul",
+            "27 Jul",
+            "30 Jul",
+            "31 Jul",
+            "3 Aug",
+            "4 Aug",
+            "5 Aug",
+            "6 Aug",
+            "11 Aug",
+            "12 Aug",
+            "14 Aug",
+            "18 Aug",
+            "19 Aug",
+            "24 Aug",
+            "25 Aug",
+            "26 Aug",
+            "27 Aug",
+            "31 Aug",
+            "1 Sep",
+            "2 Sep",
+            "4 Sep",
+            "9 Sep",
+            "15 Sep"
+          ]
+        }
+      ]
+    }
+  }
+}

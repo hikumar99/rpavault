@@ -3712,6 +3712,9 @@ permalink: /join-live/
 
       // 1. Check frozen localStorage batches FIRST — supports completed batches removed from GSheet
       try {
+        if (!serverFrozenBatchesStore || Object.keys(serverFrozenBatchesStore).length === 0) {
+          await loadServerFrozenBatches();
+        }
         const store = getFrozenBatchesStore();
         for (const [batchKey, batchRecord] of Object.entries(store)) {
           if (!batchRecord || !batchRecord.data || !batchRecord.data.students) continue;
@@ -4595,7 +4598,7 @@ permalink: /join-live/
     const cleanKey = slugify(batchKey);
     for (const k of Object.keys(store)) {
       const kSlug = slugify(k);
-      if (kSlug === cleanKey || kSlug.endsWith(cleanKey) || cleanKey.endsWith(kSlug)) {
+      if (kSlug === cleanKey || kSlug.endsWith(cleanKey) || cleanKey.endsWith(kSlug) || kSlug.includes(cleanKey) || cleanKey.includes(kSlug)) {
         return true;
       }
     }
@@ -4752,7 +4755,7 @@ permalink: /join-live/
       const store = getFrozenBatchesStore();
       for (const [key, record] of Object.entries(store)) {
         const kSlug = slugify(key);
-        if ((kSlug === currentSelectedBatch || kSlug.endsWith(currentSelectedBatch) || currentSelectedBatch.endsWith(kSlug)) && record && record.data) {
+        if ((kSlug === currentSelectedBatch || kSlug.endsWith(currentSelectedBatch) || currentSelectedBatch.endsWith(kSlug) || kSlug.includes(currentSelectedBatch) || currentSelectedBatch.includes(kSlug)) && record && record.data) {
           sourceData = record.data;
           break;
         }
@@ -4765,8 +4768,11 @@ permalink: /join-live/
       const targetSlug = currentSelectedBatch;
       const filtered = data.students.filter(s => {
         const sSlug = slugify(s.batch || '');
-        return sSlug === targetSlug || s.batch === selectedBatchName || slugify(selectedBatchName) === sSlug;
+        return sSlug === targetSlug || s.batch === selectedBatchName || slugify(selectedBatchName) === sSlug || sSlug.includes(targetSlug) || targetSlug.includes(sSlug);
       });
+      if (filtered.length === 0 && frozen) {
+        return data;
+      }
       return Object.assign({}, data, { students: filtered });
     }
 
@@ -5042,12 +5048,12 @@ permalink: /join-live/
     }, 80);
 
     // Check if batch is already frozen in local store
-    const batchKey = currentSelectedBatch;
+    const batchKey = currentSelectedBatch || currentUserEnrolledBatch;
     if (batchKey && isBatchFrozen(batchKey)) {
       const frozenStore = getFrozenBatchesStore();
       for (const [key, record] of Object.entries(frozenStore)) {
         const kSlug = slugify(key);
-        if ((kSlug === batchKey || kSlug.endsWith(batchKey) || batchKey.endsWith(kSlug)) && record && record.data) {
+        if ((kSlug === batchKey || kSlug.endsWith(batchKey) || batchKey.endsWith(kSlug) || kSlug.includes(batchKey) || batchKey.includes(kSlug)) && record && record.data) {
           if (loadingState) loadingState.style.display = 'none';
           if (mainContent) mainContent.style.display = 'block';
           currentDashboardData = record.data;
