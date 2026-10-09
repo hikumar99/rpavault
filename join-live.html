@@ -3136,18 +3136,12 @@ permalink: /join-live/
       <div class="dash-header-left">
         <div class="dash-title-row">
           <h2>Attendance Dashboard</h2>
-          <!-- Course & Batch selector pills beside title -->
+          <!-- Single Batch selector pill beside title -->
           <div class="dash-pills-bar">
-            <span class="dash-pill-label">Course</span>
-            <div class="dash-pill-wrap">
-              <select id="dashCourseSelect" class="dash-pill-select" onchange="onDashCourseChange()">
-                <!-- Dynamic courses populated from GSheet data -->
-              </select>
-            </div>
             <span class="dash-pill-label">Batch</span>
             <div class="dash-pill-wrap">
               <select id="dashBatchSelect" class="dash-pill-select" onchange="onDashBatchChange()">
-                <!-- Dynamic batches populated from data -->
+                <!-- Dynamic batches populated from Google Sheet Settings Column F -->
               </select>
             </div>
           </div>
@@ -3612,22 +3606,13 @@ permalink: /join-live/
             }
             currentDashboardData = batchRecord.data;
             initCourseAndBatchDropdowns(currentDashboardData);
-            // Force-select the frozen course+batch
-            const [courseSlug] = batchKey.split('_');
-            const courseSelect = document.getElementById('dashCourseSelect');
-            if (courseSelect && availableBatchesByCourse[courseSlug]) {
-              courseSelect.value = courseSlug;
-              populateBatchDropdown();
-              const batchSelect = document.getElementById('dashBatchSelect');
-              if (batchSelect) {
-                // Find the batch option that matches
-                for (const opt of batchSelect.options) {
-                  const cleanOpt = opt.text.replace(/ ● Live$/, '').replace(/ ✓ Completed$/, '').trim();
-                  const meB = (me && me.batch) ? me.batch.trim() : '';
-                  if (meB && cleanOpt.toLowerCase() === meB.toLowerCase()) {
-                    batchSelect.value = opt.value;
-                    break;
-                  }
+            const batchSelect = document.getElementById('dashBatchSelect');
+            if (batchSelect) {
+              const targetSlug = slugify(batchKey);
+              for (const opt of batchSelect.options) {
+                if (opt.value === targetSlug || slugify(opt.value).includes(targetSlug) || targetSlug.includes(slugify(opt.value))) {
+                  batchSelect.value = opt.value;
+                  break;
                 }
               }
             }
@@ -4458,10 +4443,8 @@ permalink: /join-live/
   let currentUserEmail = "";
   let currentUserIsAdmin = false;
   let currentUserEnrolledBatch = "";
-  let currentSelectedCourse = "";
   let currentSelectedBatch = "";
-  // Courses/batches built dynamically from GSheet data; starts empty
-  let availableBatchesByCourse = {};
+  let availableBatches = [];
 
   let serverFrozenBatchesStore = {};
 
@@ -4485,9 +4468,17 @@ permalink: /join-live/
     return Object.assign({}, local, serverFrozenBatchesStore || {});
   }
 
-  function isBatchFrozen(courseId, batchId) {
+  function isBatchFrozen(batchKey) {
+    if (!batchKey) return false;
     const store = getFrozenBatchesStore();
-    return !!store[`${courseId}_${batchId}`];
+    const cleanKey = slugify(batchKey);
+    for (const k of Object.keys(store)) {
+      const kSlug = slugify(k);
+      if (kSlug === cleanKey || kSlug.endsWith(cleanKey) || cleanKey.endsWith(kSlug)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   function slugify(str) {
@@ -4495,85 +4486,56 @@ permalink: /join-live/
   }
 
   function initCourseAndBatchDropdowns(data) {
-    const courseSelect = document.getElementById('dashCourseSelect');
     const batchSelect = document.getElementById('dashBatchSelect');
-    if (!courseSelect || !batchSelect) return;
+    if (!batchSelect) return;
 
-    // Build courses and batches dynamically from student data and sheet batch list
-    availableBatchesByCourse = {};
+    availableBatches = [];
     const liveBatchName = (data && data.batchInfo && data.batchInfo.batchName) ? data.batchInfo.batchName.trim() : '';
 
-    // Helper to filter out fake date batches
-    function isGenuineBatchName(b) {
-      if (!b) return false;
-      const s = b.trim();
-      // Exclude single daily dates like "01 Sep 2026 Batch", "02 Sep", "16 Sep"
-      if (/^(0[1-9]|1[0-6])\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(s)) return false;
-      return true;
-    }
-
-    // If backend returns explicit sheet batches list, use ONLY those
+    // 1. From backend explicit batches array (Settings Column F / Registered Students Column D)
     if (data && data.batches && Array.isArray(data.batches) && data.batches.length > 0) {
       data.batches.forEach(function(bInfo) {
-        const course = (bInfo.course || 'RPA / UiPath').trim();
-        const batch = (bInfo.name || bInfo.batch || '').trim();
-        if (!batch || !isGenuineBatchName(batch)) return;
-        const courseKey = slugify(course);
-        if (!availableBatchesByCourse[courseKey]) {
-          availableBatchesByCourse[courseKey] = { label: course, batches: [] };
-        }
-        const existing = availableBatchesByCourse[courseKey].batches;
-        if (!existing.some(b => b.name === batch)) {
-          const isLive = liveBatchName && batch.toLowerCase() === liveBatchName.toLowerCase();
-          existing.push({
-            id: slugify(courseKey + '-' + batch),
-            name: batch,
+        const raw = (bInfo.name || bInfo.batch || '').trim();
+        if (!raw) return;
+        const bId = bInfo.id || slugify(raw);
+        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(raw))) {
+          const isLive = liveBatchName && slugify(raw) === slugify(liveBatchName);
+          availableBatches.push({
+            id: bId,
+            name: raw,
             isLive: isLive,
             isDefault: isLive
           });
         }
       });
     } else if (data && data.students) {
+      // 2. Fallback: extract distinct batches from student records
       data.students.forEach(function(s) {
-        const course = (s.course || 'RPA / UiPath').trim();
-        const batch = (s.batch || '').trim();
-        if (!isGenuineBatchName(batch)) return;
-        const courseKey = slugify(course);
-
-        if (!availableBatchesByCourse[courseKey]) {
-          availableBatchesByCourse[courseKey] = { label: course, batches: [] };
-        }
-
-        if (batch) {
-          const existing = availableBatchesByCourse[courseKey].batches;
-          if (!existing.some(b => b.name === batch)) {
-            const isLive = liveBatchName && batch.toLowerCase() === liveBatchName.toLowerCase();
-            existing.push({
-              id: slugify(courseKey + '-' + batch),
-              name: batch,
-              isLive: isLive,
-              isDefault: isLive
-            });
-          }
+        const raw = (s.batch || '').trim();
+        if (!raw) return;
+        const bId = slugify(raw);
+        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(raw))) {
+          const isLive = liveBatchName && slugify(raw) === slugify(liveBatchName);
+          availableBatches.push({
+            id: bId,
+            name: raw,
+            isLive: isLive,
+            isDefault: isLive
+          });
         }
       });
     }
 
-    // Also merge any completed/frozen batches from frozen batches store
+    // 3. Merge frozen batches from local & server archive
     try {
       const fStore = getFrozenBatchesStore();
       for (const [fKey, fRecord] of Object.entries(fStore)) {
         if (!fRecord) continue;
-        const [cSlug, bSlug] = fKey.split('_');
-        const cLabel = fRecord.courseName || 'RPA / UiPath';
-        const bName = fRecord.batchName || 'Archived Batch';
-        if (!availableBatchesByCourse[cSlug]) {
-          availableBatchesByCourse[cSlug] = { label: cLabel, batches: [] };
-        }
-        const existing = availableBatchesByCourse[cSlug].batches;
-        if (!existing.some(b => b.id === bSlug || b.name === bName)) {
-          existing.push({
-            id: bSlug || slugify(cSlug + '-' + bName),
+        const bName = fRecord.batchName || fKey.replace(/^[^_]+_/, '');
+        const bId = slugify(bName);
+        if (!availableBatches.some(b => b.id === bId || slugify(b.name) === slugify(bName))) {
+          availableBatches.push({
+            id: bId,
             name: bName,
             isLive: false,
             isDefault: false
@@ -4582,105 +4544,48 @@ permalink: /join-live/
       }
     } catch (_) {}
 
-    // If no data, create a placeholder
-    if (Object.keys(availableBatchesByCourse).length === 0) {
-      availableBatchesByCourse['rpa-uipath'] = { label: 'RPA / UiPath', batches: [{ id: 'batch-live', name: liveBatchName || 'Live Batch', isLive: true, isDefault: true }] };
+    if (availableBatches.length === 0) {
+      availableBatches.push({ id: 'batch-live', name: liveBatchName || 'Live RPA Batch', isLive: true, isDefault: true });
     }
 
-    // Populate course dropdown
-    courseSelect.innerHTML = Object.keys(availableBatchesByCourse).map(key => {
-      const info = availableBatchesByCourse[key];
-      return `<option value="${key}">${escapeHTML(info.label)}</option>`;
-    }).join('');
-
-    // Pre-select user's enrolled course and batch if known
-    let defaultCourse = Object.keys(availableBatchesByCourse)[0];
-    if (data && data.students && currentUserEmail) {
+    // Determine target batch to select for logged-in user
+    let targetBatch = currentUserEnrolledBatch || '';
+    if (!targetBatch && data && data.students && currentUserEmail) {
       const me = data.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
-      if (me) {
-        if (me.batch) currentUserEnrolledBatch = me.batch;
-        if (me.course) {
-          const key = slugify(me.course);
-          if (availableBatchesByCourse[key]) defaultCourse = key;
-        }
-      }
-    } else if (currentUserEnrolledBatch) {
-      for (const [key, info] of Object.entries(availableBatchesByCourse)) {
-        if (info.batches.some(b => b.name.toLowerCase().includes(currentUserEnrolledBatch.toLowerCase()) || currentUserEnrolledBatch.toLowerCase().includes(b.name.toLowerCase()))) {
-          defaultCourse = key;
-          break;
-        }
+      if (me && me.batch) {
+        targetBatch = me.batch;
+        currentUserEnrolledBatch = me.batch;
       }
     }
-    courseSelect.value = defaultCourse;
-    currentSelectedCourse = defaultCourse;
 
-    populateBatchDropdown();
-  }
-
-  function populateBatchDropdown() {
-    const courseSelect = document.getElementById('dashCourseSelect');
-    const batchSelect = document.getElementById('dashBatchSelect');
-    if (!courseSelect || !batchSelect) return;
-
-    const courseKey = courseSelect.value || Object.keys(availableBatchesByCourse)[0] || 'rpa-uipath';
-    currentSelectedCourse = courseKey;
-    const courseInfo = availableBatchesByCourse[courseKey];
-    const batches = courseInfo ? courseInfo.batches : [];
-
-    if (batches.length === 0) {
-      batchSelect.innerHTML = '<option value="batch-live">● Current Cohort</option>';
-      currentSelectedBatch = 'batch-live';
-      return;
+    let selectedIdx = 0;
+    if (targetBatch) {
+      const tSlug = slugify(targetBatch);
+      const foundIdx = availableBatches.findIndex(b => b.id === tSlug || slugify(b.name) === tSlug);
+      if (foundIdx >= 0) selectedIdx = foundIdx;
     }
 
-    // Determine target batch name for logged in student if applicable
-    let targetBatchName = currentUserEnrolledBatch || '';
-    if (!targetBatchName && currentDashboardData && currentDashboardData.students && currentUserEmail) {
-      const me = currentDashboardData.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
-      if (me && me.batch) targetBatchName = me.batch;
-    }
-
-    let matchedIdx = -1;
-    if (targetBatchName) {
-      const targetClean = targetBatchName.replace(/\bBatch\b/gi, '').trim().toLowerCase();
-      matchedIdx = batches.findIndex(b => {
-        const bClean = b.name.replace(/\bBatch\b/gi, '').trim().toLowerCase();
-        return bClean === targetClean || bClean.includes(targetClean) || targetClean.includes(bClean);
-      });
-    }
-
-    batchSelect.innerHTML = batches.map((b, idx) => {
-      const frozen = isBatchFrozen(currentSelectedCourse, b.id);
-      // Strip redundant "Batch" word from display name
-      const cleanName = b.name.replace(/\bBatch\b/gi, '').replace(/\s{2,}/g, ' ').trim();
+    // Render batch options
+    batchSelect.innerHTML = availableBatches.map((b, idx) => {
+      const frozen = isBatchFrozen(b.id);
       const prefix = frozen ? '✓ ' : '● ';
-      const isSelected = matchedIdx >= 0 ? (idx === matchedIdx) : (b.isDefault || idx === 0);
-      return `<option value="${b.id}" ${isSelected ? 'selected' : ''}>${prefix}${escapeHTML(cleanName)}</option>`;
+      const isSelected = (idx === selectedIdx);
+      return `<option value="${b.id}" ${isSelected ? 'selected' : ''}>${prefix}${escapeHTML(b.name)}</option>`;
     }).join('');
 
     currentSelectedBatch = batchSelect.value;
-  }
-
-  function onDashCourseChange() {
-    populateBatchDropdown();
     onDashBatchChange();
   }
 
   function onDashBatchChange() {
-    const courseSelect = document.getElementById('dashCourseSelect');
     const batchSelect = document.getElementById('dashBatchSelect');
-    if (!courseSelect || !batchSelect) return;
+    if (!batchSelect) return;
 
-    currentSelectedCourse = courseSelect.value;
     currentSelectedBatch = batchSelect.value;
-    // Strip the ● / ✓ prefix and any "Batch" word from display name
     const rawOption = batchSelect.options[batchSelect.selectedIndex] ? batchSelect.options[batchSelect.selectedIndex].text : '';
-    const selectedBatchName = rawOption.replace(/^[●✓]\s*/, '').replace(/\bBatch\b/gi, '').replace(/\s{2,}/g, ' ').trim();
-    const selectedCourseName = courseSelect.options[courseSelect.selectedIndex] ? courseSelect.options[courseSelect.selectedIndex].text : '';
+    const selectedBatchName = rawOption.replace(/^[●✓]\s*/, '').trim();
 
-    const frozen = isBatchFrozen(currentSelectedCourse, currentSelectedBatch);
-    // Frozen banner
+    const frozen = isBatchFrozen(currentSelectedBatch);
     const frozenBanner = document.getElementById('dashFrozenBanner');
     const freezeFooter = document.getElementById('dashFreezeFooter');
     const freezeBtn = document.getElementById('dashFreezeBatchBtn');
@@ -4699,30 +4604,31 @@ permalink: /join-live/
     const unauthorizedNotice = document.getElementById('dashUnauthorizedNotice');
     const mainContent = document.getElementById('dashMainContent');
 
-    // Get data source: frozen local data or live API data
+    // Get data source: frozen archive data or live API data
     let sourceData = currentDashboardData;
     if (frozen) {
       const store = getFrozenBatchesStore();
-      const key = `${currentSelectedCourse}_${currentSelectedBatch}`;
-      if (store[key] && store[key].data) sourceData = store[key].data;
+      for (const [key, record] of Object.entries(store)) {
+        const kSlug = slugify(key);
+        if ((kSlug === currentSelectedBatch || kSlug.endsWith(currentSelectedBatch) || currentSelectedBatch.endsWith(kSlug)) && record && record.data) {
+          sourceData = record.data;
+          break;
+        }
+      }
     }
 
-    // Filter students to only those belonging to selected course + batch
+    // Filter students strictly by selected batch
     function getFilteredData(data) {
       if (!data || !data.students) return data;
-      const cleanSelectedBatch = selectedBatchName.replace(/\bBatch\b/gi, '').trim().toLowerCase();
+      const targetSlug = currentSelectedBatch;
       const filtered = data.students.filter(s => {
-        const sCourse = slugify(s.course || '');
-        const sBatchClean = (s.batch || '').replace(/\bBatch\b/gi, '').trim().toLowerCase();
-        const courseMatch = !s.course || sCourse === currentSelectedCourse || slugify(selectedCourseName).includes(sCourse) || sCourse.includes(slugify(selectedCourseName));
-        const batchMatch = !s.batch || sBatchClean === cleanSelectedBatch || cleanSelectedBatch.includes(sBatchClean) || sBatchClean.includes(cleanSelectedBatch);
-        return courseMatch && batchMatch;
+        const sSlug = slugify(s.batch || '');
+        return sSlug === targetSlug || s.batch === selectedBatchName || slugify(selectedBatchName) === sSlug;
       });
-      // Recompute batchInfo based on filtered students only
       return Object.assign({}, data, { students: filtered });
     }
 
-    // Admin: universal access to all course+batch combos
+    // Admin: universal access to all batches
     if (currentUserIsAdmin) {
       if (freezeFooter) freezeFooter.style.display = 'flex';
       if (unauthorizedNotice) unauthorizedNotice.style.display = 'none';
@@ -4734,17 +4640,13 @@ permalink: /join-live/
     // Non-admin: hide freeze button
     if (freezeFooter) freezeFooter.style.display = 'none';
 
-    // Check if this student is enrolled in selected course+batch
+    // Check if this student is enrolled in selected batch
     let isEnrolledInBatch = false;
-    const cleanSelectedBatch = selectedBatchName.replace(/\bBatch\b/gi, '').trim().toLowerCase();
     if (sourceData && sourceData.students) {
       isEnrolledInBatch = sourceData.students.some(s => {
         if (s.email.toLowerCase() !== currentUserEmail.toLowerCase()) return false;
-        const sCourse = slugify(s.course || '');
-        const sBatchClean = (s.batch || '').replace(/\bBatch\b/gi, '').trim().toLowerCase();
-        const courseMatch = !s.course || sCourse === currentSelectedCourse || slugify(selectedCourseName).includes(sCourse) || sCourse.includes(slugify(selectedCourseName));
-        const batchMatch = !s.batch || sBatchClean === cleanSelectedBatch || cleanSelectedBatch.includes(sBatchClean) || sBatchClean.includes(cleanSelectedBatch);
-        return courseMatch && batchMatch;
+        const sSlug = slugify(s.batch || '');
+        return sSlug === currentSelectedBatch || s.batch === selectedBatchName || slugify(selectedBatchName) === sSlug;
       });
     }
 
@@ -4754,7 +4656,7 @@ permalink: /join-live/
         const noticeEmail = document.getElementById('dashNoticeEmail');
         const noticeBatch = document.getElementById('dashNoticeBatchName');
         if (noticeEmail) noticeEmail.textContent = currentUserEmail || 'Candidate';
-        if (noticeBatch) noticeBatch.textContent = `${selectedCourseName} – ${selectedBatchName}`;
+        if (noticeBatch) noticeBatch.textContent = selectedBatchName;
       }
       if (mainContent) mainContent.style.display = 'none';
     } else {
@@ -4765,22 +4667,22 @@ permalink: /join-live/
   }
 
   function switchToUserEnrolledBatch() {
-    const courseSelect = document.getElementById('dashCourseSelect');
     const batchSelect = document.getElementById('dashBatchSelect');
-    // Find user's enrolled course and batch from data
+    if (!batchSelect) return;
+
     if (currentDashboardData && currentDashboardData.students && currentUserEmail) {
       const me = currentDashboardData.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
-      if (me) {
-        if (me.course) {
-          const key = slugify(me.course);
-          if (courseSelect && availableBatchesByCourse[key]) courseSelect.value = key;
-        }
-        if (me.batch) {
-          currentUserEnrolledBatch = me.batch;
+      if (me && me.batch) {
+        currentUserEnrolledBatch = me.batch;
+        const targetSlug = slugify(me.batch);
+        for (const opt of batchSelect.options) {
+          if (opt.value === targetSlug || slugify(opt.text).includes(targetSlug)) {
+            batchSelect.value = opt.value;
+            break;
+          }
         }
       }
     }
-    populateBatchDropdown();
     onDashBatchChange();
   }
 
@@ -4852,9 +4754,8 @@ permalink: /join-live/
       const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToDownload, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", jsonStr);
-      const courseSlug = slugify(freezeModalTarget.course || currentSelectedCourse || 'course');
       const batchSlug = slugify(freezeModalTarget.batch || currentSelectedBatch || 'batch');
-      downloadAnchor.setAttribute("download", `attendance-${courseSlug}-${batchSlug}-finalized.json`);
+      downloadAnchor.setAttribute("download", `attendance-${batchSlug}-finalized.json`);
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
@@ -4957,18 +4858,16 @@ permalink: /join-live/
       return;
     }
 
-    const courseSelect = document.getElementById('dashCourseSelect');
     const batchSelect = document.getElementById('dashBatchSelect');
-    const courseName = courseSelect ? courseSelect.options[courseSelect.selectedIndex].text : currentSelectedCourse;
-    const batchName = batchSelect ? batchSelect.options[batchSelect.selectedIndex].text : currentSelectedBatch;
-    const batchKey = `${currentSelectedCourse}_${currentSelectedBatch}`;
+    const batchName = batchSelect ? batchSelect.options[batchSelect.selectedIndex].text.replace(/^[●✓]\s*/, '').trim() : currentSelectedBatch;
+    const batchKey = currentSelectedBatch;
 
     const store = getFrozenBatchesStore();
-    const currentlyFrozen = !!store[batchKey];
+    const currentlyFrozen = isBatchFrozen(batchKey);
 
     if (!currentlyFrozen) {
       // Open the popup modal asking for file upload (or active data) and commit confirmation
-      openFreezeModal(courseName, batchName, batchKey);
+      openFreezeModal('RPA Vault', batchName, batchKey);
     } else {
       const confirmUnfreeze = confirm(`Unfreeze Batch: Do you want to unfreeze "${batchName}" and return to live sync mode?`);
       if (!confirmUnfreeze) return;
@@ -5001,15 +4900,20 @@ permalink: /join-live/
     }, 80);
 
     // Check if batch is already frozen in local store
-    const batchKey = `${currentSelectedCourse}_${currentSelectedBatch}`;
-    const frozenStore = getFrozenBatchesStore();
-    if (frozenStore[batchKey] && frozenStore[batchKey].data) {
-      if (loadingState) loadingState.style.display = 'none';
-      if (mainContent) mainContent.style.display = 'block';
-      currentDashboardData = frozenStore[batchKey].data;
-      initCourseAndBatchDropdowns(currentDashboardData);
-      onDashBatchChange();
-      return;
+    const batchKey = currentSelectedBatch;
+    if (batchKey && isBatchFrozen(batchKey)) {
+      const frozenStore = getFrozenBatchesStore();
+      for (const [key, record] of Object.entries(frozenStore)) {
+        const kSlug = slugify(key);
+        if ((kSlug === batchKey || kSlug.endsWith(batchKey) || batchKey.endsWith(kSlug)) && record && record.data) {
+          if (loadingState) loadingState.style.display = 'none';
+          if (mainContent) mainContent.style.display = 'block';
+          currentDashboardData = record.data;
+          initCourseAndBatchDropdowns(currentDashboardData);
+          onDashBatchChange();
+          return;
+        }
+      }
     }
 
     // Check client sessionStorage cache (5 min TTL) for ultra-fast instant rendering

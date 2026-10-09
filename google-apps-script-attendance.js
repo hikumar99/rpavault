@@ -1,14 +1,24 @@
 /**
  * Google Apps Script for RPAVault Live Class Attendance & Dynamic Dashboard
  * 
- * Google Sheet Tabs:
- * 1. "Registered_Students": Name | Email | Mobile Number | Batch | Course
- * 2. "Settings" (Optional): Meeting_URL | Admin_Email | Batches & Joining Links
- * 3. "Attendance_Logs" (22 Columns): Timestamp | Email | IP | City | Region | Country | OS | Browser | Device | Screen | Lang | Visitor Type | Visitor ID | Visit Count | First Visit | Path Trail | Referrer | Time Spent | Timezone | Source Path | Source Title | Local Time
+ * Google Sheet Architecture:
+ * 1. "Settings" Tab:
+ *    - Column C: Admin / Temp Meeting Link (strictly for admin/temp rows)
+ *    - Column E: Course Name (e.g. RPA / UiPath)
+ *    - Column F: Single Batch Name (e.g. RPA_UiPath_Sep2026 or UI Path September 2026)
+ *    - Column G: Batch Meeting URL (linked to Column F batch)
+ * 2. "Registered_Students" Tab:
+ *    - Column A: Student Name
+ *    - Column B: Student Email
+ *    - Column C: Mobile Number
+ *    - Column D: Batch Name (Exact search term matching Column F of Settings!)
+ *    - Column E: Course Name
+ * 3. "Attendance_Logs" Tab:
+ *    - 22 Columns telemetry logs with auto-cleanup for entries older than 180 days.
  *
  * Menu Features:
- * - ⚡ RPAVault Attendance Menu:
- *   1. 🔄 Sync Dashboard Cache (Instant Web Loading)
+ * - ⚡ RPAVault Attendance:
+ *   1. 🔄 Sync Dashboard Cache (Fast Load)
  *   2. 🧹 Delete Attendance Logs Older Than 180 Days
  *   3. ⏰ Setup Daily 180-Day Auto-Cleanup Trigger
  */
@@ -30,8 +40,7 @@ function onOpen() {
 }
 
 /**
- * 180-Day Auto-Purge: Deletes attendance log entries older than 180 days
- * to keep the spreadsheet lightweight and performant.
+ * 180-Day Auto-Purge: Deletes attendance logs older than 180 days
  */
 function cleanupOldAttendanceLogs() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -70,7 +79,6 @@ function cleanupOldAttendanceLogs() {
       }
     }
 
-    // Retain row if within 180 days or if timestamp was empty
     if (rowTime === 0 || rowTime >= cutoffTime) {
       retainedRows.push(row);
     } else {
@@ -118,9 +126,7 @@ function setupDailyCleanupTrigger() {
 }
 
 /**
- * Sync & Precompute Dashboard Cache:
- * Caches the entire dashboard JSON payload in CacheService (TTL 6 hrs) and Script Properties.
- * Makes web requests load in ~30ms instead of 4+ seconds!
+ * Precompute & Sync Dashboard Cache in ScriptCache (TTL 6 hrs) and Script Properties
  */
 function syncDashboardCache() {
   const startTime = new Date().getTime();
@@ -145,7 +151,7 @@ function syncDashboardCache() {
     : (payload.batchInfo ? payload.batchInfo.batchName : "Default Batch");
 
   const msg = "Dashboard Cache Synced in " + elapsed + " ms!\n\n" +
-              "• Total Registered Candidates: " + (payload.students ? payload.students.length : 0) + "\n" +
+              "• Total Candidates: " + (payload.students ? payload.students.length : 0) + "\n" +
               "• Batches Configured: " + batchNames + "\n" +
               "• Sessions Held: " + (payload.batchInfo ? payload.batchInfo.classesHeld : 0) + "\n\n" +
               "The website dashboard will now open instantly!";
@@ -185,15 +191,14 @@ function doPost(e) {
     const settingsSheet = getSheet(ss, "Settings");
     const logSheet = getSheet(ss, "Attendance_Logs");
 
-    // 1. Read Settings tab
+    // 1. Read Settings tab: Column F = Batch Name, Column G = Batch Meeting URL, Column C = Admin/Temp URL
     const adminEmails = new Set();
     const adminMeetingMap = {}; // email -> specific meeting URL from column C
     const tempMeetingMap = {};  // temp email -> specific meeting URL from column C
-    const batchMeetingMap = {}; // batch identifier/slug -> meeting URL
+    const batchMeetingMap = {}; // batch slug / name -> meeting URL from column G
     let defaultBatchMeetingUrl = "";
     let activeSettingsBatch = "";
-    let activeSettingsCourse = "RPA Uipath & PA";
-
+    let activeSettingsCourse = "RPA / UiPath";
     const settingsBatchesList = [];
 
     if (settingsSheet) {
@@ -205,44 +210,34 @@ function doPost(e) {
           const colB = (row[1] || "").toString().trim();
           const colC = (row[2] || "").toString().trim(); // Column C: Admin / Temp link
           const colD = (row[3] || "").toString().trim();
-          const colE = (row[4] || "").toString().trim();
-          const colF = (row[5] || "").toString().trim();
-          const colG = (row[6] || "").toString().trim(); // Column G: Batch joining link
+          const colE = (row[4] || "").toString().trim(); // Column E: Course Name
+          const colF = (row[5] || "").toString().trim(); // Column F: Batch Name!
+          const colG = (row[6] || "").toString().trim(); // Column G: Batch meeting link
 
           const keyA = colA.toLowerCase();
           const keyB = colB.toLowerCase();
 
-          // Check if this row declares or updates active batch/course
-          [colA, colB, colD, colE, colF].forEach(function(val) {
-            if (isBatchString(val)) {
-              activeSettingsBatch = formatCleanBatch(val);
-              if (!settingsBatchesList.includes(activeSettingsBatch)) {
-                settingsBatchesList.push(activeSettingsBatch);
+          // A) Process Column F (Single Batch Name) & Column G (Meeting Link)
+          if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
+            const cleanBatch = formatBatchDisplay(colF);
+            if (cleanBatch && cleanBatch.toLowerCase() !== "batch" && cleanBatch.toLowerCase() !== "batch name") {
+              activeSettingsBatch = cleanBatch;
+              if (!settingsBatchesList.includes(cleanBatch)) {
+                settingsBatchesList.push(cleanBatch);
               }
-            } else if (!val.includes("@") && /(rpa|uipath|power\s*automate|python|data)/i.test(val)) {
-              activeSettingsCourse = val;
-            }
-          });
+              if (colE) activeSettingsCourse = colE;
 
-          // Process Column G (Batch joining link)
-          if (colG && isLikelyUrl(colG)) {
+              if (colG && isLikelyUrl(colG)) {
+                if (!defaultBatchMeetingUrl) defaultBatchMeetingUrl = colG;
+                registerBatchUrl(batchMeetingMap, cleanBatch, colG);
+                registerBatchUrl(batchMeetingMap, colF, colG);
+              }
+            }
+          } else if (colG && isLikelyUrl(colG)) {
             if (!defaultBatchMeetingUrl) defaultBatchMeetingUrl = colG;
-
-            if (activeSettingsBatch) {
-              registerBatchUrl(batchMeetingMap, activeSettingsBatch, colG);
-            }
-
-            [colA, colB, colD, colE, colF].forEach(function(val) {
-              const clean = (val || "").toString().trim();
-              if (clean && !isLikelyUrl(clean) && !clean.includes("@")) {
-                if (isBatchString(clean)) {
-                  registerBatchUrl(batchMeetingMap, clean, colG);
-                }
-              }
-            });
           }
 
-          // Process Column C (Admin / Temp meeting link)
+          // B) Process Column C (Admin / Temp meeting link)
           if (colC && isLikelyUrl(colC)) {
             if (keyA.includes("temp") || keyB.includes("temp")) {
               for (let c = 0; c < row.length; c++) {
@@ -295,7 +290,7 @@ function doPost(e) {
       } catch (_) {}
     }
 
-    // 2. Check Registered Students
+    // 2. Check Registered Students (Column D = Batch Name, matching Column F)
     let isStudent = false;
     let studentName = "";
     let batchName = "";
@@ -336,10 +331,8 @@ function doPost(e) {
             isStudent = true;
             studentName = (row[nameCol] || "").toString().trim() || inputEmail.split("@")[0];
             const rawB = row[batchCol];
-            if (isBatchString(rawB)) {
-              batchName = formatCleanBatch(rawB);
-            }
-            courseName = (row[courseCol] || "").toString().trim();
+            batchName = formatBatchDisplay(rawB) || (rawB ? rawB.toString().trim() : "");
+            courseName = (row[courseCol] || "").toString().trim() || activeSettingsCourse;
             break;
           }
         }
@@ -351,22 +344,14 @@ function doPost(e) {
       try {
         const sData = settingsSheet.getDataRange().getValues();
         let runningBatch = activeSettingsBatch || (settingsBatchesList.length > 0 ? settingsBatchesList[0] : "");
-        let runningCourse = activeSettingsCourse || "RPA Uipath & PA";
 
         for (let r = 0; r < sData.length; r++) {
           const row = sData[r];
-          const colA = (row[0] || "").toString().trim();
-          const colB = (row[1] || "").toString().trim();
-          const colD = (row[3] || "").toString().trim();
-          const colE = (row[4] || "").toString().trim();
-
-          [colA, colB, colD, colE].forEach(function(val) {
-            if (isBatchString(val)) {
-              runningBatch = formatCleanBatch(val);
-            } else if (!val.includes("@") && /(rpa|uipath|power\s*automate|python|data)/i.test(val)) {
-              runningCourse = val;
-            }
-          });
+          const colF = (row[5] || "").toString().trim();
+          if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
+            const cleanF = formatBatchDisplay(colF);
+            if (cleanF && cleanF.toLowerCase() !== "batch") runningBatch = cleanF;
+          }
 
           for (let c = 0; c < row.length; c++) {
             const cell = (row[c] || "").toString().trim().toLowerCase();
@@ -374,7 +359,6 @@ function doPost(e) {
               isStudent = true;
               studentName = studentName || inputEmail.split("@")[0];
               if (!batchName && runningBatch) batchName = runningBatch;
-              if (!courseName && runningCourse) courseName = runningCourse;
               break;
             }
           }
@@ -383,9 +367,8 @@ function doPost(e) {
       } catch (_) {}
     }
 
-    // Fallback batch if student is registered but batch wasn't explicitly populated
     if (isStudent && !batchName) {
-      batchName = activeSettingsBatch || (settingsBatchesList.length > 0 ? settingsBatchesList[0] : "Sep 2026 Batch");
+      batchName = activeSettingsBatch || (settingsBatchesList.length > 0 ? settingsBatchesList[0] : "RPA UiPath Sep2026");
     }
 
     // 3. Evaluate verification and assign meeting URL
@@ -398,7 +381,6 @@ function doPost(e) {
     let failMessage = "This is only for registered users, please contact us to register.";
 
     if (action === "dashboard_access") {
-      // Temp emails are NOT allowed to open attendance dashboard
       if (isTempUser) {
         isVerified = false;
         failMessage = "Attendance dashboard is only for registered students and admins.";
@@ -446,14 +428,9 @@ function doPost(e) {
           let batchUrl = "";
           const bKey = batchName.toLowerCase();
           const bSlug = slugify(batchName);
-          const bNoBatch = batchName.replace(/\bbatch\b/gi, '').trim();
 
           if (batchMeetingMap[bSlug]) batchUrl = batchMeetingMap[bSlug];
           else if (batchMeetingMap[bKey]) batchUrl = batchMeetingMap[bKey];
-          else if (bNoBatch && batchMeetingMap[bNoBatch.toLowerCase()]) batchUrl = batchMeetingMap[bNoBatch.toLowerCase()];
-          else if (bNoBatch && batchMeetingMap[slugify(bNoBatch)]) batchUrl = batchMeetingMap[slugify(bNoBatch)];
-          else if (courseName && batchMeetingMap[slugify(courseName)]) batchUrl = batchMeetingMap[slugify(courseName)];
-          else if (courseName && batchMeetingMap[courseName.toLowerCase()]) batchUrl = batchMeetingMap[courseName.toLowerCase()];
           else if (defaultBatchMeetingUrl) batchUrl = defaultBatchMeetingUrl;
 
           if (batchUrl && isLikelyUrl(batchUrl)) {
@@ -564,21 +541,18 @@ function doGet(e) {
     const action = (e && e.parameter && e.parameter.action) ? e.parameter.action.toLowerCase() : "";
     const forceRefresh = (e && e.parameter && (e.parameter.refresh === "1" || e.parameter.nocache === "1"));
 
-    // Quick sync trigger via GET
     if (action === "sync") {
       const synced = syncDashboardCache();
       return ContentService.createTextOutput(JSON.stringify({ success: true, message: "Dashboard cache synced", payload: synced })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // Quick cleanup trigger via GET
     if (action === "cleanup") {
       const res = cleanupOldAttendanceLogs();
       return ContentService.createTextOutput(JSON.stringify({ success: true, cleanup: res })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // Default action: getDashboard
+    // Default: getDashboard
     if (action === "getdashboard" || !action) {
-      // 1. Return cached payload if available and not forcing refresh
       if (!forceRefresh) {
         const cache = CacheService.getScriptCache();
         let cached = cache.get("RPA_DASHBOARD_PAYLOAD");
@@ -595,7 +569,6 @@ function doGet(e) {
         }
       }
 
-      // 2. Compute fresh dashboard payload and update cache
       const payload = syncDashboardCache();
       return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
     }
@@ -608,7 +581,7 @@ function doGet(e) {
 }
 
 /**
- * Builds the entire dashboard metrics, benchmarking data, and clean batch lists
+ * Builds the dashboard metrics, streaks, calendar tiles, and single batch list
  */
 function buildDashboardPayload() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -620,38 +593,31 @@ function buildDashboardPayload() {
   const settingsData = settingsSheet ? settingsSheet.getDataRange().getValues() : [];
   const logData = logSheet ? logSheet.getDataRange().getValues() : [];
 
-  // Track discovered valid batches
-  const batchesMap = {}; // slug -> { name, course }
-  let defaultActiveBatch = "Sep 2026 Batch";
+  const batchesMap = {}; // slug -> { id, name }
+  let defaultActiveBatch = "RPA UiPath Sep2026";
 
-  // Scan Settings tab first for explicitly defined batches
-  let activeSettingsBatch = "";
-  let activeSettingsCourse = "RPA Uipath & PA";
-
+  // Scan Settings Tab: Column F = Batch Name
   if (settingsData && settingsData.length > 0) {
     for (let r = 0; r < settingsData.length; r++) {
       const row = settingsData[r];
-      const colA = (row[0] || "").toString().trim();
-      const colB = (row[1] || "").toString().trim();
-      const colD = (row[3] || "").toString().trim();
-      const colE = (row[4] || "").toString().trim();
-      const colF = (row[5] || "").toString().trim();
-
-      [colA, colB, colD, colE, colF].forEach(function(val) {
-        if (isBatchString(val)) {
-          const bClean = formatCleanBatch(val);
-          activeSettingsBatch = bClean;
-          defaultActiveBatch = bClean;
-          const key = slugify(activeSettingsCourse + "-" + bClean);
-          batchesMap[key] = { name: bClean, course: activeSettingsCourse };
-        } else if (!val.includes("@") && /(rpa|uipath|power\s*automate|python|data)/i.test(val)) {
-          activeSettingsCourse = val;
+      const colF = (row[5] || "").toString().trim(); // Column F: Batch Name
+      if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
+        const cleanName = formatBatchDisplay(colF);
+        if (cleanName && cleanName.toLowerCase() !== "batch" && cleanName.toLowerCase() !== "batch name") {
+          defaultActiveBatch = cleanName;
+          const slug = slugify(cleanName);
+          if (!batchesMap[slug]) {
+            batchesMap[slug] = {
+              id: slug,
+              name: cleanName
+            };
+          }
         }
-      });
+      }
     }
   }
 
-  // 1. Extract registered students from "Registered_Students"
+  // 1. Extract registered students from "Registered_Students" (Column D = Batch Name)
   const studentsMap = {};
   const registeredList = [];
 
@@ -679,18 +645,17 @@ function buildDashboardPayload() {
       const mobile = (row[mobileCol] || "").toString().trim();
       const rawBatch = row[batchCol];
       
-      let cleanBatch = "";
-      if (isBatchString(rawBatch)) {
-        cleanBatch = formatCleanBatch(rawBatch);
-      } else {
-        // Fallback to active batch if row batch is a date or missing
+      let cleanBatch = formatBatchDisplay(rawBatch) || (rawBatch ? rawBatch.toString().trim() : "");
+      if (!cleanBatch || cleanBatch.toLowerCase() === "batch") {
         cleanBatch = defaultActiveBatch;
       }
 
-      const cleanCourse = (row[courseCol] || "").toString().trim() || "RPA Uipath & PA";
-      if (cleanBatch) {
-        const bKey = slugify(cleanCourse + "-" + cleanBatch);
-        if (!batchesMap[bKey]) batchesMap[bKey] = { name: cleanBatch, course: cleanCourse };
+      const slug = slugify(cleanBatch);
+      if (!batchesMap[slug]) {
+        batchesMap[slug] = {
+          id: slug,
+          name: cleanBatch
+        };
       }
 
       if (email && email.includes("@")) {
@@ -700,7 +665,7 @@ function buildDashboardPayload() {
           email: email,
           mobile: mobile,
           batch: cleanBatch,
-          course: cleanCourse,
+          course: cleanBatch,
           presentDates: new Set()
         };
         registeredList.push(studentsMap[email]);
@@ -708,25 +673,17 @@ function buildDashboardPayload() {
     }
   }
 
-  // 1b. Also incorporate student emails defined in "Settings" tab
+  // 1b. Incorporate student emails defined in Settings tab
   if (settingsData && settingsData.length > 0) {
-    let runningBatch = activeSettingsBatch || defaultActiveBatch;
-    let runningCourse = activeSettingsCourse || "RPA Uipath & PA";
+    let runningBatch = defaultActiveBatch;
 
     for (let r = 0; r < settingsData.length; r++) {
       const row = settingsData[r];
-      const colA = (row[0] || "").toString().trim();
-      const colB = (row[1] || "").toString().trim();
-      const colD = (row[3] || "").toString().trim();
-      const colE = (row[4] || "").toString().trim();
-
-      [colA, colB, colD, colE].forEach(function(val) {
-        if (isBatchString(val)) {
-          runningBatch = formatCleanBatch(val);
-        } else if (!val.includes("@") && /(rpa|uipath|power\s*automate|python|data)/i.test(val)) {
-          runningCourse = val;
-        }
-      });
+      const colF = (row[5] || "").toString().trim();
+      if (colF && !isLikelyUrl(colF) && !colF.includes("@")) {
+        const cleanF = formatBatchDisplay(colF);
+        if (cleanF && cleanF.toLowerCase() !== "batch") runningBatch = cleanF;
+      }
 
       for (let c = 0; c < row.length; c++) {
         const cell = (row[c] || "").toString().trim();
@@ -737,9 +694,8 @@ function buildDashboardPayload() {
             if (cleanEm && cleanEm.includes("@") && cleanEm.includes(".")) {
               if (!studentsMap[cleanEm]) {
                 const sBatch = runningBatch || defaultActiveBatch;
-                const sCourse = runningCourse || "RPA Uipath & PA";
-                const bKey = slugify(sCourse + "-" + sBatch);
-                if (!batchesMap[bKey]) batchesMap[bKey] = { name: sBatch, course: sCourse };
+                const slug = slugify(sBatch);
+                if (!batchesMap[slug]) batchesMap[slug] = { id: slug, name: sBatch };
 
                 studentsMap[cleanEm] = {
                   id: registeredList.length + 1,
@@ -747,11 +703,11 @@ function buildDashboardPayload() {
                   email: cleanEm,
                   mobile: "",
                   batch: sBatch,
-                  course: sCourse,
+                  course: sBatch,
                   presentDates: new Set()
                 };
                 registeredList.push(studentsMap[cleanEm]);
-              } else if (runningBatch && (!studentsMap[cleanEm].batch || !isBatchString(studentsMap[cleanEm].batch))) {
+              } else if (runningBatch && !studentsMap[cleanEm].batch) {
                 studentsMap[cleanEm].batch = runningBatch;
               }
             }
@@ -931,8 +887,16 @@ function buildDashboardPayload() {
   const trendLabels = sortedDates.map(formatShortDate);
   const trendCounts = sortedDates.map(function(d) { return dateCountsMap[d] ? dateCountsMap[d].size : 0; });
 
+  const finalBatches = Object.values(batchesMap).map(function(b) {
+    return {
+      id: b.id,
+      name: b.name,
+      isLive: (b.id === slugify(defaultActiveBatch))
+    };
+  });
+
   return {
-    batches: Object.values(batchesMap),
+    batches: finalBatches,
     batchInfo: {
       batchName: defaultActiveBatch,
       overallAttendanceRate: overallRate + "%",
@@ -975,59 +939,22 @@ function registerBatchUrl(map, batchName, url) {
   const lower = raw.toLowerCase();
   map[slug] = url;
   map[lower] = url;
-  const noBatch = raw.replace(/\bbatch\b/gi, '').trim();
-  if (noBatch) {
-    map[noBatch.toLowerCase()] = url;
-    map[slugify(noBatch)] = url;
+  const clean = formatBatchDisplay(raw);
+  if (clean) {
+    map[clean.toLowerCase()] = url;
+    map[slugify(clean)] = url;
   }
 }
 
-/**
- * Distinguishes genuine batch/cohort names from single class dates or logs
- */
-function isBatchString(val) {
-  if (!val) return false;
-  if (val instanceof Date) return false;
-  const str = val.toString().trim();
-  if (!str || str.includes("@") || str.toLowerCase().startsWith("http") || str.length > 60) return false;
-
-  // Single class dates without year (e.g. "1 Sep", "16 Sep", "20-Jul", "05/09") -> NOT batches!
-  if (/^\d{1,2}[\s\/\.-]+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*$/i.test(str)) return false;
-  if (/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[\s\/\.-]+\d{1,2}$/i.test(str)) return false;
-
-  // Explicit keyword "batch" or "cohort"
-  if (/\b(batch|cohort)\b/i.test(str)) return true;
-
-  // Month + Year (e.g. sep2026, sep 2026, september 2026, sep-26, 17 sep 2026, 16sep26)
-  if (/(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[\s_-]*(?:20\d{2}|\d{2})/i.test(str)) return true;
-  if (/(?:20\d{2})[\s_-]*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(str)) return true;
-
-  return false;
-}
-
-function formatCleanBatch(rawBatch) {
-  if (!rawBatch) return "";
-  try {
-    let str = rawBatch.toString().trim();
-    if (!str) return "";
-
-    // If month + year format like sep2026, sep 2026, sep-2026
-    const myMatch = str.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[\s_-]*(20\d{2}|\d{2})$/i);
-    if (myMatch) {
-      const m = myMatch[1].charAt(0).toUpperCase() + myMatch[1].slice(1).toLowerCase();
-      let y = myMatch[2];
-      if (y.length === 2) y = "20" + y;
-      return m + " " + y + " Batch";
-    }
-
-    str = str.replace(/\s{2,}/g, " ").trim();
-    if (!/\bbatch\b/i.test(str) && !/\bcohort\b/i.test(str)) {
-      str = str + " Batch";
-    }
-    return str;
-  } catch (_) {
-    return (rawBatch || "").toString().trim();
-  }
+function formatBatchDisplay(raw) {
+  if (!raw) return "";
+  let str = raw.toString().trim();
+  if (!str || str.toLowerCase() === "batch" || str.toLowerCase() === "batch name" || isLikelyUrl(str) || str.includes("@")) return "";
+  // Strip trailing "Batch" if redundant
+  str = str.replace(/\bBatch\b/gi, "").trim();
+  // Replace underscores with clean spaces
+  str = str.replace(/_+/g, " ").replace(/\s{2,}/g, " ").trim();
+  return str;
 }
 
 function slugify(str) {
