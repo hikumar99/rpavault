@@ -60,6 +60,7 @@ async function handleChat(request, env, ctx) {
   const body = await request.json();
   const userMessage = (body.message || "").trim();
   const sessionId = (body.sessionId || "anonymous_session").trim();
+  const userName = (body.userName || "").trim();
   const history = body.history || [];
 
   if (!userMessage) {
@@ -98,6 +99,7 @@ async function handleChat(request, env, ctx) {
     ctx.waitUntil(
       logSessionToNotion(env, {
         sessionId,
+        userName,
         userMessage,
         aiReply: aiResult.reply,
         status: aiResult.status,
@@ -129,11 +131,13 @@ async function handleLead(request, env, ctx) {
   const name = (body.name || "").trim();
   const phone = (body.phone || "").trim();
   const email = (body.email || "").trim();
+  const topic = (body.topic || "").trim();
 
-  if (!sessionId || !name || !phone) {
+  if (!sessionId || (!name && !phone)) {
     return jsonResponse({ error: "Missing required fields" }, 400, request, env);
   }
 
+  const ip = request.headers.get("cf-connecting-ip") || "Unknown IP";
   const city = request.cf?.city || "";
   const country = request.cf?.country || "";
   const locationLabel = city && country ? `[${city}, ${country}]` : "";
@@ -143,9 +147,11 @@ async function handleLead(request, env, ctx) {
     ctx.waitUntil(
       updateNotionLead(env, {
         sessionId,
+        ip,
         name,
         phone,
         email,
+        topic,
         locationLabel
       })
     );
@@ -573,53 +579,97 @@ async function fetchNotionKB(env) {
   }
 }
 
-/// Helper to find existing Notion session page by Session ID
-async function findNotionSessionPage(env, sessionId) {
-  if (!sessionId || !env.NOTION_TOKEN || !env.NOTION_DATABASE_ID) return null;
-  const url = `https://api.notion.com/v1/databases/${env.NOTION_DATABASE_ID}/query`;
-  const payload = {
-    filter: {
-      property: "Session ID",
-      rich_text: {
-        equals: sessionId
-      }
-    },
-    page_size: 1
-  };
-
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.NOTION_TOKEN}`,
-        "Notion-Version": "2022-06-28",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-    const json = await res.json();
-    if (json.results && json.results.length > 0) {
-      return json.results[0].id;
-    }
-  } catch (err) {
-    console.error("Error finding Notion session by Session ID:", err);
+// Helper to format clean Subject title: "[Name] Question" or "Question" (skips "Session - City - " prefix)
+function formatSubject(userName, message) {
+  const cleanMsg = (message || "").replace(/[\r\n]+/g, " ").trim();
+  const maxLen = userName ? 80 : 90;
+  const snippet = cleanMsg.length > maxLen ? cleanMsg.substring(0, maxLen).trim() + "..." : cleanMsg;
+  if (userName) {
+    return `[${userName}] ${snippet}`;
   }
+  return snippet || "Visitor Inquiry";
+}
+
+/// Helper to find existing Notion session page by IP address (primary) or Session ID (fallback)
+async function findNotionSessionPage(env, ip, sessionId) {
+  if (!env.NOTION_TOKEN || !env.NOTION_DATABASE_ID) return null;
+  const url = `https://api.notion.com/v1/databases/${env.NOTION_DATABASE_ID}/query`;
+
+  // 1. Primary: Lookup by Client IP to guarantee exactly 1 page per visitor IP
+  if (ip && ip !== "Unknown IP") {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.NOTION_TOKEN}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          filter: {
+            property: "Session ID",
+            rich_text: {
+              equals: ip
+            }
+          },
+          page_size: 1
+        })
+      });
+      const json = await res.json();
+      if (json.results && json.results.length > 0) {
+        return json.results[0].id;
+      }
+    } catch (err) {
+      console.error("Error finding Notion session by IP:", err);
+    }
+  }
+
+  // 2. Secondary fallback: Lookup by Session ID
+  if (sessionId) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.NOTION_TOKEN}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          filter: {
+            property: "Session ID",
+            rich_text: {
+              equals: sessionId
+            }
+          },
+          page_size: 1
+        })
+      });
+      const json = await res.json();
+      if (json.results && json.results.length > 0) {
+        return json.results[0].id;
+      }
+    } catch (err) {
+      console.error("Error finding Notion session by Session ID:", err);
+    }
+  }
+
   return null;
 }
 
-// Log or Append interaction to the visitor's Notion Session Page
-async function logSessionToNotion(env, { sessionId, userMessage, aiReply, status, ip, locationLabel }) {
-  const kvKey = `session_notion_id:${sessionId}`;
+// Log or Append interaction to the visitor's Notion Session Page (Single page per IP)
+async function logSessionToNotion(env, { sessionId, userName, userMessage, aiReply, status, ip, locationLabel }) {
+  const lookupKey = (ip && ip !== "Unknown IP") ? ip : sessionId;
+  const kvKey = `session_notion_id:${lookupKey}`;
   let pageId = null;
 
-  // 1. Check KV first (if bound)
+  // 1. Check KV first (fast edge cache)
   if (env.CHATBOT_KV) {
     pageId = await env.CHATBOT_KV.get(kvKey);
   }
 
-  // 2. If not in KV, query Notion database directly by Session ID to guarantee 1 page per session
+  // 2. If not in KV, query Notion by IP (and fallback sessionId)
   if (!pageId) {
-    pageId = await findNotionSessionPage(env, sessionId);
+    pageId = await findNotionSessionPage(env, ip, sessionId);
     if (pageId && env.CHATBOT_KV) {
       await env.CHATBOT_KV.put(kvKey, pageId, { expirationTtl: 86400 });
     }
@@ -628,9 +678,9 @@ async function logSessionToNotion(env, { sessionId, userMessage, aiReply, status
   const timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   if (!pageId) {
-    // 1. Create a NEW Session Page in Notion (Only on Turn 1 of this session)
+    // 1. Create a NEW Session Page in Notion for this IP
     const createUrl = "https://api.notion.com/v1/pages";
-    const title = `Session - ${locationLabel} - ${userMessage.substring(0, 35)}...`;
+    const title = formatSubject(userName, userMessage);
 
     const createPayload = {
       parent: { database_id: env.NOTION_DATABASE_ID },
@@ -645,10 +695,10 @@ async function logSessionToNotion(env, { sessionId, userMessage, aiReply, status
           status: { name: status === "UNKNOWN" ? "⚠️ Needs Review" : "Auto-Answered" }
         },
         "Session ID": {
-          rich_text: [{ text: { content: sessionId } }]
+          rich_text: [{ text: { content: lookupKey } }]
         },
         "Visitor Name": {
-          rich_text: [{ text: { content: `Anonymous (${locationLabel})` } }]
+          rich_text: [{ text: { content: userName ? `${userName} (${locationLabel})` : `Anonymous (${locationLabel})` } }]
         }
       },
       children: [
@@ -665,7 +715,7 @@ async function logSessionToNotion(env, { sessionId, userMessage, aiReply, status
           type: "paragraph",
           paragraph: {
             rich_text: [
-              { type: "text", text: { content: `[${timestamp}] Visitor: ` }, annotations: { bold: true } },
+              { type: "text", text: { content: `[${timestamp}] ${userName || "Visitor"}: ` }, annotations: { bold: true } },
               { type: "text", text: { content: userMessage } }
             ]
           }
@@ -695,13 +745,40 @@ async function logSessionToNotion(env, { sessionId, userMessage, aiReply, status
       });
       const data = await res.json();
       if (data.id && env.CHATBOT_KV) {
-        await env.CHATBOT_KV.put(kvKey, data.id, { expirationTtl: 86400 }); // Cache page ID for 24h
+        await env.CHATBOT_KV.put(kvKey, data.id, { expirationTtl: 86400 });
       }
     } catch (err) {
       console.error("Failed creating Notion session page:", err);
     }
   } else {
-    // 2. Append to EXISTING Session Page (Turn 2, 3, etc. - NEVER create duplicates)
+    // 2. Append to EXISTING Session Page (Turn 2, 3, or subsequent visits from same IP)
+    // If userName is now known, update Notion page title to "[Name] Question" and Visitor Name
+    if (userName) {
+      try {
+        const updatedTitle = formatSubject(userName, userMessage);
+        await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${env.NOTION_TOKEN}`,
+            "Notion-Version": "2022-06-28",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            properties: {
+              "Topic / Visitor Query": {
+                title: [{ text: { content: updatedTitle } }]
+              },
+              "Visitor Name": {
+                rich_text: [{ text: { content: `${userName} (${locationLabel})` } }]
+              }
+            }
+          })
+        });
+      } catch (err) {
+        console.error("Failed updating session title with user name:", err);
+      }
+    }
+
     const appendUrl = `https://api.notion.com/v1/blocks/${pageId}/children`;
     const appendPayload = {
       children: [
@@ -710,7 +787,7 @@ async function logSessionToNotion(env, { sessionId, userMessage, aiReply, status
           type: "paragraph",
           paragraph: {
             rich_text: [
-              { type: "text", text: { content: `[${timestamp}] Visitor: ` }, annotations: { bold: true } },
+              { type: "text", text: { content: `[${timestamp}] ${userName || "Visitor"}: ` }, annotations: { bold: true } },
               { type: "text", text: { content: userMessage } }
             ]
           }
@@ -761,9 +838,10 @@ async function logSessionToNotion(env, { sessionId, userMessage, aiReply, status
   }
 }
 
-// Update Notion Session Page when visitor leaves their lead details
-async function updateNotionLead(env, { sessionId, name, phone, email, locationLabel }) {
-  const kvKey = `session_notion_id:${sessionId}`;
+// Update Notion Session Page when visitor leaves their lead details or introduces name
+async function updateNotionLead(env, { sessionId, ip, name, phone, email, topic, locationLabel }) {
+  const lookupKey = (ip && ip !== "Unknown IP") ? ip : sessionId;
+  const kvKey = `session_notion_id:${lookupKey}`;
   let pageId = null;
 
   if (env.CHATBOT_KV) {
@@ -771,7 +849,7 @@ async function updateNotionLead(env, { sessionId, name, phone, email, locationLa
   }
 
   if (!pageId) {
-    pageId = await findNotionSessionPage(env, sessionId);
+    pageId = await findNotionSessionPage(env, ip, sessionId);
     if (pageId && env.CHATBOT_KV) {
       await env.CHATBOT_KV.put(kvKey, pageId, { expirationTtl: 86400 });
     }
@@ -780,28 +858,24 @@ async function updateNotionLead(env, { sessionId, name, phone, email, locationLa
   if (!pageId) return;
 
   try {
-    const patchProps = {
-      Status: {
-        status: { name: "🔥 Lead Captured" }
-      }
-    };
+    const patchProps = {};
+    if (phone || email) {
+      patchProps["Status"] = { status: { name: "🔥 Lead Captured" } };
+    }
     if (name) {
       patchProps["Visitor Name"] = {
-        rich_text: [{ text: { content: name } }]
+        rich_text: [{ text: { content: `${name} ${locationLabel}` } }]
       };
+      const titleContent = topic ? formatSubject(name, topic) : `[${name}] ${locationLabel || "Inquiry"}`;
       patchProps["Topic / Visitor Query"] = {
-        title: [{ text: { content: `🔥 Lead: ${name} (${phone || "Pending"}) ${locationLabel}` } }]
+        title: [{ text: { content: titleContent } }]
       };
     }
     if (phone) {
-      patchProps["WhatsApp / Phone"] = {
-        phone_number: phone
-      };
+      patchProps["WhatsApp / Phone"] = { phone_number: phone };
     }
     if (email) {
-      patchProps["Email"] = {
-        email: email
-      };
+      patchProps["Email"] = { email: email };
     }
 
     // 1. Update properties to Lead Captured & set contact info

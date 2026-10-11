@@ -347,29 +347,7 @@
           });
         }
 
-        // 2. Submit to Cloudflare Backend to update Notion Session Page
-        fetch(CONFIG.leadUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            sessionId: sessionId,
-            name: name,
-            phone: phone,
-            email: email,
-            pageUrl: window.location.href
-          })
-        }).catch(function () {});
-
-        // 3. Update UI with success badge
-        leadDiv.innerHTML = `
-          <div class="rpav-lead-success">
-            ✅ Thank you, <strong>${name}</strong>!<br/>
-            Your details have been received. We'll deliver the detailed roadmap to ${email || phone}!
-          </div>
-        `;
-        scrollToBottom();
-
-        // 4. Prompt for instant WhatsApp connection with custom pre-filled message
+        // 2. Compute query topic from conversation history
         const userQuestions = getHistory()
           .filter(function (h) {
             return h.role === "user" && !h.text.toLowerCase().startsWith("my name is") && !h.text.includes("WhatsApp");
@@ -378,6 +356,30 @@
         const queryTopic = userQuestions.length > 0 ? userQuestions[userQuestions.length - 1] : "courses and consulting services";
         const waUrl = buildWhatsAppUrl(name, queryTopic);
 
+        // 3. Submit to Cloudflare Backend to update Notion Session Page
+        fetch(CONFIG.leadUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId: sessionId,
+            name: name,
+            phone: phone,
+            email: email,
+            topic: queryTopic,
+            pageUrl: window.location.href
+          })
+        }).catch(function () {});
+
+        // 4. Update UI with success badge
+        leadDiv.innerHTML = `
+          <div class="rpav-lead-success">
+            ✅ Thank you, <strong>${name}</strong>!<br/>
+            Your details have been received. We'll deliver the detailed roadmap to ${email || phone}!
+          </div>
+        `;
+        scrollToBottom();
+
+        // 5. Prompt for instant WhatsApp connection with custom pre-filled message
         sessionStorage.setItem("rpav_custom_wa_url", waUrl);
         sessionStorage.setItem("rpav_awaiting_wa_confirm", "true");
 
