@@ -72,6 +72,40 @@
       .join("\n\n");
   }
 
+  // --- Active Webpage Context Extractor (for "summarise this page" and context-awareness) ---
+  function getPageContext() {
+    try {
+      const url = window.location.href;
+      const pathname = window.location.pathname;
+      const title = document.title || "";
+      const heading = (document.querySelector("h1")?.innerText || "").trim();
+      const metaDesc = (document.querySelector('meta[name="description"]')?.content || "").trim();
+
+      // Extract clean main content snippet (up to 2500 characters)
+      let contentSnippet = "";
+      const mainEl = document.querySelector("main") || document.querySelector("article") || document.body;
+      if (mainEl) {
+        const clone = mainEl.cloneNode(true);
+        const noise = clone.querySelectorAll("script, style, noscript, nav, footer, #rpav-chat-modal, #rpav-bubble-launcher, .whatsapp-float, .rpv-modal, .modal-overlay");
+        for (let i = 0; i < noise.length; i++) {
+          noise[i].remove();
+        }
+        contentSnippet = (clone.innerText || "").replace(/\s+/g, " ").trim().substring(0, 2500);
+      }
+
+      return {
+        url: url,
+        pathname: pathname,
+        title: title,
+        heading: heading,
+        metaDescription: metaDesc,
+        contentSnippet: contentSnippet
+      };
+    } catch (e) {
+      return { url: window.location.href, pathname: window.location.pathname };
+    }
+  }
+
   // --- SVG Icons ---
   const ICONS = {
     chat: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.07-1.38A9.95 9.95 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>',
@@ -528,13 +562,12 @@
 
       appendMessage(text, "user");
 
-      const history = getHistory();
-      history.push({ role: "user", text: text });
-      saveHistory(history);
-
+      const previousHistory = getHistory();
       showTypingIndicator();
 
       try {
+        const pageContext = getPageContext();
+
         const response = await fetch(CONFIG.apiUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -542,8 +575,9 @@
             message: text,
             sessionId: sessionId,
             userName: storedName || "",
-            history: history.slice(-6), // last 6 turns for conversational memory
-            pageUrl: window.location.href
+            history: previousHistory.slice(-10), // Send previous turns for conversational memory
+            pageUrl: window.location.href,
+            pageContext: pageContext
           })
         });
 
@@ -553,8 +587,10 @@
         const botReply = data.reply || "I'm having a brief connection issue. Please feel free to leave your contact details so our team can assist you directly.";
         appendMessage(botReply, "bot");
 
-        history.push({ role: "model", text: botReply });
-        saveHistory(history);
+        const updatedHistory = getHistory();
+        updatedHistory.push({ role: "user", text: text });
+        updatedHistory.push({ role: "model", text: botReply });
+        saveHistory(updatedHistory);
 
         // Offer lead card only if user agreed to document or asked for contact
         const userAgreed = /^(yes|yeah|sure|yep|send|please|ok|okay|send it|share|why not|definitely)/i.test(text.trim());

@@ -42,8 +42,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy({
     "chatbot/widget.js": "chatbot/widget.js",
-    "chatbot/widget.css": "chatbot/widget.css",
-    "chatbot/index.html": "chatbot/index.html"
+    "chatbot/widget.css": "chatbot/widget.css"
   });
 
   // Ignore OLD, backups, templates, and redundant files

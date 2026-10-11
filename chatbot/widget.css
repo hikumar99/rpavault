@@ -105,18 +105,69 @@
 }
 
 /* ==========================================================================
-   3. FULL PAGE CONTAINER (Dedicated Counselor Page Mode)
+   3. FULL PAGE CONTAINER & STANDALONE PAGE MODE
    ========================================================================== */
+.chatbot-standalone-page {
+  background: #f8fafc;
+  background: radial-gradient(circle at top center, #f1f5f9 0%, #f8fafc 100%);
+  padding: 40px 20px 60px;
+  min-height: calc(100vh - 280px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatbot-standalone-container {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.chatbot-intro-banner {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.chatbot-intro-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--rpav-accent);
+  background: var(--rpav-accent-light);
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(0, 88, 176, 0.15);
+}
+
+.chatbot-intro-banner h1 {
+  font-size: 30px;
+  font-weight: 800;
+  color: #0b1f31;
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.chatbot-intro-banner p {
+  font-size: 15px;
+  color: #64748b;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
 #rpavault-counselor-app {
   width: 100%;
-  max-width: 900px;
+  max-width: 920px;
   margin: 0 auto;
-  height: calc(100vh - 200px);
-  max-height: 700px;
+  height: 680px;
+  max-height: calc(100vh - 200px);
   min-height: 480px;
   background: #ffffff;
-  border-radius: 24px;
-  box-shadow: var(--rpav-shadow-lg);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px -10px rgba(11, 31, 49, 0.12), 0 0 0 1px var(--rpav-border);
   border: 1px solid var(--rpav-border);
   display: flex;
   flex-direction: column;
@@ -124,94 +175,174 @@
   font-family: var(--rpav-font);
 }
 
+/* Hide floating bubble launcher and whatsapp floating button on dedicated chatbot page */
+body.is-chatbot-page #rpav-bubble-launcher,
+body:has(#rpavault-counselor-app) #rpav-bubble-launcher,
+body:has(.chatbot-standalone-page) #rpav-bubble-launcher {
+  display: none !important;
+}
+
+/* Mobile Friendly: Within Website with Logo & Header, No Footer */
+@media (max-width: 768px) {
+  body.is-chatbot-page footer,
+  body:has(#rpavault-counselor-app) footer,
+  body:has(.chatbot-standalone-page) footer {
+    display: none !important;
+  }
+
+  body.is-chatbot-page .whatsapp-float,
+  body:has(#rpavault-counselor-app) .whatsapp-float,
+  body:has(.chatbot-standalone-page) .whatsapp-float {
+    display: none !important;
+  }
+
+  .chatbot-standalone-page {
+    padding: 0 !important;
+    background: #ffffff !important;
+    min-height: 0 !important;
+    height: calc(100vh - 65px) !important;
+    height: calc(100dvh - 65px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .chatbot-standalone-container {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .chatbot-intro-banner {
+    display: none !important; /* Hide intro banner on mobile so chat takes full viewport */
+  }
+
+  #rpavault-counselor-app {
+    height: 100% !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+  }
+}
+
 /* ==========================================================================
    4. CHAT HEADER
    ========================================================================== */
-.rpav-header {
-  background: linear-gradient(135deg, #0b1f31 0%, #004182 100%);
-  color: #ffffff;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+.rpav-header,
+#rpav-chat-modal .rpav-header,
+#rpavault-counselor-app .rpav-header {
+  background: #0b1f31 !important;
+  background: linear-gradient(135deg, #0b1f31 0%, #004182 100%) !important;
+  color: #ffffff !important;
+  padding: 16px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  flex-shrink: 0 !important;
 }
 
 .rpav-header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
 }
 
 .rpav-avatar {
-  width: 42px;
-  height: 42px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  width: 42px !important;
+  height: 42px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
 }
 
 .rpav-avatar svg {
-  width: 22px;
-  height: 22px;
-  fill: #60a5fa;
+  width: 22px !important;
+  height: 22px !important;
+  fill: #60a5fa !important;
 }
 
 .rpav-online-dot {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 11px;
-  height: 11px;
-  background: var(--rpav-success);
-  border-radius: 50%;
-  border: 2px solid #0b1f31;
+  position: absolute !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  width: 11px !important;
+  height: 11px !important;
+  background: var(--rpav-success) !important;
+  border-radius: 50% !important;
+  border: 2px solid #0b1f31 !important;
 }
 
-.rpav-header-info h3 {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
-  color: #ffffff;
+.rpav-header-info,
+#rpav-chat-modal .rpav-header-info,
+#rpavault-counselor-app .rpav-header-info {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
 }
 
-.rpav-header-info p {
-  margin: 2px 0 0;
-  font-size: 12px;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.rpav-header-info h3,
+#rpav-chat-modal .rpav-header-info h3,
+#rpavault-counselor-app .rpav-header-info h3,
+.course-detail-page #rpav-chat-modal .rpav-header-info h3,
+.course-detail-page #rpavault-counselor-app .rpav-header-info h3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.2px !important;
+  color: #ffffff !important;
+  font-family: var(--rpav-font) !important;
+  line-height: 1.25 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+}
+
+.rpav-header-info p,
+#rpav-chat-modal .rpav-header-info p,
+#rpavault-counselor-app .rpav-header-info p,
+.course-detail-page #rpav-chat-modal .rpav-header-info p,
+.course-detail-page #rpavault-counselor-app .rpav-header-info p {
+  margin: 3px 0 0 !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-family: var(--rpav-font) !important;
+  line-height: 1.25 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
 }
 
 .rpav-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
 }
 
-.rpav-icon-btn {
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.rpav-icon-btn,
+#rpav-chat-modal .rpav-icon-btn {
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
 }
 
-.rpav-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+.rpav-icon-btn:hover,
+#rpav-chat-modal .rpav-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
 }
 
 /* ==========================================================================

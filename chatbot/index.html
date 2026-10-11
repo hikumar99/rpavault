@@ -1,141 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RPA & AI Career Counselor | RPAVault</title>
-  <meta name="description" content="Talk with the RPAVault AI Career Counselor. Get personalized guidance on UiPath, Agentic AI, batch schedules, fees, and career transition for non-coders and career gap candidates." />
-  <meta property="og:title" content="RPA & AI Career Counselor | RPAVault" />
-  <meta property="og:description" content="Instant career counseling, syllabus information, and placement roadmap for RPA & Generative AI." />
-  <meta property="og:type" content="website" />
-  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-  <link rel="stylesheet" href="./widget.css" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0f172a;
-      background: radial-gradient(circle at top center, #1e293b 0%, #0f172a 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      color: #f8fafc;
-    }
-    .counselor-nav {
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-    }
-    .counselor-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: -0.3px;
-    }
-    .counselor-brand span {
-      color: #60a5fa;
-    }
-    .counselor-back-link {
-      font-size: 13.5px;
-      color: #94a3b8;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s ease;
-    }
-    .counselor-back-link:hover {
-      color: #ffffff;
-    }
-    .counselor-page-wrapper {
-      flex: 1;
-      padding: 24px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-    }
-    .counselor-page-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .counselor-page-header h1 {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.4px;
-      margin-bottom: 6px;
-      color: #ffffff;
-    }
-    .counselor-page-header p {
-      font-size: 14px;
-      color: #94a3b8;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    @media (max-width: 640px) {
-      .counselor-nav {
-        padding: 12px 16px;
-      }
-      .counselor-page-header {
-        display: none; /* Hide header on mobile so chat takes full height */
-      }
-      .counselor-page-wrapper {
-        padding: 0;
-        height: calc(100vh - 57px);
-      }
-    }
-  </style>
-</head>
-<body>
+---
+layout: layouts/base.html
+title: RPAVault AI — Career, Automation & Consulting Assistant
+permalink: /chatbot/index.html
+description: Talk with the RPAVault AI Assistant. Get instant guidance on enterprise automations, consulting, course fees, batch timings, and placement support.
+---
 
-  <!-- Top Navigation Bar -->
-  <header class="counselor-nav">
-    <a href="/" class="counselor-brand">
-      RPA<span>Vault</span>
-    </a>
-    <a href="/" class="counselor-back-link">
-      ← Return to Main Website
-    </a>
-  </header>
-
-  <!-- Page Content Area -->
-  <main class="counselor-page-wrapper">
-    <div class="counselor-page-header">
-      <h1>AI Career & Course Counselor</h1>
+<div class="chatbot-standalone-page">
+  <div class="chatbot-standalone-container">
+    <div class="chatbot-intro-banner">
+      <div class="chatbot-intro-badge">⚡ RPAVault Interactive Assistant</div>
+      <h1>RPAVault AI Assistant</h1>
       <p>
-        Get instant answers about course fees, batch timings, placement assistance, and personalized guidance for non-IT backgrounds or career gaps.
+        Get instant answers about Enterprise Automations, IT Consulting & Staffing, or Hands-on Upskilling (courses, fees, batches, and placement mentorship).
       </p>
     </div>
 
     <!-- The Universal App Mount Target -->
     <div id="rpavault-counselor-app"></div>
-  </main>
+  </div>
+</div>
 
-  <!-- Counselor Widget Scripts -->
-  <script>
-    // Live Cloudflare Worker endpoints
-    window.RPAVAULT_CHAT_CONFIG = {
-      apiUrl: "https://rpavault-chatbot.hikumarswamy.workers.dev/api/chat",
-      leadUrl: "https://rpavault-chatbot.hikumarswamy.workers.dev/api/chat/lead"
-    };
-  </script>
-  <script src="./widget.js" defer></script>
-
-</body>
-</html>
+<script>
+  // Mark page so mobile can cleanly adapt layout without footer
+  document.body.classList.add("is-chatbot-page");
+</script>
