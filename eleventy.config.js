@@ -40,6 +40,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("_redirects");
   eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("admin");
+  eleventyConfig.addPassthroughCopy({
+    "chatbot/widget.js": "chatbot/widget.js",
+    "chatbot/widget.css": "chatbot/widget.css",
+    "chatbot/index.html": "chatbot/index.html"
+  });
 
   // Ignore OLD, backups, templates, and redundant files
   eleventyConfig.ignores.add("OLD/**");

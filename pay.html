@@ -1,0 +1,1552 @@
+---
+layout: layouts/base.html
+title: "Course Enrollment & Payment | RPAVault"
+description: "Complete your enrollment in RPAVault live mentor-led IT courses. Fast, transparent checkout with cohort seat confirmation."
+permalink: /pay/index.html
+---
+
+<style>
+  :root {
+    --pay-brand: #0058b0;
+    --pay-brand-dark: #004182;
+    --pay-brand-soft: #e6f1fb;
+    --pay-green: #1f8a54;
+    --pay-green-soft: #dff2e8;
+    --pay-card-bg: #ffffff;
+    --pay-border: #cce8f3;
+    --pay-ink: #1a181b;
+    --pay-muted: #607987;
+  }
+
+  .pay-wrapper {
+    min-height: 85vh;
+    padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(3rem, 6vw, 5rem);
+    background: radial-gradient(circle at 10% 0%, rgba(0, 88, 176, 0.08), transparent 30rem),
+                radial-gradient(circle at 90% 12%, rgba(31, 138, 84, 0.06), transparent 26rem);
+  }
+
+  .pay-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3vw, 24px);
+  }
+
+  /* Breadcrumb & Trust Bar */
+  .pay-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--pay-muted);
+  }
+
+  .pay-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .pay-breadcrumb a {
+    color: var(--pay-brand);
+    text-decoration: none;
+  }
+  .pay-breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .pay-trust-chips {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .trust-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--pay-border);
+    color: #2b3940;
+  }
+  .trust-chip svg {
+    color: var(--pay-green);
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Stepper Progress Bar */
+  .pay-stepper {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto 30px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--pay-border);
+    border-radius: 999px;
+    box-shadow: 0 4px 18px rgba(0, 88, 176, 0.05);
+    backdrop-filter: blur(10px);
+  }
+
+  .step-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pay-muted);
+    transition: all 0.25s ease;
+  }
+
+  .step-num {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #eef2f5;
+    color: var(--pay-muted);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .step-node.active {
+    background: var(--pay-brand-soft);
+    color: var(--pay-brand-dark);
+  }
+  .step-node.active .step-num {
+    background: var(--pay-brand);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 88, 176, 0.35);
+  }
+
+  .step-node.completed {
+    color: var(--pay-green);
+    cursor: pointer;
+  }
+  .step-node.completed .step-num {
+    background: var(--pay-green);
+    color: #fff;
+  }
+
+  .step-line {
+    width: 32px;
+    height: 2px;
+    background: var(--pay-border);
+    border-radius: 99px;
+  }
+  .step-line.done {
+    background: var(--pay-green);
+  }
+
+  /* Personalized CRM Welcome Alert */
+  .crm-welcome-banner {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #e6f4ea, #f2faf5);
+    border: 1.5px solid #a3e2bc;
+    border-radius: 16px;
+    color: #14532d;
+    box-shadow: 0 4px 16px rgba(31, 138, 84, 0.08);
+    animation: fadeIn 0.3s ease-out;
+  }
+  .crm-welcome-banner.visible {
+    display: flex;
+  }
+  .crm-welcome-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .crm-badge-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #22c55e;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .crm-badge-tag {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: rgba(34, 197, 94, 0.2);
+    color: #166534;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* Card */
+  .pay-card {
+    background: var(--pay-card-bg);
+    border: 1px solid var(--pay-border);
+    border-radius: 24px;
+    padding: clamp(24px, 4vw, 42px);
+    box-shadow: 0 16px 48px rgba(0, 88, 176, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pay-card-header {
+    text-align: center;
+    max-width: 580px;
+    margin: 0 auto 30px;
+  }
+  .pay-card-header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(24px, 3.8vw, 32px);
+    color: var(--pay-ink);
+    margin: 0 0 8px;
+    line-height: 1.2;
+  }
+  .pay-card-header p {
+    font-size: 14.5px;
+    color: var(--pay-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Form Elements */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  .form-group-full {
+    grid-column: 1 / -1;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+  }
+
+  .form-field label {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--pay-ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .form-field label span.req {
+    color: #e11d48;
+    margin-left: 3px;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-icon {
+    position: absolute;
+    left: 14px;
+    color: #94a3b8;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  .pay-input {
+    width: 100%;
+    padding: 13px 14px 13px 44px;
+    font-family: inherit;
+    font-size: 15px;
+    border: 1.5px solid var(--pay-border);
+    border-radius: 14px;
+    background: #fafcfe;
+    color: var(--pay-ink);
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+  .pay-input:focus {
+    border-color: var(--pay-brand);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.12);
+  }
+
+  /* Phone */
+  .phone-input-group {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 10px;
+  }
+  .country-code-select {
+    padding: 13px 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1.5px solid var(--pay-border);
+    border-radius: 14px;
+    background: #fafcfe;
+    color: var(--pay-ink);
+    cursor: pointer;
+    outline: none;
+  }
+  .phone-input-group .pay-input {
+    padding-left: 14px;
+  }
+
+  /* Course select & Highlight Card */
+  .course-select-wrap {
+    position: relative;
+  }
+  .course-select {
+    width: 100%;
+    padding: 14px 44px 14px 44px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    border: 1.5px solid var(--pay-border);
+    border-radius: 14px;
+    background: #fafcfe;
+    color: var(--pay-ink);
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+  }
+  .course-select:focus {
+    border-color: var(--pay-brand);
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.12);
+    background: #fff;
+  }
+  .select-chevron {
+    position: absolute;
+    right: 16px;
+    pointer-events: none;
+    color: #94a3b8;
+  }
+
+  .course-highlight-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    margin-top: 12px;
+    background: linear-gradient(135deg, #f0f7ff, #fafcff);
+    border: 1.5px solid #b9dcf7;
+    border-radius: 16px;
+  }
+  .course-highlight-card.preselected {
+    border-color: var(--pay-brand);
+    box-shadow: 0 6px 20px rgba(0, 88, 176, 0.1);
+  }
+  .ch-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ch-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .ch-pre-badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--pay-brand);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .ch-meta-badge {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--pay-muted);
+    background: #fff;
+    border: 1px solid var(--pay-border);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .ch-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--pay-brand-dark);
+    margin: 0;
+  }
+  .ch-pricing {
+    text-align: right;
+  }
+  .ch-now-price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--pay-ink);
+    display: block;
+    line-height: 1;
+  }
+  .ch-was-price {
+    font-size: 12px;
+    color: #94a3b8;
+    text-decoration: line-through;
+    margin-top: 3px;
+    display: block;
+  }
+
+  /* Quick Pills */
+  .quick-course-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .quick-course-pills span.lbl {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--pay-muted);
+  }
+  .q-pill {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--pay-border);
+    background: #fff;
+    color: var(--pay-ink);
+    cursor: pointer;
+  }
+  .q-pill:hover {
+    border-color: var(--pay-brand);
+    background: var(--pay-brand-soft);
+    color: var(--pay-brand);
+  }
+  .q-pill.active {
+    background: var(--pay-brand);
+    border-color: var(--pay-brand);
+    color: #fff;
+  }
+
+  /* Action Buttons */
+  .form-actions {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .btn-continue {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 24px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--pay-brand);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 24px rgba(0, 88, 176, 0.25);
+    transition: all 0.2s ease;
+  }
+  .btn-continue:hover {
+    background: var(--pay-brand-dark);
+    transform: translateY(-2px);
+  }
+
+  .form-error-msg {
+    display: none;
+    color: #e11d48;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .form-error-msg.visible {
+    display: block;
+  }
+
+  /* ========================================================
+     STEP 2: DIRECT QR CODE & SCREENSHOT UPLOAD FLOW
+     ======================================================== */
+  #step-2-container {
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--pay-brand);
+    background: #fff;
+    border: 1px solid var(--pay-border);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .step-back-btn:hover {
+    background: var(--pay-brand-soft);
+  }
+
+  .step-2-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  /* Left: QR Code Card */
+  .qr-showcase-card {
+    background: linear-gradient(145deg, #f8fbfe, #ffffff);
+    border: 1.5px solid var(--pay-border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 8px 28px rgba(0, 88, 176, 0.05);
+  }
+
+  .qr-amount-badge {
+    background: var(--pay-brand-soft);
+    color: var(--pay-brand-dark);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .qr-box-main {
+    width: 200px;
+    height: 200px;
+    background: #fff;
+    border: 2px dashed #93c5fd;
+    border-radius: 18px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 18px rgba(0, 88, 176, 0.08);
+  }
+
+  .upi-id-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    max-width: 280px;
+    background: #fff;
+    border: 1.5px solid var(--pay-border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+  }
+  .upi-id-text {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--pay-brand-dark);
+  }
+  .btn-copy-small {
+    padding: 4px 10px;
+    border: 1px solid var(--pay-border);
+    border-radius: 8px;
+    background: #f1f5f9;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pay-ink);
+    cursor: pointer;
+  }
+  .btn-copy-small:hover {
+    background: var(--pay-brand);
+    color: #fff;
+  }
+
+  .qr-help-text {
+    font-size: 12.5px;
+    color: var(--pay-muted);
+    line-height: 1.45;
+  }
+
+  /* Right: Candidate Recap & Screenshot Upload Card */
+  .upload-form-card {
+    background: #ffffff;
+    border: 1.5px solid var(--pay-border);
+    border-radius: 20px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 8px 28px rgba(0, 88, 176, 0.05);
+  }
+
+  .mini-recap-bar {
+    background: #f8fbfe;
+    border: 1px solid var(--pay-border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .mini-recap-bar strong {
+    color: var(--pay-ink);
+  }
+
+  /* Screenshot Upload Dropzone */
+  .upload-dropzone {
+    border: 2px dashed #93c5fd;
+    background: #fbfdff;
+    border-radius: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .upload-dropzone:hover {
+    background: #f0f7ff;
+    border-color: var(--pay-brand);
+  }
+  .upload-dropzone.has-file {
+    background: #f0fdf4;
+    border-color: #86efac;
+  }
+
+  .screenshot-file-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .upload-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .upload-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--pay-brand-soft);
+    color: var(--pay-brand);
+    display: grid;
+    place-items: center;
+  }
+  .upload-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--pay-ink);
+  }
+  .upload-sub {
+    font-size: 12px;
+    color: var(--pay-muted);
+  }
+
+  /* Upload Preview */
+  .screenshot-preview-wrap {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .screenshot-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #e2e8f0;
+  }
+  .screenshot-meta {
+    flex: 1;
+    overflow: hidden;
+  }
+  .screenshot-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #166534;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .screenshot-size {
+    font-size: 11px;
+    color: var(--pay-muted);
+  }
+  .btn-remove-file {
+    background: none;
+    border: none;
+    color: #e11d48;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  /* UTR Input */
+  .utr-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .utr-field label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pay-ink);
+    display: flex;
+    justify-content: space-between;
+  }
+  .utr-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--pay-border);
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  .utr-input:focus {
+    border-color: var(--pay-brand);
+    box-shadow: 0 0 0 3px rgba(0, 88, 176, 0.12);
+  }
+
+  /* Submit Payment Button */
+  .btn-submit-payment {
+    width: 100%;
+    padding: 15px;
+    background: #1f8a54;
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(31, 138, 84, 0.25);
+    transition: all 0.2s ease;
+  }
+  .btn-submit-payment:hover {
+    background: #166534;
+    transform: translateY(-2px);
+  }
+
+  /* Modal */
+  .confirm-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(10, 24, 43, 0.65);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .confirm-modal-overlay.open {
+    display: flex;
+  }
+  .confirm-modal-box {
+    background: #fff;
+    border-radius: 24px;
+    max-width: 460px;
+    width: 100%;
+    padding: 32px 26px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.25s ease-out;
+  }
+  .success-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--pay-green-soft);
+    color: var(--pay-green);
+    display: grid;
+    place-items: center;
+    margin: 0 auto 16px;
+  }
+
+  @media (max-width: 760px) {
+    .step-2-grid {
+      grid-template-columns: 1fr;
+    }
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="pay-wrapper">
+  <div class="pay-container">
+
+    <!-- Top Breadcrumb & Trust Signals -->
+    <div class="pay-top-bar">
+      <div class="pay-breadcrumb">
+        <a href="/">Home</a> <span>/</span>
+        <a href="/courses/">IT Courses</a> <span>/</span>
+        <span>Enrollment &amp; Payment</span>
+      </div>
+      <div class="pay-trust-chips">
+        <div class="trust-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+          Official RPAVault Admissions
+        </div>
+        <div class="trust-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Direct Verification
+        </div>
+      </div>
+    </div>
+
+    <!-- Stepper Navigation -->
+    <div class="pay-stepper">
+      <div class="step-node active" id="stepper-step-1">
+        <span class="step-num">1</span>
+        <span class="step-text">Candidate Details</span>
+      </div>
+      <div class="step-line" id="stepper-line"></div>
+      <div class="step-node" id="stepper-step-2">
+        <span class="step-num">2</span>
+        <span class="step-text">Pay &amp; Upload Screenshot</span>
+      </div>
+    </div>
+
+    <!-- Personalized CRM Welcome Alert -->
+    <div class="crm-welcome-banner" id="crm-welcome-banner">
+      <div class="crm-welcome-left">
+        <div class="crm-badge-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <div><strong>Welcome, <span id="crm-student-name">Learner</span>!</strong></div>
+          <div style="font-size: 13px; color: #166534; opacity: 0.9;">Your enrollment details were pre-loaded. Please verify and proceed to payment.</div>
+        </div>
+      </div>
+      <span class="crm-badge-tag">Verified CRM Link</span>
+    </div>
+
+    <!-- Main Payment Card -->
+    <div class="pay-card">
+
+      <!-- ==========================================
+           STEP 1: CANDIDATE DETAILS & COURSE
+           ========================================== -->
+      <div id="step-1-container">
+        <div class="pay-card-header">
+          <h1 id="step-1-title">Candidate Enrollment</h1>
+          <p id="step-1-desc">Fill in your details below to reserve your cohort seat and proceed to payment.</p>
+        </div>
+
+        <form id="enrollment-form" novalidate onsubmit="return false;">
+          <div class="form-grid">
+
+            <!-- Name -->
+            <div class="form-field">
+              <label for="student-name">
+                Full Name <span class="req">*</span>
+              </label>
+              <div class="input-wrap">
+                <input type="text" id="student-name" class="pay-input" placeholder="e.g. Rahul Sharma" autocomplete="name" required>
+                <div class="input-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile -->
+            <div class="form-field">
+              <label for="student-phone">
+                Mobile / WhatsApp Number <span class="req">*</span>
+              </label>
+              <div class="phone-input-group">
+                <select id="country-code" class="country-code-select" aria-label="Country Code">
+                  <option value="+91" selected>🇮🇳 +91</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+971">🇦🇪 +971</option>
+                  <option value="+65">🇸🇬 +65</option>
+                  <option value="+61">🇦🇺 +61</option>
+                </select>
+                <div class="input-wrap">
+                  <input type="tel" id="student-phone" class="pay-input" placeholder="98765 43210" autocomplete="tel" required>
+                  <div class="input-icon" style="left: 10px;">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-field form-group-full">
+              <label for="student-email">
+                Email Address <span class="req">*</span>
+              </label>
+              <div class="input-wrap">
+                <input type="email" id="student-email" class="pay-input" placeholder="rahul@example.com" autocomplete="email" required>
+                <div class="input-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Course Selection -->
+            <div class="form-field form-group-full">
+              <label for="course-select">
+                Selected Course Track <span class="req">*</span>
+              </label>
+              <div class="course-select-wrap">
+                <div class="input-icon" style="z-index: 2;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <select id="course-select" class="course-select">
+                  <option value="" disabled selected>-- Select a Course Track --</option>
+                  {% for c in collections.courses %}
+                  <option value="{{ c.data.course_slug | default(c.fileSlug) }}"
+                          data-name="{{ c.data.name | default(c.data.title) }}"
+                          data-price-inr="{{ c.data.price_inr | default('₹19,999') }}"
+                          data-price-inr-strike="{{ c.data.price_inr_strike | default('₹25,000') }}"
+                          data-duration="{{ c.data.duration | default('45 Days') }}"
+                          data-classes="{{ c.data.classes | default('33 Live Classes') }}">
+                    {{ c.data.name | default(c.data.title) }} ({{ c.data.price_inr | default('₹19,999') }})
+                  </option>
+                  {% endfor %}
+                </select>
+                <div class="select-chevron">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+              </div>
+
+              <!-- Quick Selection Pills -->
+              <div class="quick-course-pills">
+                <span class="lbl">Popular Tracks:</span>
+                <button type="button" class="q-pill" data-slug="rpa-agentic-uipath-power-automate">RPA Agentic</button>
+                <button type="button" class="q-pill" data-slug="data-analytics-power-bi-sql">Data Analytics</button>
+                <button type="button" class="q-pill" data-slug="playwright-typescript-automation">Playwright</button>
+                <button type="button" class="q-pill" data-slug="python">Python</button>
+                <button type="button" class="q-pill" data-slug="msbi-masterclass">MSBI</button>
+              </div>
+
+              <!-- Highlight Card for Selected Course -->
+              <div class="course-highlight-card" id="course-highlight-card" style="display: none;">
+                <div class="ch-info">
+                  <div class="ch-badge-row">
+                    <span class="ch-pre-badge" id="ch-preselected-badge" style="display: none;">🎯 Pre-selected for you</span>
+                    <span class="ch-meta-badge" id="ch-duration">45 Days</span>
+                    <span class="ch-meta-badge" id="ch-classes">33 Live Classes</span>
+                  </div>
+                  <h3 class="ch-title" id="ch-title">RPA Agentic (UiPath + Power Automate)</h3>
+                </div>
+                <div class="ch-pricing">
+                  <span class="ch-now-price" id="ch-price-now">₹19,999</span>
+                  <span class="ch-was-price" id="ch-price-was">₹25,000</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-error-msg" id="form-error-msg">Please fill in all required fields accurately to proceed.</div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-continue" id="btn-to-step-2">
+              <span>Next: View QR Code &amp; Pay</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+
+      <!-- ==========================================
+           STEP 2: SHOWCASE QR CODE & UPLOAD SCREENSHOT
+           ========================================== -->
+      <div id="step-2-container">
+        
+        <button type="button" class="step-back-btn" id="btn-back-to-step-1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          Edit Details
+        </button>
+
+        <div class="step-2-grid">
+
+          <!-- Left: QR Code Showcase -->
+          <div class="qr-showcase-card">
+            <div class="qr-amount-badge">
+              Amount to Pay: <strong id="qr-display-amount" style="font-size: 16px; margin-left: 4px;">₹19,999</strong>
+            </div>
+
+            <div class="qr-box-main">
+              <!-- Crisp SVG UPI QR Preview with RPA center brand -->
+              <svg viewBox="0 0 160 160" width="100%" height="100%">
+                <rect width="160" height="160" fill="#ffffff" rx="10"/>
+                <!-- Alignment squares -->
+                <rect x="14" y="14" width="40" height="40" fill="#0058b0" rx="6"/>
+                <rect x="22" y="22" width="24" height="24" fill="#ffffff" rx="2"/>
+                <rect x="28" y="28" width="12" height="12" fill="#0058b0" rx="2"/>
+
+                <rect x="106" y="14" width="40" height="40" fill="#0058b0" rx="6"/>
+                <rect x="114" y="22" width="24" height="24" fill="#ffffff" rx="2"/>
+                <rect x="120" y="28" width="12" height="12" fill="#0058b0" rx="2"/>
+
+                <rect x="14" y="106" width="40" height="40" fill="#0058b0" rx="6"/>
+                <rect x="22" y="114" width="24" height="24" fill="#ffffff" rx="2"/>
+                <rect x="28" y="120" width="12" height="12" fill="#0058b0" rx="2"/>
+
+                <!-- Dots -->
+                <circle cx="70" cy="24" r="4" fill="#004182"/><circle cx="85" cy="24" r="4" fill="#004182"/>
+                <circle cx="70" cy="40" r="4" fill="#004182"/><circle cx="90" cy="40" r="4" fill="#004182"/>
+                <circle cx="24" cy="70" r="4" fill="#004182"/><circle cx="44" cy="70" r="4" fill="#004182"/>
+                <circle cx="116" cy="70" r="4" fill="#004182"/><circle cx="136" cy="70" r="4" fill="#004182"/>
+                <circle cx="24" cy="88" r="4" fill="#004182"/><circle cx="50" cy="88" r="4" fill="#004182"/>
+                <circle cx="110" cy="88" r="4" fill="#004182"/><circle cx="136" cy="88" r="4" fill="#004182"/>
+                <circle cx="70" cy="116" r="4" fill="#004182"/><circle cx="90" cy="116" r="4" fill="#004182"/>
+                <circle cx="75" cy="136" r="4" fill="#004182"/><circle cx="110" cy="136" r="4" fill="#004182"/>
+
+                <!-- Center Badge -->
+                <rect x="62" y="62" width="36" height="36" fill="#0058b0" rx="8"/>
+                <text x="80" y="84" font-family="'Inter', sans-serif" font-weight="900" font-size="12" fill="#ffffff" text-anchor="middle">RPA</text>
+              </svg>
+            </div>
+
+            <!-- UPI ID with Copy -->
+            <div class="upi-id-bar">
+              <span class="upi-id-text" id="upi-vpa-text">rpavault@icici</span>
+              <button type="button" class="btn-copy-small" id="btn-copy-upi">Copy</button>
+            </div>
+
+            <div class="qr-help-text">
+              Scan with <strong>Google Pay</strong>, <strong>PhonePe</strong>, <strong>Paytm</strong>, or any UPI app.
+            </div>
+          </div>
+
+          <!-- Right: Candidate Recap & Screenshot Upload -->
+          <div class="upload-form-card">
+            
+            <!-- Candidate Quick Recap -->
+            <div class="mini-recap-bar">
+              <div>
+                Candidate: <strong id="step2-recap-name">—</strong>
+              </div>
+              <div>
+                Course: <strong id="step2-recap-course" style="color: var(--pay-brand);">—</strong>
+              </div>
+            </div>
+
+            <!-- Upload Screenshot Dropzone -->
+            <div class="form-field">
+              <label>
+                Upload Payment Screenshot <span class="req">*</span>
+              </label>
+              
+              <div class="upload-dropzone" id="upload-dropzone">
+                <input type="file" id="payment-screenshot" class="screenshot-file-input" accept="image/*">
+                <div class="upload-prompt" id="upload-prompt">
+                  <div class="upload-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  </div>
+                  <div class="upload-title">Click to upload payment screenshot</div>
+                  <div class="upload-sub">Supports PNG, JPG, or WEBP receipts</div>
+                </div>
+
+                <!-- Preview Area -->
+                <div class="screenshot-preview-wrap" id="screenshot-preview-wrap">
+                  <img src="" alt="Payment screenshot preview" id="screenshot-thumb" class="screenshot-thumb">
+                  <div class="screenshot-meta">
+                    <div class="screenshot-name" id="screenshot-filename">screenshot.png</div>
+                    <div class="screenshot-size" id="screenshot-filesize">Uploaded</div>
+                  </div>
+                  <button type="button" class="btn-remove-file" id="btn-remove-screenshot">✕ Remove</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Optional UTR / Reference Number -->
+            <div class="utr-field">
+              <label for="step2-utr">
+                UPI Reference / UTR Number
+                <span style="font-size: 11px; font-weight: 500; color: var(--pay-muted);">Optional</span>
+              </label>
+              <input type="text" id="step2-utr" class="utr-input" placeholder="e.g. 12-digit transaction ID">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" class="btn-submit-payment" id="btn-submit-payment">
+              <span>Submit Payment Verification</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+
+            <div style="font-size: 12px; color: var(--pay-muted); text-align: center; line-height: 1.4;">
+              📞 Admissions Desk: <strong>+91 91609 49996</strong> · LMS access activated upon receipt verification.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ==========================================
+     SUCCESS CONFIRMATION MODAL
+     ========================================== -->
+<div class="confirm-modal-overlay" id="confirm-modal-overlay">
+  <div class="confirm-modal-box">
+    <div class="success-circle">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 22px; margin: 0 0 8px; color: var(--pay-ink);">Payment Screenshot Received!</h3>
+    <p style="font-size: 14px; color: var(--pay-muted); line-height: 1.5; margin: 0 0 18px;">
+      Thank you, <strong id="modal-student-name">Candidate</strong>! Your enrollment submission has been logged with our admissions desk.
+    </p>
+
+    <div style="background: #f8fafc; border: 1px solid var(--pay-border); border-radius: 12px; padding: 12px 14px; font-size: 13px; margin-bottom: 20px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <span style="color: var(--pay-muted);">Enrollment ID:</span>
+        <strong style="font-family: monospace;" id="modal-enroll-id">RPAV-74921</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span style="color: var(--pay-muted);">Course:</span>
+        <strong id="modal-course-name">RPA Agentic</strong>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <a href="#" id="modal-whatsapp-link" target="_blank" rel="noopener" class="btn-continue" style="background: #25d366; text-decoration: none; width: 100%; box-shadow: none;">
+        <span>Confirm on WhatsApp</span>
+      </a>
+      <button type="button" class="step-back-btn" style="width: 100%; justify-content: center; margin-bottom: 0;" onclick="document.getElementById('confirm-modal-overlay').classList.remove('open');">
+        Done
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     CLIENT SCRIPT: CRM PARSER & SCREENSHOT LOGIC
+     ========================================== -->
+<script>
+(function() {
+  // Elements
+  const step1Container = document.getElementById("step-1-container");
+  const step2Container = document.getElementById("step-2-container");
+  const stepperStep1 = document.getElementById("stepper-step-1");
+  const stepperStep2 = document.getElementById("stepper-step-2");
+  const stepperLine = document.getElementById("stepper-line");
+
+  const nameInput = document.getElementById("student-name");
+  const phoneInput = document.getElementById("student-phone");
+  const countryCodeSelect = document.getElementById("country-code");
+  const emailInput = document.getElementById("student-email");
+  const courseSelect = document.getElementById("course-select");
+  const formErrorMsg = document.getElementById("form-error-msg");
+
+  const crmBanner = document.getElementById("crm-welcome-banner");
+  const crmStudentName = document.getElementById("crm-student-name");
+  const courseHighlightCard = document.getElementById("course-highlight-card");
+  const chPreselectedBadge = document.getElementById("ch-preselected-badge");
+  const chTitle = document.getElementById("ch-title");
+  const chDuration = document.getElementById("ch-duration");
+  const chClasses = document.getElementById("ch-classes");
+  const chPriceNow = document.getElementById("ch-price-now");
+  const chPriceWas = document.getElementById("ch-price-was");
+
+  // Step 2 elements
+  const qrDisplayAmount = document.getElementById("qr-display-amount");
+  const step2RecapName = document.getElementById("step2-recap-name");
+  const step2RecapCourse = document.getElementById("step2-recap-course");
+  const fileInput = document.getElementById("payment-screenshot");
+  const uploadDropzone = document.getElementById("upload-dropzone");
+  const uploadPrompt = document.getElementById("upload-prompt");
+  const previewWrap = document.getElementById("screenshot-preview-wrap");
+  const thumbImg = document.getElementById("screenshot-thumb");
+  const filenameEl = document.getElementById("screenshot-filename");
+  const filesizeEl = document.getElementById("screenshot-filesize");
+  const btnRemoveScreenshot = document.getElementById("btn-remove-screenshot");
+  const step2Utr = document.getElementById("step2-utr");
+  const btnSubmitPayment = document.getElementById("btn-submit-payment");
+
+  let customAmount = null;
+  let isCrmPreselected = false;
+  let uploadedScreenshotDataUrl = null;
+
+  // 1. CRM URL PARAMETER PARSER
+  function getCrmParams() {
+    const params = new URLSearchParams(window.location.search);
+    function getVal(keys) {
+      for (const k of keys) {
+        const v = params.get(k);
+        if (v && v.trim()) return decodeURIComponent(v.replace(/\+/g, ' ')).trim();
+      }
+      return null;
+    }
+
+    let name = getVal(["name", "username", "fullname", "student_name", "lead_name"]);
+    let phone = getVal(["phone", "mobile", "tel", "whatsapp", "phone_number"]);
+    let email = getVal(["email", "mail", "email_id"]);
+    let course = getVal(["course", "course_slug", "c", "program", "track"]);
+    let amount = getVal(["amount", "amt", "price", "fee"]);
+
+    // Path segments fallback (e.g. /pay/Rahul-Sharma/9876543210)
+    if (!name && !phone) {
+      const cleanPath = window.location.pathname.replace(/^\/pay\/?/, "").replace(/\/index\.html$/, "");
+      const segments = cleanPath.split("/").map(s => s.trim()).filter(Boolean);
+      if (segments.length > 0) name = decodeURIComponent(segments[0].replace(/[-_+]/g, ' '));
+      if (segments.length > 1) phone = decodeURIComponent(segments[1]);
+      if (segments.length > 2) {
+        if (segments[2].includes("@")) {
+          email = decodeURIComponent(segments[2]);
+          if (segments[3]) course = decodeURIComponent(segments[3]);
+        } else {
+          course = decodeURIComponent(segments[2]);
+        }
+      }
+    }
+
+    return { name, phone, email, course, amount };
+  }
+
+  // 2. MATCH COURSE
+  function matchCourse(slugOrName) {
+    if (!slugOrName) return null;
+    const clean = slugOrName.toLowerCase().replace(/[-_+]/g, ' ').trim();
+    const options = Array.from(courseSelect.options);
+
+    for (const opt of options) {
+      if (opt.value && opt.value.toLowerCase() === slugOrName.toLowerCase()) return opt.value;
+    }
+    for (const opt of options) {
+      const optName = (opt.dataset.name || opt.text || "").toLowerCase();
+      if (optName && (optName === clean || optName.includes(clean) || clean.includes(optName))) return opt.value;
+    }
+    for (const opt of options) {
+      if (opt.value && (opt.value.includes(slugOrName.toLowerCase()) || slugOrName.toLowerCase().includes(opt.value))) return opt.value;
+    }
+    return null;
+  }
+
+  // 3. UPDATE COURSE CARD
+  function updateCourseCard(isFromCrm = false) {
+    const selectedOpt = courseSelect.options[courseSelect.selectedIndex];
+    if (!selectedOpt || !selectedOpt.value) {
+      courseHighlightCard.style.display = "none";
+      return;
+    }
+
+    courseHighlightCard.style.display = "flex";
+    chTitle.textContent = selectedOpt.dataset.name || selectedOpt.text;
+    chDuration.textContent = selectedOpt.dataset.duration || "45 Days";
+    chClasses.textContent = selectedOpt.dataset.classes || "33 Live Classes";
+
+    const inr = selectedOpt.dataset.priceInr || "₹19,999";
+    const strike = selectedOpt.dataset.priceInrStrike || "₹25,000";
+
+    if (customAmount) {
+      chPriceNow.textContent = "₹" + Number(customAmount).toLocaleString("en-IN");
+    } else {
+      chPriceNow.textContent = inr;
+    }
+    chPriceWas.textContent = strike;
+
+    if (isCrmPreselected) {
+      chPreselectedBadge.style.display = "inline-block";
+      courseHighlightCard.classList.add("preselected");
+    } else {
+      chPreselectedBadge.style.display = "none";
+      courseHighlightCard.classList.remove("preselected");
+    }
+
+    document.querySelectorAll(".q-pill").forEach(p => {
+      p.classList.toggle("active", p.dataset.slug === selectedOpt.value);
+    });
+  }
+
+  // 4. INIT CRM DATA
+  const crmData = getCrmParams();
+
+  if (crmData.name) {
+    nameInput.value = crmData.name;
+    crmStudentName.textContent = crmData.name;
+    crmBanner.classList.add("visible");
+  }
+
+  if (crmData.phone) {
+    let cleanPhone = crmData.phone.replace(/[^0-9+]/g, '');
+    if (cleanPhone.startsWith("+91")) {
+      countryCodeSelect.value = "+91";
+      cleanPhone = cleanPhone.substring(3);
+    } else if (cleanPhone.startsWith("+1")) {
+      countryCodeSelect.value = "+1";
+      cleanPhone = cleanPhone.substring(2);
+    } else if (cleanPhone.length === 12 && cleanPhone.startsWith("91")) {
+      countryCodeSelect.value = "+91";
+      cleanPhone = cleanPhone.substring(2);
+    }
+    phoneInput.value = cleanPhone;
+  }
+
+  if (crmData.email) emailInput.value = crmData.email;
+  if (crmData.amount && !isNaN(Number(crmData.amount))) customAmount = Number(crmData.amount);
+
+  if (crmData.course) {
+    const matched = matchCourse(crmData.course);
+    if (matched) {
+      courseSelect.value = matched;
+      isCrmPreselected = true;
+      updateCourseCard(true);
+    }
+  } else if (courseSelect.options.length > 1) {
+    courseSelect.selectedIndex = 1;
+    updateCourseCard(false);
+  }
+
+  courseSelect.addEventListener("change", function() {
+    isCrmPreselected = false;
+    updateCourseCard(false);
+  });
+
+  document.querySelectorAll(".q-pill").forEach(pill => {
+    pill.addEventListener("click", function() {
+      const slug = this.dataset.slug;
+      if (slug && courseSelect.querySelector(`option[value="${slug}"]`)) {
+        courseSelect.value = slug;
+        isCrmPreselected = false;
+        updateCourseCard(false);
+      }
+    });
+  });
+
+  // 5. STEP 1 -> STEP 2
+  document.getElementById("btn-to-step-2").addEventListener("click", function() {
+    formErrorMsg.classList.remove("visible");
+
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const email = emailInput.value.trim();
+    const course = courseSelect.value;
+
+    if (!name || name.length < 2) {
+      formErrorMsg.textContent = "Please enter the candidate's full legal name.";
+      formErrorMsg.classList.add("visible");
+      nameInput.focus();
+      return;
+    }
+    if (!phone || phone.replace(/\D/g, '').length < 8) {
+      formErrorMsg.textContent = "Please provide a valid mobile or WhatsApp number.";
+      formErrorMsg.classList.add("visible");
+      phoneInput.focus();
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      formErrorMsg.textContent = "Please provide a valid email address.";
+      formErrorMsg.classList.add("visible");
+      emailInput.focus();
+      return;
+    }
+    if (!course) {
+      formErrorMsg.textContent = "Please select a course track to continue.";
+      formErrorMsg.classList.add("visible");
+      courseSelect.focus();
+      return;
+    }
+
+    const selectedOpt = courseSelect.options[courseSelect.selectedIndex];
+    const finalPrice = customAmount ? ("₹" + Number(customAmount).toLocaleString("en-IN")) : (selectedOpt.dataset.priceInr || "₹19,999");
+
+    step2RecapName.textContent = name;
+    step2RecapCourse.textContent = selectedOpt.dataset.name || selectedOpt.text;
+    qrDisplayAmount.textContent = finalPrice;
+
+    step1Container.style.display = "none";
+    step2Container.style.display = "block";
+    stepperStep1.classList.remove("active");
+    stepperStep1.classList.add("completed");
+    stepperStep2.classList.add("active");
+    stepperLine.classList.add("done");
+
+    window.scrollTo({ top: 120, behavior: "smooth" });
+  });
+
+  document.getElementById("btn-back-to-step-1").addEventListener("click", function() {
+    step2Container.style.display = "none";
+    step1Container.style.display = "block";
+    stepperStep2.classList.remove("active");
+    stepperStep1.classList.remove("completed");
+    stepperStep1.classList.add("active");
+    stepperLine.classList.remove("done");
+  });
+
+  stepperStep1.addEventListener("click", function() {
+    if (this.classList.contains("completed")) {
+      document.getElementById("btn-back-to-step-1").click();
+    }
+  });
+
+  // 6. SCREENSHOT FILE HANDLING
+  fileInput.addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload an image file (PNG, JPG, or WEBP).");
+      fileInput.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      uploadedScreenshotDataUrl = evt.target.result;
+      thumbImg.src = uploadedScreenshotDataUrl;
+      filenameEl.textContent = file.name;
+      filesizeEl.textContent = (file.size / 1024).toFixed(1) + " KB";
+
+      uploadPrompt.style.display = "none";
+      previewWrap.style.display = "flex";
+      uploadDropzone.classList.add("has-file");
+    };
+    reader.readAsDataURL(file);
+  });
+
+  btnRemoveScreenshot.addEventListener("click", function(e) {
+    e.stopPropagation();
+    fileInput.value = "";
+    uploadedScreenshotDataUrl = null;
+    uploadPrompt.style.display = "flex";
+    previewWrap.style.display = "none";
+    uploadDropzone.classList.remove("has-file");
+  });
+
+  // 7. COPY UPI ID
+  document.getElementById("btn-copy-upi").addEventListener("click", function() {
+    const vpa = document.getElementById("upi-vpa-text").textContent;
+    navigator.clipboard.writeText(vpa).then(() => {
+      this.textContent = "Copied!";
+      setTimeout(() => { this.textContent = "Copy"; }, 2000);
+    });
+  });
+
+  // 8. SUBMIT PAYMENT VERIFICATION
+  btnSubmitPayment.addEventListener("click", function() {
+    if (!uploadedScreenshotDataUrl) {
+      alert("Please upload the payment screenshot before submitting.");
+      return;
+    }
+
+    const name = nameInput.value.trim();
+    const phone = `${countryCodeSelect.value} ${phoneInput.value.trim()}`;
+    const email = emailInput.value.trim();
+    const selectedOpt = courseSelect.options[courseSelect.selectedIndex];
+    const courseTitle = selectedOpt ? (selectedOpt.dataset.name || selectedOpt.text) : "";
+    const amount = qrDisplayAmount.textContent;
+    const utr = step2Utr.value.trim() || "Attached Screenshot";
+    const randId = "RPAV-" + Math.floor(10000 + Math.random() * 90000);
+
+    // Prepare WhatsApp message
+    const msg = `*RPAVault Enrollment Payment Screenshot Submitted*\n\n` +
+                `*Enrollment ID:* ${randId}\n` +
+                `*Candidate:* ${name}\n` +
+                `*Phone:* ${phone}\n` +
+                `*Email:* ${email}\n` +
+                `*Course:* ${courseTitle}\n` +
+                `*Amount Paid:* ${amount}\n` +
+                `*Ref/UTR:* ${utr}\n\n` +
+                `I have uploaded my payment screenshot on the portal. Please verify and confirm my batch seat.`;
+    const waUrl = `https://wa.me/919160949996?text=${encodeURIComponent(msg)}`;
+
+    // Populate modal
+    document.getElementById("modal-student-name").textContent = name;
+    document.getElementById("modal-enroll-id").textContent = randId;
+    document.getElementById("modal-course-name").textContent = courseTitle;
+    document.getElementById("modal-whatsapp-link").href = waUrl;
+
+    document.getElementById("confirm-modal-overlay").classList.add("open");
+
+    // Asynchronously log lead into Google Apps Script webhook
+    try {
+      if (window.fetch) {
+        fetch("https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            form_type: "Payment Screenshot Submitted",
+            enrollment_id: randId,
+            name: name,
+            phone: phone,
+            email: email,
+            course: courseTitle,
+            amount: amount,
+            utr: utr,
+            page_url: window.location.href,
+            referrer: document.referrer || "CRM Link"
+          })
+        }).catch(() => {});
+      }
+    } catch(e) {}
+  });
+
+})();
+</script>
