@@ -35,6 +35,10 @@ export default {
         return await handleSync(request, env);
       }
 
+      if (url.pathname.endsWith("/api/chat/diag") && request.method === "GET") {
+        return await handleDiag(request, env);
+      }
+
       if (url.pathname.endsWith("/api/chat/models") && request.method === "GET") {
         const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${env.GEMINI_API_KEY}`);
         const data = await res.json();
@@ -325,9 +329,9 @@ CONVERSATIONAL GUIDELINES:
   };
 
   const endpoints = [
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`,
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`
   ];
 
@@ -341,14 +345,23 @@ CONVERSATIONAL GUIDELINES:
       });
 
       const json = await res.json();
-      if (res.ok && json.candidates?.[0]?.content?.parts?.[0]?.text) {
-        return JSON.parse(json.candidates[0].content.parts[0].text);
+      if (res.ok && json.candidates && json.candidates[0]) {
+        const parsed = extractJsonFromCandidate(json.candidates[0]);
+        if (parsed && parsed.reply) {
+          return {
+            reply: parsed.reply,
+            status: parsed.status || "ANSWERED",
+            suggest_contact: Boolean(parsed.suggest_contact)
+          };
+        }
       }
       if (json.error) {
         lastError = json.error.message;
+        console.warn(`Gemini endpoint failed (${endpoint.split("?")[0]}):`, json.error.message);
       }
     } catch (err) {
       lastError = err.message;
+      console.warn(`Gemini fetch error (${endpoint.split("?")[0]}):`, err.message);
     }
   }
 
@@ -360,20 +373,56 @@ CONVERSATIONAL GUIDELINES:
     }
   }
 
-  if (lastError && !lastError.includes("no longer available")) {
-    console.error("Gemini API error:", lastError);
-    return {
-      reply: `Notice: ${lastError}`,
-      status: "UNKNOWN",
-      suggest_contact: true
-    };
+  if (lastError) {
+    console.error("All AI generation endpoints failed. Last error:", lastError);
   }
 
+  // Graceful visitor fallback — NEVER leak raw API error strings or notices to website visitors
   return {
     reply: "I'd be glad to help you with that! Would you like our trainer to connect with you directly to guide you?",
     status: "UNKNOWN",
     suggest_contact: true
   };
+}
+
+// Helper to extract valid structured JSON from candidate parts (handles thinking tokens and markdown wrappers)
+function extractJsonFromCandidate(candidate) {
+  if (!candidate || !candidate.content || !Array.isArray(candidate.content.parts)) {
+    return null;
+  }
+  const parts = candidate.content.parts;
+  for (const part of parts) {
+    if (part.text) {
+      const parsed = safeParseJson(part.text);
+      if (parsed && typeof parsed === "object" && parsed.reply) {
+        return parsed;
+      }
+    }
+  }
+  return null;
+}
+
+// Robust JSON parser: strips markdown code fences and handles embedded objects
+function safeParseJson(rawText) {
+  if (!rawText || typeof rawText !== "string") return null;
+  let clean = rawText.trim();
+  if (clean.startsWith("```")) {
+    clean = clean.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim();
+  }
+  try {
+    return JSON.parse(clean);
+  } catch (e) {
+    const firstBrace = clean.indexOf("{");
+    const lastBrace = clean.lastIndexOf("}");
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      try {
+        return JSON.parse(clean.substring(firstBrace, lastBrace + 1));
+      } catch (inner) {
+        return null;
+      }
+    }
+    return null;
+  }
 }
 
 // Groq Llama 3.3 Backup Engine
@@ -414,12 +463,69 @@ async function askGroq(userQuery, history, kbContext, env, systemInstruction) {
     const json = await res.json();
     const content = json.choices?.[0]?.message?.content;
     if (content) {
-      return JSON.parse(content);
+      const parsed = safeParseJson(content);
+      if (parsed && parsed.reply) {
+        return {
+          reply: parsed.reply,
+          status: parsed.status || "ANSWERED",
+          suggest_contact: Boolean(parsed.suggest_contact)
+        };
+      }
     }
   } catch (err) {
     console.error("Groq fallback error:", err);
   }
   return null;
+}
+
+// Diagnostic Handler to verify live endpoints and API health
+async function handleDiag(request, env) {
+  const apiKey = env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return jsonResponse({ error: "GEMINI_API_KEY is not configured" }, 500, request, env);
+  }
+
+  const modelsToTest = [
+    "gemini-3.5-flash-lite",
+    "gemini-3.5-flash",
+    "gemini-2.5-flash",
+    "gemini-flash-latest"
+  ];
+
+  const results = {};
+  for (const m of modelsToTest) {
+    const testUrl = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${apiKey}`;
+    try {
+      const res = await fetch(testUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: "Respond in JSON: {\"reply\":\"ok\"}" }] }],
+          generationConfig: { responseMimeType: "application/json" }
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "OK";
+        results[m] = { ok: true, status: res.status, snippet: text.substring(0, 100) };
+      } else {
+        results[m] = { ok: false, status: res.status, error: data.error?.message || data };
+      }
+    } catch (e) {
+      results[m] = { ok: false, error: e.message };
+    }
+  }
+
+  return jsonResponse({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    gemini_key_present: Boolean(apiKey),
+    groq_key_present: Boolean(env.GROQ_API_KEY),
+    notion_token_present: Boolean(env.NOTION_TOKEN),
+    notion_db_present: Boolean(env.NOTION_DATABASE_ID),
+    kv_present: Boolean(env.CHATBOT_KV),
+    model_checks: results
+  }, 200, request, env);
 }
 
 // ==========================================================================
