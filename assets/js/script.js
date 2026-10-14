@@ -460,34 +460,96 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
     });
   }
   
-  /* Location lookup (free, no key). Cached per session; fails silently. Runs on all page loads. */
-  const cachedGeoStr = safeStorage.session.getItem('rpv_geo');
+  /* Location lookup (free, no key). Cached per session; fails silently. Runs on all page loads with multi-tier fallback. */
   const applyGeo = (g) => {
+    if (!g) return;
     const lForms = document.querySelectorAll('form.js-lead-form');
     if (lForms.length) {
       lForms.forEach(form => {
         setField(form, 'visitor_city', g.city || '');
         setField(form, 'visitor_region', g.region || '');
-        setField(form, 'visitor_country', g.country_name || '');
+        setField(form, 'visitor_country', g.country_name || g.country || '');
         setField(form, 'visitor_ip', g.ip || '');
       });
     }
   };
-  if (cachedGeoStr) {
-    try {
-      applyGeo(JSON.parse(cachedGeoStr));
-    } catch (_) {}
-  } else {
-    fetch('https://ipapi.co/json/')
+
+  function fetchGeoWithFallback() {
+    const cachedGeoStr = safeStorage.session.getItem('rpv_geo');
+    if (cachedGeoStr) {
+      try {
+        const parsed = JSON.parse(cachedGeoStr);
+        if (parsed && parsed.ip) {
+          applyGeo(parsed);
+          return Promise.resolve(parsed);
+        }
+      } catch (_) {}
+    }
+
+    return fetch('https://ipapi.co/json/')
       .then(r => r.ok ? r.json() : null)
       .then(g => {
-        if (g && g.ip) {
-          safeStorage.session.setItem('rpv_geo', JSON.stringify(g));
-          applyGeo(g);
+        if (g && g.ip && !g.error && g.reason !== 'RateLimited') {
+          const standardized = {
+            ip: g.ip,
+            city: g.city || '',
+            region: g.region || '',
+            country_name: g.country_name || g.country || '',
+            country: g.country_name || g.country || ''
+          };
+          safeStorage.session.setItem('rpv_geo', JSON.stringify(standardized));
+          applyGeo(standardized);
+          return standardized;
         }
+        throw new Error('ipapi rate limited or invalid');
       })
-      .catch(() => {});
+      .catch(() => {
+        // Fallback 1: ipwho.is (free, high quota, CORS open)
+        return fetch('https://ipwho.is/')
+          .then(r => r.ok ? r.json() : null)
+          .then(g => {
+            if (g && g.success && g.ip) {
+              const standardized = {
+                ip: g.ip,
+                city: g.city || '',
+                region: g.region || '',
+                country_name: g.country || '',
+                country: g.country || ''
+              };
+              safeStorage.session.setItem('rpv_geo', JSON.stringify(standardized));
+              applyGeo(standardized);
+              return standardized;
+            }
+            throw new Error('ipwho.is failed');
+          });
+      })
+      .catch(() => {
+        // Fallback 2: freeipapi.com
+        return fetch('https://freeipapi.com/api/json')
+          .then(r => r.ok ? r.json() : null)
+          .then(g => {
+            if (g && (g.ipAddress || g.ip)) {
+              const standardized = {
+                ip: g.ipAddress || g.ip,
+                city: g.cityName || g.city || '',
+                region: g.regionName || g.region || '',
+                country_name: g.countryName || g.country || '',
+                country: g.countryName || g.country || ''
+              };
+              safeStorage.session.setItem('rpv_geo', JSON.stringify(standardized));
+              applyGeo(standardized);
+              return standardized;
+            }
+            throw new Error('freeipapi failed');
+          });
+      })
+      .catch(() => {
+        return null;
+      });
   }
+
+  window.rpvFetchGeo = fetchGeoWithFallback;
+  fetchGeoWithFallback();
 
 /* ---------- Conditional course dropdown ---------- */
 /* Shows a course selector when the visitor picks an IT-courses topic */

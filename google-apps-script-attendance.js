@@ -426,26 +426,26 @@ function doPost(e) {
     if (logSheet) {
       try {
         const now = new Date();
-        const ip = params["Geo: IP Address"] || params.ip || "";
-        const city = params["Geo: City"] || params.city || "";
-        const region = params["Geo: Region"] || params.region || "";
-        const country = params["Geo: Country"] || params.country || "";
-        const os = params["Device: OS"] || params.os || "";
+        const ip = params["Geo: IP Address"] || params.ip || params.visitor_ip || "";
+        const city = params["Geo: City"] || params.city || params.visitor_city || "";
+        const region = params["Geo: Region"] || params.region || params.visitor_region || "";
+        const country = params["Geo: Country"] || params.country || params.country_name || params.visitor_country || "";
+        const os = params["Device: OS"] || params.os || params.operating_system || "";
         const browser = params["Device: Browser"] || params.browser || "";
-        const device = params["Device: Type"] || params.device || "";
+        const device = params["Device: Type"] || params.device || params.device_type || "";
         const screen = params["Device: Screen Size"] || params.screen || "";
-        const lang = params["Device: Browser Language"] || params.language || "";
+        const lang = params["Device: Browser Language"] || params.language || params.lang || "";
         const visitorType = params["Session: Visitor Type"] || params.visitor_type || "";
         const visitorId = params["Session: Visitor ID"] || params.visitor_id || "";
         const visitCount = params["Session: Visit Count"] || params.visit_count || "1";
-        const firstVisit = params["Session: First Visit Date"] || params.first_visit_date || "";
+        const firstVisit = params["Session: First Visit Date"] || params.first_visit_date || params.first_visit || "";
         const pathTrail = params["Session: Path Trail"] || params.path_trail || "";
         const referrer = params["Session: Referrer"] || params.referrer || "direct";
-        const timeOnPage = params["Session: Time Spent on Page (sec)"] || params.time_spent || "";
+        const timeOnPage = params["Session: Time Spent on Page (sec)"] || params.time_spent || params.time_on_page || "";
         const timezone = params["Session: Timezone"] || params.timezone || "";
-        const pagePath = params["Session: Source Page Path"] || params.source_page || "";
+        const pagePath = params["Session: Source Page Path"] || params.source_page || params.source_page_path || "";
         const pageTitle = params["Session: Source Page Title"] || params.source_page_title || "";
-        const localTime = params["Session: Local Time Submitted"] || params.local_time || now.toString();
+        const localTime = params["Session: Local Time Submitted"] || params.local_time || params.local_time_submitted || now.toString();
 
         logSheet.appendRow([
           now,
@@ -515,6 +515,11 @@ function doGet(e) {
   try {
     const action = (e && e.parameter && e.parameter.action) ? e.parameter.action.toLowerCase() : "";
     const forceRefresh = (e && e.parameter && (e.parameter.refresh === "1" || e.parameter.nocache === "1"));
+
+    // Route join, dashboard_access, and verify actions directly to doPost
+    if (action === "join" || action === "dashboard_access" || action === "verify") {
+      return doPost(e);
+    }
 
     if (action === "sync") {
       const synced = syncDashboardCache();

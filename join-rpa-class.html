@@ -1059,16 +1059,65 @@ og_image: /assets/images/og-join-rpa-class.png
     return "Desktop";
   }
 
-  function buildTelemetryPayload(email, actionType) {
-    let geoData = {};
+  async function getOrFetchGeoData() {
     try {
       const cached = sessionStorage.getItem('rpv_geo');
-      if (cached) geoData = JSON.parse(cached);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && (parsed.ip || parsed.city || parsed.country_name)) {
+          return parsed;
+        }
+      }
     } catch (_) {}
+
+    if (typeof window.rpvFetchGeo === 'function') {
+      try {
+        const g = await window.rpvFetchGeo();
+        if (g && (g.ip || g.city || g.country_name)) return g;
+      } catch (_) {}
+    }
+
+    try {
+      const controller = new AbortController();
+      const tid = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch('https://ipwho.is/', { signal: controller.signal });
+      clearTimeout(tid);
+      const data = await res.json();
+      if (data && data.success && data.ip) {
+        const standardized = {
+          ip: data.ip,
+          city: data.city || '',
+          region: data.region || '',
+          country_name: data.country || '',
+          country: data.country || ''
+        };
+        sessionStorage.setItem('rpv_geo', JSON.stringify(standardized));
+        return standardized;
+      }
+    } catch (_) {}
+
+    return {};
+  }
+
+  function buildTelemetryPayload(email, actionType, geoOverride) {
+    let geoData = geoOverride || {};
+    if (!geoData.ip) {
+      try {
+        const cached = sessionStorage.getItem('rpv_geo');
+        if (cached) geoData = JSON.parse(cached);
+      } catch (_) {}
+    }
 
     const visitorId = localStorage.getItem('rpv_visitor_id') || ('v-' + Date.now() + '-' + Math.floor(Math.random()*1000000));
     const visitCount = localStorage.getItem('rpv_visit_count') || "1";
     const firstVisit = localStorage.getItem('rpv_first_visit') || new Date().toISOString();
+    let firstVisitFormatted = "";
+    try {
+      const parsedDate = new Date(firstVisit);
+      firstVisitFormatted = isNaN(parsedDate.getTime()) ? (firstVisit || "") : parsedDate.toLocaleString();
+    } catch (_) {
+      firstVisitFormatted = firstVisit || "";
+    }
     const pathTrail = sessionStorage.getItem('rpv_path_trail') || location.pathname;
     const timeOnPage = Math.round((Date.now() - pageStartTime) / 1000);
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
@@ -1081,7 +1130,7 @@ og_image: /assets/images/og-join-rpa-class.png
       "Geo: IP Address": geoData.ip || "",
       "Geo: City": geoData.city || "",
       "Geo: Region": geoData.region || "",
-      "Geo: Country": geoData.country_name || "",
+      "Geo: Country": geoData.country_name || geoData.country || "",
       "=== DEVICE & BROWSER ===": "==============================",
       "Device: OS": getDeviceOS(),
       "Device: Browser": getBrowserString(),
@@ -1092,7 +1141,7 @@ og_image: /assets/images/og-join-rpa-class.png
       "Session: Visitor Type": (parseInt(visitCount, 10) <= 1) ? 'New' : 'Returning',
       "Session: Visitor ID": visitorId,
       "Session: Visit Count": visitCount,
-      "Session: First Visit Date": new Date(firstVisit).toLocaleString(),
+      "Session: First Visit Date": firstVisitFormatted,
       "Session: Path Trail": pathTrail,
       "Session: Referrer": document.referrer || 'direct',
       "Session: Time Spent on Page (sec)": timeOnPage.toString(),
@@ -1101,6 +1150,42 @@ og_image: /assets/images/og-join-rpa-class.png
       "Session: Source Page Title": document.title || 'Live Class Portal',
       "Session: Local Time Submitted": new Date().toString()
     };
+  }
+
+  function buildTelemetryUrl(baseUrl, payload) {
+    const params = new URLSearchParams();
+    for (const key in payload) {
+      if (payload.hasOwnProperty(key) && !key.startsWith("===")) {
+        params.set(key, payload[key]);
+      }
+    }
+    if (payload["Geo: IP Address"]) params.set("ip", payload["Geo: IP Address"]);
+    if (payload["Geo: City"]) params.set("city", payload["Geo: City"]);
+    if (payload["Geo: Region"]) params.set("region", payload["Geo: Region"]);
+    if (payload["Geo: Country"]) params.set("country", payload["Geo: Country"]);
+    if (payload["Device: OS"]) params.set("os", payload["Device: OS"]);
+    if (payload["Device: Browser"]) params.set("browser", payload["Device: Browser"]);
+    if (payload["Device: Type"]) params.set("device", payload["Device: Type"]);
+    if (payload["Device: Screen Size"]) params.set("screen", payload["Device: Screen Size"]);
+    if (payload["Device: Browser Language"]) {
+      params.set("language", payload["Device: Browser Language"]);
+      params.set("lang", payload["Device: Browser Language"]);
+    }
+    if (payload["Session: Visitor Type"]) params.set("visitor_type", payload["Session: Visitor Type"]);
+    if (payload["Session: Visitor ID"]) params.set("visitor_id", payload["Session: Visitor ID"]);
+    if (payload["Session: Visit Count"]) params.set("visit_count", payload["Session: Visit Count"]);
+    if (payload["Session: First Visit Date"]) params.set("first_visit_date", payload["Session: First Visit Date"]);
+    if (payload["Session: Path Trail"]) params.set("path_trail", payload["Session: Path Trail"]);
+    if (payload["Session: Referrer"]) params.set("referrer", payload["Session: Referrer"]);
+    if (payload["Session: Time Spent on Page (sec)"]) params.set("time_spent", payload["Session: Time Spent on Page (sec)"]);
+    if (payload["Session: Timezone"]) params.set("timezone", payload["Session: Timezone"]);
+    if (payload["Session: Source Page Path"]) params.set("source_page", payload["Session: Source Page Path"]);
+    if (payload["Session: Source Page Title"]) params.set("source_page_title", payload["Session: Source Page Title"]);
+    if (payload["Session: Local Time Submitted"]) params.set("local_time", payload["Session: Local Time Submitted"]);
+    if (payload.action) params.set("action", payload.action);
+    if (payload.email) params.set("email", payload.email);
+
+    return `${baseUrl}?${params.toString()}`;
   }
 
   // 1. Join Live Class Handler (Supports both Students & Admins)
@@ -1119,14 +1204,13 @@ og_image: /assets/images/og-join-rpa-class.png
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>Verifying...</span>';
 
-      const payload = buildTelemetryPayload(email, "join");
+      const geoData = await getOrFetchGeoData();
+      const payload = buildTelemetryPayload(email, "join", geoData);
+      const joinUrl = buildTelemetryUrl(GOOGLE_APPS_SCRIPT_URL, payload);
 
       try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
+        const response = await fetch(joinUrl, {
+          method: 'GET'
         });
         const result = await response.json();
 
@@ -1190,14 +1274,13 @@ og_image: /assets/images/og-join-rpa-class.png
       dashSubmitBtn.disabled = true;
       dashSubmitBtn.innerHTML = '<span>Verifying Access...</span>';
 
-      const payload = buildTelemetryPayload(email, "dashboard_access");
+      const geoData = await getOrFetchGeoData();
+      const payload = buildTelemetryPayload(email, "dashboard_access", geoData);
+      const verifyUrl = buildTelemetryUrl(GOOGLE_APPS_SCRIPT_URL, payload);
 
       try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
+        const response = await fetch(verifyUrl, {
+          method: 'GET'
         });
         const result = await response.json();
 
