@@ -350,7 +350,17 @@ CONVERSATIONAL GUIDELINES:
    - If the user has not provided a name, address them politely as "you" and NEVER ask for their name again. If a name is provided, address them warmly by name.
 
 7. CONTACT TRIGGER:
-   - Set "suggest_contact" to true ONLY if the visitor explicitly agrees (e.g. says "yes", "sure", "send it", "call me") or asks for a callback/syllabus/document. Otherwise, set "suggest_contact" to false.`;
+   - Set "suggest_contact" to true ONLY if the visitor explicitly agrees (e.g. says "yes", "sure", "send it", "call me") or asks for a callback/syllabus/document. Otherwise, set "suggest_contact" to false.
+
+8. PROPER CLICKABLE MARKDOWN LINKS:
+   - When mentioning courses, brochures, curriculum roadmaps, or services, ALWAYS format them as clean Markdown links: [Anchor Text](URL).
+   - NEVER write out raw plain-text URLs like "visit https://...". Always wrap with descriptive anchor text such as `[UiPath & Power Automate Course](https://rpavault.com/courses/rpa-agentic-uipath-power-automate.html)`.
+   - Core Verified Links:
+     * Flagship RPA Course: [UiPath & Agentic AI Masterclass](https://rpavault.com/courses/rpa-agentic-uipath-power-automate.html)
+     * All Courses & Syllabuses: [Explore All IT Courses](https://rpavault.com/courses.html)
+     * Enterprise Automation Consulting: [Enterprise Automation Services](https://rpavault.com/services.html)
+     * Direct WhatsApp Connection: [Chat on WhatsApp (+91 9160949996)](https://wa.me/919160949996)
+   - Keep links relevant and helpful (1-2 per turn when appropriate) without spamming.`;
 
   const turns = formatConversationTurns(history, userQuery);
   const contents = turns.map(t => ({

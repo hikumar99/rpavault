@@ -300,6 +300,37 @@
       });
     }
 
+    // Formats markdown links, bare URLs, and bold text into clickable HTML elements
+    function formatBubbleContent(text) {
+      if (!text) return "";
+      let formatted = text;
+
+      // 1. Convert Markdown links: [Title](url) -> <a href="url" target="_blank" rel="noopener" class="rpav-link">Title</a>
+      formatted = formatted.replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/)[^\s\)]+)\)/g, function(_, label, url) {
+        return `<a href="${url}" target="_blank" rel="noopener" class="rpav-link">${label}</a>`;
+      });
+
+      // 2. Convert Markdown bold: **text** -> <strong>text</strong>
+      formatted = formatted.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+
+      // 3. Convert bare URLs (that are not already inside an href="...") into clickable links
+      formatted = formatted.replace(/(^|[^">])(https?:\/\/[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=%]+)/g, function(match, prefix, fullUrl) {
+        let url = fullUrl;
+        let trailingPunct = "";
+        const punctMatch = url.match(/[.,;:?!)]+$/);
+        if (punctMatch) {
+          trailingPunct = punctMatch[0];
+          url = url.slice(0, -trailingPunct.length);
+        }
+        return `${prefix}<a href="${url}" target="_blank" rel="noopener" class="rpav-link">${url}</a>${trailingPunct}`;
+      });
+
+      // 4. Convert newlines to <br/>
+      formatted = formatted.replace(/\n/g, "<br/>");
+
+      return formatted;
+    }
+
     // Append Message helper
     function appendMessage(text, role) {
       const msgDiv = document.createElement("div");
@@ -307,7 +338,7 @@
 
       const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       msgDiv.innerHTML = `
-        <div class="rpav-bubble">${text.replace(/\n/g, "<br/>")}</div>
+        <div class="rpav-bubble">${formatBubbleContent(text)}</div>
         <span class="rpav-msg-time">${timeStr}</span>
       `;
 

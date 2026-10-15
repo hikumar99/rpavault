@@ -377,6 +377,28 @@ body:has(.chatbot-standalone-page) #rpav-bubble-launcher {
   border-bottom-left-radius: 4px;
 }
 
+.rpav-bubble a,
+.rpav-bubble .rpav-link {
+  color: #0058b0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+  word-break: break-word;
+}
+
+.rpav-bubble a:hover,
+.rpav-bubble .rpav-link:hover {
+  color: #00366f;
+  text-decoration-thickness: 2px;
+}
+
+.rpav-msg-user .rpav-bubble a,
+.rpav-msg-user .rpav-bubble .rpav-link {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
 .rpav-msg-time {
   font-size: 11px;
   color: #94a3b8;
