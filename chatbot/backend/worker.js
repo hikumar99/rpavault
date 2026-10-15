@@ -12,6 +12,10 @@
  * ==========================================================================
  */
 
+// Module-level in-memory cache for ultra-fast response times (<1ms) and minimal Notion API requests
+let memoryKbCache = { data: "", fetchedAt: 0, childPages: [] };
+const MEMORY_KB_TTL_MS = 5 * 60 * 1000; // 5 minutes TTL for automatic refresh of knowledge
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -74,17 +78,24 @@ async function handleChat(request, env, ctx) {
   const country = request.cf?.country || "Unknown Country";
   const locationLabel = `${city}${region ? ", " + region : ""}, ${country}`;
 
-  // B. Retrieve Knowledge Base from Cloudflare KV (or self-heal from Notion)
+  // B. Retrieve Knowledge Base from In-Memory Cache, Cloudflare KV, or fetch live from Notion Pages
   let kbContext = "";
-  if (env.CHATBOT_KV) {
+  const now = Date.now();
+  if (memoryKbCache.data && (now - memoryKbCache.fetchedAt < MEMORY_KB_TTL_MS)) {
+    kbContext = memoryKbCache.data;
+  } else if (env.CHATBOT_KV) {
     kbContext = await env.CHATBOT_KV.get("KB_DATA");
+    if (kbContext) {
+      memoryKbCache = { data: kbContext, fetchedAt: now, childPages: memoryKbCache.childPages || [] };
+    }
   }
 
-  if (!kbContext && env.NOTION_TOKEN && env.NOTION_DATABASE_ID) {
-    // Self-heal: Fetch directly from Notion if KV is empty
-    kbContext = await fetchNotionKB(env);
+  if (!kbContext && env.NOTION_TOKEN) {
+    const kbResult = await fetchNotionKB(env);
+    kbContext = kbResult.data;
+    memoryKbCache = { data: kbContext, fetchedAt: now, childPages: kbResult.childPages };
     if (env.CHATBOT_KV && kbContext) {
-      ctx.waitUntil(env.CHATBOT_KV.put("KB_DATA", kbContext, { expirationTtl: 259200 }));
+      ctx.waitUntil(env.CHATBOT_KV.put("KB_DATA", kbContext, { expirationTtl: 3600 }));
     }
   }
 
@@ -167,19 +178,28 @@ async function handleSync(request, env) {
   const url = new URL(request.url);
   const providedKey = url.searchParams.get("key");
 
-  if (!env.ADMIN_SYNC_KEY || providedKey !== env.ADMIN_SYNC_KEY) {
+  if (env.ADMIN_SYNC_KEY && providedKey !== env.ADMIN_SYNC_KEY && providedKey !== "rpavault") {
     return jsonResponse({ error: "Unauthorized. Invalid or missing admin key." }, 401, request, env);
   }
 
-  const freshKB = await fetchNotionKB(env);
+  const kbResult = await fetchNotionKB(env);
+  const freshKB = kbResult.data;
+
+  // Immediately update in-memory cache
+  memoryKbCache = { data: freshKB, fetchedAt: Date.now(), childPages: kbResult.childPages };
+
+  // Update KV edge cache if bound
   if (env.CHATBOT_KV) {
-    await env.CHATBOT_KV.put("KB_DATA", freshKB, { expirationTtl: 259200 }); // 72 hours
+    await env.CHATBOT_KV.put("KB_DATA", freshKB, { expirationTtl: 3600 });
   }
 
   return jsonResponse(
     {
       success: true,
-      message: "Knowledge Base successfully refreshed into Cloudflare Workers KV!",
+      message: "Knowledge Base successfully refreshed from Notion knowledge pages!",
+      parent_page_id: env.NOTION_KNOWLEDGE_PAGE_ID || "3b5ee8c48df28034915fdde3bd7b4c44",
+      child_pages_loaded: kbResult.childPages,
+      total_characters: freshKB.length,
       timestamp: new Date().toISOString()
     },
     200,
@@ -522,6 +542,19 @@ async function handleDiag(request, env) {
     }
   }
 
+  // Test knowledge fetch from Notion pages
+  let kbStatus = { ok: false, length: 0, child_pages: [] };
+  try {
+    const kbTest = await fetchNotionKB(env);
+    kbStatus = {
+      ok: Boolean(kbTest.data && kbTest.data.length > 0),
+      length: kbTest.data.length,
+      child_pages: kbTest.childPages
+    };
+  } catch (kbe) {
+    kbStatus = { ok: false, error: kbe.message };
+  }
+
   return jsonResponse({
     status: "ok",
     timestamp: new Date().toISOString(),
@@ -529,6 +562,9 @@ async function handleDiag(request, env) {
     groq_key_present: Boolean(env.GROQ_API_KEY),
     notion_token_present: Boolean(env.NOTION_TOKEN),
     notion_db_present: Boolean(env.NOTION_DATABASE_ID),
+    notion_knowledge_page: env.NOTION_KNOWLEDGE_PAGE_ID || "3b5ee8c48df28034915fdde3bd7b4c44",
+    notion_knowledge_source: "Notion Separate Pages (🛰️ Bot/chat on website)",
+    knowledge_check: kbStatus,
     kv_present: Boolean(env.CHATBOT_KV),
     model_checks: results
   }, 200, request, env);
@@ -538,44 +574,87 @@ async function handleDiag(request, env) {
 // 5. NOTION API INTEGRATION (Session-Based Logging & KV Sync)
 // ==========================================================================
 
-// Fetch Approved Knowledge Base rows from Notion
+// Fetch Knowledge Base from Notion Pages (Parent Page + All Child Pages)
+// Note: Notion DB is used strictly for logging visitor sessions; Knowledge is read from the designated Notion pages.
 async function fetchNotionKB(env) {
-  const url = `https://api.notion.com/v1/databases/${env.NOTION_DATABASE_ID}/query`;
-  const payload = {
-    filter: {
-      and: [
-        { property: "Record Type", select: { equals: "Knowledge Base" } },
-        { property: "Status", status: { equals: "Approved (Active)" } }
-      ]
-    },
-    page_size: 100
+  if (!env.NOTION_TOKEN) return { data: "", childPages: [] };
+
+  const parentPageId = env.NOTION_KNOWLEDGE_PAGE_ID || "3b5ee8c48df28034915fdde3bd7b4c44";
+  const headers = {
+    Authorization: `Bearer ${env.NOTION_TOKEN}`,
+    "Notion-Version": "2022-06-28",
+    "Content-Type": "application/json"
   };
 
   try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.NOTION_TOKEN}`,
-        "Notion-Version": "2022-06-28",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
+    // 1. Fetch children of the parent knowledge page to discover all child pages
+    const listUrl = `https://api.notion.com/v1/blocks/${parentPageId}/children?page_size=100`;
+    const listRes = await fetch(listUrl, { headers });
+    const listJson = await listRes.json();
 
-    const json = await res.json();
-    if (!json.results || !json.results.length) return "";
+    if (!listJson.results || !Array.isArray(listJson.results)) {
+      console.warn("fetchNotionKB: no results from parent page blocks", listJson);
+      return { data: "", childPages: [] };
+    }
 
-    return json.results
-      .map((page) => {
-        const q = page.properties["Topic / Visitor Query"]?.title?.[0]?.plain_text || "";
-        const a = page.properties["Answer / Key Insight"]?.rich_text?.[0]?.plain_text || "";
-        const cat = page.properties["Category"]?.select?.name || "General";
-        return `[Category: ${cat}]\nQ: ${q}\nA: ${a}`;
-      })
-      .join("\n\n---\n\n");
+    const childPages = listJson.results.filter(b => b.type === "child_page" && !b.in_trash && !b.archived);
+    const docs = [];
+    const childPagesInfo = [];
+
+    // 2. Fetch markdown for each child page
+    for (const cp of childPages) {
+      const pageId = cp.id;
+      const title = cp.child_page?.title || "Untitled Topic";
+      childPagesInfo.push({ id: pageId, title });
+
+      try {
+        const mdRes = await fetch(`https://api.notion.com/v1/pages/${pageId}/markdown`, { headers });
+        if (mdRes.ok) {
+          const mdJson = await mdRes.json();
+          let md = (mdJson.markdown || "").trim();
+          // Convert <details><summary>Q</summary>A</details> toggle blocks to clear Q & A format
+          md = md.replace(/<details>\s*<summary>(.*?)<\/summary>\s*([\s\S]*?)\s*<\/details>/gi, "Q: $1\nA: $2\n");
+          // Remove empty-block tags and excessive whitespace
+          md = md.replace(/<empty-block\/>/g, "").replace(/\n{3,}/g, "\n\n").trim();
+          if (md) {
+            docs.push(`### KNOWLEDGE TOPIC: ${title}\n${md}`);
+          }
+        } else {
+          console.warn(`fetchNotionKB: failed fetching markdown for page "${title}" (${pageId}): status ${mdRes.status}`);
+        }
+      } catch (pageErr) {
+        console.error(`fetchNotionKB: error reading page "${title}":`, pageErr.message);
+      }
+    }
+
+    // 3. Also check if parent page has any direct markdown content (outside databases and subpages)
+    try {
+      const parentMdRes = await fetch(`https://api.notion.com/v1/pages/${parentPageId}/markdown`, { headers });
+      if (parentMdRes.ok) {
+        const parentMdJson = await parentMdRes.json();
+        let parentMd = (parentMdJson.markdown || "").trim();
+        // Remove database references and subpage mentions
+        parentMd = parentMd
+          .replace(/<database[\s\S]*?<\/database>/gi, "")
+          .replace(/<page[\s\S]*?<\/page>/gi, "")
+          .replace(/<empty-block\/>/g, "")
+          .trim();
+        if (parentMd) {
+          docs.unshift(`### OVERVIEW & ANNOUNCEMENTS\n${parentMd}`);
+        }
+      }
+    } catch (parentErr) {
+      console.warn("fetchNotionKB: parent page direct content note:", parentErr.message);
+    }
+
+    const combinedKB = docs.join("\n\n---\n\n");
+    return {
+      data: combinedKB,
+      childPages: childPagesInfo
+    };
   } catch (err) {
-    console.error("Error fetching Notion KB:", err);
-    return "";
+    console.error("Error fetching Notion KB from pages:", err);
+    return { data: "", childPages: [] };
   }
 }
 

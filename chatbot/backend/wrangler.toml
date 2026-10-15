@@ -12,9 +12,10 @@ id = "YOUR_CLOUDFLARE_KV_NAMESPACE_ID"
 # Public / Non-secret environment variables
 [vars]
 ALLOWED_ORIGIN = "*" # Replace with "https://rpavault.com" in production
+NOTION_KNOWLEDGE_PAGE_ID = "3b5ee8c48df28034915fdde3bd7b4c44" # Parent page: "🛰️ Bot/chat on website"
 
 # Secrets (Set via: wrangler secret put <NAME> or in Cloudflare Dashboard Settings > Variables)
 # - GEMINI_API_KEY
 # - NOTION_TOKEN
-# - NOTION_DATABASE_ID = "bdaa774f994a4eb5b2b15632ac59d0ec"
+# - NOTION_DATABASE_ID = "bdaa774f994a4eb5b2b15632ac59d0ec" (used strictly for session logging)
 # - ADMIN_SYNC_KEY
