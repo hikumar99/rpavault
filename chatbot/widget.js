@@ -15,7 +15,7 @@
       leadUrl: "https://rpavault-chatbot.hikumarswamy.workers.dev/api/chat/lead", // Lead capture endpoint
       formSubmitEndpoint: "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2", // RPAVault FormSubmit endpoint
       botName: "RPAVault AI",
-      botSubtitle: "Online • Consulting, Automation & Training",
+      botSubtitle: "Online • Automation & Training",
       sessionTimeoutMinutes: 30,
       starterChips: [
         "💬 Connect on WhatsApp",
@@ -155,7 +155,7 @@
       </div>
 
       <div class="rpav-footer">
-        <input type="text" class="rpav-input-box" id="rpav-input" placeholder="Type your name (or ask a question)..." autocomplete="off" />
+        <input type="text" class="rpav-input-box" id="rpav-input" placeholder="Ask a question..." autocomplete="off" />
         <button class="rpav-send-btn" id="rpav-btn-send" title="Send">${ICONS.send}</button>
       </div>
     `;
@@ -243,7 +243,21 @@
 
     // Scroll to bottom helper
     function scrollToBottom() {
-      messagesList.scrollTop = messagesList.scrollHeight;
+      if (messagesList) {
+        messagesList.scrollTop = messagesList.scrollHeight;
+      }
+    }
+
+    // Mobile soft keyboard & viewport defense
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", function () {
+        setTimeout(scrollToBottom, 60);
+      });
+    }
+    if (inputField) {
+      inputField.addEventListener("focus", function () {
+        setTimeout(scrollToBottom, 260);
+      });
     }
 
     // Append Message helper
