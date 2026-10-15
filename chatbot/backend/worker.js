@@ -892,31 +892,30 @@ async function logSessionToNotion(env, { sessionId, userName, userMessage, aiRep
     }
   } else {
     // 2. Append to EXISTING Session Page (Turn 2, 3, or subsequent visits from same IP)
-    // If userName is now known, update Notion page title to "[Name] Question" and Visitor Name
-    if (userName) {
-      try {
-        const updatedTitle = formatSubject(userName, userMessage);
-        await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${env.NOTION_TOKEN}`,
-            "Notion-Version": "2022-06-28",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            properties: {
-              title: {
-                title: [{ text: { content: updatedTitle } }]
-              },
-              "Visitor Name": {
-                rich_text: [{ text: { content: `${userName} (${locationLabel})` } }]
-              }
-            }
-          })
-        });
-      } catch (err) {
-        console.error("Failed updating session title with user name:", err);
+    // Update Notion page title to the latest query so the database table view immediately shows recent questions
+    try {
+      const updatedTitle = formatSubject(userName, userMessage);
+      const patchProps = {
+        title: {
+          title: [{ text: { content: updatedTitle } }]
+        }
+      };
+      if (userName) {
+        patchProps["Visitor Name"] = {
+          rich_text: [{ text: { content: `${userName} (${locationLabel})` } }]
+        };
       }
+      await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${env.NOTION_TOKEN}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ properties: patchProps })
+      });
+    } catch (err) {
+      console.error("Failed updating session title with latest query:", err);
     }
 
     const appendUrl = `https://api.notion.com/v1/blocks/${pageId}/children`;
