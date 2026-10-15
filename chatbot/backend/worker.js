@@ -796,9 +796,6 @@ async function logSessionToNotion(env, { sessionId, userName, userMessage, aiRep
         "Topic / Visitor Query": {
           title: [{ text: { content: title } }]
         },
-        "Record Type": {
-          select: { name: "Visitor Session" }
-        },
         Status: {
           status: { name: status === "UNKNOWN" ? "⚠️ Needs Review" : "Auto-Answered" }
         },
