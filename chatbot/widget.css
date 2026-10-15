@@ -110,8 +110,8 @@
 .chatbot-standalone-page {
   background: #f8fafc;
   background: radial-gradient(circle at top center, #f1f5f9 0%, #f8fafc 100%);
-  padding: 40px 20px 60px;
-  min-height: calc(100vh - 280px);
+  padding: 24px 20px 36px;
+  min-height: calc(100vh - 140px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,48 +124,16 @@
 }
 
 .chatbot-intro-banner {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.chatbot-intro-badge {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--rpav-accent);
-  background: var(--rpav-accent-light);
-  padding: 5px 14px;
-  border-radius: 999px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(0, 88, 176, 0.15);
-}
-
-.chatbot-intro-banner h1 {
-  font-size: clamp(22px, 5.5vw, 30px);
-  font-weight: 800;
-  color: #0b1f31;
-  margin: 0 0 8px;
-  letter-spacing: -0.5px;
-  white-space: nowrap;
-}
-
-.chatbot-intro-banner p {
-  font-size: 15px;
-  color: #64748b;
-  max-width: 620px;
-  margin: 0 auto;
-  line-height: 1.5;
+  display: none !important;
 }
 
 #rpavault-counselor-app {
   width: 100%;
   max-width: 920px;
   margin: 0 auto;
-  height: 680px;
-  max-height: calc(100vh - 200px);
-  min-height: 480px;
+  height: 740px;
+  max-height: calc(100vh - 150px);
+  min-height: 520px;
   background: #ffffff;
   border-radius: 20px;
   box-shadow: 0 16px 40px -10px rgba(11, 31, 49, 0.12), 0 0 0 1px var(--rpav-border);

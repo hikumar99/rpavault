@@ -208,8 +208,7 @@
           const badge = document.getElementById("rpav-bubble-badge");
           if (badge) badge.style.display = "none";
           setTimeout(function () {
-            const inp = document.getElementById("rpav-input");
-            if (inp) inp.focus();
+            focusInputOnDesktop();
           }, 250);
         }
       });
@@ -245,6 +244,23 @@
     function scrollToBottom() {
       if (messagesList) {
         messagesList.scrollTop = messagesList.scrollHeight;
+      }
+    }
+
+    // Device detection: identify mobile devices with soft on-screen keyboards
+    function isTouchOrMobile() {
+      return (
+        window.innerWidth <= 768 ||
+        (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      );
+    }
+
+    // Strictly focus input ONLY on desktop hardware keyboards.
+    // NEVER programmatically pull up the on-screen soft keyboard on mobile devices.
+    function focusInputOnDesktop() {
+      if (!isTouchOrMobile() && inputField) {
+        inputField.focus();
       }
     }
 
@@ -499,6 +515,12 @@
       inputField.value = "";
       sendBtn.disabled = true;
 
+      // On mobile / touch devices, blur input so the on-screen keyboard dismisses
+      // and leaves full, unobstructed screen space to view incoming answer
+      if (isTouchOrMobile() && inputField) {
+        inputField.blur();
+      }
+
       // Check if user is answering the instant WhatsApp prompt
       if (sessionStorage.getItem("rpav_awaiting_wa_confirm") === "true") {
         sessionStorage.removeItem("rpav_awaiting_wa_confirm");
@@ -516,7 +538,7 @@
           appendMessage("No problem! Our senior advisor will review your request and connect with you shortly. Feel free to ask any other questions here in the meantime!", "bot");
         }
         sendBtn.disabled = false;
-        inputField.focus();
+        focusInputOnDesktop();
         return;
       }
 
@@ -553,7 +575,7 @@
 
           inputField.placeholder = "Ask about courses, career gap, fees, or consulting...";
           sendBtn.disabled = false;
-          inputField.focus();
+          focusInputOnDesktop();
 
           // Update Notion session in background with their real name
           fetch(CONFIG.leadUrl, {
@@ -624,7 +646,7 @@
         );
       } finally {
         sendBtn.disabled = false;
-        inputField.focus();
+        focusInputOnDesktop();
       }
     }
 
