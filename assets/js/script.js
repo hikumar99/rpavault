@@ -654,6 +654,28 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
         throw new Error(resJson.message || "FormSubmit rejected submission");
       }
 
+      // Dispatch Google Analytics 4 generate_lead conversion event
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', {
+            currency: 'INR',
+            value: 1,
+            event_category: 'Lead',
+            event_label: finalFormType,
+            form_name: finalFormType,
+            course_page: form.querySelector('input[name="course_page"]')?.value || '',
+            page_location: window.location.href,
+            page_path: location.pathname || '/'
+          });
+        } else if (window.dataLayer && Array.isArray(window.dataLayer)) {
+          window.dataLayer.push({
+            event: 'generate_lead',
+            form_name: finalFormType,
+            page_path: location.pathname || '/'
+          });
+        }
+      } catch (_) {}
+
       const pdfUrl = form.getAttribute('data-pdf-url');
       if (pdfUrl) {
         try {
@@ -713,6 +735,27 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
         submitBtn.innerHTML = originalBtnHtml;
       }
     }
+  });
+});
+
+/* ---------- WhatsApp click tracking ---------- */
+document.querySelectorAll('a[href*="wa.me"], a.whatsapp-float').forEach(btn => {
+  btn.addEventListener('click', () => {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'whatsapp_click', {
+          event_category: 'Engagement',
+          event_label: btn.getAttribute('aria-label') || 'WhatsApp Floating Button',
+          page_location: window.location.href,
+          page_path: location.pathname || '/'
+        });
+      } else if (window.dataLayer && Array.isArray(window.dataLayer)) {
+        window.dataLayer.push({
+          event: 'whatsapp_click',
+          page_path: location.pathname || '/'
+        });
+      }
+    } catch (_) {}
   });
 });
 })();

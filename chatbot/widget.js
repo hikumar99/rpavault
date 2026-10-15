@@ -28,6 +28,28 @@
     window.RPAVAULT_CHAT_CONFIG || {}
   );
 
+  // --- Analytics Tracking Helper ---
+  function trackAnalyticsEvent(eventName, params) {
+    try {
+      const payload = Object.assign(
+        {
+          page_path: window.location.pathname,
+          page_url: window.location.href,
+          session_id: getSessionId()
+        },
+        params || {}
+      );
+
+      if (typeof window.gtag === "function") {
+        window.gtag("event", eventName, payload);
+      } else if (window.dataLayer && Array.isArray(window.dataLayer)) {
+        window.dataLayer.push(Object.assign({ event: eventName }, payload));
+      }
+    } catch (e) {
+      // Defensive: ad/tracking blockers should never disrupt user experience
+    }
+  }
+
   // --- Session Management ---
   function getSessionId() {
     const now = Date.now();
@@ -170,6 +192,7 @@
       // 1. Dedicated Full-Page Mode
       fullPageTarget.innerHTML = buildChatMarkup(true);
       container = fullPageTarget;
+      trackAnalyticsEvent("chat_open", { trigger: "standalone_page" });
     } else {
       // 2. Floating Bubble Mode
       const launcher = document.createElement("div");
@@ -207,6 +230,7 @@
           launcher.style.display = "none";
           const badge = document.getElementById("rpav-bubble-badge");
           if (badge) badge.style.display = "none";
+          trackAnalyticsEvent("chat_open", { trigger: "floating_bubble" });
           setTimeout(function () {
             focusInputOnDesktop();
           }, 250);
@@ -355,6 +379,19 @@
         const sessionId = getSessionId();
         const transcript = getFormattedTranscript();
 
+        // Dispatch GA4 standard lead conversion event & custom chat lead event
+        trackAnalyticsEvent("generate_lead", {
+          currency: "INR",
+          value: 1,
+          lead_source: "chatbot",
+          lead_name: name,
+          course_interest: "Chatbot Roadmap Lead"
+        });
+        trackAnalyticsEvent("chat_lead_captured", {
+          has_phone: Boolean(phone),
+          has_email: Boolean(email)
+        });
+
         // 1. Submit to FormSubmit.co AJAX (captures IP, City, User Agent, Referrer + full chat)
         if (CONFIG.formSubmitEndpoint) {
           fetch(CONFIG.formSubmitEndpoint, {
@@ -437,6 +474,7 @@
           const noBtn = promptDiv.querySelector("#rpav-btn-wa-no");
 
           yesBtn.addEventListener("click", function () {
+            trackAnalyticsEvent("chat_whatsapp_click", { source: "lead_prompt" });
             promptDiv.querySelector(".rpav-wa-prompt-buttons").remove();
             appendMessage("Yes, connect on WhatsApp", "user");
             const botReply = `Awesome, ${name}! Click below to chat directly with us on WhatsApp:<br/><br/>
@@ -479,6 +517,7 @@
 
     // Direct WhatsApp Connection Handler
     function handleWhatsAppDirect() {
+      trackAnalyticsEvent("chat_whatsapp_click", { source: "starter_chip" });
       hideChips();
       const storedName = sessionStorage.getItem("rpav_user_name") || "";
       const userQuestions = getHistory()
@@ -511,6 +550,11 @@
       hideChips();
       const text = (userText || inputField.value || "").trim();
       if (!text) return;
+
+      trackAnalyticsEvent("chat_message_sent", {
+        message_length: text.length,
+        is_first_message: getHistory().length === 0
+      });
 
       inputField.value = "";
       sendBtn.disabled = true;
@@ -664,16 +708,19 @@
 
     // Starter Chip clicks
     chipsContainer.addEventListener("click", function (e) {
-      const chip = e.target.closest(".rpav-chip");
-      if (chip) {
-        const question = chip.getAttribute("data-question");
-        if (question && question.includes("WhatsApp")) {
-          handleWhatsAppDirect();
-        } else {
-          handleSend(question);
-        }
-      }
-    });
+       const chip = e.target.closest(".rpav-chip");
+       if (chip) {
+         const question = chip.getAttribute("data-question");
+         if (question) {
+           trackAnalyticsEvent("chat_chip_click", { chip_text: question });
+         }
+         if (question && question.includes("WhatsApp")) {
+           handleWhatsAppDirect();
+         } else {
+           handleSend(question);
+         }
+       }
+     });
   }
 
   // Auto-run when DOM is ready

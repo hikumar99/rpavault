@@ -30,6 +30,11 @@
 <meta name="description" content="{{ pageDesc }}">
 {% if noindex %}
 <meta name="robots" content="noindex, nofollow">
+{% else %}
+<meta name="robots" content="{{ robots | default('index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1') }}">
+{% endif %}
+{% if keywords %}
+<meta name="keywords" content="{{ keywords }}">
 {% endif %}
 <link rel="canonical" href="{% if canonical_url %}{{ canonical_url }}{% else %}https://rpavault.com{{ page.url }}{% endif %}">
 <link rel="alternate" type="application/rss+xml" title="RPAVault RSS Feed" href="https://rpavault.com/feed.xml">

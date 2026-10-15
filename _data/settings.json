@@ -94,5 +94,8 @@
   },
   "redirects": {
     "google_sheet_id": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxYUl_FhfoYtwzRUMGyUVuKdihV19WZlg5aFCtMut9FuZN8qtHjUBGJf4ftP6MbgVXrAFyfogU3Heq/pubhtml?gid=17123895&single=true"
+  },
+  "analytics": {
+    "ga4_id": "G-H994NLYWRJ"
   }
 }
