@@ -579,6 +579,28 @@ async function handleDiag(request, env) {
     kbStatus = { ok: false, error: kbe.message };
   }
 
+  // Test Notion Database logging access
+  let notionDbStatus = { ok: false };
+  if (env.NOTION_TOKEN && env.NOTION_DATABASE_ID) {
+    try {
+      const qRes = await fetch(`https://api.notion.com/v1/databases/${env.NOTION_DATABASE_ID}`, {
+        headers: {
+          Authorization: `Bearer ${env.NOTION_TOKEN}`,
+          "Notion-Version": "2022-06-28"
+        }
+      });
+      const qData = await qRes.json();
+      notionDbStatus = {
+        ok: qRes.ok,
+        status: qRes.status,
+        title: qData.title?.[0]?.plain_text || "Unknown",
+        error: qData.message || null
+      };
+    } catch (dbe) {
+      notionDbStatus = { ok: false, error: dbe.message };
+    }
+  }
+
   return jsonResponse({
     status: "ok",
     timestamp: new Date().toISOString(),
@@ -586,6 +608,7 @@ async function handleDiag(request, env) {
     groq_key_present: Boolean(env.GROQ_API_KEY),
     notion_token_present: Boolean(env.NOTION_TOKEN),
     notion_db_present: Boolean(env.NOTION_DATABASE_ID),
+    notion_db_check: notionDbStatus,
     notion_knowledge_page: env.NOTION_KNOWLEDGE_PAGE_ID || "3b5ee8c48df28034915fdde3bd7b4c44",
     notion_knowledge_source: "Notion Separate Pages (🛰️ Bot/chat on website)",
     knowledge_check: kbStatus,
@@ -793,7 +816,7 @@ async function logSessionToNotion(env, { sessionId, userName, userMessage, aiRep
     const createPayload = {
       parent: { database_id: env.NOTION_DATABASE_ID },
       properties: {
-        "Topic / Visitor Query": {
+        title: {
           title: [{ text: { content: title } }]
         },
         Status: {
@@ -849,7 +872,9 @@ async function logSessionToNotion(env, { sessionId, userName, userMessage, aiRep
         body: JSON.stringify(createPayload)
       });
       const data = await res.json();
-      if (data.id && env.CHATBOT_KV) {
+      if (!res.ok) {
+        console.error("Notion create page error:", res.status, JSON.stringify(data));
+      } else if (data.id && env.CHATBOT_KV) {
         await env.CHATBOT_KV.put(kvKey, data.id, { expirationTtl: 86400 });
       }
     } catch (err) {
@@ -870,7 +895,7 @@ async function logSessionToNotion(env, { sessionId, userName, userMessage, aiRep
           },
           body: JSON.stringify({
             properties: {
-              "Topic / Visitor Query": {
+              title: {
                 title: [{ text: { content: updatedTitle } }]
               },
               "Visitor Name": {
@@ -972,7 +997,7 @@ async function updateNotionLead(env, { sessionId, ip, name, phone, email, topic,
         rich_text: [{ text: { content: `${name} ${locationLabel}` } }]
       };
       const titleContent = topic ? formatSubject(name, topic) : `[${name}] ${locationLabel || "Inquiry"}`;
-      patchProps["Topic / Visitor Query"] = {
+      patchProps["title"] = {
         title: [{ text: { content: titleContent } }]
       };
     }
