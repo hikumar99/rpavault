@@ -3795,6 +3795,29 @@ permalink: /join-live/
       dashSubmitBtn.disabled = true;
       dashSubmitBtn.innerHTML = '<span>Verifying Access...</span>';
 
+      // 0. Instant Fast-Track for Admin Emails (Zero Delay & Immediate Unlock)
+      const isAdminEmail = email.includes('admin') || 
+                           email.endsWith('@rpavault.com') || 
+                           email === 'rpavault2@gmail.com' || 
+                           email === 'rpavault@gmail.com' ||
+                           email === 'hikumar99@gmail.com';
+      if (isAdminEmail) {
+        sessionStorage.setItem('rpv_verified_user_email', email);
+        sessionStorage.setItem('rpv_user_is_admin', 'true');
+        authCard.style.display = 'none';
+        dashSubmitBtn.disabled = false;
+        dashSubmitBtn.innerHTML = '<span>Verify &amp; Unlock Dashboard &rarr;</span>';
+        unlockAndLoadDashboard(email);
+
+        // Send telemetry silently in background without delaying user
+        getOrFetchGeoData().then(geo => {
+          const payload = buildTelemetryPayload(email, "dashboard_access", geo);
+          const verifyUrl = buildTelemetryUrl(GOOGLE_APPS_SCRIPT_URL, payload);
+          fetch(verifyUrl, { method: 'GET', keepalive: true }).catch(() => {});
+        }).catch(() => {});
+        return;
+      }
+
       // 1. Check frozen localStorage batches FIRST — supports completed batches removed from GSheet
       try {
         if (!serverFrozenBatchesStore || Object.keys(serverFrozenBatchesStore).length === 0) {
@@ -3834,12 +3857,12 @@ permalink: /join-live/
         }
       } catch (_) {}
 
-      // 2. Not in frozen data — verify via Google Apps Script (GET request with full telemetry)
+      // 2. Not in frozen data — verify via Google Apps Script (GET request with 35s timeout)
       const geoData = await getOrFetchGeoData();
       const payload = buildTelemetryPayload(email, "dashboard_access", geoData);
       const verifyUrl = buildTelemetryUrl(GOOGLE_APPS_SCRIPT_URL, payload);
       const abortController = new AbortController();
-      const timeoutId = setTimeout(() => abortController.abort(), 12000);
+      const timeoutId = setTimeout(() => abortController.abort(), 35000);
 
       try {
         const response = await fetch(verifyUrl, {
@@ -4835,6 +4858,37 @@ permalink: /join-live/
         finalBatches.push(b);
       }
     });
+    function getBatchDateScore(name) {
+      const s = (name || '').toLowerCase();
+      const yrMatch = s.match(/(202[4-9]|\b2[4-9]\b)/);
+      let yr = yrMatch ? parseInt(yrMatch[1], 10) : 2026;
+      if (yr < 100) yr += 2000;
+
+      const months = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+      let mo = 1;
+      for (const [mStr, mNum] of Object.entries(months)) {
+        if (s.includes(mStr)) {
+          mo = mNum;
+          break;
+        }
+      }
+
+      const dayMatch = s.match(/(\d{1,2})\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/);
+      const day = dayMatch ? parseInt(dayMatch[1], 10) : 1;
+
+      return yr * 10000 + mo * 100 + day;
+    }
+
+    // 5. Order Batches: Active batches first (sorted newest to oldest), Frozen/Completed batches at the bottom
+    finalBatches.sort((a, b) => {
+      const aFrozen = isBatchFrozen(a.id);
+      const bFrozen = isBatchFrozen(b.id);
+      if (aFrozen && !bFrozen) return 1;  // frozen batches at the bottom
+      if (!aFrozen && bFrozen) return -1; // active batches at the top
+      // Sort newest to oldest within each group
+      return getBatchDateScore(b.name) - getBatchDateScore(a.name);
+    });
+
     availableBatches = finalBatches;
 
     if (availableBatches.length === 0) {
@@ -4842,20 +4896,28 @@ permalink: /join-live/
     }
 
     // Determine target batch to select for logged-in user
-    let targetBatch = currentUserEnrolledBatch || '';
-    if (!targetBatch && data && data.students && currentUserEmail) {
-      const me = data.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
-      if (me && me.batch) {
-        targetBatch = me.batch;
-        currentUserEnrolledBatch = me.batch;
-      }
-    }
-
     let selectedIdx = 0;
-    if (targetBatch) {
-      const tSlug = slugify(targetBatch);
-      const foundIdx = availableBatches.findIndex(b => b.id === tSlug || slugify(b.name) === tSlug);
-      if (foundIdx >= 0) selectedIdx = foundIdx;
+    if (currentUserIsAdmin) {
+      // ADMIN: ALWAYS select the newest active ongoing batch (first non-frozen batch in list)
+      const firstActiveIdx = availableBatches.findIndex(b => !isBatchFrozen(b.id));
+      if (firstActiveIdx >= 0) {
+        selectedIdx = firstActiveIdx;
+      }
+    } else {
+      let targetBatch = currentUserEnrolledBatch || '';
+      if (!targetBatch && data && data.students && currentUserEmail) {
+        const me = data.students.find(s => s.email.toLowerCase() === currentUserEmail.toLowerCase());
+        if (me && me.batch) {
+          targetBatch = me.batch;
+          currentUserEnrolledBatch = me.batch;
+        }
+      }
+
+      if (targetBatch) {
+        const tSlug = slugify(targetBatch);
+        const foundIdx = availableBatches.findIndex(b => b.id === tSlug || slugify(b.name) === tSlug);
+        if (foundIdx >= 0) selectedIdx = foundIdx;
+      }
     }
 
     // Render batch options
@@ -5217,30 +5279,32 @@ permalink: /join-live/
       }
     }
 
-    // Check client sessionStorage cache (5 min TTL) for ultra-fast instant rendering
-    const cachedLiveStr = sessionStorage.getItem('rpv_live_dash_cache');
-    const cachedLiveTime = sessionStorage.getItem('rpv_live_dash_cache_time');
-    const isCacheFresh = cachedLiveStr && cachedLiveTime && (Date.now() - parseInt(cachedLiveTime, 10) < 5 * 60 * 1000);
-    if (isCacheFresh) {
-      try {
+    // 1. Instant Rendering from localStorage / sessionStorage cache (0ms delay)
+    let renderedFromCache = false;
+    try {
+      const cachedLiveStr = localStorage.getItem('rpv_live_dash_cache') || sessionStorage.getItem('rpv_live_dash_cache');
+      if (cachedLiveStr) {
         const cachedObj = JSON.parse(cachedLiveStr);
-        if (cachedObj && cachedObj.students) {
+        if (cachedObj && cachedObj.students && cachedObj.students.length > 0) {
           currentDashboardData = cachedObj;
           if (loadingState) loadingState.style.display = 'none';
           if (mainContent) mainContent.style.display = 'block';
           initCourseAndBatchDropdowns(cachedObj);
           onDashBatchChange();
-          return;
+          renderedFromCache = true;
         }
-      } catch (_) {}
+      }
+    } catch (_) {}
+
+    // Show loading state ONLY if we have no cached data at all
+    if (!renderedFromCache) {
+      if (loadingState) loadingState.style.display = 'flex';
+      if (mainContent) mainContent.style.display = 'none';
     }
 
-    // Show loading state while fetching live data from GAS
-    if (loadingState) loadingState.style.display = 'flex';
-    if (mainContent) mainContent.style.display = 'none';
-
+    // 2. Fetch fresh live data from Google Apps Script (generous 40s timeout)
     const getAbort = new AbortController();
-    const getTimeout = setTimeout(() => getAbort.abort(), 15000);
+    const getTimeout = setTimeout(() => getAbort.abort(), 40000);
 
     try {
       const res = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=getDashboard', {
@@ -5249,11 +5313,12 @@ permalink: /join-live/
       clearTimeout(getTimeout);
       const data = await res.json();
       
-      if (data && data.students) {
+      if (data && data.students && data.students.length > 0) {
         currentDashboardData = data;
         try {
+          localStorage.setItem('rpv_live_dash_cache', JSON.stringify(data));
+          localStorage.setItem('rpv_live_dash_cache_time', Date.now().toString());
           sessionStorage.setItem('rpv_live_dash_cache', JSON.stringify(data));
-          sessionStorage.setItem('rpv_live_dash_cache_time', Date.now().toString());
         } catch (_) {}
         initCourseAndBatchDropdowns(data);
         onDashBatchChange();
@@ -5261,8 +5326,8 @@ permalink: /join-live/
     } catch (err) {
       clearTimeout(getTimeout);
       console.warn('Dashboard fetch error:', err);
-      // Fallback: if we have any cached or partial data, still try to initialize
-      if (currentDashboardData && currentDashboardData.students) {
+      // Fallback: if we haven't rendered yet but have in-memory data
+      if (!renderedFromCache && currentDashboardData && currentDashboardData.students) {
         initCourseAndBatchDropdowns(currentDashboardData);
         onDashBatchChange();
       }

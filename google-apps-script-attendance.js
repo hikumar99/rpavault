@@ -126,24 +126,62 @@ function setupDailyCleanupTrigger() {
 }
 
 /**
- * Precompute & Sync Dashboard Cache in ScriptCache (TTL 6 hrs) and Script Properties
+ * Saves dashboard payload to ScriptCache in 80KB chunks (supports payloads of any size)
+ */
+function saveDashboardCache(jsonStr) {
+  if (!jsonStr) return;
+  const cache = CacheService.getScriptCache();
+  try {
+    const CHUNK_SIZE = 80000;
+    const numChunks = Math.ceil(jsonStr.length / CHUNK_SIZE);
+    const chunkMap = { "RPA_DASHBOARD_CHUNKS": String(numChunks) };
+    for (let c = 0; c < numChunks; c++) {
+      chunkMap["RPA_DASHBOARD_CHUNK_" + c] = jsonStr.substr(c * CHUNK_SIZE, CHUNK_SIZE);
+    }
+    cache.putAll(chunkMap, 21600); // 6 hours
+  } catch (err) {
+    Logger.log("saveDashboardCache error: " + err);
+  }
+}
+
+/**
+ * Loads chunked dashboard payload from ScriptCache
+ */
+function loadDashboardCache() {
+  const cache = CacheService.getScriptCache();
+  try {
+    const numChunksStr = cache.get("RPA_DASHBOARD_CHUNKS");
+    if (!numChunksStr) {
+      return cache.get("RPA_DASHBOARD_PAYLOAD");
+    }
+    const numChunks = parseInt(numChunksStr, 10);
+    const keys = [];
+    for (let c = 0; c < numChunks; c++) {
+      keys.push("RPA_DASHBOARD_CHUNK_" + c);
+    }
+    const chunkMap = cache.getAll(keys);
+    let full = "";
+    for (let c = 0; c < numChunks; c++) {
+      const part = chunkMap["RPA_DASHBOARD_CHUNK_" + c];
+      if (!part) return null;
+      full += part;
+    }
+    return full;
+  } catch (err) {
+    Logger.log("loadDashboardCache error: " + err);
+    return null;
+  }
+}
+
+/**
+ * Precompute & Sync Dashboard Cache in ScriptCache (TTL 6 hrs) using chunking
  */
 function syncDashboardCache() {
   const startTime = new Date().getTime();
   const payload = buildDashboardPayload();
   const jsonStr = JSON.stringify(payload);
 
-  const cache = CacheService.getScriptCache();
-  try {
-    if (jsonStr.length < 100000) {
-      cache.put("RPA_DASHBOARD_PAYLOAD", jsonStr, 21600); // 6 hours
-    }
-  } catch (_) {}
-
-  try {
-    PropertiesService.getScriptProperties().setProperty("RPA_DASHBOARD_PAYLOAD", jsonStr);
-    PropertiesService.getScriptProperties().setProperty("RPA_DASHBOARD_SYNC_TIME", new Date().toISOString());
-  } catch (_) {}
+  saveDashboardCache(jsonStr);
 
   const elapsed = new Date().getTime() - startTime;
   const batchNames = (payload.batches && payload.batches.length > 0)
@@ -534,18 +572,9 @@ function doGet(e) {
     // Default: getDashboard
     if (action === "getdashboard" || !action) {
       if (!forceRefresh) {
-        const cache = CacheService.getScriptCache();
-        let cached = cache.get("RPA_DASHBOARD_PAYLOAD");
+        const cached = loadDashboardCache();
         if (cached) {
           return ContentService.createTextOutput(cached).setMimeType(ContentService.MimeType.JSON);
-        }
-
-        const prop = PropertiesService.getScriptProperties().getProperty("RPA_DASHBOARD_PAYLOAD");
-        if (prop) {
-          try {
-            cache.put("RPA_DASHBOARD_PAYLOAD", prop, 21600);
-          } catch (_) {}
-          return ContentService.createTextOutput(prop).setMimeType(ContentService.MimeType.JSON);
         }
       }
 
@@ -655,24 +684,38 @@ function buildDashboardPayload() {
     const email = (logData[i][1] || "").toString().trim().toLowerCase();
 
     if (rawTimestamp) {
-      const dateObj = new Date(rawTimestamp);
-      if (!isNaN(dateObj.getTime())) {
-        const dateStr = Utilities.formatDate(dateObj, Session.getScriptTimeZone(), "yyyy-MM-dd");
-
-        if (studentsMap[email]) {
-          uniqueDatesSet.add(dateStr);
-          if (!dateCountsMap[dateStr]) {
-            dateCountsMap[dateStr] = new Set();
+      let dateStr = "";
+      if (rawTimestamp instanceof Date) {
+        const yr = rawTimestamp.getFullYear();
+        const mo = String(rawTimestamp.getMonth() + 1).padStart(2, "0");
+        const da = String(rawTimestamp.getDate()).padStart(2, "0");
+        dateStr = yr + "-" + mo + "-" + da;
+      } else {
+        const s = String(rawTimestamp).trim();
+        const m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+        if (m) {
+          dateStr = m[1] + "-" + String(m[2]).padStart(2, "0") + "-" + String(m[3]).padStart(2, "0");
+        } else {
+          const d = new Date(rawTimestamp);
+          if (!isNaN(d.getTime())) {
+            dateStr = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
           }
-          dateCountsMap[dateStr].add(email);
-          studentsMap[email].presentDates.add(dateStr);
-
-          const bName = studentsMap[email].batch || defaultActiveBatch;
-          if (!batchDatesMap[bName]) {
-            batchDatesMap[bName] = new Set();
-          }
-          batchDatesMap[bName].add(dateStr);
         }
+      }
+
+      if (dateStr && studentsMap[email]) {
+        uniqueDatesSet.add(dateStr);
+        if (!dateCountsMap[dateStr]) {
+          dateCountsMap[dateStr] = new Set();
+        }
+        dateCountsMap[dateStr].add(email);
+        studentsMap[email].presentDates.add(dateStr);
+
+        const bName = studentsMap[email].batch || defaultActiveBatch;
+        if (!batchDatesMap[bName]) {
+          batchDatesMap[bName] = new Set();
+        }
+        batchDatesMap[bName].add(dateStr);
       }
     }
   }
@@ -815,12 +858,42 @@ function buildDashboardPayload() {
   const trendLabels = sortedDates.map(formatShortDate);
   const trendCounts = sortedDates.map(function(d) { return dateCountsMap[d] ? dateCountsMap[d].size : 0; });
 
+  function getBatchDateScore(name) {
+    const s = (name || "").toLowerCase();
+    const yrMatch = s.match(/(202[4-9]|\b2[4-9]\b)/);
+    let yr = yrMatch ? parseInt(yrMatch[1], 10) : 2026;
+    if (yr < 100) yr += 2000;
+    const months = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+    let mo = 1;
+    for (const mStr in months) {
+      if (s.indexOf(mStr) !== -1) {
+        mo = months[mStr];
+        break;
+      }
+    }
+    const dayMatch = s.match(/(\d{1,2})\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/);
+    const day = dayMatch ? parseInt(dayMatch[1], 10) : 1;
+    return yr * 10000 + mo * 100 + day;
+  }
+
   const finalBatches = Object.values(batchesMap).map(function(b) {
     return {
       id: b.id,
       name: b.name,
-      isLive: (b.id === slugify(defaultActiveBatch))
+      isLive: true
     };
+  });
+
+  finalBatches.sort(function(a, b) {
+    return getBatchDateScore(b.name) - getBatchDateScore(a.name);
+  });
+
+  if (finalBatches.length > 0 && (!defaultActiveBatch || defaultActiveBatch.toLowerCase().indexOf("july") !== -1 || defaultActiveBatch.toLowerCase().indexOf("april") !== -1)) {
+    defaultActiveBatch = finalBatches[0].name;
+  }
+
+  finalBatches.forEach(function(b) {
+    b.isLive = (slugify(b.name) === slugify(defaultActiveBatch));
   });
 
   return {
