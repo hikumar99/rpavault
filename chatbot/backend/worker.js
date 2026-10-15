@@ -354,7 +354,7 @@ CONVERSATIONAL GUIDELINES:
 
 8. PROPER CLICKABLE MARKDOWN LINKS:
    - When mentioning courses, brochures, curriculum roadmaps, or services, ALWAYS format them as clean Markdown links: [Anchor Text](URL).
-   - NEVER write out raw plain-text URLs like "visit https://...". Always wrap with descriptive anchor text such as `[UiPath & Power Automate Course](https://rpavault.com/courses/rpa-agentic-uipath-power-automate.html)`.
+   - NEVER write out raw plain-text URLs like "visit https://...". Always wrap with descriptive anchor text such as "[UiPath & Power Automate Course](https://rpavault.com/courses/rpa-agentic-uipath-power-automate.html)".
    - Core Verified Links:
      * Flagship RPA Course: [UiPath & Agentic AI Masterclass](https://rpavault.com/courses/rpa-agentic-uipath-power-automate.html)
      * All Courses & Syllabuses: [Explore All IT Courses](https://rpavault.com/courses.html)
