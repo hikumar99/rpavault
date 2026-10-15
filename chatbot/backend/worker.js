@@ -183,26 +183,50 @@ async function handleSync(request, env) {
   }
 
   const kbResult = await fetchNotionKB(env);
-  const freshKB = kbResult.data;
+  const freshKB = kbResult.data || "";
+  const isSuccess = freshKB.length > 0 && kbResult.childPages && kbResult.childPages.length > 0;
 
-  // Immediately update in-memory cache
-  memoryKbCache = { data: freshKB, fetchedAt: Date.now(), childPages: kbResult.childPages };
+  if (isSuccess) {
+    // Immediately update in-memory cache
+    memoryKbCache = { data: freshKB, fetchedAt: Date.now(), childPages: kbResult.childPages };
 
-  // Update KV edge cache if bound
-  if (env.CHATBOT_KV) {
-    await env.CHATBOT_KV.put("KB_DATA", freshKB, { expirationTtl: 3600 });
+    // Update KV edge cache if bound
+    if (env.CHATBOT_KV) {
+      await env.CHATBOT_KV.put("KB_DATA", freshKB, { expirationTtl: 3600 });
+    }
+  }
+
+  // Check Notion bot identity
+  let botName = "Unknown";
+  if (env.NOTION_TOKEN) {
+    try {
+      const meRes = await fetch("https://api.notion.com/v1/users/me", {
+        headers: {
+          Authorization: `Bearer ${env.NOTION_TOKEN}`,
+          "Notion-Version": "2022-06-28"
+        }
+      });
+      if (meRes.ok) {
+        const meJson = await meRes.json();
+        botName = meJson.name || "Unknown";
+      }
+    } catch (e) {}
   }
 
   return jsonResponse(
     {
-      success: true,
-      message: "Knowledge Base successfully refreshed from Notion knowledge pages!",
+      success: isSuccess,
+      message: isSuccess
+        ? "Knowledge Base successfully refreshed from Notion knowledge pages!"
+        : "Failed to load knowledge pages from Notion. Please ensure the integration is connected to the page in Notion.",
+      notion_bot_name: botName,
+      error: kbResult.error || null,
       parent_page_id: env.NOTION_KNOWLEDGE_PAGE_ID || "3b5ee8c48df28034915fdde3bd7b4c44",
-      child_pages_loaded: kbResult.childPages,
+      child_pages_loaded: kbResult.childPages || [],
       total_characters: freshKB.length,
       timestamp: new Date().toISOString()
     },
-    200,
+    isSuccess ? 200 : 500,
     request,
     env
   );
@@ -593,8 +617,13 @@ async function fetchNotionKB(env) {
     const listJson = await listRes.json();
 
     if (!listJson.results || !Array.isArray(listJson.results)) {
+      const errMsg = listJson.message || `Notion API returned status ${listRes.status}`;
       console.warn("fetchNotionKB: no results from parent page blocks", listJson);
-      return { data: "", childPages: [] };
+      return {
+        data: "",
+        childPages: [],
+        error: errMsg
+      };
     }
 
     const childPages = listJson.results.filter(b => b.type === "child_page" && !b.in_trash && !b.archived);
