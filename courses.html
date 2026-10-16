@@ -85,20 +85,20 @@ extra_css: /assets/css/courses.css
       <article class="cx-card" data-cat="{{ c.data.card_category }}" data-live="{{ 'true' if c.data.card_live else 'false' }}"
                data-title="{{ (c.data.name or c.data.title) | lower }}" data-desc="{{ c.data.card_blurb | lower }}"
                style="--cx-cat:{{ catColor[c.data.card_category] or 'var(--cx-brand-deep)' }}">
-        <a href="{{ c.url }}" class="cx-media" aria-label="{{ c.data.name or c.data.title }}" style="position: relative; display: block; aspect-ratio: 16/9; background: #f5f5f7;">
+        <a href="{{ c.url }}" class="cx-media" tabindex="-1" aria-hidden="true" style="position: relative; display: block; aspect-ratio: 16/9; background: #f5f5f7;">
           <div class="cx-flags" style="z-index: 10;">
             <span class="cx-tag">{{ catMap[c.data.card_category] or "IT" }}</span>
             {%- if c.data.card_live %}<span class="cx-livebadge"><span class="cx-live-dot" style="background:var(--cx-live)"></span>Live now</span>{% endif -%}
           </div>
-          <img src="{{ c.data.card_image }}" alt="{{ c.data.name or c.data.title }}" loading="lazy" decoding="async" width="400" height="225" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 100%; height: 100%; object-fit: cover;">
+          <img src="{{ c.data.card_image }}" alt="" loading="lazy" decoding="async" width="400" height="225" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 100%; height: 100%; object-fit: cover;">
           <div class="cx-svg-placeholder" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--cx-cat, var(--cx-brand-deep)), #1e293b); color: #fff; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 18px; padding: 20px; text-align: center; box-sizing: border-box; line-height: 1.3;">
             <span>{{ c.data.name or c.data.title }}</span>
           </div>
         </a>
         <div class="cx-body">
-          <h3>{{ c.data.name or c.data.title }}</h3>
+          <h3><a href="{{ c.url }}">{{ c.data.name or c.data.title }}</a></h3>
           <p class="cx-desc">{{ c.data.card_blurb }}</p>
-          <div class="cx-foot"><a class="cx-view" href="{{ c.url }}">View course →</a></div>
+          <div class="cx-foot"><a class="cx-view" href="{{ c.url }}" aria-label="View course: {{ c.data.name or c.data.title }}">View course <span aria-hidden="true">→</span></a></div>
         </div>
       </article>
       {%- endfor -%}

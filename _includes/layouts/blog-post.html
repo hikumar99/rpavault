@@ -437,6 +437,35 @@ layout: layouts/base.html
   }
 </style>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ title | dump | safe }},
+  "description": {{ (description or excerpt or title) | dump | safe }},
+  "image": "{{ absoluteShareImage }}",
+  "datePublished": "{{ date | default('2025-01-01') }}",
+  "dateModified": "{{ date | default('2025-01-01') }}",
+  "author": {
+    "@type": "Organization",
+    "name": "RPAVault Mentors",
+    "url": "https://rpavault.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "RPAVault",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rpavault.com/assets/images/favicon.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rpavault.com{{ page.url }}"
+  }
+}
+</script>
+
 <article class="article-container">
   
   <!-- Header Fold -->
@@ -468,6 +497,17 @@ layout: layouts/base.html
       <!-- Post Body Content -->
       <div class="article-content">
         {{ content | safe }}
+
+        <!-- In-Article Career Course CTA Banner -->
+        <aside class="in-article-course-cta" style="background: linear-gradient(135deg, #0b1f3a, #0058b0) !important; border-radius: 16px !important; padding: 28px !important; color: #ffffff !important; margin: 40px 0 20px 0 !important; box-shadow: 0 10px 30px rgba(0, 88, 176, 0.25) !important;">
+          <div style="display: inline-block !important; background: rgba(255,255,255,0.18) !important; font-size: 11px !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; padding: 4px 10px !important; border-radius: 20px !important; margin-bottom: 12px !important; color: #90cdf4 !important;">Accelerate Your Career</div>
+          <h3 style="color: #ffffff !important; font-size: 1.4rem !important; margin: 0 0 10px 0 !important; font-weight: 800 !important; letter-spacing: -0.01em !important;">Switch to High-Growth Tech Careers with RPAVault</h3>
+          <p style="color: rgba(255,255,255,0.9) !important; font-size: 0.98rem !important; line-height: 1.6 !important; margin: 0 0 20px 0 !important;">Master UiPath, Agentic AI, Power Automate, or Full-Stack Development with 15–25 real enterprise projects, 1-on-1 mentorship, and placement assistance.</p>
+          <div style="display: flex !important; gap: 12px !important; flex-wrap: wrap !important;">
+            <a href="/courses/" style="background: #ffffff !important; color: #0058b0 !important; font-weight: 700 !important; font-size: 0.9rem !important; padding: 10px 20px !important; border-radius: 8px !important; text-decoration: none !important; display: inline-flex !important; align-items: center !important; gap: 6px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;">Explore All Courses →</a>
+            <a href="#" data-open-callback style="background: rgba(255,255,255,0.12) !important; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.4) !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 10px 20px !important; border-radius: 8px !important; text-decoration: none !important; display: inline-flex !important; align-items: center !important;">Request Free Demo</a>
+          </div>
+        </aside>
       </div>
 
       <!-- Compact CTA Block -->

@@ -26,7 +26,7 @@
   .page-hero .lead {
     font-size: 1.2rem !important;
     line-height: 1.65 !important;
-    color: #86868b !important;
+    color: #59595f !important;
     max-width: 780px !important;
     margin: 0 auto 2rem auto !important;
   }
@@ -157,7 +157,7 @@
   }
 
   .highlight-panel p {
-    color: #86868b !important;
+    color: #59595f !important;
     font-size: 1.05rem !important;
     line-height: 1.65 !important;
     margin-bottom: 1.5rem !important;
@@ -215,7 +215,7 @@
     display: inline-block !important;
   }
   .btn-ghost:hover {
-    border-color: #86868b !important;
+    border-color: #59595f !important;
     background-color: #f5f5f7 !important;
   }
 

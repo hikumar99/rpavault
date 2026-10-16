@@ -48,7 +48,7 @@
   }
   .ea-hero-desc {
     font-size: 1.2rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     max-width: 480px !important;
     line-height: 1.65 !important;
     margin-bottom: 3rem !important;
@@ -86,7 +86,7 @@
     font-size: clamp(1.4rem, 2.2vw, 2rem) !important;
     font-weight: 400 !important;
     font-style: italic !important;
-    color: #86868b !important;
+    color: #59595f !important;
     margin-top: 1.5rem !important;
     line-height: 1.4 !important;
   }
@@ -125,7 +125,7 @@
     font-weight: 600 !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    color: #86868b !important;
+    color: #59595f !important;
     margin-top: 0.35rem !important;
     display: block !important;
   }
@@ -182,7 +182,7 @@
   .ea-section-body {
     font-size: 1rem !important;
     font-weight: 300 !important;
-    color: #86868b !important;
+    color: #59595f !important;
     line-height: 1.65 !important;
     max-width: 480px !important;
   }
@@ -239,7 +239,7 @@
   }
   .ea-svc p {
     font-size: 0.95rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     line-height: 1.6 !important;
   }
   .ea-svc-tags {
@@ -296,7 +296,7 @@
     font-size: 1.25rem !important;
     font-style: italic !important;
     font-weight: 400 !important;
-    color: #86868b !important;
+    color: #59595f !important;
     padding-top: 0.1rem !important;
     text-align: right !important;
     letter-spacing: 0.05em !important;
@@ -310,7 +310,7 @@
   }
   .ea-step p {
     font-size: 0.92rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     line-height: 1.6 !important;
   }
 
@@ -350,7 +350,7 @@
   }
   .ea-tech-sub {
     font-size: 0.88rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     line-height: 1.5 !important;
   }
   .ea-ind-list {
@@ -406,7 +406,7 @@
   }
   .ea-why-desc {
     font-size: 1.05rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     line-height: 1.65 !important;
     max-width: 460px !important;
   }
@@ -441,7 +441,7 @@
   }
   .ea-why-card p {
     font-size: 0.92rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     line-height: 1.6 !important;
   }
 
@@ -471,7 +471,7 @@
   }
   .ea-cta-inner p {
     font-size: 1.15rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     margin-bottom: 3rem !important;
     line-height: 1.65 !important;
   }
@@ -499,7 +499,7 @@
     font-weight: 600 !important;
     letter-spacing: 0.18em !important;
     text-transform: uppercase !important;
-    color: #86868b !important;
+    color: #59595f !important;
     margin-bottom: 0.4rem !important;
   }
   .ea-ci a {

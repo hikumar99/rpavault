@@ -1,6 +1,49 @@
 ---
 layout: layouts/base.html
 ---
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Course",
+      "name": {{ (name or title) | dump | safe }},
+      "description": {{ (lead or description or title) | dump | safe }},
+      "provider": {
+        "@type": "Organization",
+        "name": "RPAVault",
+        "url": "https://rpavault.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "category": "Paid",
+        "priceCurrency": "INR",
+        "price": "{{ (price_inr | replace('₹', '') | replace(',', '') | trim) if price_inr else '19999' }}",
+        "availability": "https://schema.org/InStock",
+        "url": "https://rpavault.com{{ page.url }}"
+      }
+    }
+    {% if faqs and faqs.length %}
+    ,
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {% for f in faqs %}
+        {
+          "@type": "Question",
+          "name": {{ f.q | dump | safe }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ f.a | dump | safe }}
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
+    {% endif %}
+  ]
+}
+</script>
 <div class="course-detail-page">
   <!-- HERO SECTION -->
   <section class="sec-sand">
@@ -4284,8 +4327,16 @@ layout: layouts/base.html
           <!-- Video Block 1 -->
           {% if video1 %}
             <div class="preview-block">
-              <div class="preview-video">
-                <iframe src="{{ video1.url | youtubeEmbed }}" title="{{ video1.title }}" allowfullscreen></iframe>
+              <div class="preview-video js-video-facade" data-video-url="{{ video1.url | youtubeEmbed }}?autoplay=1" style="position:relative; overflow:hidden; background:#0b192c; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                <img src="https://i.ytimg.com/vi/{{ video1.url | youtubeId }}/hqdefault.jpg" alt="{{ video1.title }}" loading="lazy" decoding="async" width="560" height="315" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.src='{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}';">
+                <div class="play-overlay" style="position:absolute; inset:0; background:rgba(11,25,44,0.35); display:flex; align-items:center; justify-content:center;">
+                  <button type="button" aria-label="Play {{ video1.title }}" style="width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,0.95); border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.3); color:#0058b0; cursor:pointer;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="margin-left:3px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </button>
+                </div>
+                <noscript>
+                  <iframe src="{{ video1.url | youtubeEmbed }}" title="{{ video1.title }}" loading="lazy" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+                </noscript>
               </div>
               <span class="preview-day">Day 1 &middot; Live Demo</span>
               <h3>{{ video1.title }}</h3>
@@ -4311,8 +4362,16 @@ layout: layouts/base.html
           <!-- Video Block 2 -->
           {% if video2 %}
             <div class="preview-block">
-              <div class="preview-video">
-                <iframe src="{{ video2.url | youtubeEmbed }}" title="{{ video2.title }}" allowfullscreen></iframe>
+              <div class="preview-video js-video-facade" data-video-url="{{ video2.url | youtubeEmbed }}?autoplay=1" style="position:relative; overflow:hidden; background:#0b192c; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                <img src="https://i.ytimg.com/vi/{{ video2.url | youtubeId }}/hqdefault.jpg" alt="{{ video2.title }}" loading="lazy" decoding="async" width="560" height="315" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.src='{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}';">
+                <div class="play-overlay" style="position:absolute; inset:0; background:rgba(11,25,44,0.35); display:flex; align-items:center; justify-content:center;">
+                  <button type="button" aria-label="Play {{ video2.title }}" style="width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,0.95); border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.3); color:#0058b0; cursor:pointer;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="margin-left:3px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </button>
+                </div>
+                <noscript>
+                  <iframe src="{{ video2.url | youtubeEmbed }}" title="{{ video2.title }}" loading="lazy" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+                </noscript>
               </div>
               <span class="preview-day">Day 2 &middot; Live Demo</span>
               <h3>{{ video2.title }}</h3>

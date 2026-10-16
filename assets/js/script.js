@@ -550,7 +550,20 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
   }
 
   window.rpvFetchGeo = fetchGeoWithFallback;
-  fetchGeoWithFallback();
+  let geoFetched = false;
+  const lazyFetchGeo = () => {
+    if (!geoFetched) {
+      geoFetched = true;
+      fetchGeoWithFallback();
+    }
+  };
+  // Defer geo lookup until user interacts with a lead form or clicks a callback modal
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('form.js-lead-form, [data-open-callback], [data-open-guidance], [data-open-consulting], [data-open-discovery], [data-open-college], [data-open-corporate], [data-open-syllabus]').forEach(el => {
+      el.addEventListener('focusin', lazyFetchGeo, { once: true });
+      el.addEventListener('click', lazyFetchGeo, { once: true });
+    });
+  });
 
 /* ---------- Conditional course dropdown ---------- */
 /* Shows a course selector when the visitor picks an IT-courses topic */
@@ -583,6 +596,31 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
       s.id = 'spin-anim-style';
       s.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
       document.head.appendChild(s);
+    const phoneInput = form.querySelector('input[type="tel"], input[name="phone"]');
+    if (phoneInput && phoneInput.value) {
+      const cleanPhone = phoneInput.value.replace(/[\s\-\(\)\.]/g, '');
+      const digitsOnly = cleanPhone.replace(/^\+/, '');
+      if (!/^\+?\d{10,13}$/.test(cleanPhone) || digitsOnly.length < 10 || digitsOnly.length > 13) {
+        let errBox = form.querySelector('.form-phone-error');
+        if (!errBox) {
+          errBox = document.createElement('div');
+          errBox.className = 'form-phone-error';
+          errBox.setAttribute('aria-live', 'polite');
+          errBox.setAttribute('role', 'alert');
+          errBox.style.cssText = 'color:#dc2626; font-size:0.85rem; font-weight:700; margin-top:4px;';
+          phoneInput.parentNode.appendChild(errBox);
+        }
+        errBox.textContent = 'Please enter a valid 10-digit mobile number.';
+        phoneInput.focus();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+        return;
+      } else {
+        const errBox = form.querySelector('.form-phone-error');
+        if (errBox) errBox.remove();
+      }
     }
 
     try {
@@ -753,6 +791,39 @@ document.querySelectorAll('a[href*="wa.me"], a.whatsapp-float').forEach(btn => {
       } else if (window.dataLayer && Array.isArray(window.dataLayer)) {
         window.dataLayer.push({
           event: 'whatsapp_click',
+          page_path: location.pathname || '/'
+        });
+      }
+/* ---------- Click-to-load YouTube Video Facade ---------- */
+document.querySelectorAll('.js-video-facade').forEach(el => {
+  el.addEventListener('click', () => {
+    const url = el.getAttribute('data-video-url');
+    if (url) {
+      el.innerHTML = `<iframe src="${url}" title="Demo Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; border:none; position:absolute; inset:0;"></iframe>`;
+    }
+  });
+});
+
+/* ---------- Click-to-Call & Syllabus Download Event Tracking ---------- */
+document.querySelectorAll('a[href^="tel:"], .js-safe-phone').forEach(btn => {
+  btn.addEventListener('click', () => {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'click_to_call', {
+          event_category: 'Lead',
+          page_path: location.pathname || '/'
+        });
+      }
+    } catch (_) {}
+  });
+});
+
+document.querySelectorAll('[data-open-syllabus], a[href*="syllabus"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'syllabus_download_click', {
+          event_category: 'Lead',
           page_path: location.pathname || '/'
         });
       }

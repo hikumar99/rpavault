@@ -65,6 +65,8 @@
   .cx-livebadge { font-family: var(--cx-mono); font-size: 11px; letter-spacing:.06em; padding: 4px 10px 4px 8px; border-radius: 999px; background: var(--cx-live-soft); color: var(--cx-live); display: inline-flex; align-items: center; gap: 6px; font-weight: 600; backdrop-filter: blur(4px); box-shadow: 0 2px 8px rgba(15,34,51,.18); }
   .cx-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
   .cx-body h3 { font-size: 21px; line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .cx-body h3 a { color: inherit; text-decoration: none; }
+  .cx-body h3 a:hover { color: var(--cx-brand); text-decoration: underline; }
   .cx-desc { font-size: 14px; color: var(--cx-muted); flex: 1; font-family:'Inter',sans-serif; }
   .cx-foot { display: flex; justify-content: flex-end; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--cx-tint); }
   .cx-view { font-family:'Inter',sans-serif; font-size: 14px; font-weight: 600; color: var(--cx-brand); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap .15s; }

@@ -101,10 +101,11 @@ fbq('track', 'PageView');
 
 </head>
 <body {% if course_slug %}data-course-slug="{{ course_slug }}"{% endif %}>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 {% include "partials/header.html" %}
 
-<main>
+<main id="main-content">
   {{ content | safe }}
 </main>
 
@@ -121,8 +122,32 @@ fbq('track', 'PageView');
 {% include "partials/syllabus_modal.html" %}
 {% include "partials/cookie_notice.html" %}
 
-<!-- RPAVault AI Assistant Widget -->
+<!-- RPAVault AI Assistant Widget (Deferred on non-chat pages for fast mobile LCP) -->
 <link rel="stylesheet" href="/chatbot/widget.css" />
+{% if page.url == "/chat/" or page.url == "/chat/index.html" %}
 <script src="/chatbot/widget.js" defer></script>
+{% else %}
+<script>
+  (function() {
+    var loaded = false;
+    function loadChatWidget() {
+      if (loaded) return;
+      loaded = true;
+      var s = document.createElement('script');
+      s.src = '/chatbot/widget.js';
+      s.defer = true;
+      document.body.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(function() { setTimeout(loadChatWidget, 2500); }, { timeout: 4000 });
+    } else {
+      setTimeout(loadChatWidget, 3500);
+    }
+    ['pointerdown', 'touchstart', 'scroll'].forEach(function(ev) {
+      window.addEventListener(ev, loadChatWidget, { once: true, passive: true });
+    });
+  })();
+</script>
+{% endif %}
 </body>
 </html>

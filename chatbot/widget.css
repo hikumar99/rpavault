@@ -37,7 +37,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 999990;
+  z-index: 1000;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, bottom 0.25s ease;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
@@ -91,7 +91,7 @@
   display: none;
   flex-direction: column;
   overflow: hidden;
-  z-index: 999995;
+  z-index: 8500;
   font-family: var(--rpav-font);
   opacity: 0;
   transform: translateY(14px) scale(0.97);
@@ -731,7 +731,7 @@ body:has(.chatbot-standalone-page) #rpav-bubble-launcher {
     border-radius: 0 !important;
     border: none !important;
     box-shadow: none !important;
-    z-index: 999999 !important;
+    z-index: 8500 !important;
   }
 
   .chatbot-standalone-page {

@@ -66,7 +66,7 @@
   }
 
   .hero-premium .lead, .hero .lead, .lead {
-    color: #86868b !important;
+    color: #59595f !important;
     font-size: 1.25rem !important;
     line-height: 1.65 !important;
     max-width: 800px !important;
@@ -125,7 +125,7 @@
   .pipeline-step p {
     margin: 0;
     font-size: 0.85rem;
-    color: #86868b;
+    color: #59595f;
     line-height: 1.4;
   }
   
@@ -188,7 +188,7 @@
   .lead-sub {
     font-size: 1.15rem;
     line-height: 1.6;
-    color: #86868b;
+    color: #59595f;
     margin-bottom: 2rem;
   }
   .pillars-stat-card {
@@ -209,7 +209,7 @@
   .pillars-stat-card p {
     margin: 0;
     font-size: 0.95rem;
-    color: #86868b;
+    color: #59595f;
   }
   
   .pillars-right {
@@ -252,7 +252,7 @@
   .pillar-card-body p {
     margin: 0;
     font-size: 0.95rem;
-    color: #86868b;
+    color: #59595f;
     line-height: 1.6;
   }
 
@@ -339,7 +339,7 @@
   .step-card p {
     margin: 0 0 1.5rem 0;
     font-size: 0.9rem;
-    color: #86868b;
+    color: #59595f;
     line-height: 1.5;
   }
   .step-tag {
@@ -418,7 +418,7 @@
   .mini-showcase-card p {
     margin: 0;
     font-size: 0.9rem;
-    color: #86868b;
+    color: #59595f;
     line-height: 1.5;
   }
 
@@ -450,7 +450,7 @@
     box-shadow: none !important;
   }
   .btn-secondary:hover, .btn-light:hover {
-    border-color: #86868b !important;
+    border-color: #59595f !important;
     background-color: #f5f5f7 !important;
     transform: translateY(-1px) !important;
   }
@@ -518,7 +518,7 @@
   }
   .training-card-featured small {
     display: block;
-    color: #86868b;
+    color: #59595f;
     font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -532,7 +532,7 @@
     color: #1d1d1f;
   }
   .training-card-featured p {
-    color: #86868b;
+    color: #59595f;
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0 0 1.5rem 0;
@@ -579,7 +579,7 @@
   
   .training-card-sub small {
     display: block;
-    color: #86868b;
+    color: #59595f;
     font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -595,7 +595,7 @@
   }
   
   .training-card-sub p {
-    color: #86868b;
+    color: #59595f;
     font-size: 0.9rem !important;
     line-height: 1.5 !important;
     margin: 0;
@@ -631,12 +631,12 @@
   }
   .training-stats span {
     font-size: 0.88rem;
-    color: #86868b !important;
+    color: #59595f !important;
   }
 
   /* Testimonials and Ratings */
   .rating-line {
-    color: #86868b !important;
+    color: #59595f !important;
   }
   .rating-line strong {
     color: #1d1d1f !important;

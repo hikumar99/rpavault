@@ -114,14 +114,20 @@ module.exports = function(eleventyConfig) {
     return clean.trim();
   });
 
-  // Ensure YouTube URLs are valid embed URLs for iframes
+  // Ensure YouTube URLs are valid privacy-enhanced embed URLs for iframes
   eleventyConfig.addFilter("youtubeEmbed", function(url) {
     if (!url) return "";
     const match = url.match(/(?:youtube\.com\/(?:watch\?v=|live\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
     if (match && match[1]) {
-      return `https://www.youtube.com/embed/${match[1]}`;
+      return `https://www.youtube-nocookie.com/embed/${match[1]}`;
     }
     return url;
+  });
+
+  eleventyConfig.addFilter("youtubeId", function(url) {
+    if (!url) return "";
+    const match = url.match(/(?:youtube\.com\/(?:watch\?v=|live\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+    return match && match[1] ? match[1] : "";
   });
 
 

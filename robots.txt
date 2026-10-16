@@ -6,13 +6,19 @@ Disallow: /internal/
 Disallow: /admin/
 Disallow: /rpavault-todo/
 Disallow: /chatbot/backend/
+Disallow: /chatbot/README/
+Disallow: /chatbot/README.md
 Disallow: /genai-demo/
 Disallow: /dic-genai-demo/
 
 User-agent: Googlebot
+Disallow: /go/
 Disallow: /2do/
 Disallow: /internal/
 Disallow: /admin/
 Disallow: /rpavault-todo/
+Disallow: /chatbot/backend/
+Disallow: /chatbot/README/
+Disallow: /chatbot/README.md
 
 Sitemap: https://rpavault.com/sitemap.xml

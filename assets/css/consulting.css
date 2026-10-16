@@ -25,7 +25,7 @@
   .page-hero .lead {
     font-size: 1.2rem !important;
     line-height: 1.65 !important;
-    color: #86868b !important;
+    color: #59595f !important;
     margin-bottom: 2rem !important;
   }
   .hero-actions {
@@ -81,7 +81,7 @@
   .console-row span .small {
     display: block !important;
     font-size: 0.8rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     margin-top: 0.2rem !important;
   }
   .fit-ring {
@@ -164,7 +164,7 @@
     color: #1d1d1f !important;
   }
   .card p {
-    color: #86868b !important;
+    color: #59595f !important;
     font-size: 0.92rem !important;
     line-height: 1.55 !important;
     margin: 0 !important;
@@ -189,7 +189,7 @@
     color: #1d1d1f !important;
   }
   .stage p {
-    color: #86868b !important;
+    color: #59595f !important;
     font-size: 0.9rem !important;
     line-height: 1.5 !important;
     margin: 0 !important;
@@ -250,7 +250,7 @@
     color: #1d1d1f !important;
   }
   .model-card p {
-    color: #86868b !important;
+    color: #59595f !important;
     font-size: 0.9rem !important;
     line-height: 1.5 !important;
     margin-bottom: 1.5rem !important;
@@ -286,7 +286,7 @@
     color: #1d1d1f !important;
   }
   .why-item p {
-    color: #86868b !important;
+    color: #59595f !important;
     font-size: 0.92rem !important;
     line-height: 1.55 !important;
     margin: 0 !important;
@@ -314,7 +314,7 @@
   }
   .faq details p {
     margin: 1rem 0 0 0 !important;
-    color: #86868b !important;
+    color: #59595f !important;
     font-size: 0.95rem !important;
     line-height: 1.6 !important;
   }
@@ -377,7 +377,7 @@
     display: inline-block !important;
   }
   .btn-ghost:hover {
-    border-color: #86868b !important;
+    border-color: #59595f !important;
     background-color: #f5f5f7 !important;
   }
 

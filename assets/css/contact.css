@@ -27,7 +27,7 @@
   .contact-hero .lead {
     font-size: 1.2rem !important;
     line-height: 1.65 !important;
-    color: #86868b !important;
+    color: #59595f !important;
     max-width: 750px !important;
     text-align: center !important;
     margin-left: auto !important;
@@ -76,7 +76,7 @@
   }
   .review-stars-wrap span {
     font-size: 0.88rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     display: block !important;
     margin-top: 0.3rem !important;
     font-weight: 600 !important;
@@ -109,7 +109,7 @@
   }
   .review-quote-card cite {
     font-size: 0.82rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     font-weight: 600 !important;
     font-style: normal !important;
   }
@@ -125,7 +125,7 @@
     font-size: 0.82rem !important;
     text-transform: uppercase !important;
     letter-spacing: 1.2px !important;
-    color: #86868b !important;
+    color: #59595f !important;
     margin: 0 0 0.5rem 0 !important;
   }
   .channel-item p {
@@ -194,7 +194,7 @@
   
   .form-note {
     font-size: 0.88rem !important;
-    color: #86868b !important;
+    color: #59595f !important;
     text-align: center !important;
     margin-top: 1rem !important;
   }
