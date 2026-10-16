@@ -362,6 +362,7 @@ sModal?.addEventListener('click',(e)=>{if(e.target===sModal||e.target.closest('[
 
     return enriched;
   }
+  window.rpvEnrichPayload = enrichPayload;
 
   // Intercept all fetch calls to formsubmit.co to automatically inject enriched metadata
   const originalFetch = window.fetch;

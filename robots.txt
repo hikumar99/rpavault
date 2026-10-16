@@ -2,8 +2,17 @@ User-agent: *
 Allow: /
 Disallow: /go/
 Disallow: /2do/
+Disallow: /internal/
+Disallow: /admin/
+Disallow: /rpavault-todo/
+Disallow: /chatbot/backend/
+Disallow: /genai-demo/
+Disallow: /dic-genai-demo/
 
 User-agent: Googlebot
 Disallow: /2do/
+Disallow: /internal/
+Disallow: /admin/
+Disallow: /rpavault-todo/
 
 Sitemap: https://rpavault.com/sitemap.xml

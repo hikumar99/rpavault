@@ -4295,7 +4295,7 @@ layout: layouts/base.html
             <!-- Placeholder Demo Video 1 (Thumbnail with Play Overlay) -->
             <div class="preview-block placeholder-demo">
               <div class="preview-video preview-thumb-holder" style="position:relative; overflow:hidden; background:#0b192c; display:flex; align-items:center; justify-content:center;">
-                <img src="{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}" alt="{{ name | default(title) }} Demo" loading="lazy" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none';">
+                <img src="{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}" alt="{{ name | default(title) }} Demo" loading="lazy" decoding="async" width="560" height="315" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none';">
                 <div class="play-overlay" style="position:absolute; inset:0; background:rgba(11,25,44,0.35); display:flex; align-items:center; justify-content:center;">
                   <span style="width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.95); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.3); color:#0058b0;">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="margin-left:3px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -4322,7 +4322,7 @@ layout: layouts/base.html
             <!-- Placeholder Demo Video 2 (Thumbnail with Play Overlay) -->
             <div class="preview-block placeholder-demo">
               <div class="preview-video preview-thumb-holder" style="position:relative; overflow:hidden; background:#0b192c; display:flex; align-items:center; justify-content:center;">
-                <img src="{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}" alt="{{ name | default(title) }} Project Demo" loading="lazy" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none';">
+                <img src="{{ card_image | default('/assets/images/courses/' + course_slug + '.webp') }}" alt="{{ name | default(title) }} Project Demo" loading="lazy" decoding="async" width="560" height="315" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none';">
                 <div class="play-overlay" style="position:absolute; inset:0; background:rgba(11,25,44,0.35); display:flex; align-items:center; justify-content:center;">
                   <span style="width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.95); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,0.3); color:#0058b0;">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="margin-left:3px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>

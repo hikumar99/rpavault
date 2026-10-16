@@ -13,6 +13,7 @@
     {
       apiUrl: "https://rpavault-chatbot.hikumarswamy.workers.dev/api/chat", // Live Cloudflare Worker
       leadUrl: "https://rpavault-chatbot.hikumarswamy.workers.dev/api/chat/lead", // Lead capture endpoint
+      sheetWebhookUrl: "https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec", // Google Sheets Lead Webhook
       formSubmitEndpoint: "https://formsubmit.co/ajax/f89e890a8c606cde8e0e84b29c03a3d2", // RPAVault FormSubmit endpoint
       botName: "RPAVault AI",
       botSubtitle: "Online • Automation & Training",
@@ -423,29 +424,7 @@
           has_email: Boolean(email)
         });
 
-        // 1. Submit to FormSubmit.co AJAX (captures IP, City, User Agent, Referrer + full chat)
-        if (CONFIG.formSubmitEndpoint) {
-          fetch(CONFIG.formSubmitEndpoint, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json"
-            },
-            body: JSON.stringify({
-              _subject: "🔥 New RPAVault Lead: " + name + " (" + phone + ")",
-              Name: name,
-              WhatsApp: phone,
-              Email: email,
-              Session_ID: sessionId,
-              Page_URL: window.location.href,
-              Full_Chat_Transcript: transcript
-            })
-          }).catch(function (err) {
-            console.warn("FormSubmit notice:", err);
-          });
-        }
-
-        // 2. Compute query topic from conversation history
+        // 1. Compute query topic from conversation history
         const userQuestions = getHistory()
           .filter(function (h) {
             return h.role === "user" && !h.text.toLowerCase().startsWith("my name is") && !h.text.includes("WhatsApp");
@@ -454,7 +433,89 @@
         const queryTopic = userQuestions.length > 0 ? userQuestions[userQuestions.length - 1] : "courses and consulting services";
         const waUrl = buildWhatsAppUrl(name, queryTopic);
 
-        // 3. Submit to Cloudflare Backend to update Notion Session Page
+        // 2. Build full base lead payload
+        var baseLeadPayload = {
+          _subject: "🔥 New RPAVault Lead: " + name + " (" + phone + ")",
+          form_type_name: "Chatbot Career Counselor Lead",
+          name: name,
+          Name: name,
+          fullName: name,
+          "Full Name": name,
+          phone: phone,
+          mobile: phone,
+          whatsapp: phone,
+          WhatsApp: phone,
+          "Phone / WhatsApp": phone,
+          email: email,
+          Email: email,
+          emailAddress: email,
+          "Email Address": email,
+          topic: queryTopic,
+          "Topic / Interest": queryTopic,
+          course: queryTopic,
+          "Course Interest": queryTopic,
+          message: "Full Chat Transcript: " + transcript.slice(0, 1000) + (transcript.length > 1000 ? "..." : ""),
+          "Message / Notes": "Full Chat Transcript: " + transcript.slice(0, 1000) + (transcript.length > 1000 ? "..." : ""),
+          Session_ID: sessionId,
+          visitor_id: sessionId,
+          Page_URL: window.location.href,
+          source_page: window.location.pathname,
+          source_page_title: document.title,
+          Full_Chat_Transcript: transcript,
+          _webhookSent: true
+        };
+
+        // 3. Enrich with all 20+ telemetry details (Geo, Device, OS, Browser, UTM, Screen, Time on Page, Referrer, etc.)
+        var enrichedPayload = baseLeadPayload;
+        if (typeof window.rpvEnrichPayload === "function") {
+          try {
+            enrichedPayload = window.rpvEnrichPayload(baseLeadPayload);
+          } catch (e) {
+            console.warn("Telemetry enrichment notice:", e);
+          }
+        } else {
+          // Self-contained fallback telemetry if script.js enrichPayload is not yet ready
+          try {
+            enrichedPayload["Device: OS"] = navigator.platform || "Unknown OS";
+            enrichedPayload["Device: Browser"] = navigator.userAgent;
+            enrichedPayload["Device: Type"] = (window.innerWidth < 768) ? "Mobile" : "Desktop";
+            enrichedPayload["Device: Screen Size"] = (window.screen ? (window.screen.width + "x" + window.screen.height) : "Unknown");
+            enrichedPayload["Session: Current Referrer"] = document.referrer || "direct";
+            enrichedPayload["Session: Timezone"] = (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : "Unknown";
+            enrichedPayload["Session: Local Time Submitted"] = new Date().toString();
+          } catch (_) {}
+        }
+
+        // 4. Submit to Google Apps Script Lead Webhook (Google Sheets Sync with all 20+ details)
+        const sheetEndpoint = (window.rpvConfig && window.rpvConfig.webhookEndpoint) || CONFIG.sheetWebhookUrl;
+        if (sheetEndpoint) {
+          fetch(sheetEndpoint, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: JSON.stringify(enrichedPayload)
+          }).catch(function (err) {
+            console.warn("Google Sheet webhook notice:", err);
+          });
+        }
+
+        // 5. Submit to FormSubmit.co AJAX (captures all 20+ details + delivers full email to inbox)
+        if (CONFIG.formSubmitEndpoint) {
+          fetch(CONFIG.formSubmitEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json"
+            },
+            body: JSON.stringify(enrichedPayload)
+          }).catch(function (err) {
+            console.warn("FormSubmit notice:", err);
+          });
+        }
+
+        // 4. Submit to Cloudflare Backend to update Notion Session Page
         fetch(CONFIG.leadUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -4,6 +4,8 @@
   },
   "footer": {
     "email": "info@rpavault.com",
+    "hours": "Mon–Sat: 9:00 AM – 7:00 PM IST",
+    "sla": "We reply within one business day (Mon–Sat, 9:00 AM – 7:00 PM IST).",
     "domain_url": "https://rpavault.com",
     "location": "Hyderabad, Telangana, India",
     "description": "RPAVault is a consultancy, staffing, and enterprise automation partner. We place the right professionals in corporate teams, build end-to-end RPA and AI-agent automations, and deliver training across all major IT courses.",
@@ -20,7 +22,9 @@
       { "label": "Career Fit Guide", "url": "/pathways/" },
       { "label": "Contact", "url": "/contact/" },
       { "label": "Blog", "url": "/blog/" },
+      { "label": "Terms of Service", "url": "/terms/" },
       { "label": "Privacy Policy", "url": "/privacy-policy/" },
+      { "label": "Cookie Policy", "url": "/cookies/" },
       { "label": "RSS Feed", "url": "/feed.xml" }
     ],
     "services_links": [
@@ -38,7 +42,7 @@
     "webhook_endpoint": "https://script.google.com/macros/s/AKfycbw698cYKtZDAXL3KfTJ4SI99mbuEgs8D4cphcMZCYyEGB13_ZuAKe0gYAMf3og-4E6Rkw/exec",
     "callback_form": {
       "title": "Request a callback",
-      "subtitle": "Share your number and what you need — our team calls back within one business day.",
+      "subtitle": "Share your number and what you need — our team calls back within one business day (Mon–Sat, 9:00 AM – 7:00 PM IST).",
       "fields": [
         {
           "name": "name",

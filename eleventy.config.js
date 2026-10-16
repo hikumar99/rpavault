@@ -38,6 +38,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("functions");
   eleventyConfig.addPassthroughCopy("_redirects");
+  eleventyConfig.addPassthroughCopy("_headers");
   eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy({
@@ -50,6 +51,10 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.ignores.add("local_backups/**");
   eleventyConfig.ignores.add("scratch/**");
   eleventyConfig.ignores.add("course/template-course-page.html");
+  eleventyConfig.ignores.add("rpavault-todo/**");
+  eleventyConfig.ignores.add("chatbot/README.md");
+  eleventyConfig.ignores.add("chatbot/backend/**");
+  eleventyConfig.ignores.add("chatbot/*.png");
 
   // Custom blog collection sorted by date descending (newest first)
   eleventyConfig.addCollection("blogPosts", function(collectionApi) {

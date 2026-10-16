@@ -6,7 +6,7 @@ eleventyExcludeFromCollections: true
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- for page in collections.all %}
   {%- set absoluteUrl %}https://rpavault.com{{ page.url | url }}{% endset %}
-  {%- if page.url and page.url != '/404.html' and page.url != '/search/' and page.url != '/go/' and page.url.indexOf('/admin/') == -1 and not page.data.draft %}
+  {%- if page.url and not page.data.draft and not page.data.noindex and page.url != '/404.html' and page.url != '/search/' and page.url.indexOf('/admin/') == -1 and page.url.indexOf('/internal/') == -1 and page.url.indexOf('/go/') == -1 and page.url.indexOf('/rpavault-todo/') == -1 and page.url.indexOf('README') == -1 and page.url.indexOf('/genai-demo/') == -1 and page.url.indexOf('/dic-genai-demo/') == -1 %}
   <url>
     <loc>{{ absoluteUrl }}</loc>
     <lastmod>{{ page.date.toISOString() }}</lastmod>

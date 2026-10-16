@@ -461,7 +461,7 @@ layout: layouts/base.html
       <!-- Featured Image -->
       {% if image %}
       <div class="article-featured-image">
-        <img src="{{ image }}" alt="{{ title }}">
+        <img src="{{ image }}" alt="{{ title }}" fetchpriority="high" decoding="async">
       </div>
       {% endif %}
 

@@ -104,7 +104,7 @@ function doPost(e) {
     // 4. Extract Contact & Form Details
     const name = (data.name || data.fullName || data["Full Name"] || "").toString().trim();
     const email = (data.email || data.emailAddress || data["Email Address"] || "").toString().trim().toLowerCase();
-    const phone = (data.phone || data.mobile || data["Phone / WhatsApp"] || "").toString().trim();
+    const phone = (data.phone || data.mobile || data.whatsapp || data.WhatsApp || data["Phone / WhatsApp"] || "").toString().trim();
     const topic = (data.topic || data.interest || data["I’m interested in"] || data.target_role_stack || "").toString().trim();
     const course = (data.course || data.course_interest || data.course_name || data["Which course?"] || data.track || "").toString().trim();
     

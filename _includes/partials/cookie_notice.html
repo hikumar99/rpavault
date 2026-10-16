@@ -1,0 +1,88 @@
+<!-- RPAVault Privacy & Cookie Notice -->
+<div id="rpav-cookie-notice" class="rpav-cookie-toast" style="display: none;" role="region" aria-label="Cookie and Privacy Notice">
+  <div class="rpav-cookie-content">
+    <p>
+      We use cookies and privacy-respecting analytics to improve your experience and deliver relevant training guidance. By continuing, you agree to our <a href="/privacy-policy/">Privacy Policy</a> and <a href="/cookies/">Cookie Policy</a>.
+    </p>
+    <div class="rpav-cookie-actions">
+      <button type="button" id="rpav-cookie-accept" class="rpav-cookie-btn">Got it</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.rpav-cookie-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  z-index: 340;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.85rem;
+  color: #1d1d1f;
+  animation: rpavSlideUp 0.3s ease-out;
+}
+@keyframes rpavSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.rpav-cookie-content p {
+  margin: 0 0 0.75rem 0;
+  line-height: 1.45;
+  color: #515154;
+}
+.rpav-cookie-content a {
+  color: #0058b0;
+  text-decoration: underline;
+}
+.rpav-cookie-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.rpav-cookie-btn {
+  background: #0058b0;
+  color: #ffffff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.rpav-cookie-btn:hover {
+  background: #00448a;
+}
+@media (max-width: 640px) {
+  .rpav-cookie-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 80px;
+    max-width: none;
+  }
+}
+</style>
+
+<script>
+(function() {
+  try {
+    if (!localStorage.getItem('rpav_cookie_consent')) {
+      var toast = document.getElementById('rpav-cookie-notice');
+      if (toast) {
+        toast.style.display = 'block';
+        document.getElementById('rpav-cookie-accept').addEventListener('click', function() {
+          localStorage.setItem('rpav_cookie_consent', 'accepted');
+          toast.style.display = 'none';
+        });
+      }
+    }
+  } catch(e) {}
+})();
+</script>
