@@ -35,11 +35,11 @@ title: Internal Image Uploader
   <!-- Step 1: Password Gate -->
   <div id="lock-screen">
     <div class="lock-icon">🔒</div>
-    <h2 style="margin-bottom: 0.5rem;">Secure Portal</h2>
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Secure Portal</h1>
     <p style="color: #64748b; margin-bottom: 2rem;">Please enter your authorization key to upload images.</p>
     
     <div class="input-group" style="position: relative;">
-      <input type="password" id="password" placeholder="Enter password..." required style="padding-right: 40px;">
+      <input type="password" id="password" placeholder="Enter password..." required style="padding-right: 40px;" aria-label="Enter password">
       <span id="toggle-pwd" style="position: absolute; right: 12px; top: 13px; cursor: pointer; font-size: 1.2rem;" title="Show Password">👁️</span>
     </div>
     
@@ -53,7 +53,7 @@ title: Internal Image Uploader
     <h2 style="text-align: center; margin-bottom: 1.5rem;">Image Uploader</h2>
     
     <div class="input-group">
-      <label>Target Format</label>
+      <label for="format-select">Target Format</label>
       <select id="format-select">
         <option value="jpg" selected>JPG / JPEG (Universal &amp; WhatsApp / Social Sharing Ready — Recommended)</option>
         <option value="png">PNG (Lossless &amp; Transparent — Best for logos &amp; graphics)</option>
@@ -63,14 +63,14 @@ title: Internal Image Uploader
     </div>
 
     <div class="input-group">
-      <label>Custom Image Name (Optional)</label>
+      <label for="custom-name">Custom Image Name (Optional)</label>
       <input type="text" id="custom-name" placeholder="e.g., hero-background (letters, numbers, hyphens)">
     </div>
 
     <div class="drop-zone" id="drop-zone">
       <p style="margin:0 0 6px 0; font-weight:600; color:#334155;">📁 Drag &amp; Drop image here or click to browse</p>
       <span style="font-size:0.82rem; color:#64748b;">Supports PNG, JPG, JPEG, WebP</span>
-      <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;">
+      <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;" aria-label="Choose image file to upload">
     </div>
 
     <div id="file-info" style="display:none; margin-bottom:1.2rem; padding:12px 14px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:#334155;">

@@ -27,6 +27,7 @@ extra_css: /assets/css/courses.css
   </section>
 
   <section class="wrap">
+    <h2 class="sr-only">Recommended Tracks by Goal</h2>
     <div class="cx-personas">
       <button class="cx-persona" data-quiz="switch">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M4 10a8 8 0 0 1 14-3l2 3"/><path d="M20 14a8 8 0 0 1-14 3l-2-3"/></svg></div>
@@ -75,6 +76,7 @@ extra_css: /assets/css/courses.css
   </div>
 
   <section class="wrap">
+    <h2 class="sr-only">Available IT Courses &amp; Programs</h2>
     <div class="cx-results" id="cx-results"></div>
     <div class="cx-grid" id="cx-grid">
       {%- set catMap = { "rpa": "RPA", "data": "Data", "testing": "QA & Testing", "cloud": "Cloud & DevOps", "dev": "Development" } -%}
@@ -273,10 +275,10 @@ extra_css: /assets/css/courses.css
       body.innerHTML = `
         <div class="qz-q">Almost there — where should we send your plan?</div>
         <form id="qz-form">
-          <div class="qz-field"><label>Full Name *</label><input type="text" name="name" required placeholder="Your name" autocomplete="name"></div>
-          <div class="qz-field"><label>Email *</label><input type="email" name="email" required placeholder="you@example.com" autocomplete="email"></div>
-          <div class="qz-field"><label>Mobile / WhatsApp *</label><input type="tel" name="phone" required placeholder="+91 99999 99999" autocomplete="tel" inputmode="numeric" pattern="[0-9+ ]*"></div>
-          <div class="qz-field"><label>Tell us your situation (optional)</label><textarea name="description" placeholder="A few words about where you are and what you're hoping for…"></textarea></div>
+          <div class="qz-field"><label for="cx-qz-name">Full Name *</label><input id="cx-qz-name" type="text" name="name" required placeholder="Your name" autocomplete="name"></div>
+          <div class="qz-field"><label for="cx-qz-email">Email *</label><input id="cx-qz-email" type="email" name="email" required placeholder="you@example.com" autocomplete="email"></div>
+          <div class="qz-field"><label for="cx-qz-phone">Mobile / WhatsApp *</label><input id="cx-qz-phone" type="tel" name="phone" required placeholder="+91 99999 99999" autocomplete="tel" inputmode="numeric" pattern="[0-9+ ]*"></div>
+          <div class="qz-field"><label for="cx-qz-desc">Tell us your situation (optional)</label><textarea id="cx-qz-desc" name="description" placeholder="A few words about where you are and what you're hoping for…"></textarea></div>
           <button type="submit" class="qz-submit">${active.cta}</button>
           <button type="button" class="qz-back" id="qz-back-final">← Back</button>
           <p class="qz-note">Our team reviews your answers and reaches out with a tailored path. No spam.</p>

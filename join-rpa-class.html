@@ -63,6 +63,7 @@ og_image: /assets/images/og-join-rpa-class.png
     background: linear-gradient(90deg, var(--blue, #0058b0), var(--green, #39b87f));
   }
 
+  .join-card h1,
   .join-card h2 {
     font-family: var(--font-heading, 'Sora', sans-serif);
     font-size: 1.35rem;
@@ -791,7 +792,7 @@ og_image: /assets/images/og-join-rpa-class.png
 
   <!-- Form Card: Join Live Class -->
   <div class="join-card">
-    <h2>Join Live Class</h2>
+    <h1>Join Live Class</h1>
     <div class="join-card-sub">Enter your registered student or admin email to join today's session.</div>
     
     <form id="classJoinForm">
@@ -831,9 +832,9 @@ og_image: /assets/images/og-join-rpa-class.png
 
     <!-- Inline Dashboard Email Verification Form (Hidden on load) -->
     <div class="dashboard-auth-card" id="dashboardAuthCard">
-      <h3 style="font-family: var(--font-heading, 'Sora', sans-serif); font-size: 1.15rem; font-weight: 800; margin: 0 0 0.35rem 0; color: var(--ink, #1a181b);">
+      <h2 style="font-family: var(--font-heading, 'Sora', sans-serif); font-size: 1.15rem; font-weight: 800; margin: 0 0 0.35rem 0; color: var(--ink, #1a181b);">
         Access Attendance Dashboard
-      </h3>
+      </h2>
       <p style="font-size: 0.86rem; color: var(--muted, #607987); margin: 0 0 1rem 0;">
         Enter your registered student or admin email to view batch statistics and candidate drilldowns.
       </p>
@@ -932,7 +933,7 @@ og_image: /assets/images/og-join-rpa-class.png
     <!-- 5. Leaderboard & Candidate Detail Section -->
     <div class="section-headline">
       <h3>Leaderboard &amp; Candidate Details</h3>
-      <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email...">
+      <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email..." aria-label="Search candidate by name or email">
     </div>
 
     <div class="split-grid">

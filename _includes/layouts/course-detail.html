@@ -59,7 +59,7 @@ layout: layouts/base.html
         </div>
         <div class="block hero-fit-block" data-course="{{ name | default(title) }}">
           <div class="hero-fit-eyebrow">Not sure yet?</div>
-          <h3>Will this be a fit for me?</h3>
+          <h2>Will this be a fit for me?</h2>
           <p>Answer 4 quick questions and we'll tell you honestly — and point you to the track that fits.</p>
           <button type="button" class="btn btn-primary btn-block" id="fit-open">Check my fit →</button>
           <div class="hero-fit-pills" id="fit-pills">
@@ -80,7 +80,7 @@ layout: layouts/base.html
     .course-detail-page .hero-right .hero-proof { flex: 1; }
     .course-detail-page .hero-fit-block { padding: 20px 22px; }
     .course-detail-page .hero-fit-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--green-deep); margin-bottom: 6px; }
-    .course-detail-page .hero-fit-block h3 { font-size: 18px; margin-bottom: 4px; }
+    .course-detail-page .hero-fit-block h2, .course-detail-page .hero-fit-block h3 { font-size: 18px; margin-bottom: 4px; }
     .course-detail-page .hero-fit-block p { font-size: 13px; color: var(--body-soft); margin: 0 0 14px; line-height: 1.45; }
     .course-detail-page .hero-fit-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
     .course-detail-page .hero-fit-pill { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: var(--line); background: var(--sand); color: var(--green-deep); cursor: pointer; transition: all .14s; }
@@ -357,10 +357,10 @@ layout: layouts/base.html
       } else {
         body.innerHTML = `<div class="qz-q">Almost there — where should we send your plan?</div>
           <form id="qz-form">
-            <div class="qz-field"><label>Full Name *</label><input name="name" type="text" required placeholder="Your name" autocomplete="name"></div>
-            <div class="qz-field"><label>Email *</label><input name="email" type="email" required placeholder="you@example.com" autocomplete="email"></div>
-            <div class="qz-field"><label>Mobile / WhatsApp *</label><input name="phone" type="tel" required placeholder="+91 99999 99999" autocomplete="tel" inputmode="numeric" pattern="[0-9+ ]*"></div>
-            <div class="qz-field"><label>Tell us your situation (optional)</label><textarea name="description" placeholder="A few words about where you are…"></textarea></div>
+            <div class="qz-field"><label for="qz-name">Full Name *</label><input id="qz-name" name="name" type="text" required placeholder="Your name" autocomplete="name"></div>
+            <div class="qz-field"><label for="qz-email">Email *</label><input id="qz-email" name="email" type="email" required placeholder="you@example.com" autocomplete="email"></div>
+            <div class="qz-field"><label for="qz-phone">Mobile / WhatsApp *</label><input id="qz-phone" name="phone" type="tel" required placeholder="+91 99999 99999" autocomplete="tel" inputmode="numeric" pattern="[0-9+ ]*"></div>
+            <div class="qz-field"><label for="qz-desc">Tell us your situation (optional)</label><textarea id="qz-desc" name="description" placeholder="A few words about where you are…"></textarea></div>
             <button type="submit" class="qz-submit">${active.cta}</button>
             <button type="button" class="qz-back" id="qz-bf">← Back</button>
             <p class="qz-note">Our team reviews your answers and reaches out with a tailored path. No spam.</p>
@@ -4288,7 +4288,7 @@ layout: layouts/base.html
                 <iframe src="{{ video1.url | youtubeEmbed }}" title="{{ video1.title }}" allowfullscreen></iframe>
               </div>
               <span class="preview-day">Day 1 &middot; Live Demo</span>
-              <h4>{{ video1.title }}</h4>
+              <h3>{{ video1.title }}</h3>
               <p>{{ video1.description }}</p>
             </div>
           {% else %}
@@ -4303,7 +4303,7 @@ layout: layouts/base.html
                 </div>
               </div>
               <span class="preview-day">Day 1 &middot; Live Batch Demo</span>
-              <h4>Here is the demo</h4>
+              <h3>Here is the demo</h3>
               <p>Watch foundational architecture concepts and live hands-on walkthroughs covered in class.</p>
             </div>
           {% endif %}
@@ -4315,7 +4315,7 @@ layout: layouts/base.html
                 <iframe src="{{ video2.url | youtubeEmbed }}" title="{{ video2.title }}" allowfullscreen></iframe>
               </div>
               <span class="preview-day">Day 2 &middot; Live Demo</span>
-              <h4>{{ video2.title }}</h4>
+              <h3>{{ video2.title }}</h3>
               <p>{{ video2.description }}</p>
             </div>
           {% else %}
@@ -4330,7 +4330,7 @@ layout: layouts/base.html
                 </div>
               </div>
               <span class="preview-day">Day 2 &middot; Deep-dive Walkthrough</span>
-              <h4>Here is the demo</h4>
+              <h3>Here is the demo</h3>
               <p>Watch end-to-end project implementations and advanced techniques covered in class.</p>
             </div>
           {% endif %}
@@ -4396,7 +4396,7 @@ layout: layouts/base.html
       <div class="block faq-block">
         {% for faq in faqs %}
         <div class="faq-item{% if loop.first %} open{% endif %}">
-          <div class="faq-q" onclick="toggleFaq(this)"><h4>{{ faq.q }}</h4><span class="plus">+</span></div>
+          <div class="faq-q" onclick="toggleFaq(this)"><h3>{{ faq.q }}</h3><span class="plus">+</span></div>
           <div class="faq-a"><p>{{ faq.a }}</p></div>
         </div>
         {% endfor %}
@@ -4454,7 +4454,7 @@ layout: layouts/base.html
     <div class="modal-body">
       <p id="m-desc"></p>
       <div class="modal-topics">
-        <h5>What's covered</h5>
+        <h4>What's covered</h4>
         <ul id="m-topics"></ul>
       </div>
     </div>
@@ -4507,7 +4507,7 @@ layout: layouts/base.html
       <p id="modal-trainer-bio" style="font-size:14px; line-height:1.6; color:#33414a; margin-bottom:18px;">{{ trainer.bio }}</p>
       {% if trainer.highlights %}
       <div class="modal-topics" id="modal-trainer-highlights-wrap">
-        <h5 style="color:#004182; font-weight:700; font-size:12px; margin-bottom:8px;">Highlights &amp; Accomplishments</h5>
+        <h4 style="color:#004182; font-weight:700; font-size:12px; margin-bottom:8px;">Highlights &amp; Accomplishments</h4>
         <ul id="modal-trainer-highlights">
           {% for hl in trainer.highlights %}
           <li style="display:flex; gap:10px; font-size:14px; color:#1a181b; margin-bottom:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; color:#0058b0; flex:none; margin-top:3px;"><path d="M20 6 9 17l-5-5"/></svg><span>{{ hl }}</span></li>
@@ -4517,7 +4517,7 @@ layout: layouts/base.html
       {% endif %}
       {% if trainer.certifications %}
       <div class="modal-topics" id="modal-trainer-certs-wrap" style="margin-top:16px;">
-        <h5 style="color:#004182; font-weight:700; font-size:12px; margin-bottom:8px;">Official Certifications</h5>
+        <h4 style="color:#004182; font-weight:700; font-size:12px; margin-bottom:8px;">Official Certifications</h4>
         <ul id="modal-trainer-certs">
           {% for cert in trainer.certifications %}
           <li style="display:flex; gap:10px; font-size:14px; color:#1a181b; margin-bottom:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; color:#0058b0; flex:none; margin-top:3px;"><path d="M20 6 9 17l-5-5"/></svg><span>{{ cert }}</span></li>

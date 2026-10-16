@@ -301,6 +301,7 @@
     text-align: right !important;
     letter-spacing: 0.05em !important;
   }
+  .ea-step h3,
   .ea-step h4 {
     font-size: 1.1rem !important;
     font-weight: 600 !important;
@@ -431,6 +432,7 @@
     margin-bottom: 1.8rem !important;
     color: #0058b0 !important;
   }
+  .ea-why-card h3,
   .ea-why-card h4 {
     font-size: 1.1rem !important;
     font-weight: 600 !important;

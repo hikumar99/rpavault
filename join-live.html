@@ -62,6 +62,7 @@ permalink: /join-live/
     background: linear-gradient(90deg, var(--blue, #0058b0), var(--green, #39b87f));
   }
 
+  .join-card h1,
   .join-card h2 {
     font-family: var(--font-heading, 'Sora', sans-serif);
     font-size: 1.35rem;
@@ -2195,6 +2196,7 @@ permalink: /join-live/
     place-items: center;
   }
 
+  .dash-notice-body h3,
   .dash-notice-body h4 {
     margin: 0 0 0.35rem 0;
     font-size: 1.05rem;
@@ -2916,7 +2918,7 @@ permalink: /join-live/
 
   <!-- Form Card: Join Live Class -->
   <div class="join-card">
-    <h2>Join Live Class</h2>
+    <h1>Join Live Class</h1>
     <div class="join-card-sub">Enter your registered student or admin email to join today's session.</div>
     
     <form id="classJoinForm">
@@ -2979,9 +2981,9 @@ permalink: /join-live/
 
     <!-- Inline Dashboard Email Verification Form (Hidden on load) -->
     <div class="dashboard-auth-card" id="dashboardAuthCard">
-      <h3 style="font-family: var(--font-heading, 'Sora', sans-serif); font-size: 1.15rem; font-weight: 800; margin: 0 0 0.35rem 0; color: var(--ink, #1a181b);">
+      <h2 style="font-family: var(--font-heading, 'Sora', sans-serif); font-size: 1.15rem; font-weight: 800; margin: 0 0 0.35rem 0; color: var(--ink, #1a181b);">
         Access Attendance Dashboard
-      </h3>
+      </h2>
       <p style="font-size: 0.86rem; color: var(--muted, #607987); margin: 0 0 1rem 0;">
         Enter your registered student or admin email to view batch statistics and candidate drilldowns.
       </p>
@@ -3062,7 +3064,7 @@ permalink: /join-live/
     <div class="jobs-toolbar">
       <div class="jobs-search-box">
         <svg class="jobs-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" class="jobs-search-input" id="jobsSearchInput" placeholder="Search by role, recruiter email, domain or experience (e.g. UiPath, Remote, SQL)...">
+        <input type="text" class="jobs-search-input" id="jobsSearchInput" placeholder="Search by role, recruiter email, domain or experience (e.g. UiPath, Remote, SQL)..." aria-label="Search job openings by role, recruiter email, domain or experience">
       </div>
       <div class="jobs-filter-chips" id="jobsFilterChips">
         <!-- Dynamic category chips injected in JS -->
@@ -3126,7 +3128,7 @@ permalink: /join-live/
       </div>
       <div class="jobs-empty-box" id="jobsEmptyBox" style="display: none;">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" style="margin: 0 auto 0.75rem;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <h4 style="margin: 0 0 0.35rem 0; color: #1e293b;">No matching openings found</h4>
+        <h3 style="margin: 0 0 0.35rem 0; color: #1e293b; font-size: 1rem; font-weight: 700;">No matching openings found</h3>
         <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Try adjusting your search or category filter.</p>
       </div>
     </div>
@@ -3247,7 +3249,7 @@ permalink: /join-live/
           <div class="dash-pills-bar">
             <span class="dash-pill-label">Batch</span>
             <div class="dash-pill-wrap">
-              <select id="dashBatchSelect" class="dash-pill-select" onchange="onDashBatchChange()">
+              <select id="dashBatchSelect" class="dash-pill-select" onchange="onDashBatchChange()" aria-label="Select batch cohort">
                 <!-- Dynamic batches populated from Google Sheet Settings Column F -->
               </select>
             </div>
@@ -3263,7 +3265,7 @@ permalink: /join-live/
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
       </div>
       <div class="dash-notice-body">
-        <h4 id="dashNoticeHeading">Enrollment Notice: Batch Access Restricted</h4>
+        <h3 id="dashNoticeHeading">Enrollment Notice: Batch Access Restricted</h3>
         <p id="dashNoticeMessage">Your registered email (<strong id="dashNoticeEmail"></strong>) is not enrolled in <strong id="dashNoticeBatchName"></strong>. To maintain batch privacy and individual progress tracking, each student accesses their enrolled cohorts.</p>
         <div class="dash-notice-actions">
           <button type="button" class="dash-switch-btn" onclick="switchToUserEnrolledBatch()">
@@ -3369,7 +3371,7 @@ permalink: /join-live/
     <!-- 5. Leaderboard & Candidate Detail Section -->
     <div class="section-headline">
       <h3>Leaderboard &amp; Candidate Details</h3>
-      <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email...">
+      <input type="text" class="search-input" id="candidateSearch" placeholder="Search candidate by name or email..." aria-label="Search candidate by name or email">
     </div>
 
     <div class="split-grid">
@@ -3483,7 +3485,7 @@ permalink: /join-live/
           <div class="freeze-file-dropzone" id="freezeDropzone">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
             <div class="freeze-file-name" id="freezeFileName">Current active batch data is loaded &bull; Or select a downloaded .json file</div>
-            <input type="file" id="freezeFileInput" accept=".json" style="display: none;" onchange="handleFreezeFileSelect(event)">
+            <input type="file" id="freezeFileInput" accept=".json" style="display: none;" onchange="handleFreezeFileSelect(event)" aria-label="Choose downloaded JSON batch file">
             <button type="button" class="btn-browse-file" onclick="document.getElementById('freezeFileInput').click()">📁 Choose Downloaded .json File</button>
           </div>
         </div>

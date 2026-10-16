@@ -1075,7 +1075,7 @@ body:has(.course-detail-page) {
   border: var(--line);
 }
 .course-detail-page .preview-video iframe { width: 100%; height: 100%; border: 0; display: block; }
-.course-detail-page .preview-block h4 { font-size: 16px; line-height: 1.3; margin: 2px 0 6px; letter-spacing: -.01em; padding: 0 4px; }
+.course-detail-page .preview-block h3, .course-detail-page .preview-block h4 { font-size: 16px; line-height: 1.3; margin: 2px 0 6px; letter-spacing: -.01em; padding: 0 4px; }
 .course-detail-page .preview-block p { font-size: 13.5px; line-height: 1.55; color: var(--body); margin: 0 0 4px; padding: 0 4px; }
 .course-detail-page .preview-day {
   display: inline-block;
@@ -1141,7 +1141,7 @@ body:has(.course-detail-page) {
 .course-detail-page .faq-item { border-bottom: 1px solid #eee9df; }
 .course-detail-page .faq-item:last-child { border-bottom: none; }
 .course-detail-page .faq-q { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; cursor: pointer; }
-.course-detail-page .faq-q h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin: 0; }
+.course-detail-page .faq-q h3, .course-detail-page .faq-q h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin: 0; }
 .course-detail-page .faq-q .plus {
   width: 26px;
   height: 26px;
@@ -1250,7 +1250,7 @@ body:has(.course-detail-page) {
 .course-detail-page .modal-body { padding: 16px 28px 28px; }
 .course-detail-page .modal-body p { font-size: 14.5px; line-height: 1.65; color: var(--body); margin: 0 0 18px; }
 .course-detail-page .modal-topics { border-top: 1px dashed #e5e5e7; padding-top: 16px; }
-.course-detail-page .modal-topics h5 { font-family: 'IBM Plex Mono'; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--body-soft); margin-bottom: 12px; }
+.course-detail-page .modal-topics h4, .course-detail-page .modal-topics h5 { font-family: 'IBM Plex Mono'; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--body-soft); margin-bottom: 12px; }
 .course-detail-page .modal-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .course-detail-page .modal-topics li { display: flex; gap: 10px; font-size: 14px; color: var(--ink); }
 .course-detail-page .modal-topics li svg { width: 16px; height: 16px; color: var(--green); flex: none; margin-top: 3px; }
@@ -1489,7 +1489,7 @@ body:has(.course-detail-page) .hero-main h1 {
 .modal-overlay .modal-body { padding: 16px 28px 8px; }
 .modal-overlay .modal-body p { font-size: 14px; line-height: 1.6; color: var(--body, #33414a); }
 .modal-overlay .modal-topics { margin-top: 16px; }
-.modal-overlay .modal-topics h5 {
+.modal-overlay .modal-topics h4, .modal-overlay .modal-topics h5 {
   font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700;
   letter-spacing: .06em; text-transform: uppercase; color: var(--green-deep, #004182); margin: 0 0 10px;
 }

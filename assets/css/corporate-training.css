@@ -417,6 +417,7 @@
     margin-bottom: 8px !important;
     display: block !important;
   }
+  .editorial-b2b .bp-card h3,
   .editorial-b2b .bp-card h4 {
     font-size: 1.05rem !important;
     margin-bottom: 8px !important;
@@ -528,6 +529,7 @@
     display: block !important;
     margin-bottom: 0.5rem !important;
   }
+  .editorial-b2b .why-feature-block h3,
   .editorial-b2b .why-feature-block h4 {
     font-size: 1.15rem !important;
     margin-bottom: 0.4rem !important;
@@ -564,6 +566,7 @@
     color: #ffffff !important;
     border-color: transparent !important;
   }
+  .editorial-b2b .model.featured h3,
   .editorial-b2b .model.featured h4, 
   .editorial-b2b .model.featured .model-best {
     color: #ffffff !important;
@@ -571,6 +574,7 @@
   .editorial-b2b .model.featured p {
     color: rgba(255, 255, 255, .82) !important;
   }
+  .editorial-b2b .model h3,
   .editorial-b2b .model h4 {
     font-size: 1.1rem !important;
     margin-bottom: 8px !important;

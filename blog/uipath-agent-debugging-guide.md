@@ -25,7 +25,7 @@ related_posts:
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
     Reading Topic:
   </span>
-  <select id="toc-selector">
+  <select id="toc-selector" aria-label="Jump to reading chapter">
     <option value="#chapter-1">Ch 1: Why Agents Fail in Production</option>
     <option value="#chapter-2">Ch 2: Root Cause 1 — Vague Prompts & Hallucinations</option>
     <option value="#chapter-3">Ch 3: Root Cause 2 — Infinite Reasoning Loops</option>

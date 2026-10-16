@@ -55,6 +55,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.ignores.add("chatbot/README.md");
   eleventyConfig.ignores.add("chatbot/backend/**");
   eleventyConfig.ignores.add("chatbot/*.png");
+  eleventyConfig.ignores.add("scripts/**");
 
   // Custom blog collection sorted by date descending (newest first)
   eleventyConfig.addCollection("blogPosts", function(collectionApi) {

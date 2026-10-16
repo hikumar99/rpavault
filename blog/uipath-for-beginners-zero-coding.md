@@ -452,6 +452,7 @@ related_posts:
   .shape-green { background: #00a86b; }
   .shape-purple { background: #6b21a8; }
   
+  .shape-card h3,
   .shape-card h4 {
     color: #ffffff !important;
     margin: 10px 0 6px 0 !important;
@@ -508,6 +509,7 @@ related_posts:
     font-size: 1.1rem;
   }
   
+  .step-content h3,
   .step-content h4 {
     margin: 0 0 4px 0 !important;
     font-size: 1.05rem !important;
@@ -628,7 +630,7 @@ related_posts:
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
     Jump to Section:
   </span>
-  <select id="toc-selector">
+  <select id="toc-selector" aria-label="Jump to reading chapter">
     <option value="#chapter-1">Ch 1: What is a Software Robot?</option>
     <option value="#chapter-2">Ch 2: Meet UiPath (Drag &amp; Drop)</option>
     <option value="#chapter-video">Video: What is RPA? (5 Min)</option>
@@ -756,22 +758,22 @@ Any computer task is a perfect candidate for an RPA bot if it meets these 4 crit
 <div class="visual-card-grid">
   <div class="visual-card">
     <div class="visual-icon-box icon-blue">01</div>
-    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Repeatable</h4>
+    <h3 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Repeatable</h3>
     <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Tasks you do over and over in identical, predictable steps.</p>
   </div>
   <div class="visual-card">
     <div class="visual-icon-box icon-orange">02</div>
-    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Rule-Based</h4>
+    <h3 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Rule-Based</h3>
     <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Clear rules apply: <em>"If amount &gt; 10k, email manager."</em></p>
   </div>
   <div class="visual-card">
     <div class="visual-icon-box icon-green">03</div>
-    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Digital</h4>
+    <h3 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Digital</h3>
     <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Works across existing apps: Chrome, Excel, SAP, PDFs.</p>
   </div>
   <div class="visual-card">
     <div class="visual-icon-box icon-purple">04</div>
-    <h4 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Measurable</h4>
+    <h3 style="margin: 0 0 6px 0; font-size: 1.05rem; font-weight: 800;">Measurable</h3>
     <p style="margin: 0; font-size: 0.86rem; color: #666; line-height: 1.45; flex-grow: 1;">Saves hours every week and eliminates human error completely.</p>
   </div>
 </div>
@@ -827,9 +829,9 @@ Before exploring how UiPath works, take 5 minutes to watch this visual overview 
       <span style="background: #e8f2ff; color: #0058b0; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">
         🎥 Quick Watch • 5 Minutes
       </span>
-      <h4 style="margin: 8px 0 0 0; font-size: 1.25rem; font-weight: 800; color: #1d1d1f;">
+      <h3 style="margin: 8px 0 0 0; font-size: 1.25rem; font-weight: 800; color: #1d1d1f;">
         RPA Explained: What is Robotic Process Automation?
-      </h4>
+      </h3>
     </div>
     <span style="font-size: 0.85rem; font-weight: 700; color: #0058b0; background: #e8f2ff; padding: 6px 12px; border-radius: 8px;">
       Zero Coding • Beginner Friendly
@@ -856,28 +858,28 @@ When you build an automation in UiPath, you don't write complex algorithms. You 
 <div class="shape-grid">
   <div class="shape-card shape-blue">
     <span class="shape-badge">Shape 1</span>
-    <h4>➔ Sequence</h4>
+    <h3>➔ Sequence</h3>
     <p>Step 1 ➔ Step 2 ➔ Step 3. Simple linear processes that run top-to-bottom.</p>
     <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. Open Excel ➔ Copy Cell ➔ Paste</div>
   </div>
 
   <div class="shape-card shape-orange">
     <span class="shape-badge">Shape 2</span>
-    <h4>◇ If / Decision</h4>
+    <h3>◇ If / Decision</h3>
     <p>Choose a path based on a rule: If true take left; if false take right.</p>
     <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. If total &gt; ₹50k ➔ Manager approval</div>
   </div>
 
   <div class="shape-card shape-green">
     <span class="shape-badge">Shape 3</span>
-    <h4>🔁 Loop (For Each)</h4>
+    <h3>🔁 Loop (For Each)</h3>
     <p>Repeat an action for every row in a table or every file until finished.</p>
     <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. For each row ➔ Enter in form</div>
   </div>
 
   <div class="shape-card shape-purple">
     <span class="shape-badge">Shape 4</span>
-    <h4>🔀 Flowchart</h4>
+    <h3>🔀 Flowchart</h3>
     <p>Connect multiple decisions and paths visually when processes branch.</p>
     <div style="font-size: 0.78rem; opacity: 0.9; margin-top: auto;">e.g. Ticket triage &amp; query routing</div>
   </div>
@@ -895,7 +897,7 @@ Let’s walk through what your very first automation looks like in UiPath Studio
   <div class="pipeline-step">
     <div class="step-number">1</div>
     <div class="step-content">
-      <h4>Create a Sequence</h4>
+      <h3>Create a Sequence</h3>
       <p>Open Studio and drag in a clean <strong>Sequence</strong> container. This tells UiPath: <em>"Execute these actions one after another."</em></p>
     </div>
   </div>
@@ -903,7 +905,7 @@ Let’s walk through what your very first automation looks like in UiPath Studio
   <div class="pipeline-step">
     <div class="step-number">2</div>
     <div class="step-content">
-      <h4>Add "Use Excel File"</h4>
+      <h3>Add "Use Excel File"</h3>
       <p>Drag the <strong>Use Excel File</strong> card into the sequence. Click the folder icon and select your file: <code>Students.xlsx</code>.</p>
     </div>
   </div>
@@ -911,7 +913,7 @@ Let’s walk through what your very first automation looks like in UiPath Studio
   <div class="pipeline-step">
     <div class="step-number">3</div>
     <div class="step-content">
-      <h4>Add "Read Range"</h4>
+      <h3>Add "Read Range"</h3>
       <p>Drop <strong>Read Range</strong> inside the Excel block. This pulls all data from Sheet1 into a temporary memory table called <code>dt_Students</code>.</p>
     </div>
   </div>
@@ -919,7 +921,7 @@ Let’s walk through what your very first automation looks like in UiPath Studio
   <div class="pipeline-step">
     <div class="step-number">4</div>
     <div class="step-content">
-      <h4>Add "Message Box"</h4>
+      <h3>Add "Message Box"</h3>
       <p>Drag in a <strong>Message Box</strong> activity and enter: <code>"Total students found: " + dt_Students.RowCount.ToString</code>. Hit <strong>Run</strong>!</p>
     </div>
   </div>
@@ -940,7 +942,7 @@ What can you build once you know the basics of UiPath? Here are four real-world 
 
 <div class="visual-card-grid">
   <div class="visual-card" style="border-top: 4px solid #0058b0;">
-    <h4 style="color: #0058b0; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">1. Excel ➔ Web Form</h4>
+    <h3 style="color: #0058b0; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">1. Excel ➔ Web Form</h3>
     <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
       Reads customer details from Excel and types them into web form fields automatically without errors.
     </p>
@@ -948,7 +950,7 @@ What can you build once you know the basics of UiPath? Here are four real-world 
   </div>
 
   <div class="visual-card" style="border-top: 4px solid #ff6b35;">
-    <h4 style="color: #ff6b35; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">2. Email Downloader</h4>
+    <h3 style="color: #ff6b35; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">2. Email Downloader</h3>
     <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
       Monitors inbox for emails with subject <em>"Invoice"</em>, downloads PDF attachments, and saves them to folders.
     </p>
@@ -956,7 +958,7 @@ What can you build once you know the basics of UiPath? Here are four real-world 
   </div>
 
   <div class="visual-card" style="border-top: 4px solid #00a86b;">
-    <h4 style="color: #00a86b; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">3. Bulk File Renamer</h4>
+    <h3 style="color: #00a86b; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">3. Bulk File Renamer</h3>
     <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
       Scans messy folders containing hundreds of raw files and standardizes names like <code>Invoice_2026.pdf</code>.
     </p>
@@ -964,7 +966,7 @@ What can you build once you know the basics of UiPath? Here are four real-world 
   </div>
 
   <div class="visual-card" style="border-top: 4px solid #7928ca;">
-    <h4 style="color: #7928ca; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">4. Daily Report Bot</h4>
+    <h3 style="color: #7928ca; margin: 0 0 8px 0; font-size: 1.02rem; font-weight: 800;">4. Daily Report Bot</h3>
     <p style="font-size: 0.86rem; color: #555; margin-bottom: 0.8rem; line-height: 1.45; flex-grow: 1;">
       Merges data from 3 Excel workbooks, sums revenue figures, and automatically emails a daily summary at 6 PM.
     </p>

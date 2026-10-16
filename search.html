@@ -7,6 +7,7 @@ extra_css: /assets/css/search.css
 ---
 <section class="content-section search-section">
   <div class="container" style="max-width: 900px !important;">
+    <h1 class="sr-only">Search RPAVault Courses, Career Pathways, and Guides</h1>
     
     <!-- Central Search Input Fold -->
     <div class="search-box-wrap">
@@ -38,13 +39,14 @@ extra_css: /assets/css/search.css
     </noscript>
 
     <!-- Dynamic Grid for Search Results -->
+    <h2 id="search-results-heading" class="sr-only">Search Results</h2>
     <div id="search-results-grid" style="display: grid !important; grid-template-columns: 1fr !important; gap: 1.5rem !important;">
       <!-- Results populated by JavaScript -->
     </div>
 
     <!-- Recent Queries Ticker Section (Left-Aligned Layout) -->
     <div id="search-ticker" style="margin-top: 5rem !important; padding-top: 2rem !important; border-top: 1px solid var(--line) !important; text-align: left !important;">
-      <h4 style="font-family: -apple-system, BlinkMacSystemFont, sans-serif !important; font-size: 0.72rem !important; font-weight: 800; color: var(--muted) !important; text-transform: uppercase !important; margin: 0 0 0.8rem 0 !important; letter-spacing: 0.08em !important; text-align: left !important;">Recent Queries</h4>
+      <h2 style="font-family: -apple-system, BlinkMacSystemFont, sans-serif !important; font-size: 0.72rem !important; font-weight: 800; color: var(--muted) !important; text-transform: uppercase !important; margin: 0 0 0.8rem 0 !important; letter-spacing: 0.08em !important; text-align: left !important;">Recent Queries</h2>
       <div id="search-ticker-terms" style="display: flex !important; flex-wrap: wrap !important; gap: 0.5rem !important; justify-content: flex-start !important; font-size: 0.8rem !important; color: var(--muted) !important; align-items: center !important; line-height: 1.6 !important; text-align: left !important;">
         <!-- Loaded dynamically from database -->
       </div>
