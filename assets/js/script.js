@@ -596,6 +596,8 @@ document.querySelectorAll('form.js-lead-form').forEach(form => {
       s.id = 'spin-anim-style';
       s.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
       document.head.appendChild(s);
+    }
+
     const phoneInput = form.querySelector('input[type="tel"], input[name="phone"]');
     if (phoneInput && phoneInput.value) {
       const cleanPhone = phoneInput.value.replace(/[\s\-\(\)\.]/g, '');
@@ -794,6 +796,10 @@ document.querySelectorAll('a[href*="wa.me"], a.whatsapp-float').forEach(btn => {
           page_path: location.pathname || '/'
         });
       }
+    } catch (_) {}
+  });
+});
+
 /* ---------- Click-to-load YouTube Video Facade ---------- */
 document.querySelectorAll('.js-video-facade').forEach(el => {
   el.addEventListener('click', () => {
